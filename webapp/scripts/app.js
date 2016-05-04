@@ -7,6 +7,7 @@
 angular.module('cmsWebApp', [
     'ui.router', 
     'ui.bootstrap',
+    'cms-underscore',
     'ngTable'
 ]).config(['$stateProvider', '$urlRouterProvider',
 function($stateProvider, $urlRouterProvider) {

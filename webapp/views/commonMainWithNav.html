@@ -7,6 +7,25 @@
                     <h3>Refine By</h3>
                 </div>
             </div>
+            <div ng-if="$state.current.name==='projects'" class="row">
+                <div class="col-sm-12">
+                    <div class="row" ng-repeat="facet in projects.facets">
+                        <div class="col-sm-12">
+                            <strong class="text-capitalize" ng-bind="facet.facetTitle"></strong>
+                        </div>
+                        <div class="col-sm-12">
+                            <ul class="list-unstyled">
+                                <li ng-repeat="items in facet.facetArray | limitTo:5">
+                                    <a href="#" ng-bind="items.name + ' ('+items.count+')'"></a>
+                                </li>
+                                <li ng-if="facet.facetArray.length>5">
+                                    <a href="#">+ See All</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-sm-12">
                     <strong>In Progress</strong>
