@@ -1,0 +1,57 @@
+<h3 ng-if="!items.edit">Create Project</h3>
+<h3 ng-if="items.edit">Edit Project</h3>
+<form>
+    <div class="form-group">
+        <label for="InputProjectName">Title *</label>
+        <input type="text" ng-model="data.Title" class="form-control" id="InputProjectName">
+    </div>
+    <div class="form-group">
+        <label for="InputProjectDescription">Description *</label>
+        <textarea class="form-control" rows="3"></textarea>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-8">
+            <label for="InputProjectState">Project State*</label>
+            <select class="form-control">
+                <option>In Progress</option>
+                <option>Active</option>
+                <option>Completed</option>
+                <option>Inactive</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-8">
+            <label for="InputProjectSubjects">Subjects</label>
+            <input type="text" class="form-control" id="InputProjectSubjects" />
+        </div>
+    </div>
+
+    <label>Keywords</label>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-8">
+                <input type="text" class="form-control" />
+            </div>
+            <div class="col-md-4">
+                <span class="glyphicon glyphicon-minus"></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-8">
+                <input type="text" class="form-control" />
+            </div>
+            <div class="col-md-4">
+                <span class="glyphicon glyphicon-plus"></span>
+            </div>
+        </div>
+    </div>
+    <p class="text-center">
+        <button type="submit" class="btn btn-default">
+            Create
+        </button>
+    </p>
+</form>

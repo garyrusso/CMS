@@ -1,0 +1,85 @@
+<nav class="cms-headerbackground">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-8"></div>
+            <div class="col-xs-4">
+                <div class="pull-right">
+                    <div class="cms-headerfont">
+                        Welcome Brain! <span class="glyphicon glyphicon-user"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<div class="container-fluid cms-logopanel">
+    <div class="row">
+        <div class="col-xs-4"><img src="images/logo.png" class="img-responsive" alt="Responsive image">
+        </div>
+        <div class="col-xs-4">
+            <div class="cms-searchpanel">
+                <div class="input-group">
+                    <div class="input-group-btn" uib-dropdown>
+                        <button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
+                            All <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
+                            <li>
+                                <a href="#">All Types</a>
+                            </li>
+                            <li>
+                                <a href="#">Project</a>
+                            </li>
+                            <li>
+                                <a href="#">Content</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <input type="text" class="form-control" aria-label="...">
+                    <div class="input-group-btn ">
+
+                        <button class="btn btn-default cms-red-btn-search" type="button">
+                            <span class="glyphicon glyphicon glyphicon-search"></span>
+                        </button>
+
+                    </div>
+                </div>
+            </div><!-- /input-group -->
+        </div>
+
+    </div>
+    <div class="col-xs-4">
+
+    </div>
+</div>
+</div>
+
+<div class="container-fluid cms-menupanel">
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="row">
+                <div class="col-xs-2">
+                    <a ui-sref="dashboard">Dashboard</a>
+                </div>
+                <div class="col-xs-2">
+                    <a ui-sref="projects">Projects</a>
+                </div>
+                <div class="col-xs-2">
+                    <a href="#">Content</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 ">
+
+            <div class="pull-right clearfix cms-horizontal-menu">
+                <span>
+                    <a href="#" ng-click="$event.preventDefault(); header.onclickCreateEditProject(false);">Create Projects <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></a>
+                </span>
+                <span >
+                    <a href="#" ng-click="$event.preventDefault();">Upload Content <span class="glyphicon glyphicon-open" aria-hidden="true"></span></a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

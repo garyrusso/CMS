@@ -1,0 +1,59 @@
+<div class="row cms-main-container-row">
+    <div class="col-sm-3 col-md-2 cms-sidebar">
+        <nav>
+            <!-- Facets -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>Refine By</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <strong>In Progress</strong>
+                </div>
+                <div class="col-sm-12">
+                    <ul class="list-unstyled">
+                        <li>
+                            Project1
+                        </li>
+                        <li>
+                            Project2
+                        </li>
+                        <li>
+                            Project3
+                        </li>
+                        <li>
+                            Project4
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <strong>Completed</strong>
+                </div>
+                <div class="col-sm-12">
+                    <ul class="list-unstyled">
+                        <li>
+                            Project11
+                        </li>
+                        <li>
+                            Project12
+                        </li>
+                        <li>
+                            Project13
+                        </li>
+                        <li>
+                            Project14
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="col-sm-9 col-md-10 cms-main" ng-class="{'cms-projects-page':$state.current.name==='projects'||$state.current.name==='dashboard'}">
+        <!-- Main content -->
+        <div ng-if="$state.current.name==='projects'" ng-include="'views/display-project-grid-list-view.html'"></div>
+        <div ng-if="$state.current.name==='dashboard'" ng-include="'views/dashboard-view.html'"></div>
+    </div>
+</div>

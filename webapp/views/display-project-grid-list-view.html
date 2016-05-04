@@ -1,0 +1,80 @@
+<div class="row">
+    <div class="col-sm-6">
+        <h1>Projects</h1>
+        <ol class="breadcrumb cms-breadcrumb">
+            <li>
+                <a href="#">home</a>
+            </li>
+            <li class="active">
+                projects
+            </li>
+        </ol>
+    </div>
+    <div class="col-sm-6">
+        <nav class="pull-right clearfix cms-sub-main">
+            <a href="#" ng-click="$event.preventDefault(); projects.createProject();">Create Project <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></a>
+        </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="pull-right clearfix cms-sub-main-2">
+            <button ng-class="{'active':!projects.listView}" ng-click="projects.toggleView(false)">
+                <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+            </button>
+            <button ng-class="{'active':projects.listView}" ng-click="params.count(5);projects.toggleView(true)">
+                <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12" ng-class="{'cms-content-tile-view-container':!projects.listView}">
+        <!--loading-container="projects.tableParams.settings().$loading" -->
+        <div >
+            <table ng-table="projects.tableParams" class="table table-condensed table-bordered table-striped">
+                <tr ng-if="projects.listView" ng-repeat="issue in $data">
+                    <td data-title="'Title'">{{issue.Title}}</td>
+                    <td data-title="'Owner'">{{issue.username}}</td>
+                    <td data-title="'Date Modified'">{{issue.dateLastModified}}</td>
+                    <td data-title="'View'" class="cms-main-display-center"><a href="#/projectview"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                </tr>
+                <tr ng-if="!projects.listView">
+                    <td class="cms-content-tile-view">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-2 cms-content-tile" ng-repeat="issue in $data">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <a href="#/projectview">
+                                    <div class="cms-content-tile-image">
+                                        <div class="cms-content-tile-image-dummy"></div>
+                                        <div class="cms-content-tile-image-color"></div>
+                                    </div></a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 cms-content-tile-title">
+                                    <a href="#/projectview">{{issue.Title}}</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 cms-content-tile-date">
+                                    {{issue.dateLastModified}}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 cms-content-tile-owner">
+                                    {{issue.username}}
+                                </div>
+                            </div>
+                        </div>
+                    </div></td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="pull-right">
+            <a href="#">See all Projects</a>
+        </div>
+    </div>
+</div>

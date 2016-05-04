@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-sm-12">
+        <h1>Dashboard</h1>
+        <p>Welcome to the Macmillan CMS!</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <strong>Get started:</strong>
+        <p class="text-center"><button ng-click="dashboard.createProject()" class="btn btn-default" type="button">Create a Project</button></p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <strong>Recent Projects:</strong>
+        <p>Your latest projects.</p>
+        <!--loading-container="projects.tableParams.settings().$loading" -->
+        <div >
+            <table ng-table="dashboard.tableParams" class="table table-condensed table-bordered table-striped">
+                <tr ng-repeat="issue in $data">
+                    <td data-title="'Title'">{{issue.Title}}</td>
+                    <td data-title="'Date Modified'">{{issue.dateLastModified}}</td>
+                    <td data-title="'View'" class="cms-main-display-center"><a href="#/projectview"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                </tr>
+            </table>
+
+        </div>
+        <div class="pull-right">
+            <a href="#">See all Projects</a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <strong>Workbench</strong>
+        <p>Access to all your workflow tools.</p>
+        <p><u>Content Enhancement</u></p>
+        <p><u>Product Assembly</u></p>
+        <p><u>Publishing Systems</u></p>
+        <p><u>Rights</u></p>
+        <p><u>DAM</u></p>
+    </div>
+</div>

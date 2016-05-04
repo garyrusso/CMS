@@ -1,0 +1,222 @@
+/**
+ * Css required for CMS project
+ * Below are the class & properties used in this project:
+ *  - Home background color: #d8d8d8
+ *
+ * */
+html, body {
+    height: 100%;
+}
+body {
+    color: #5c5b5c;
+}
+a, a:focus, a:hover {
+    color: #5c5b5c;
+}
+/**
+ * AngularUi Bootstrap fix css
+ * */
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+/* End of AngularUi*/
+.cms-body {
+    display: table;
+    width: 100%;
+}
+main {
+    display: table-row;
+}
+.cms-main-container {
+    height: 100%;
+    border-top: #979797 1px solid;
+}
+.form-control {
+    border-radius: 0px;
+}
+.form-control, button.btn-default {
+    border-color: #979797;
+}
+.cms-vertical-center-parent {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    align-items: center;
+    height: 100%;
+}
+
+.cms-login-page main, .cms-login-page .container-fluid {
+    height: 100%;
+}
+
+.cms-login-container {
+    /*max-width: 350px;
+     display: inline-block;*/
+    margin-right: 40px;
+}
+.cms-login-form {
+    padding: 15px;
+}
+.cms-login-block {
+    background-color: #FFFFFF;
+    padding: 5px 20px;
+    border-radius: 0px;
+    border: #979797 1px solid;
+}
+.cms-login-page-backgroundcolor {
+    background-color: #D8D8D8;
+}
+
+.cms-login-logo-container {
+    text-align: center;
+    margin-bottom: 15px;
+}
+/************
+ * Header
+ ************
+ */
+header {
+    display: table-row;
+    height: 0;
+}
+.cms-headerbackground {
+    background-color: #363940;
+}
+.cms-headerfont {
+    font-family: sans-serif;
+    font-weight: bold;
+    color: white;
+    padding: 4px 7px 2px 4px;
+}
+
+.cms-logopanel {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.cms-searchpanel {
+    padding: 15px 7px 2px 14px;
+}
+
+.cms-menupanel {
+    /*padding: 15px 77px 2px 14px;*/
+   padding-top: 15px;
+   padding-bottom: 5px;
+}
+
+.cms-horizontal-menu>span {
+    padding-left: 20px;
+}
+
+.cms-red-btn-search {
+    background-color: #C3161C;
+    color: #FFFFFF;
+}
+
+/* Header - end*/
+
+/************
+ * FOOTER
+ * **********
+ */
+
+.cms-footer-right div {
+    padding-right: 15px;
+}
+/************
+ * Content area
+ *************
+ * */
+.cms-main-container-row {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    -webkit-flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+}
+.cms-main-container-row > [class*='col-'] {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+}
+.cms-sidebar {
+    border-right: #979797 1px solid;
+    padding-bottom: 20px;
+}
+td.cms-main-display-center {
+    text-align: center;
+}
+.cms-main {
+   padding-bottom: 20px; 
+}
+
+.cms-sub-main {
+    margin-right: 20px;
+    margin-top: 20px;
+}
+.cms-sub-main-2 {
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+.cms-content-tile-view-container thead{
+    display: none;
+}
+.cms-content-tile-view-container table, .cms-content-tile-view-container tbody, .cms-content-tile-view-container .table-bordered>tbody>tr,.cms-content-tile-view-container .table-bordered>tbody>tr>td {
+    border: none;
+    background-color: transparent;
+}
+.cms-content-tile {
+    margin-bottom: 30px;
+}
+.cms-content-tile-view {
+    width: 100%;
+}
+
+.cms-content-tile-image {
+    position: relative;
+    width: 100%;
+    display: inline-block;
+}
+.cms-content-tile-image-dummy {
+    margin-top: 50%;
+}
+.cms-content-tile-image-color {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    top: 0px;
+    background-color: #D8D8D8; 
+}
+.cms-projects-page .ng-table-pager {
+    display: none;
+}
+/*************
+ * breadcrumb
+ *************
+ **/
+.cms-breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    font-size: 12px;
+}  
+.cms-breadcrumb>li+li:before {
+    padding: 0 2px;
+    color: #5c5b5c;
+    content: ">";
+}  
+.cms-breadcrumb>.active {
+    color: #5c5b5c;
+}
+/* End of cms-breadcrumb */
+
+/*
+ * Modal Styles
+ */
+.cms-modal-body {
+    padding: 0 50px;
+}
+/* End of modal styles*/
