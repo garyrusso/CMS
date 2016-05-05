@@ -15,3 +15,8 @@ E:\MacMillan\Source\Github\services\Macmillan.CMS.Common\bin\Debug\Newtonsoft.Js
 E:\MacMillan\Source\Github\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.csprojResolveAssemblyReference.cache
 E:\MacMillan\Source\Github\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.dll
 E:\MacMillan\Source\Github\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.pdb
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\bin\Debug\Macmillan.CMS.Common.dll
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\bin\Debug\Macmillan.CMS.Common.pdb
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\bin\Debug\Newtonsoft.Json.dll
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.dll
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.pdb

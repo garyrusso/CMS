@@ -42,6 +42,11 @@ namespace Macmillan.CMS.Service.App_Start
 
             container.RegisterType<ISecurityDAL, SecurityDAL>();
             container.RegisterType<ISecurityBusiness, SecurityBusiness>();
+            container.RegisterType<IManageProjectDAL, ManageProjectDAL>();
+            container.RegisterType<IManageProjectBusiness, ManageProjectBusiness>();
+            container.RegisterType<IAuthenticationDAL, AuthenticationDAL>();
+            container.RegisterType<IAuthenticationBusiness, AuthenticationBusiness>();
+
         }
     }
 }
