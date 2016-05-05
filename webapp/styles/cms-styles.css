@@ -45,7 +45,9 @@ main {
     align-items: center;
     height: 100%;
 }
-
+.cms-padding-left-ten {
+    padding-left: 10px;
+}
 .cms-login-page main, .cms-login-page .container-fluid {
     height: 100%;
 }
