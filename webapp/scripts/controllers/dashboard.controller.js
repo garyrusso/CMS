@@ -3,17 +3,16 @@
  * Desc: DashboardController have functionality related to landing page like create project, display top n project list etc...
  *
  *  */
-(function() {
-    "use strict";
+(function() {"use strict";
     angular.module('cmsWebApp').controller('DashboardController', DashboardController);
 
     /*Inject angular services to controller*/
-    DashboardController.$inject = ['$scope','NgTableParams', 'CommonService'];
+    DashboardController.$inject = ['$scope', 'NgTableParams', 'CommonService'];
 
     /*Function DashboardController*/
     function DashboardController($scope, NgTableParams, CommonService) {
         var dashboard = this;
-        
+
         dashboard.data = {
             "total" : 27,
             "start" : 1,
@@ -120,18 +119,6 @@
                 "fullName" : "Brian Cross"
             }],
             "facets" : {
-                "projectState" : {
-                    "type" : "xs:string",
-                    "facetValues" : [{
-                        "name" : "Active",
-                        "count" : 12,
-                        "value" : "Active"
-                    }, {
-                        "name" : "Completed",
-                        "count" : 1,
-                        "value" : "Completed"
-                    }]
-                },
                 "Title" : {
                     "type" : "xs:string",
                     "facetValues" : [{
@@ -160,12 +147,52 @@
                         "value" : "Myers 11e EPUB3"
                     }]
                 },
+                "projectState" : {
+                    "type" : "xs:string",
+                    "facetValues" : [{
+                        "name" : "Active",
+                        "count" : 12,
+                        "value" : "Active"
+                    }]
+                },
                 "Subjects" : {
                     "type" : "xs:string",
                     "facetValues" : [{
                         "name" : "Psychology",
                         "count" : 13,
                         "value" : "Psychology"
+                    }]
+                },
+                "Keywords" : {
+                    "type" : "xs:string",
+                    "facetValues" : [{
+                        "name" : "Keyword 1",
+                        "count" : 8,
+                        "value" : "Keyword 1"
+                    }, {
+                        "name" : "Keyword 2",
+                        "count" : 13,
+                        "value" : "Keyword 2"
+                    }, {
+                        "name" : "Keyword 3",
+                        "count" : 23,
+                        "value" : "Keyword 3"
+                    }, {
+                        "name" : "Keyword 4",
+                        "count" : 35,
+                        "value" : "Keyword 4"
+                    }, {
+                        "name" : "Keyword 5",
+                        "count" : 12,
+                        "value" : "Keyword 5"
+                    }, {
+                        "name" : "Keyword 6",
+                        "count" : 7,
+                        "value" : "Keyword 6"
+                    }, {
+                        "name" : "Keyword 7",
+                        "count" : 25,
+                        "value" : "Keyword 7"
                     }]
                 },
                 "query" : {
@@ -187,34 +214,34 @@
                 }
             }
         };
-        
+
         dashboard.facets = _.chain(dashboard.data.facets).omit('query').map(function(value, key) {
             return {
                 facetTitle : key,
                 facetArray : value.facetValues
             };
         }).value();
-        
+
         dashboard.showAllFacetsItems = CommonService.showAllFacetsItems;
-        
+
         dashboard.createProject = dashboardCreateProject;
-        
+
         dashboard.tableParams = new NgTableParams({
-            count: 5
+            count : 5
         }, {
-            counts:[],
-            data : dashboard.data.results.slice(0,5)
+            counts : [],
+            data : dashboard.data.results.slice(0, 5)
         });
-        
+
         /*
          * Name: dashboardCreateProject
          * Desc:
          * open create project modal set on header controller, so first emit event to rootscope & rootscope broadcast to header
          */
-        function dashboardCreateProject () {
+        function dashboardCreateProject() {
             $scope.$emit('rootScopeCreateProjectHeaderOnEvent', {});
         }
-        
+
     }
 
 })();
