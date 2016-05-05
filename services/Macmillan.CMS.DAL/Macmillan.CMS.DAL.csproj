@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Macmillan.CMS.DAL</RootNamespace>
     <AssemblyName>Macmillan.CMS.DAL</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -39,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthenticationDAL.cs" />
+    <Compile Include="IAuthenticationDAL.cs" />
     <Compile Include="IManageProjectDAL.cs" />
     <Compile Include="ISecurityDAL.cs" />
     <Compile Include="ManageProjectDAL.cs" />

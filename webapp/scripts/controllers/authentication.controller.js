@@ -14,14 +14,18 @@
     function AuthenticationController($scope,$state) {
         var auth = this;
         
-        auth.validateUser = function(){
+        /*TODO: add validation & format code*/
+        auth.validateUser = function () {
+
             if ($scope.username == "TechM@techm.com" || $scope.password == "TechM") {
                 $state.go('dashboard');
             }
             else {
                 $scope.message = "Invalid username/password!";
             }
-        }
+        };
+
+
     }
 
 })();

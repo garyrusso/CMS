@@ -7,10 +7,10 @@
     angular.module('cmsWebApp').controller('ManageProjectController', ManageProjectController);
 
     /*Inject angular services to controller*/
-    ManageProjectController.$inject = ['$scope', 'NgTableParams', '$uibModal', '_'];
+    ManageProjectController.$inject = ['$scope', 'NgTableParams', '$uibModal', '_', 'CommonService'];
 
     /*Function ManageProjectController*/
-    function ManageProjectController($scope, NgTableParams, $uibModal, _) {
+    function ManageProjectController($scope, NgTableParams, $uibModal, _, CommonService) {
         var projects = this;
 
         projects.data = {
@@ -119,18 +119,6 @@
                 "fullName" : "Brian Cross"
             }],
             "facets" : {
-                "projectState" : {
-                    "type" : "xs:string",
-                    "facetValues" : [{
-                        "name" : "Active",
-                        "count" : 12,
-                        "value" : "Active"
-                    }, {
-                        "name" : "Completed",
-                        "count" : 1,
-                        "value" : "Completed"
-                    }]
-                },
                 "Title" : {
                     "type" : "xs:string",
                     "facetValues" : [{
@@ -159,12 +147,52 @@
                         "value" : "Myers 11e EPUB3"
                     }]
                 },
+                "projectState" : {
+                    "type" : "xs:string",
+                    "facetValues" : [{
+                        "name" : "Active",
+                        "count" : 12,
+                        "value" : "Active"
+                    }]
+                },
                 "Subjects" : {
                     "type" : "xs:string",
                     "facetValues" : [{
                         "name" : "Psychology",
                         "count" : 13,
                         "value" : "Psychology"
+                    }]
+                },
+                "Keywords" : {
+                    "type" : "xs:string",
+                    "facetValues" : [{
+                        "name" : "Keyword 1",
+                        "count" : 8,
+                        "value" : "Keyword 1"
+                    }, {
+                        "name" : "Keyword 2",
+                        "count" : 13,
+                        "value" : "Keyword 2"
+                    }, {
+                        "name" : "Keyword 3",
+                        "count" : 23,
+                        "value" : "Keyword 3"
+                    }, {
+                        "name" : "Keyword 4",
+                        "count" : 35,
+                        "value" : "Keyword 4"
+                    }, {
+                        "name" : "Keyword 5",
+                        "count" : 12,
+                        "value" : "Keyword 5"
+                    }, {
+                        "name" : "Keyword 6",
+                        "count" : 7,
+                        "value" : "Keyword 6"
+                    }, {
+                        "name" : "Keyword 7",
+                        "count" : 25,
+                        "value" : "Keyword 7"
                     }]
                 },
                 "query" : {
@@ -187,11 +215,10 @@
             }
         };
 
-        projects.facets = _.chain(projects.data.facets).omit('query')
-        .map(function(value, key){
+        projects.facets = _.chain(projects.data.facets).omit('query').map(function(value, key) {
             return {
-                facetTitle: key,
-                facetArray: value.facetValues
+                facetTitle : key,
+                facetArray : value.facetValues
             };
         }).value();
 
@@ -200,9 +227,15 @@
         /* function to toggle list, grid views */
         projects.toggleView = toggleView;
 
+        //TODO: move to Commonservice
         projects.createProject = projectsCreateProject;
-
+        //TODO: move to Commonservice
         projects.editProject = projetcsEditProject;
+        
+        //TODO: move to Commonservice
+        projects.deleteProject = projetcsdeleteProject;
+
+        projects.showAllFacetsItems = CommonService.showAllFacetsItems;
 
         projects.tableParams = new NgTableParams({
             count : 10
@@ -243,7 +276,7 @@
                 resolve : {
                     items : function() {
                         return {
-                            templateUrl : 'views/create-edit-project.html',
+                            templateUrl : 'views/modal-create-edit-project.html',
                             edit : true
                         };
                     }
@@ -256,8 +289,30 @@
 
             });
 
-        }
+        }/*end of projetcsEditProject*/
+       
+        //TODO: add desc & change controller
+        function projetcsdeleteProject () {
+            var modalInstance = $uibModal.open({
+                templateUrl : 'views/modal-template.html',
+                controller : 'ModalCreateEditProjectController',
+                size : 'md',
+                resolve : {
+                    items : function() {
+                        return {
+                            templateUrl : 'views/modal-delete-project.html',
+                            edit : true
+                        };
+                    }
+                }
+            });
 
+            modalInstance.result.then(function(selectedItem) {
+                $scope.selected = selectedItem;
+            }, function() {
+
+            });
+        }
     }
 
 })();

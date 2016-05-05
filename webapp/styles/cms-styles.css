@@ -45,7 +45,9 @@ main {
     align-items: center;
     height: 100%;
 }
-
+.cms-padding-left-ten {
+    padding-left: 10px;
+}
 .cms-login-page main, .cms-login-page .container-fluid {
     height: 100%;
 }
@@ -222,6 +224,6 @@ td.cms-main-display-center {
  * Modal Styles
  */
 .cms-modal-body {
-    padding: 0 50px;
+    padding: 0 50px 20px;
 }
 /* End of modal styles*/

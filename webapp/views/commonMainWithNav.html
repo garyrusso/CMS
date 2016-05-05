@@ -19,53 +19,30 @@
                                     <a href="#" ng-bind="items.name + ' ('+items.count+')'"></a>
                                 </li>
                                 <li ng-if="facet.facetArray.length>5">
-                                    <a href="#">+ See All</a>
+                                    <a href="#" ng-click="$event.preventDefault(); projects.showAllFacetsItems(facet)">+ See All</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div ng-if="$state.current.name==='dashboard'" class="row">
                 <div class="col-sm-12">
-                    <strong>In Progress</strong>
-                </div>
-                <div class="col-sm-12">
-                    <ul class="list-unstyled">
-                        <li>
-                            Project1
-                        </li>
-                        <li>
-                            Project2
-                        </li>
-                        <li>
-                            Project3
-                        </li>
-                        <li>
-                            Project4
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-12">
-                    <strong>Completed</strong>
-                </div>
-                <div class="col-sm-12">
-                    <ul class="list-unstyled">
-                        <li>
-                            Project11
-                        </li>
-                        <li>
-                            Project12
-                        </li>
-                        <li>
-                            Project13
-                        </li>
-                        <li>
-                            Project14
-                        </li>
-                    </ul>
+                    <div class="row" ng-repeat="facet in dashboard.facets">
+                        <div class="col-sm-12">
+                            <strong class="text-capitalize" ng-bind="facet.facetTitle"></strong>
+                        </div>
+                        <div class="col-sm-12">
+                            <ul class="list-unstyled">
+                                <li ng-repeat="items in facet.facetArray | limitTo:5">
+                                    <a href="#" ng-bind="items.name + ' ('+items.count+')'"></a>
+                                </li>
+                                <li ng-if="facet.facetArray.length>5">
+                                    <a href="#" ng-click="$event.preventDefault(); dashboard.showAllFacetsItems(facet)">+ See All</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
