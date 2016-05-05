@@ -194,6 +194,11 @@ td.cms-main-display-center {
 .cms-projects-page .ng-table-pager {
     display: none;
 }
+
+.cms-error-message {
+    color: #D8000C;    
+    background-color: #FFBABA;    
+}
 /*************
  * breadcrumb
  *************

@@ -8,14 +8,19 @@
     angular.module('cmsWebApp').controller('AuthenticationController', AuthenticationController);
 
     /*Inject angular services to controller*/
-    AuthenticationController.$inject = ['$state'];
+    AuthenticationController.$inject = ['$scope','$state'];
 
     /*Function AuthenticationController*/
-    function AuthenticationController($state) {
+    function AuthenticationController($scope,$state) {
         var auth = this;
         
         auth.validateUser = function(){
-            $state.go('dashboard');
+            if ($scope.username == "TechM@techm.com" || $scope.password == "TechM") {
+                $state.go('dashboard');
+            }
+            else {
+                $scope.message = "Invalid username/password!";
+            }
         }
     }
 
