@@ -7,10 +7,10 @@
     angular.module('cmsWebApp').controller('ManageProjectController', ManageProjectController);
 
     /*Inject angular services to controller*/
-    ManageProjectController.$inject = ['$scope', 'NgTableParams', '$uibModal', '_'];
+    ManageProjectController.$inject = ['$scope', 'NgTableParams', '$uibModal', '_', 'CommonService'];
 
     /*Function ManageProjectController*/
-    function ManageProjectController($scope, NgTableParams, $uibModal, _) {
+    function ManageProjectController($scope, NgTableParams, $uibModal, _, CommonService) {
         var projects = this;
 
         projects.data = {
@@ -187,11 +187,10 @@
             }
         };
 
-        projects.facets = _.chain(projects.data.facets).omit('query')
-        .map(function(value, key){
+        projects.facets = _.chain(projects.data.facets).omit('query').map(function(value, key) {
             return {
-                facetTitle: key,
-                facetArray: value.facetValues
+                facetTitle : key,
+                facetArray : value.facetValues
             };
         }).value();
 
@@ -200,9 +199,12 @@
         /* function to toggle list, grid views */
         projects.toggleView = toggleView;
 
+        //TODO: move to Commonservice
         projects.createProject = projectsCreateProject;
-
+        //TODO: move to Commonservice
         projects.editProject = projetcsEditProject;
+
+        projects.showAllFacetsItems = CommonService.showAllFacetsItems;
 
         projects.tableParams = new NgTableParams({
             count : 10
@@ -243,7 +245,7 @@
                 resolve : {
                     items : function() {
                         return {
-                            templateUrl : 'views/create-edit-project.html',
+                            templateUrl : 'views/modal-create-edit-project.html',
                             edit : true
                         };
                     }
@@ -256,7 +258,7 @@
 
             });
 
-        }
+        }/*end of projetcsEditProject*/
 
     }
 

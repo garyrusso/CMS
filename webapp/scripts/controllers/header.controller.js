@@ -33,7 +33,7 @@
                 resolve : {
                     items : function() {
                         return {
-                            templateUrl: 'views/create-edit-project.html',
+                            templateUrl: 'views/modal-create-edit-project.html',
                             edit: editProject
                         };
                     }

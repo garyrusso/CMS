@@ -14,9 +14,10 @@
     function AuthenticationController($state) {
         var auth = this;
         
+        /*TODO: add validation & format code*/
         auth.validateUser = function(){
             $state.go('dashboard');
-        }
+        };
     }
 
 })();
