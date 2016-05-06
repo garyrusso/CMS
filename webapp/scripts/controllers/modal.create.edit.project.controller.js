@@ -31,6 +31,26 @@
         function closeModalProject () {
              $uibModalInstance.dismiss('cancel');
         }
+
+
+
+        var counter = 0;
+
+
+        $scope.keyword = [{
+            value: '',
+        }, {
+            value: '',
+        }]
+
+
+        $scope.addKeywordField = addKeywordField;
+
+        function addKeywordField(keyword, $event) {
+            counter++;
+            keyword.push({ id: counter, name: '', inline: true });
+            $event.preventDefault();
+        }
     }
 
 })();

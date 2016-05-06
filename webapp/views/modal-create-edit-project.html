@@ -30,25 +30,37 @@
     <label>Keywords</label>
 
     <div class="form-group">
-        <div class="row">
-            <div class="col-md-8">
-                <input type="text" class="form-control" />
+        <div>
+            <div ng-repeat="keyElement in keywords=(keyword)">
+        
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="projectKeywords[i]" placeholder="keywords" required />
+                        </div>
+                        <div class="col-md-4">
+                            <!--<span ng-show="keywords.length = keywords.length-1">-->
+                            <div ng-if="$last">
+                                <span>
+                                    <span class="glyphicon glyphicon-plus" ng-click="addKeywordField(keyword,$event)"></span>
+                                </span>
+                            </div>
+                            <div ng-if="keywords.length-1==$index + 1">
+                                <span ng-hide="$index + 1==keywords.length <=1">
+                                    <span class="glyphicon glyphicon-minus" ng-click="keyword.splice($index, 1)"></span>
+                                </span>
+                            </div>
+                            
+
+                            </div>
+                    </div>
+                </div>
+
             </div>
-            <div class="col-md-4">
-                <span class="glyphicon glyphicon-minus"></span>
-            </div>
+          
         </div>
     </div>
-    <div class="form-group">
-        <div class="row">
-            <div class="col-md-8">
-                <input type="text" class="form-control" />
-            </div>
-            <div class="col-md-4">
-                <span class="glyphicon glyphicon-plus"></span>
-            </div>
-        </div>
-    </div>
+    
     <p class="text-center">
         <button type="submit" class="btn btn-default" ng-if="!items.edit">
             Create
