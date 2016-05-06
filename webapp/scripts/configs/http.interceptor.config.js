@@ -24,7 +24,7 @@
             //append baseUrl to all services.
             //not append baseurl to urls with views/template/uib 
             function httpRequest(httpConfig) {
-                if (httpConfig.url.indexOf(APP_CONFIG.viewDir) !== 0 && httpConfig.url.indexOf('directives') !== 0 && httpConfig.url.indexOf('uib') !== 0 && httpConfig.url.indexOf('template') !== 0) {
+                if (httpConfig.url.indexOf(APP_CONFIG.viewDir) !== 0 && httpConfig.url.indexOf('directives') !== 0 && httpConfig.url.indexOf('uib') !== 0 && httpConfig.url.indexOf('template') !== 0 && httpConfig.url.indexOf('ng-table') !== 0) {
                     httpConfig.url = APP_CONFIG.API[APP_CONFIG.environment].baseUrl + httpConfig.url;
                 }
                 return httpConfig;
