@@ -17,14 +17,52 @@
         // to active whenever 'contacts.list' or one of its decendents is active.
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
+        //isLoading is used to show loader on page
+        //set loader true by default. 
+        $rootScope.isLoading = true;
+       
+        $rootScope.setLoading = setLoading;
 
         //TODO move to services instead of event broadcasting.
         $rootScope.$on('rootScopeCreateProjectHeaderOnEvent', rootScopeCreateProjectHeaderOnEvent);
-
+        
+        $rootScope.$on('$stateChangeStart', stateChangeStart);
+        
+        $rootScope.$on('$stateChangeSuccess', stateChangeSuccess);
+        
+        $rootScope.$on('$stateChangeError', stateChangeError);
+        
+        /*
+         * @name rootScopeCreateProjectHeaderOnEvent
+         * @description
+         *  Broadcast to headerCltr to open modal window with create project form. 
+         */
         function rootScopeCreateProjectHeaderOnEvent() {
             $rootScope.$broadcast('createProjectHeaderOnEvent', {});
         }
-
+        
+        /*
+         * @name setLoading
+         * @param boolean loading 
+         * @description
+         *  Toggle loader on page.
+         */
+        function setLoading (loading) {
+            $rootScope.isLoading = loading;
+        }
+        //TODO add desc
+        function stateChangeStart (/*event, next, current*/) {
+            $rootScope.setLoading(true);
+        }
+        //TODO add desc
+        function stateChangeSuccess (){
+            $rootScope.setLoading(false);
+        }
+        //TODO add desc
+        function stateChangeError () {
+            $rootScope.setLoading(false);
+        }
+        
         // Only load mock data, if config says so.
         // Don't add any code related to run block & not related to mock data below if condition
         if (!APP_CONFIG.API[APP_CONFIG.environment].useMocks) {
@@ -35,8 +73,8 @@
         $httpBackend.whenGET(/views\/*/).passThrough();
         
         //login service
-        $httpBackend.whenGET(/checkLogin/).respond(function(/*method, url, data, headers*/) {
-            return [200, '{status:true,session_token:"asdasas23423asddfgex"}', {/*headers*/}];
+        $httpBackend.whenGET(/security/).respond(function(/*method, url, data, headers*/) {
+            return [200, '{"session_token":"ZTQyMjE4YTdhYTE3OTI4NTljdhYTU0ZTAyNjk2Mg","expires_in":3600,"token_type":"bearer","scope":"user"}', {/*headers*/}];
         });
     }
 
