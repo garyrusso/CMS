@@ -9,7 +9,8 @@ namespace Macmillan.CMS.DAL
 {
     public interface ISecurityDAL
     {
-        object GetUserData();       
+        object GetUserData();
+        object ValidateUserCredentials(string UserName, string PassWord);
     }
 }
     

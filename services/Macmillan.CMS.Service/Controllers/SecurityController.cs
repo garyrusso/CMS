@@ -3,6 +3,7 @@
     using Macmillan.CMS.Business;
     using Macmillan.CMS.Common;
     using Macmillan.CMS.Common.Logging;
+    using Macmillan.CMS.Common.Models;
     using Macmillan.CMS.DAL;
     using Macmillan.CMS.Service.Filters;
     using System;
@@ -28,6 +29,11 @@
         public object Get()
         {            
             return this.secureBusiness.GetUserData();
+        }
+
+        public object ValidateUserCredentials(Authentication Authentication)
+        {
+            return this.secureBusiness.ValidateUserCredentials(Authentication);
         }
     }
     

@@ -36,7 +36,6 @@ namespace Macmillan.CMS.Business
         private string BuildProjectXML(Project project)
         {
             string path = Assembly.GetEntryAssembly().Location + @"\AppData\CreateProject.xml";
-
             StringBuilder text = new StringBuilder(File.ReadAllText(path));
             //d41d8cd98f00b204e9800998ecf8427e
             //www.macmillan.com/workflow/projects/Hockenbury5e
