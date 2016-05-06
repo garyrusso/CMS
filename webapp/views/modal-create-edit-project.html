@@ -1,29 +1,41 @@
 <h3 ng-if="!items.edit">Create Project</h3>
 <h3 ng-if="items.edit">Edit Project</h3>
-<form>
+<form name="projectForm" ng-submit="submit()">
     <div class="form-group">
         <label for="InputProjectName">Title *</label>
-        <input type="text" ng-model="data.Title" class="form-control" id="InputProjectName">
+        <input class="form-control" type="text" id="InputProjectName"
+               ng-model="data.Title"
+               ng-class="{red: projectForm.projectTitle.$invalid &&  projectForm.projectTitle.$touched && !projectForm.projectDescription.$focused}"
+               name="projectTitle"
+               required="">
     </div>
     <div class="form-group">
         <label for="InputProjectDescription">Description *</label>
-        <textarea class="form-control" rows="3"></textarea>
+        <textarea class="form-control" id="projectDescription"
+                  ng-model="data.description"
+                  ng-class="{red: projectForm.projectDescription.$invalid &&  projectForm.projectDescription.$touched && !projectForm.projectDescription.$focused}"
+                  name="projectDescription"
+                  rows="3" required=""></textarea>
     </div>
     <div class="form-group row">
         <div class="col-md-8">
             <label for="InputProjectState">Project State*</label>
-            <select class="form-control">
-                <option>In Progress</option>
-                <option>Active</option>
-                <option>Completed</option>
-                <option>Inactive</option>
+            <select class="form-control" name="projectState" id="projectState"
+                    ng-options="option.name for option in projectState.availableOptions track by option.name"
+                    ng-model="data.projectState"
+                    ng-class="{red: projectForm.projectState.$invalid &&  projectForm.projectState.$touched && !projectForm.projectState.$focused}"
+                    required>
+                <option value="">Select State</option>
             </select>
         </div>
     </div>
     <div class="form-group row">
         <div class="col-md-8">
-            <label for="InputProjectSubjects">Subjects</label>
-            <input type="text" class="form-control" id="InputProjectSubjects" />
+            <label for="InputProjectSubjects">Subjects</label>           
+            <select class="form-control" name="projectSubject">
+                <option>Psychology</option>
+                <option>Biology</option>
+            </select>
         </div>
     </div>
 
@@ -32,14 +44,13 @@
     <div class="form-group">
         <div>
             <div ng-repeat="keyElement in keywords=(keyword)">
-        
+
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-8">
-                            <input type="text" class="form-control" ng-model="projectKeywords[i]" placeholder="keywords" required />
+                            <input type="text" class="form-control" ng-model="projectKeywords[i]" placeholder="keywords" />
                         </div>
                         <div class="col-md-4">
-                            <!--<span ng-show="keywords.length = keywords.length-1">-->
                             <div ng-if="$last">
                                 <span>
                                     <span class="glyphicon glyphicon-plus" ng-click="addKeywordField(keyword,$event)"></span>
@@ -50,22 +61,22 @@
                                     <span class="glyphicon glyphicon-minus" ng-click="keyword.splice($index, 1)"></span>
                                 </span>
                             </div>
-                            
 
-                            </div>
+
+                        </div>
                     </div>
                 </div>
 
             </div>
-          
+
         </div>
     </div>
-    
+
     <p class="text-center">
-        <button type="submit" class="btn btn-default" ng-if="!items.edit">
+        <button type="submit" class="btn btn-default" ng-if="!items.edit" ng-disabled="projectForm.$invalid">
             Create
         </button>
-        <button type="submit" class="btn btn-default" ng-if="items.edit">
+        <button type="submit" class="btn btn-default" ng-if="items.edit" ng-disabled="projectForm.$invalid">
             Update
         </button>
     </p>

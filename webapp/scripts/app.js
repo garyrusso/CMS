@@ -48,3 +48,24 @@ function($stateProvider, $urlRouterProvider) {
         controllerAs : 'ss'
     }); 
 }]);
+
+// Attaches event listeners
+angular.module('cmsWebApp').directive('customFocus', [function () {
+    var FOCUS_CLASS = "custom-focused"; //Toggle a class and style that!
+    return {
+        restrict: 'A', //Angular will only match the directive against attribute names
+        require: 'ngModel',
+        link: function (scope, element, attrs, ctrl) {
+            ctrl.$focused = false;
+
+            element.bind('focus', function (evt) {
+                element.addClass(FOCUS_CLASS);
+                scope.$apply(function () { ctrl.$focused = true; });
+
+            }).bind('blur', function (evt) {
+                element.removeClass(FOCUS_CLASS);
+                scope.$apply(function () { ctrl.$focused = false; });
+            });
+        }
+    }
+}]);
