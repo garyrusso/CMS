@@ -40,8 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthenticationDAL.cs" />
-    <Compile Include="IAuthenticationDAL.cs" />
     <Compile Include="IManageProjectDAL.cs" />
     <Compile Include="ISecurityDAL.cs" />
     <Compile Include="ManageProjectDAL.cs" />

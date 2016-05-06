@@ -20,3 +20,4 @@ D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\bin\Debug\Macmillan.CMS.Commo
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\bin\Debug\Newtonsoft.Json.dll
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.dll
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.pdb
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.csprojResolveAssemblyReference.cache

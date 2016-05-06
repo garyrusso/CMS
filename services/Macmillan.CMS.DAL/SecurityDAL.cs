@@ -28,6 +28,12 @@ namespace Macmillan.CMS.DAL
             Project proj = mlReader.GetHttpContent<Project>("http://ML/Project?docUri=adf");
 
             return proj;
+        }  
+
+        public object ValidateUserCredentials(string UserName , string PassWord)
+        {
+            //Call ML and post the project xml
+            return null;
         }
     }
 }

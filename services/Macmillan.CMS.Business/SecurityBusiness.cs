@@ -1,5 +1,6 @@
 ﻿using Macmillan.CMS.Common;
 using Macmillan.CMS.Common.Logging;
+using Macmillan.CMS.Common.Models;
 using Macmillan.CMS.DAL;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,21 @@ namespace Macmillan.CMS.Business
         public object GetUserData()
         {
             return this.securityDAL.GetUserData();
+        }
+
+        public object ValidateUserCredentials(Authentication Authentication)
+        {
+            //Build XML
+            string AuthenticationXML = this.BuildauthenticationXML(Authentication);
+
+            //Post it to MarkLogic
+            return null;
+        }
+
+        public string BuildauthenticationXML(Authentication Authentication)
+        {
+
+            return null;
         }
     }
 }
