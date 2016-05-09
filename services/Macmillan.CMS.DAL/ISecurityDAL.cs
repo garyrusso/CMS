@@ -1,4 +1,5 @@
 ﻿using Macmillan.CMS.Common;
+using Macmillan.CMS.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Macmillan.CMS.DAL
     public interface ISecurityDAL
     {
         object GetUserData();
-        object ValidateUserCredentials(string UserName, string PassWord);
+        object ValidateUserCredentials(Authentication authentication);
     }
 }
     

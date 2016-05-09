@@ -11,6 +11,6 @@ namespace Macmillan.CMS.Business
     public interface ISecurityBusiness
     {
         object GetUserData();
-        object ValidateUserCredentials(Authentication Authentication);
+        object ValidateUserCredentials(Authentication authentication);
     }
 }

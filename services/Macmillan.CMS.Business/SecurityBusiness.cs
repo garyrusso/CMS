@@ -22,20 +22,21 @@ namespace Macmillan.CMS.Business
         {
             return this.securityDAL.GetUserData();
         }
-
-        public object ValidateUserCredentials(Authentication Authentication)
+      
+        public object ValidateUserCredentials(Authentication authentication)
         {
-            //Build XML
-            string AuthenticationXML = this.BuildauthenticationXML(Authentication);
+            ////Build XML
+            //string AuthenticationXML = this.BuildauthenticationXML(Authentication);         
+            ////Post it to MarkLogic     
 
-            //Post it to MarkLogic
-            return null;
+       
+            return this.securityDAL.ValidateUserCredentials(authentication);
         }
 
-        public string BuildauthenticationXML(Authentication Authentication)
-        {
-
-            return null;
-        }
+        //public string BuildauthenticationXML(Authentication Authentication)
+        //{
+           
+        //    return this.securityDAL.ValidateUserCredentials(Authentication);
+        //}
     }
 }

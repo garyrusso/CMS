@@ -15,7 +15,7 @@ namespace Macmillan.CMS.DAL
 
         public object GetUserData()
         {
-           
+
             JsonNetSerialization ser = new JsonNetSerialization();
             string content = @"{ 'Name': 'Jon Smith', 'Address': { 'City': 'New York', 'State': 'NY' }, 'Age': 42 }";
             return ser.DeSerialize(content);
@@ -28,12 +28,31 @@ namespace Macmillan.CMS.DAL
             Project proj = mlReader.GetHttpContent<Project>("http://ML/Project?docUri=adf");
 
             return proj;
-        }  
+        }
 
-        public object ValidateUserCredentials(string UserName , string PassWord)
-        {
-            //Call ML and post the project xml
-            return null;
+        public object ValidateUserCredentials(Authentication authentication)
+        {           
+            //if (authentication.UserName == "UserName" && authentication.PassWord == "Secret")
+            //{
+                JsonNetSerialization ser = new JsonNetSerialization();
+                string content = @"{'session_token':'ZTQyMjE4YTdhYTE3OTI4NTljdhYTU0ZTAyNjk2Mg',
+                        'expires_in': 3600,
+                        'token_type': 'bearer',
+                        'scope': 'user'}";
+                return ser.DeSerialize(content);
+//            }
+//            else
+//            {
+//                JsonNetSerialization ser = new JsonNetSerialization();
+//                string content = @"{
+//            'code': 'invalid grant',
+//            'user_message': 'Invalid Authentication',
+//		    'Developers': 'Please review the system logs for more information',
+//		    'info': [],
+//            'data':[]}";
+//                return ser.DeSerialize(content);
+//            }
         }
     }
+
 }

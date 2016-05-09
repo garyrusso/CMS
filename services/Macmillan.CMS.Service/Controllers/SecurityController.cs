@@ -26,14 +26,14 @@
             this.secureBusiness = securityBusiness;
         }
         
-        public object Get()
-        {            
-            return this.secureBusiness.GetUserData();
-        }
-
-        public object ValidateUserCredentials(Authentication Authentication)
-        {
-            return this.secureBusiness.ValidateUserCredentials(Authentication);
+        //public object Get()
+        //{            
+        //    return this.secureBusiness.GetUserData();
+        //}
+        [HttpPost]
+        public object ValidateUserCredentials(Authentication authentication)
+        {     
+            return this.secureBusiness.ValidateUserCredentials(authentication);
         }
     }
     
