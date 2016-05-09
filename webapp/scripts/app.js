@@ -20,7 +20,7 @@ function($stateProvider, $urlRouterProvider) {
     $stateProvider.state('login', {
         url : "/login",
         templateUrl : "views/login.html",
-        controller : 'AuthenticationController',
+        controller : 'LoginController',
         controllerAs : 'auth'
     })//Dashboard
     .state('dashboard', {
@@ -37,6 +37,9 @@ function($stateProvider, $urlRouterProvider) {
         templateUrl : "views/commonMainWithNav.html",
         controller : 'ManageProjectController',
         controllerAs : 'projects',
+        resolve : {
+            routeResolvedProjectList : projectList
+        },
         data : {
             roles : ['User']
         }
@@ -60,6 +63,10 @@ function($stateProvider, $urlRouterProvider) {
             roles : ['User']
         }
     }); 
+    
+    function projectList (ManageProjectsService) {
+        return ManageProjectsService.getProjects();
+    }
 }]);
 
 // Attaches event listeners

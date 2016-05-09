@@ -46,7 +46,7 @@
          * Set/save object to session storage
          */
         function setItems(key, value) {
-            sessionStorage.setItem(key, angular.toJson(value));
+            localStorage.setItem(key, angular.toJson(value));
         }
 
         /**
@@ -56,7 +56,7 @@
          * return json object from session storage.
          */
         function getItems(key) {
-            return angular.fromJson(sessionStorage.getItem(key));
+            return angular.fromJson(localStorage.getItem(key));
         }
 
     }

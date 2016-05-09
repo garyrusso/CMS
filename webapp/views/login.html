@@ -10,7 +10,7 @@
                     <div class="form-group">
                         <label for="exampleInputEmail1">Username</label>
                         <input type="text" class="form-control" placeholder="Username"
-                               ng-model="username" name="username"
+                               ng-model="auth.username" name="username"
                                ng-class="{red: loginForm.username.$invalid &&  loginForm.username.$touched && !loginForm.username.$focused}"
                                pattern=".[_a-z0-9A-Z\.\_]+"
                                required>
@@ -18,11 +18,11 @@
                     <div class="form-group">
                         <label for="exampleInputPassword1">Password</label>
                         <input type="password" class="form-control" placeholder="Password"
-                               ng-model="password" name="password"
+                               ng-model="auth.password" name="password"
                                ng-class="{red: loginForm.password.$invalid &&  loginForm.password.$touched && !loginForm.password.$focused}"
                                required>
                     </div>
-                    <span class="cms-error-message ">{{message}}</span> 
+                    <span class="cms-error-message " ng-bind="auth.message"></span> 
                     <button type="submit" class="btn btn-default navbar-btn pull-right" ng-disabled="loginForm.$invalid">
                         Login
                     </button>

@@ -8,6 +8,7 @@
  * HTTP request to a rest endpoint which returns the user's name, roles, etc.
  * after validating an auth token in a session storage. it will only do this identity lookup
  * once, when the application first runs. you can force re-request it by calling identity(true)
+ * Reference: http://stackoverflow.com/a/26201288
  */
 
 (function() {"use strict";
@@ -60,11 +61,11 @@
             _identity = identity;
             _authenticated = identity != null;
 
-            // for this demo, we'll store the identity in sessionStorage. For you, it could be a cookie, sessionStorage, whatever
+            // for this demo, we'll store the identity in localStorage. For you, it could be a cookie, localStorage, whatever
             if (identity)
-                sessionStorage.setItem("cms.user_details", angular.toJson(identity));
+                localStorage.setItem("cms.user_details", angular.toJson(identity));
             else
-                sessionStorage.removeItem("cms.user_details");
+                localStorage.removeItem("cms.user_details");
         }
         
         function authenticateUser (postdata) {
@@ -94,9 +95,9 @@
                 return deferred.promise;
             }
 
-            //read the identity from sessionStorage.
+            //read the identity from localStorage.
             
-            _identity = angular.fromJson(sessionStorage.getItem("cms.user_details"));
+            _identity = angular.fromJson(localStorage.getItem("cms.user_details"));
             this.authenticate(_identity);
             deferred.resolve(_identity);
 

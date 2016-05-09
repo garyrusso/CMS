@@ -8,117 +8,104 @@
     angular.module('cmsWebApp').controller('ModalCreateEditProjectController', ModalCreateEditProjectController);
 
     /*Inject angular services to controller*/
-    ModalCreateEditProjectController.$inject = ['$scope', '$uibModalInstance', '$http', '$httpBackend', 'items'];
+    ModalCreateEditProjectController.$inject = ['$scope', '$uibModalInstance', 'items', '_', '$filter'];
 
-
-  
     /*Function ModalCreateEditProjectController*/
-    function ModalCreateEditProjectController($scope, $uibModalInstance, $http, $httpBackend, items) {
+    function ModalCreateEditProjectController($scope, $uibModalInstance, items, _, $filter) {
         $scope.items = items;
 
         if (items.edit) {
             $scope.data = {
-                "Title": "Hockenbury 5e-4",
-                "description": "Project description",
-                "projectState": "Active",
-                "subjectHeadings": [
-                    {
-                        "subjectHeading": "Psychology"
-                    },
-                    {
-                        "subjectHeading": "Biology"
-                    }
-                ],
-                "subjectKeywords": [
-                     {
-                         "subjectKeyword": "Psychology"
-                     },
-                     {
-                         "subjectKeyword": "Biology"
-                     }
-                ]
+                "Title" : "Hockenbury 5e-4",
+                "description" : "Project description",
+                "projectState" : "Active",
+                "subjectHeadings" : [{
+                    "subjectHeading" : "Psychology"
+                }, {
+                    "subjectHeading" : "Biology"
+                }],
+                "subjectKeywords" : [{
+                    "subjectKeyword" : "Psychology"
+                }, {
+                    "subjectKeyword" : "Biology"
+                }]
             };
 
         } else {
             $scope.data = {
-                "Title": "",
-                "description": "",
-                "projectState": "",
-                "subjectHeadings": [
-                    {
-                        "subjectHeading": ""
-                    },
-                    {
-                        "subjectHeading": ""
-                    }
-                ],
-                "subjectKeywords": [
-                     {
-                         "subjectKeyword": ""
-                     },
-                     {
-                         "subjectKeyword": ""
-                     }
-                ]
-            }
+                "systemUID" : "d41d8cd98f00b" + Math.random(),
+                "uri" : '/projects/project' + Math.random() + '.xml',
+                "path" : "fn:doc(\"/projects/project" + Math.random() + ".xml\")",
+                "href" : "/v1/documents?uri=%2Fprojects%2Fproject1.xml",
+                "mimetype" : "application/xml",
+                "format" : "xml",
+                "dateCreated" : '',
+                "Title" : "",
+                "description" : "",
+                "projectState" : "",
+                "subjectHeadings" : [],
+                "subjectKeywords" : [{
+                    "subjectKeyword" : ""
+                }]
+            };
         }
-      
+
         $scope.cancel = closeModalProject;
-        
-        function closeModalProject () {
+
+        function closeModalProject() {
             $uibModalInstance.dismiss('cancel');
         }
 
-       
-     
         /*Project state dropdown*/
         var projectStates = {
-            stepsInvolved: [{
-                label: "In Progress",
-                value: "In Progress"
+            stepsInvolved : [{
+                label : "In Progress",
+                value : "In Progress"
             }, {
-                label: "Active",
-                value: "Active"
+                label : "Active",
+                value : "Active"
             }, {
-                label: "Completed",
-                value: "Completed"
-            },{
-                label: "Inactive",
-                value: "Inactive"
+                label : "Completed",
+                value : "Completed"
+            }, {
+                label : "Inactive",
+                value : "Inactive"
             }],
-            valueSelected: {
-                label: $scope.data.projectState,
-                value: $scope.data.projectState
+            valueSelected : {
+                label : $scope.data.projectState,
+                value : $scope.data.projectState
             }
-        }
+        };
 
         $scope.list = projectStates.stepsInvolved;
         $scope.selected = projectStates.valueSelected;
 
         /*Project Subject dropdown */
-        $scope.subjects = [
-            { "subjectHeading": "Psychology" },          
-            { "subjectHeading": "Economics" },
-            { "subjectHeading": "History" }
-        ]
-               
-     
+        $scope.subjects = [{
+            "subjectHeading" : "Psychology"
+        }, {
+            "subjectHeading" : "Economics"
+        }, {
+            "subjectHeading" : "History"
+        }];
+
+        /*$scope.selectedSubjects = _.chain($scope.subjects).indexBy('subjectHeading').mapObject(function(val, key) {
+         return {selected: _.contains(_.pluck($scope.data.subjectHeadings), key)};
+         }).value();*/
+
         $scope.statuses = $scope.subjects;
         $scope.selectedStatuses = $scope.data.subjectHeadings;
 
-       
         /* Create/Update Proejct submit function*/
-        $scope.submit = function () {
-            
-            var res = $http.post("project", $scope.data);
+        //TODO format
+        $scope.submit = function() {
+            if (items.edit) {
+                $scope.data.dateLastModified = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");
+            } else {
+                $scope.data.dateCreated = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");
+            }
 
-            res.success(function (data, status, headers, config) {                
-                alert("success");
-            });
-            res.error(function (data, status, headers, config) {
-                 alert("failure message: " + JSON.stringify({ data: data }));
-            });
-
+            $uibModalInstance.close($scope.data);
         };
 
         /*Dyanmic Keyword textbox*/
@@ -130,10 +117,13 @@
 
         function addKeywordField(keyword, $event) {
             counter++;
-            keyword.push({ id: counter, subjectKeyword: '', inline: true });
+            keyword.push({
+                id : counter,
+                subjectKeyword : '',
+                inline : true
+            });
             $event.preventDefault();
         }
-        
 
     }
 

@@ -32,8 +32,8 @@
         <div class="col-md-8">
             <label for="InputProjectSubjects">Subjects</label>                     
             <select class="form-control" name="projectSubject" id="projectSubjects"
-                    ng-model="selectedStatuses"                    
-                    multiple ng-options="status.subjectHeading for status in statuses"></select>  
+                    ng-model="data.subjectHeadings"                    
+                    multiple ng-options="status.subjectHeading for status in statuses track by status.subjectHeading"></select>  
            
         </div>
     </div>
@@ -54,8 +54,8 @@
                                     <span class="glyphicon glyphicon-plus" ng-click="addKeywordField(keyword,$event)"></span>
                                 </span>
                             </div>
-                            <div ng-if="$index && !$last">
-                                <span ng-hide="$index + 1==keywords.length <=1">
+                            <div ng-if="!$last">
+                                <span>
                                     <span class="glyphicon glyphicon-minus" ng-click="keyword.splice($index, 1)"></span>
                                 </span>
                             </div>
