@@ -94,6 +94,11 @@
         $httpBackend.whenPOST(/Security/).respond(function(/*method, url, data, headers*/) {
             return [200, '{"session_token":"ZTQyMjE4YTdhYTE3OTI4NTljdhYTU0ZTAyNjk2Mg","expires_in":3600,"token_type":"bearer","scope":"user"}', {/*headers*/}];
         });
+
+        //create/edit project service
+        $httpBackend.whenPOST(/project/).respond(function (/*method, url, data, headers*/) {
+            return [200, '{"systemUID":"d41d8cd98f00b204e9800998ecf8427e","uri":"/projects/project1.xml","path":"fn:doc(\"/projects/project1.xml\")","href":"/v1/documents?uri=%2Fprojects%2Fproject1.xml","mimetype":"application/xml","format":"xml","dateCreated":"2015-04-15 13:30","dateLastModified":"2015-04-15 13:30","username":"bcross","createdBy":"Brian Cross","modifiedBy":"Brian Cross","Title":"Hockenbury 5e-1","description":"Project description","projectState":"Active","subjectHeadings":[{"subjectHeading":"Psychology"},{"subjectHeading":"Biology"}],"subjectKeywords":[{"subjectKeyword":"Psychology"},{"subjectKeyword":"Biology"}]}', {/*headers*/ }];
+        });
     }
 
 })();

@@ -313,6 +313,73 @@
 
             });
         }
+
+        $scope.projectDetails=   
+            {               
+                   "systemUID": "d41d8cd98f00b204e9800998ecf8427e",
+                    "uri": "/projects/project1.xml",
+                    "path": "fn:doc(\"/projects/project1.xml\")",
+                    "href": "/v1/documents?uri=%2Fprojects%2Fproject1.xml",
+                    "mimetype": "application/xml",
+                    "format": "xml",
+                    "dateCreated": "2015-04-15 13:30",
+                    "dateLastModified": "2015-04-15 13:30",
+                    "username": "bcross",
+                    "createdBy": "Brian Cross",
+                    "modifiedBy": "Brian Cross",
+                    "Title": "Hockenbury 5e-1",
+                    "description": "Project description",
+                    "projectState": "Active",
+                    "subjectHeadings": [
+                        {
+                            "subjectHeading": "Psychology"
+                        },
+                        {
+                            "subjectHeading": "Biology"
+                        }
+                    ],
+                    "subjectKeywords": [
+                         {
+                             "subjectKeyword": "Psychology"
+                         },
+                         {
+                             "subjectKeyword": "Biology"
+                         }
+                    ],
+                    "content": [
+                        {
+                            "systemUID": "d41d8cd98f00b204e9800998ecf8427e",
+                            "uri": "/documents/content1.xml",
+                            "path": "fn:doc(\"/documents/content1.xml\")",
+                            "href": "/v1/documents?uri=%2Fdocuments%2Fcontent1.xml",
+                            "mimetype": "application/xml",
+                            "format": "xml",
+                            "dateCreated": "2015-04-15 13:30",
+                            "dateLastModified": "2015-04-15 13:30",
+                            "username": "bcross",
+                            "createdBy": "Brian Cross",
+                            "modifiedBy": "Brian Cross",
+                            "Title": "Content-1"
+                        },
+                        {
+                            "systemUID": "d41d8cd98f00b204e9800998ecf8427e",
+                            "uri": "/documents/content2.xml",
+                            "path": "fn:doc(\"/documents/content2.xml\")",
+                            "href": "/v1/documents?uri=%2Fdocuments%2Fcontent2.xml",
+                            "mimetype": "application/xml",
+                            "format": "xml",
+                            "dateCreated": "2015-04-15 13:30",
+                            "dateLastModified": "2015-04-15 13:30",
+                            "username": "bcross",
+                            "createdBy": "Brian Cross",
+                            "modifiedBy": "Brian Cross",
+                            "Title": "Content-2"
+                        }
+                    ]
+                }
+
+            
+
     }
 
 })();

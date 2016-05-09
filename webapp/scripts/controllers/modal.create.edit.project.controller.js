@@ -15,6 +15,7 @@
     /*Function ModalCreateEditProjectController*/
     function ModalCreateEditProjectController($scope, $uibModalInstance, $http, $httpBackend, items) {
         $scope.items = items;
+
         if (items.edit) {
             $scope.data = {
                 "Title": "Hockenbury 5e-4",
@@ -37,6 +38,7 @@
                      }
                 ]
             };
+
         } else {
             $scope.data = {
                 "Title": "",
@@ -60,29 +62,58 @@
                 ]
             }
         }
-
+      
         $scope.cancel = closeModalProject;
         
         function closeModalProject () {
             $uibModalInstance.dismiss('cancel');
         }
 
-        //Project state
-        $scope.projectState = {
-            availableOptions: [
-              { id: '1', name: 'In Progress' },
-              { id: '2', name: 'Active' },
-              { id: '3', name: 'Completed' },
-              { id: '4', name: 'Inactive' }
-            ],
-            selectedOption: { id: '0', name: '' } //This sets the default value of the select in the ui
-        };
+       
+     
+        /*Project state dropdown*/
+        var projectStates = {
+            stepsInvolved: [{
+                label: "In Progress",
+                value: "In Progress"
+            }, {
+                label: "Active",
+                value: "Active"
+            }, {
+                label: "Completed",
+                value: "Completed"
+            },{
+                label: "Inactive",
+                value: "Inactive"
+            }],
+            valueSelected: {
+                label: $scope.data.projectState,
+                value: $scope.data.projectState
+            }
+        }
 
-        // Create Proejct submit
-        $scope.submit = function () {          
-            var res = $http.post("/echo/json/", $scope.data);
-            res.success(function (data, status, headers, config) {
-                $scope.projects = data;                
+        $scope.list = projectStates.stepsInvolved;
+        $scope.selected = projectStates.valueSelected;
+
+        /*Project Subject dropdown */
+        $scope.subjects = [
+            { "subjectHeading": "Psychology" },          
+            { "subjectHeading": "Economics" },
+            { "subjectHeading": "History" }
+        ]
+               
+     
+        $scope.statuses = $scope.subjects;
+        $scope.selectedStatuses = $scope.data.subjectHeadings;
+
+       
+        /* Create/Update Proejct submit function*/
+        $scope.submit = function () {
+            
+            var res = $http.post("project", $scope.data);
+
+            res.success(function (data, status, headers, config) {                
+                alert("success");
             });
             res.error(function (data, status, headers, config) {
                  alert("failure message: " + JSON.stringify({ data: data }));
@@ -90,22 +121,16 @@
 
         };
 
-        //Dyanmic Keyword textbox
+        /*Dyanmic Keyword textbox*/
         var counter = 0;
 
-
-        $scope.keyword = [{
-            value: '',
-        }, {
-            value: '',
-        }]
-
+        $scope.keyword = $scope.data.subjectKeywords;
 
         $scope.addKeywordField = addKeywordField;
 
         function addKeywordField(keyword, $event) {
             counter++;
-            keyword.push({ id: counter, name: '', inline: true });
+            keyword.push({ id: counter, subjectKeyword: '', inline: true });
             $event.preventDefault();
         }
         
