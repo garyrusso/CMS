@@ -9,9 +9,19 @@
 
     function HttpInterceptorConfig(APP_CONFIG, $httpProvider) {
         $httpProvider.interceptors.push(httpInterceptor);
-        httpInterceptor.$inject = ['$q', '$timeout', 'APP_CONFIG', '$rootScope', '$log'];
+        httpInterceptor.$inject = ['$q', '$timeout', 'APP_CONFIG', '$rootScope', '$log', '_'];
 
-        function httpInterceptor($q, $timeout, APP_CONFIG, $rootScope, $log) {
+        function httpInterceptor($q, $timeout, APP_CONFIG, $rootScope, $log, _) {
+            // In Angular all templates/views are loaded with ajax call. 
+            // HTTP Interceptors intercept request & response of templates/views.
+            // HTTP Interceptors for templates is not required.
+            // So listing all template directories in templateDirectories array for checking. 
+            var templateDirectories = [
+                'uib', //folder 'uib' is used angularui 
+                'template', //is a commonly used folder name for many modules
+                'ng-table' //folder 'ng-table' is used by 'ng-table' module 
+            ];
+            templateDirectories.push(APP_CONFIG.viewDir); //APP_CONFIG.viewDir is used our app.
             return {
                 'request' : httpRequest,
                 'response' : httpResponse,
@@ -24,7 +34,7 @@
             //append baseUrl to all services.
             //not append baseurl to urls with views/template/uib 
             function httpRequest(httpConfig) {
-                if (httpConfig.url.indexOf(APP_CONFIG.viewDir) !== 0 && httpConfig.url.indexOf('directives') !== 0 && httpConfig.url.indexOf('uib') !== 0 && httpConfig.url.indexOf('template') !== 0 && httpConfig.url.indexOf('ng-table') !== 0) {
+                if(!checkIsTemplateUrl(httpConfig.url)) {    
                     httpConfig.url = APP_CONFIG.API[APP_CONFIG.environment].baseUrl + httpConfig.url;
                 }
                 return httpConfig;
@@ -34,7 +44,7 @@
             //check fakeDelay flag and delay response 
             function httpResponse(response) {
                 var defer = $q.defer();
-                if (APP_CONFIG.API[APP_CONFIG.environment].fakeDelay) {
+                if ( APP_CONFIG.API[APP_CONFIG.environment].fakeDelay && !checkIsTemplateUrl(response.config.url) ) {
                     $timeout(function() {
                         defer.resolve(response);
                     }, APP_CONFIG.API[APP_CONFIG.environment].fakeDelayTime);
@@ -51,6 +61,18 @@
 
             function httpResponseError(rejection) {
                 return rejection;
+            }
+            
+            //TODO add desc
+            function checkIsTemplateUrl (url) {
+                var check = false;
+                _.map(templateDirectories, function(folderName){
+                    if(url.indexOf(folderName) === 0){
+                        check = true;
+                    }
+                });
+                
+                return check;
             }
 
         }
