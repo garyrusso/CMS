@@ -201,6 +201,22 @@ td.cms-main-display-center {
     color: #D8000C;    
     background-color: #FFBABA;    
 }
+
+.cms-error-wrapper {
+  display: inline-block;
+  color: red;
+}
+
+.cms.form.submitted .ng-invalid
+{
+    border:1px solid #f00;
+}
+
+.red{
+  border: solid 1px red;
+}
+
+
 /*************
  * breadcrumb
  *************
