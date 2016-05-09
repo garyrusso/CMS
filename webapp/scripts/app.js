@@ -14,7 +14,7 @@ function($stateProvider, $urlRouterProvider) {
     //TODO Move route config to configs folder
     //
     // For any unmatched url, redirect to /state1
-    $urlRouterProvider.otherwise("/dashboard");
+    $urlRouterProvider.otherwise("/login");
     //
     // Now set up the states
     $stateProvider.state('login', {
@@ -27,38 +27,25 @@ function($stateProvider, $urlRouterProvider) {
         url : "/dashboard",
         templateUrl : "views/commonMainWithNav.html",
         controller : 'DashboardController',
-        controllerAs : 'dashboard',
-        data : {
-            roles : ['User']
-        }
+        controllerAs : 'dashboard'
     })
     .state('projects', {
         url : "/projects",
         templateUrl : "views/commonMainWithNav.html",
         controller : 'ManageProjectController',
-        controllerAs : 'projects',
-        data : {
-            roles : ['User']
-        }
-        
+        controllerAs : 'projects'
     })
     .state('projectview', {
         url : "/projectview",
         templateUrl : "views/projectview.html",
         controller : 'ManageProjectController',
-        controllerAs : 'projects',
-        data : {
-            roles : ['User']
-        }
+        controllerAs : 'projects'
     })
     .state('success', {
         url : "/success?type&status&name&id",
         templateUrl : "views/success-view.html",
         controller : 'SuccessStatusController',
-        controllerAs : 'ss',
-        data : {
-            roles : ['User']
-        }
+        controllerAs : 'ss'
     }); 
 }]);
 

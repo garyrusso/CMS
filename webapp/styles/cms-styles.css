@@ -85,7 +85,7 @@ header {
 .cms-headerbackground {
     background-color: #363940;
 }
-.cms-headerfont > a{
+.cms-headerfont {
     font-family: sans-serif;
     font-weight: bold;
     color: white;

@@ -60,9 +60,7 @@
             }
 
             function httpResponseError(rejection) {
-                var defer = $q.defer();
-                defer.reject(rejection);
-                return defer.promise;
+                return rejection;
             }
             
             //TODO add desc

@@ -8,35 +8,23 @@
     angular.module('cmsWebApp').controller('AuthenticationController', AuthenticationController);
 
     /*Inject angular services to controller*/
-    AuthenticationController.$inject = ['$rootScope', '$scope', '$state', 'AuthenticationService'];
+    AuthenticationController.$inject = ['$scope','$state'];
 
     /*Function AuthenticationController*/
-    function AuthenticationController($rootScope, $scope, $state, AuthenticationService) {
+    function AuthenticationController($scope,$state) {
         var auth = this;
-
-        /*TODO: add validation & format code*/
-        auth.validateUser = validateUser;
-
         
-        function validateUser() {
+        /*TODO: add validation & format code*/
+        auth.validateUser = function () {
 
-            if (auth.username.trim() !== "" || auth.password.trim() !== "") {
-                $rootScope.setLoading(true);
-                AuthenticationService.authenticateUser({
-                    username : $scope.username,
-                    password : $scope.password
-                }).then(function() {
-                    $state.go('dashboard');
-                }, function() {
-                    auth.message = "Invalid username/password!";
-                    $rootScope.setLoading(false);
-                    $state.go('login');
-                });
-                //$state.go('dashboard');
-            } else {
-                auth.message = "Invalid username/password!";
+            if ($scope.username == "TechM@techm.com" || $scope.password == "TechM") {
+                $state.go('dashboard');
             }
-        }
+            else {
+                $scope.message = "Invalid username/password!";
+            }
+        };
+
 
     }
 

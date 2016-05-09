@@ -8,15 +8,11 @@
     angular.module('cmsWebApp').controller('HeaderController', HeaderController);
 
     /*Inject angular services to controller*/
-    HeaderController.$inject = ['$scope', '$state', '$uibModal', 'CommonService', 'AuthenticationService'];
+    HeaderController.$inject = ['$scope', '$uibModal'];
 
     /*Function HeaderController*/
-    function HeaderController($scope, $state, $uibModal, CommonService, AuthenticationService) {
+    function HeaderController($scope, $uibModal) {
         var header = this;
-        
-        header.userDetails = CommonService.getItems('cms.user_details');
-        
-        header.userLogOut = userLogOut;
         
         /* function to open modal window with create project form */
         header.onclickCreateEditProject = onclickCreateEditProject;
@@ -59,11 +55,6 @@
          */
         function createProjectHeaderOnEvent() {
             header.onclickCreateEditProject(false);
-        }
-        
-        function userLogOut () {
-            AuthenticationService.authenticate(null);
-            $state.go('login');
         }
     }
 
