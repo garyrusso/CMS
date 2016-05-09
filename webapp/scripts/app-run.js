@@ -24,7 +24,7 @@
         $rootScope.setLoading = setLoading;
 
         //TODO move to services instead of event broadcasting.
-        $rootScope.$on('rootScopeCreateProjectHeaderOnEvent', rootScopeCreateProjectHeaderOnEvent);
+        $rootScope.$on('onCreateProjectHeader', onCreateProjectHeader);
 
         $rootScope.$on('$stateChangeStart', stateChangeStart);
 
@@ -34,16 +34,16 @@
         
         $rootScope.$on('$locationChangeSuccess', locationChangeSuccess);
 
-        /*
-         * @name rootScopeCreateProjectHeaderOnEvent
+        /**
+         * @name onCreateProjectHeader
          * @description
-         *  Broadcast to headerCltr to open modal window with create project form.
+         * Broadcast to manage project Cltr to update the table list.
          */
-        function rootScopeCreateProjectHeaderOnEvent () {
-            $rootScope.$broadcast('createProjectHeaderOnEvent', {});
+        function onCreateProjectHeader () {
+            $rootScope.$broadcast('createProjectEvent', {});
         }
 
-        /*
+        /**
          * @name setLoading
          * @param {Boolean} loading
          * @description

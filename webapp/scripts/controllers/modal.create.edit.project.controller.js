@@ -8,10 +8,10 @@
     angular.module('cmsWebApp').controller('ModalCreateEditProjectController', ModalCreateEditProjectController);
 
     /*Inject angular services to controller*/
-    ModalCreateEditProjectController.$inject = ['$scope', '$uibModalInstance', 'items', '_', '$filter'];
+    ModalCreateEditProjectController.$inject = ['$scope', '$uibModalInstance', 'items', '_', '$filter', 'CommonService'];
 
     /*Function ModalCreateEditProjectController*/
-    function ModalCreateEditProjectController($scope, $uibModalInstance, items, _, $filter) {
+    function ModalCreateEditProjectController($scope, $uibModalInstance, items, _, $filter, CommonService) {
         $scope.items = items;
 
         if (items.edit) {
@@ -99,10 +99,10 @@
         /* Create/Update Proejct submit function*/
         //TODO format
         $scope.submit = function() {
-            if (items.edit) {
-                $scope.data.dateLastModified = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");
-            } else {
+			$scope.data.dateLastModified = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");
+            if (!items.edit) {
                 $scope.data.dateCreated = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");
+				$scope.data.username = CommonService.getItems('username');
             }
 
             $uibModalInstance.close($scope.data);

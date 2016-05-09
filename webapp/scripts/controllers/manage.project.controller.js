@@ -40,6 +40,8 @@
 
         //TODO: move to Commonservice
         projects.deleteProject = projetcsdeleteProject;
+        
+        projects.refreshData = refreshData;
 
         projects.showAllFacetsItems = CommonService.showAllFacetsItems;
 
@@ -49,6 +51,26 @@
             /*counts:[],*/
             data : projects.data.results/*.slice(0,10)*/
         });
+        
+        $scope.$on('createProjectEvent', createProjectEvent);
+        
+        /**
+         * @name createProjectEvent
+         * @description
+         * Update the projects table list.
+         */
+        function createProjectEvent () {
+            projects.refreshData();
+        }
+        
+        function refreshData () {
+            ManageProjectsService.getProjects().then(function(response) {
+                    projects.data = response;
+                    projects.tableParams.settings({
+                        data : projects.data.results.slice(0, 10)
+                    });
+                });
+        }
 
         /*
          * Name: toggleView
@@ -68,13 +90,8 @@
         function projectsCreateProject() {
             //$scope.$emit('rootScopeCreateProjectHeaderOnEvent', {});
             ManageProjectsService.openProjectModal(false).then(function() {
-                ManageProjectsService.getProjects().then(function(response) {
-                    projects.data = response;
-                    projects.tableParams.settings({
-                        data : projects.data.results.slice(0, 10)
-                    });
-                });
-                $log.debug('project created');
+                projects.refreshData();
+                $log.debug('project updated with new one');
             });
         }
 

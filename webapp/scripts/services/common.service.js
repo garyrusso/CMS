@@ -55,7 +55,10 @@
          * @description
          * return json object from session storage.
          */
-        function getItems(key) {
+        function getItems(key) {			
+			if(key === 'username') {
+				return angular.fromJson(localStorage.getItem('cms.user_details')).username;
+			}
             return angular.fromJson(localStorage.getItem(key));
         }
 

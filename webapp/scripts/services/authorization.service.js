@@ -15,20 +15,22 @@
     angular.module('cmsWebApp').service('AuthorizationService', AuthorizationService);
 
     /*Inject angular services*/
-    AuthorizationService.$inject = ['$rootScope', '$state', 'AuthenticationService'];
+    AuthorizationService.$inject = ['$rootScope', '$state', 'AuthenticationService', '$log'];
 
-    function AuthorizationService($rootScope, $state, AuthenticationService) {
+    function AuthorizationService($rootScope, $state, AuthenticationService, $log) {
         return {
             authorize : authorize
         };
         
         function authorize() {
+			$log.debug('Authorizing User');
             return AuthenticationService.identity().then(function() {
                 var isAuthenticated = AuthenticationService.isAuthenticated();
 
                 if ($rootScope.toState.data.roles && $rootScope.toState.data.roles.length > 0 && 
                     !AuthenticationService.isInAnyRole($rootScope.toState.data.roles)) {
                     if (isAuthenticated) {
+						
                         //TODO add accessdenied
                         //$state.go('accessdenied');
                     // user is signed in but not authorized for desired state
@@ -36,6 +38,7 @@
                         // user is not authenticated.
                         // now, send them to the signin state so they can log in
                         $state.go('login');
+						$rootScope.setLoading(false);
                     }
                 }
             });

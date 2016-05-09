@@ -9,9 +9,9 @@
     angular.module('cmsWebApp').service('ManageProjectsService', ManageProjectsService);
 
     /*Inject angular services*/
-    ManageProjectsService.$inject = ['$q', '_', '$http', '$log', 'APP_CONFIG', '$uibModal'];
+    ManageProjectsService.$inject = ['$rootScope', '$q', '_', '$http', '$log', 'APP_CONFIG', '$uibModal'];
 
-    function ManageProjectsService($q, _, $http, $log, APP_CONFIG, $uibModal) {
+    function ManageProjectsService($rootScope, $q, _, $http, $log, APP_CONFIG, $uibModal) {
         return {
             getProjects : getProjects,
             openProjectModal : openProjectModal,
@@ -30,7 +30,7 @@
          */
         function getProjects(searchText, pageNumber, pageSize, orderBy) {
             $log.debug('getProjects - ManageProjectsService', searchText, pageNumber, pageSize, orderBy);
-            var params = {
+			var params = {
                 searchText : _.isString(searchText) ? searchText : '',
                 pageNumber : _.isNumber(pageNumber) ? pageNumber : 0,
                 pageSize : _.isNumber(pageSize) ? pageSize : APP_CONFIG.limit,
@@ -66,13 +66,16 @@
             });
 
             modalInstance.result.then(function(updatedData) {
+                $rootScope.setLoading(true);
                 if (editProject) {
                     self.updateProject(updatedData).then(function(data) {
                         deffered.resolve(data);
+                        $rootScope.setLoading(false);
                     });
                 } else {
                     self.createProject(updatedData).then(function(data) {
                         deffered.resolve(data);
+                        $rootScope.setLoading(false);
                     });
                 }
             }, function() {
