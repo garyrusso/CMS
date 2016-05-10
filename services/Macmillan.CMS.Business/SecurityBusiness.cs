@@ -28,8 +28,7 @@ namespace Macmillan.CMS.Business
             ////Build XML
             //string AuthenticationXML = this.BuildauthenticationXML(Authentication);         
             ////Post it to MarkLogic     
-
-       
+           
             return this.securityDAL.ValidateUserCredentials(authentication);
         }
 

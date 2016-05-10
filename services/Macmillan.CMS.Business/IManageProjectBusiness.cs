@@ -9,6 +9,11 @@ namespace Macmillan.CMS.Business
 {
     public interface IManageProjectBusiness
     {
-        object CreateProject(Project project);        
+        object CreateProject(Project project);
+        object UpdateProject(Project project);
+        object DeleteProject(Project project);
+        object GetProjectDetails(int projectId);
+        object GetProjectMasterData(string type);
+        object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy);
     }
 }

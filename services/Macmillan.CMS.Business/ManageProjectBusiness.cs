@@ -1,5 +1,6 @@
 ﻿using Macmillan.CMS.Common.Models;
 using Macmillan.CMS.DAL;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -23,14 +24,12 @@ namespace Macmillan.CMS.Business
         public object CreateProject(Project project)
         {
             //Build create project XML
-            string projectXML = this.BuildProjectXML(project);
 
-            //Post it to MarkLogic
+            //string projectXML = this.BuildProjectXML(project);
 
+            //Post it to MarkLogic  
 
-
-
-            return null;
+            return this.dal.CreateProject(project);
         }
 
         private string BuildProjectXML(Project project)
@@ -58,6 +57,31 @@ namespace Macmillan.CMS.Business
             text.Replace("##createdby##", project.CreatedBy);
 
             return text.ToString();
+        }
+
+        public object UpdateProject(Project project)
+        {
+            return this.dal.UpdateProject(project);
+        }
+
+        public object DeleteProject(Project project)
+        {
+            return this.dal.DeleteProject(project);
+        }
+
+        public object GetProjectDetails(int projectId)
+        {
+            return this.dal.GetProjectDetails(projectId);
+        }
+
+        public object GetProjectMasterData(string type)
+        {
+            return this.dal.GetProjectMasterData(type);
+        }
+
+        public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
+        {
+            return this.dal.SearchProjects(searchText, pageNumber, pageSize, orderBy);
         }
     }
 }
