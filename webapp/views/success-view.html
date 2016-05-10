@@ -20,9 +20,21 @@
     <div class="row cms-successpanel-row cms-successpanel-row2 ">
         <div class="col-xs-12 cms-successpanel-row-flex">
             <div class="row cms-successpanel-row-flex-box">
-                <div class="col-xs-12 text-capitalize">
-                    <h2 ><span ng-bind="ss.data.name "></span> was created.</h2>
-                    <p>Go to <a ui-sref="projects">Project View</a></p>
+                <div class="col-xs-12 text-capitalize">                    
+                    <div ng-if="ss.data.status=='edit'">
+                        <h2><span ng-bind="ss.data.name "></span> was updated.</h2>
+                    </div>
+                    <div ng-if="ss.data.status=='new'">
+                        <h2><span ng-bind="ss.data.name "></span> was created.</h2>
+                    </div>
+                    <div ng-if="ss.data.status=='delete'">
+                        <h2>
+                            <span ng-bind="ss.data.name "></span> delete ticket was created.
+                            <p>You will receive an email once it is complete.</p>
+                        </h2>
+                    </div>
+                    <p>Go to <a ui-sref="projects"><u>Project View</u></a></p>
+                </div>
                 </div>
             </div>
         </div>
