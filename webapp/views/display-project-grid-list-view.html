@@ -34,7 +34,7 @@
         <div >
             <table ng-table="projects.tableParams" class="table table-condensed table-bordered table-striped">
                 <tr ng-if="projects.listView" ng-repeat="issue in $data">
-                    <td data-title="'Title'">{{issue.Title}}</td>
+                    <td class="text-capitalize" data-title="'Title'">{{issue.Title}}</td>
                     <td data-title="'Owner'">{{issue.username}}</td>
                     <td data-title="'Date Modified'">{{issue.dateLastModified}}</td>
                     <td data-title="'View'" class="cms-main-display-center"><a href="#/projectview"><span class="glyphicon glyphicon-eye-open"></span></a></td>
@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-12 cms-content-tile-title">
+                                <div class="col-xs-12 cms-content-tile-title text-capitalize">
                                     <a href="#/projectview">{{issue.Title}}</a>
                                 </div>
                             </div>

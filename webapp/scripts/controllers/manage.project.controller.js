@@ -90,7 +90,7 @@
         function projectsCreateProject() {
             //$scope.$emit('rootScopeCreateProjectHeaderOnEvent', {});
             ManageProjectsService.openProjectModal(false).then(function() {
-                projects.refreshData();
+                //projects.refreshData();
                 $log.debug('project updated with new one');
             });
         }

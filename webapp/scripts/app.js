@@ -87,5 +87,5 @@ angular.module('cmsWebApp').directive('customFocus', [function () {
                 scope.$apply(function () { ctrl.$focused = false; });
             });
         }
-    }
+    };
 }]);

@@ -9,9 +9,9 @@
     angular.module('cmsWebApp').service('ManageProjectsService', ManageProjectsService);
 
     /*Inject angular services*/
-    ManageProjectsService.$inject = ['$rootScope', '$q', '_', '$http', '$log', 'APP_CONFIG', '$uibModal'];
+    ManageProjectsService.$inject = ['$rootScope', '$q', '_', '$http', '$log', 'APP_CONFIG', '$uibModal', '$state'];
 
-    function ManageProjectsService($rootScope, $q, _, $http, $log, APP_CONFIG, $uibModal) {
+    function ManageProjectsService($rootScope, $q, _, $http, $log, APP_CONFIG, $uibModal, $state) {
         return {
             getProjects : getProjects,
             openProjectModal : openProjectModal,
@@ -71,11 +71,13 @@
                     self.updateProject(updatedData).then(function(data) {
                         deffered.resolve(data);
                         $rootScope.setLoading(false);
+                        $state.go('success',{type:'project',status:'edit',name:data.Title,id:data.uri}, { location: false });
                     });
                 } else {
                     self.createProject(updatedData).then(function(data) {
                         deffered.resolve(data);
                         $rootScope.setLoading(false);
+                        $state.go('success',{type:'project',status:'new',name:data.Title,id:data.uri}, { location: false });
                     });
                 }
             }, function() {

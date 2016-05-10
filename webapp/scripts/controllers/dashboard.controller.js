@@ -7,10 +7,10 @@
     angular.module('cmsWebApp').controller('DashboardController', DashboardController);
 
     /*Inject angular services to controller*/
-    DashboardController.$inject = ['$scope', 'NgTableParams', 'CommonService', 'ManageProjectsService'];
+    DashboardController.$inject = ['$scope', 'NgTableParams', 'CommonService', 'ManageProjectsService', '$log'];
 
     /*Function DashboardController*/
-    function DashboardController($scope, NgTableParams, CommonService, ManageProjectsService) {
+    function DashboardController($scope, NgTableParams, CommonService, ManageProjectsService, $log) {
         var dashboard = this;
 
         dashboard.data = {
@@ -241,7 +241,7 @@
         function dashboardCreateProject() {
             ManageProjectsService.openProjectModal(false).then(function() {
                 $log.debug('project created - header');
-                $scope.$emit('onCreateProjectHeader', {});
+                //$scope.$emit('onCreateProjectHeader', {});
             });
         }
 
