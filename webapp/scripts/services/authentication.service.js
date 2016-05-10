@@ -67,16 +67,20 @@
             else
                 localStorage.removeItem("cms.user_details");
         }
-        
-        function authenticateUser (postdata) {
+
+        function authenticateUser(postdata) {
             var deferred = $q.defer(), self = this;
-            
-            $http.post('Security',postdata).then(function(response){
-                response.data.username = postdata.username;
-                response.data.roles = ['User'];
-                self.authenticate(response.data);
-                deferred.resolve(response.data);
-            }, function(message){
+
+            $http.post('Security', postdata).then(function(response) {
+                if (!response.error && response.session_token) {
+                    response.data.username = postdata.username;
+                    response.data.roles = ['User'];
+                    self.authenticate(response.data);
+                    deferred.resolve(response.data);
+                } else {
+                    deferred.reject(response);
+                }
+            }, function(message) {
                 deferred.reject(message);
             });
             return deferred.promise;
@@ -96,7 +100,7 @@
             }
 
             //read the identity from localStorage.
-            
+
             _identity = angular.fromJson(localStorage.getItem("cms.user_details"));
             this.authenticate(_identity);
             deferred.resolve(_identity);

@@ -43,28 +43,9 @@
         }
 
         /*Project state dropdown*/
-        var projectStates = {
-            stepsInvolved : [{
-                label : "In Progress",
-                value : "In Progress"
-            }, {
-                label : "Active",
-                value : "Active"
-            }, {
-                label : "Completed",
-                value : "Completed"
-            }, {
-                label : "Inactive",
-                value : "Inactive"
-            }],
-            valueSelected : {
-                label : $scope.data.projectState,
-                value : $scope.data.projectState
-            }
-        };
+        $scope.projectStates =  ["In Progress", "Active", "Completed","Inactive"];
 
-        $scope.list = projectStates.stepsInvolved;
-        $scope.selected = projectStates.valueSelected;
+        
 
         /*Project Subject dropdown */
         $scope.subjects = [{

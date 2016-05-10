@@ -21,10 +21,10 @@
     <div class="form-group row">
         <div class="col-md-8">
             <label for="InputProjectState">Project State*</label>       
-            <select class="form-control" name="projectState" id="projectState"
+            <select class="form-control" name="projectState" id="projectState" ng-model = "data.projectState" 
                     ng-class="{red: projectForm.projectState.$invalid &&  projectForm.projectState.$touched && !projectForm.projectState.$focused}"
-                    required>
-                <option ng-repeat="item in list" ng-selected="{{selected.label == item.label}}">{{item.label}}</option>
+                    required ng-options="states for states in projectStates">
+                <!-- option ng-repeat="item in list" ng-selected="{{selected.label == item.label}}">{{item.label}}</option -->
             </select>
         </div>
     </div>
