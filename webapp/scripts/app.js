@@ -14,39 +14,70 @@ function($stateProvider, $urlRouterProvider) {
     //TODO Move route config to configs folder
     //
     // For any unmatched url, redirect to /state1
-    $urlRouterProvider.otherwise("/login");
+    $urlRouterProvider.otherwise("/dashboard");
     //
     // Now set up the states
     $stateProvider.state('login', {
         url : "/login",
         templateUrl : "views/login.html",
-        controller : 'AuthenticationController',
+        controller : 'LoginController',
         controllerAs : 'auth'
     })//Dashboard
     .state('dashboard', {
         url : "/dashboard",
         templateUrl : "views/commonMainWithNav.html",
         controller : 'DashboardController',
-        controllerAs : 'dashboard'
+        controllerAs : 'dashboard',
+        data : {
+            roles : ['User']
+        }
     })
     .state('projects', {
         url : "/projects",
         templateUrl : "views/commonMainWithNav.html",
         controller : 'ManageProjectController',
-        controllerAs : 'projects'
+        controllerAs : 'projects',
+        resolve : {
+            routeResolvedProjectList : projectList
+        },
+        data : {
+            roles : ['User']
+        }
+        
     })
     .state('projectview', {
-        url : "/projectview",
+        url : "/projects/projectview?uri",
         templateUrl : "views/projectview.html",
-        controller : 'ManageProjectController',
-        controllerAs : 'projects'
+        controller : 'ViewProjectController',
+        controllerAs : 'project',
+        resolve : {
+            routeResolvedProjectView : projectVeiw
+        },
+        data : {
+            roles : ['User']
+        }
     })
     .state('success', {
         url : "/success?type&status&name&id",
         templateUrl : "views/success-view.html",
         controller : 'SuccessStatusController',
-        controllerAs : 'ss'
+        controllerAs : 'ss',
+        data : {
+            roles : ['User']
+        }
     }); 
+    projectList.$inject = ['ManageProjectsService'];
+    //TODO doc
+    function projectList (ManageProjectsService) {
+        return ManageProjectsService.getProjects();
+    }
+    
+    projectVeiw.$inject = ['$stateParams', 'ManageProjectsService', '$log'];
+    //TODO doc
+    function projectVeiw ($stateParams, ManageProjectsService, $log) {
+        $log.debug('projectVeiw'+$stateParams.uri);
+        return ManageProjectsService.viewProject($stateParams.uri);
+    }
 }]);
 
 // Attaches event listeners
@@ -67,5 +98,5 @@ angular.module('cmsWebApp').directive('customFocus', [function () {
                 scope.$apply(function () { ctrl.$focused = false; });
             });
         }
-    }
+    };
 }]);

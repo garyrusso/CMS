@@ -7,10 +7,10 @@
     angular.module('cmsWebApp').controller('DashboardController', DashboardController);
 
     /*Inject angular services to controller*/
-    DashboardController.$inject = ['$scope', 'NgTableParams', 'CommonService'];
+    DashboardController.$inject = ['$scope', 'NgTableParams', 'CommonService', 'ManageProjectsService', '$log'];
 
     /*Function DashboardController*/
-    function DashboardController($scope, NgTableParams, CommonService) {
+    function DashboardController($scope, NgTableParams, CommonService, ManageProjectsService, $log) {
         var dashboard = this;
 
         dashboard.data = {
@@ -233,13 +233,16 @@
             data : dashboard.data.results.slice(0, 5)
         });
 
-        /*
-         * Name: dashboardCreateProject
-         * Desc:
-         * open create project modal set on header controller, so first emit event to rootscope & rootscope broadcast to header
+        /**
+         * @name dashboardCreateProject
+         * @description
+         * open create project modal
          */
         function dashboardCreateProject() {
-            $scope.$emit('rootScopeCreateProjectHeaderOnEvent', {});
+            ManageProjectsService.openProjectModal(false).then(function() {
+                $log.debug('project created - header');
+                //$scope.$emit('onCreateProjectHeader', {});
+            });
         }
 
     }

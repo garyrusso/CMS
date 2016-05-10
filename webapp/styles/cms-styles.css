@@ -85,7 +85,7 @@ header {
 .cms-headerbackground {
     background-color: #363940;
 }
-.cms-headerfont {
+.cms-headerfont > a{
     font-family: sans-serif;
     font-weight: bold;
     color: white;
@@ -216,6 +216,38 @@ td.cms-main-display-center {
   border: solid 1px red;
 }
 
+.cms-successpanel {
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.cms-successpanel-row {
+    display: table-row;
+}
+
+.cms-successpanel-row2 {
+    width: 100%;
+    height: 100%;
+}
+.cms-successpanel-row-flex {
+    width: 100%;
+    height: 100%;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    -moz-justify-content: center;
+    justify-content: center;
+}
+
+.cms-successpanel-row-flex-box {
+    margin-bottom: 130px;
+}
 
 /*************
  * breadcrumb

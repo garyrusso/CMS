@@ -8,107 +8,110 @@
     angular.module('cmsWebApp').controller('ModalCreateEditProjectController', ModalCreateEditProjectController);
 
     /*Inject angular services to controller*/
-    ModalCreateEditProjectController.$inject = ['$scope', '$uibModalInstance', '$http', '$httpBackend', 'items'];
+    ModalCreateEditProjectController.$inject = ['$scope', '$uibModalInstance', 'items', '_', '$filter', 'CommonService'];
 
-
-  
     /*Function ModalCreateEditProjectController*/
-    function ModalCreateEditProjectController($scope, $uibModalInstance, $http, $httpBackend, items) {
+    function ModalCreateEditProjectController($scope, $uibModalInstance, items, _, $filter, CommonService) {
         $scope.items = items;
+
         if (items.edit) {
-            $scope.data = {
-                "Title": "Hockenbury 5e-4",
-                "description": "Project description",
-                "projectState": "Active",
-                "subjectHeadings": [
-                    {
-                        "subjectHeading": "Psychology"
-                    },
-                    {
-                        "subjectHeading": "Biology"
-                    }
-                ],
-                "subjectKeywords": [
-                     {
-                         "subjectKeyword": "Psychology"
-                     },
-                     {
-                         "subjectKeyword": "Biology"
-                     }
-                ]
-            };
+            $scope.data = items.data;
+
         } else {
             $scope.data = {
-                "Title": "",
-                "description": "",
-                "projectState": "",
-                "subjectHeadings": [
-                    {
-                        "subjectHeading": ""
-                    },
-                    {
-                        "subjectHeading": ""
-                    }
-                ],
-                "subjectKeywords": [
-                     {
-                         "subjectKeyword": ""
-                     },
-                     {
-                         "subjectKeyword": ""
-                     }
-                ]
-            }
+                "systemUID" : "d41d8cd98f00b" + Math.random(),
+                "uri" : '/projects/project' + Math.random() + '.xml',
+                "path" : "fn:doc(\"/projects/project" + Math.random() + ".xml\")",
+                "href" : "/v1/documents?uri=%2Fprojects%2Fproject1.xml",
+                "mimetype" : "application/xml",
+                "format" : "xml",
+                "dateCreated" : '',
+                "Title" : "",
+                "description" : "",
+                "projectState" : "",
+                "subjectHeadings" : [],
+                "subjectKeywords" : [{
+                    "subjectKeyword" : ""
+                }]
+            };
         }
 
         $scope.cancel = closeModalProject;
-        
-        function closeModalProject () {
+
+        function closeModalProject() {
             $uibModalInstance.dismiss('cancel');
         }
 
-        //Project state
-        $scope.projectState = {
-            availableOptions: [
-              { id: '1', name: 'In Progress' },
-              { id: '2', name: 'Active' },
-              { id: '3', name: 'Completed' },
-              { id: '4', name: 'Inactive' }
-            ],
-            selectedOption: { id: '0', name: '' } //This sets the default value of the select in the ui
+        /*Project state dropdown*/
+        var projectStates = {
+            stepsInvolved : [{
+                label : "In Progress",
+                value : "In Progress"
+            }, {
+                label : "Active",
+                value : "Active"
+            }, {
+                label : "Completed",
+                value : "Completed"
+            }, {
+                label : "Inactive",
+                value : "Inactive"
+            }],
+            valueSelected : {
+                label : $scope.data.projectState,
+                value : $scope.data.projectState
+            }
         };
 
-        // Create Proejct submit
-        $scope.submit = function () {          
-            var res = $http.post("/echo/json/", $scope.data);
-            res.success(function (data, status, headers, config) {
-                $scope.projects = data;                
-            });
-            res.error(function (data, status, headers, config) {
-                 alert("failure message: " + JSON.stringify({ data: data }));
-            });
+        $scope.list = projectStates.stepsInvolved;
+        $scope.selected = projectStates.valueSelected;
 
+        /*Project Subject dropdown */
+        $scope.subjects = [{
+            "subjectHeading" : "Psychology"
+        }, {
+            "subjectHeading" : "Economics"
+        }, {
+            "subjectHeading" : "History"
+        },{
+            "subjectHeading" : "Biology"
+        }];
+
+        /*$scope.selectedSubjects = _.chain($scope.subjects).indexBy('subjectHeading').mapObject(function(val, key) {
+         return {selected: _.contains(_.pluck($scope.data.subjectHeadings), key)};
+         }).value();*/
+
+        $scope.statuses = $scope.subjects;
+        $scope.selectedStatuses = $scope.data.subjectHeadings;
+
+        /* Create/Update Proejct submit function*/
+        //TODO format
+        $scope.submit = function() {
+			$scope.data.dateLastModified = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");
+            if (!items.edit) {
+                $scope.data.dateCreated = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");
+				$scope.data.username = CommonService.getItems('username');
+            }
+
+            $uibModalInstance.close($scope.data);
         };
 
-        //Dyanmic Keyword textbox
+        /*Dyanmic Keyword textbox*/
         var counter = 0;
 
-
-        $scope.keyword = [{
-            value: '',
-        }, {
-            value: '',
-        }]
-
+        $scope.keyword = $scope.data.subjectKeywords;
 
         $scope.addKeywordField = addKeywordField;
 
         function addKeywordField(keyword, $event) {
             counter++;
-            keyword.push({ id: counter, name: '', inline: true });
+            keyword.push({
+                id : counter,
+                subjectKeyword : '',
+                inline : true
+            });
             $event.preventDefault();
         }
-        
 
     }
 
