@@ -14,9 +14,12 @@
     function ManageProjectsService($rootScope, $q, _, $http, $log, APP_CONFIG, $uibModal, $state) {
         return {
             getProjects : getProjects,
+            viewProject : viewProject,
             openProjectModal : openProjectModal,
+            openDeleteProjectModal : openDeleteProjectModal,
             createProject : createProject,
-            updateProject : updateProject
+            updateProject : updateProject,
+            deleteProject : deleteProject
         };
 
         /**
@@ -43,14 +46,34 @@
                 return response.data;
             });
         }
+        
+        /**
+         * @name viewProject
+         * @param {String} uri
+         * @Description
+         * Get project details based on uri
+         */
+        function viewProject(uri) {
+            $log.debug('viewProject - ManageProjectsService', uri);
+            var params = {
+                uri : _.isString(uri) ? uri : ''
+            };
+
+            return $http.get('projects', {
+                data : params
+            }).then(function(response) {
+                return response.data;
+            });
+        }
 
         /**
-         * @name onclickCreateEditProject
+         * @name openProjectModal
          * @param {Boolean} editProject - modal is loaded with edit form or new form.
+         * @param {Object} data - get data on for edit project
          * @Description
          * open modal window with create/Edit project form
          */
-        function openProjectModal(editProject) {
+        function openProjectModal(editProject, data) {
             var self = this, deffered = $q.defer(), modalInstance = $uibModal.open({
                 templateUrl : 'views/modal-template.html',
                 controller : 'ModalCreateEditProjectController',
@@ -59,7 +82,8 @@
                     items : function() {
                         return {
                             templateUrl : 'views/modal-create-edit-project.html',
-                            edit : editProject
+                            edit : editProject,
+                            data : data
                         };
                     }
                 }
@@ -86,6 +110,39 @@
 
             return deffered.promise;
         }
+        
+        /**
+         * @name openDeleteProjectModal
+         * @param {Object} data - get data on for delete project
+         * @Description
+         * open modal window with Delete project form
+         */
+        function openDeleteProjectModal (data) {
+            var self = this, deffered = $q.defer(), modalInstance = $uibModal.open({
+                templateUrl : 'views/modal-template.html',
+                controller : 'ModalDeleteProjectController',
+                size : 'md',
+                resolve : {
+                    items : function() {
+                        return {
+                            templateUrl : 'views/modal-delete-project.html',
+                            data : data
+                        };
+                    }
+                }
+            });
+
+            modalInstance.result.then(function(project) {
+                self.deleteProject(project).then(function(data) {
+                        deffered.resolve(data);
+                        $rootScope.setLoading(false);
+                        $state.go('success',{type:'project',status:'delete',name:data.Title,id:data.uri}, { location: false });
+                    });
+            }, function() {
+
+            });
+            return deffered.promise;
+        }
 
         function createProject(postData) {
             return $http.post('projects', postData).then(function(response) {
@@ -94,8 +151,14 @@
 
         }
 
-        function updateProject() {
+        function updateProject(postData) {
             return $http.put('projects', postData).then(function(response) {
+                return response.data;
+            });
+        }
+        
+        function deleteProject(postData) {
+            return $http.delete('projects', {data:postData}).then(function(response) {
                 return response.data;
             });
         }

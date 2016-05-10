@@ -15,21 +15,7 @@
         $scope.items = items;
 
         if (items.edit) {
-            $scope.data = {
-                "Title" : "Hockenbury 5e-4",
-                "description" : "Project description",
-                "projectState" : "Active",
-                "subjectHeadings" : [{
-                    "subjectHeading" : "Psychology"
-                }, {
-                    "subjectHeading" : "Biology"
-                }],
-                "subjectKeywords" : [{
-                    "subjectKeyword" : "Psychology"
-                }, {
-                    "subjectKeyword" : "Biology"
-                }]
-            };
+            $scope.data = items.data;
 
         } else {
             $scope.data = {
@@ -87,6 +73,8 @@
             "subjectHeading" : "Economics"
         }, {
             "subjectHeading" : "History"
+        },{
+            "subjectHeading" : "Biology"
         }];
 
         /*$scope.selectedSubjects = _.chain($scope.subjects).indexBy('subjectHeading').mapObject(function(val, key) {

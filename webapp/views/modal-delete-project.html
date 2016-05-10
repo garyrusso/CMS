@@ -4,18 +4,20 @@
     <p>
         By deleting this project all data was be lost and associated content will be orphaned. Please enter the term “Delete” in the textbox below and click “Confirm Delete”
     </p>
+    <form name="deleteProject" novalidate> 
     <div class="form-group">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <input type="text" class="form-control" />
+                <input type="text" ng-model="deleteText" class="form-control" />
             </div>
             
         </div>
     </div>
     <p class="text-center">
-        <button type="submit" class="btn btn-default">
+        <button type="submit" ng-click="deleteProject()" ng-disabled="!(deleteText && deleteText.toLowerCase() === 'delete')" class="btn btn-default">
             Confirm Delete
         </button>
         
     </p>
+    </form>
 </form>

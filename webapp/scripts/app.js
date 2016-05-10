@@ -46,10 +46,13 @@ function($stateProvider, $urlRouterProvider) {
         
     })
     .state('projectview', {
-        url : "/projectview",
+        url : "/projects/projectview?uri",
         templateUrl : "views/projectview.html",
-        controller : 'ManageProjectController',
-        controllerAs : 'projects',
+        controller : 'ViewProjectController',
+        controllerAs : 'project',
+        resolve : {
+            routeResolvedProjectView : projectVeiw
+        },
         data : {
             roles : ['User']
         }
@@ -63,9 +66,17 @@ function($stateProvider, $urlRouterProvider) {
             roles : ['User']
         }
     }); 
-    
+    projectList.$inject = ['ManageProjectsService'];
+    //TODO doc
     function projectList (ManageProjectsService) {
         return ManageProjectsService.getProjects();
+    }
+    
+    projectVeiw.$inject = ['$stateParams', 'ManageProjectsService', '$log'];
+    //TODO doc
+    function projectVeiw ($stateParams, ManageProjectsService, $log) {
+        $log.debug('projectVeiw'+$stateParams.uri);
+        return ManageProjectsService.viewProject($stateParams.uri);
     }
 }]);
 
