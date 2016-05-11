@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Namespace declaration-->
+<mml:userDocument xmlns:mml="http://macmillanlearning.com/">	
+	<mml:users>
+		<!--Elements specific to individual user data-->
+		<mml:user>
+			<mml:administrative>
+				<mml:systemID>a8b451a2517847f470ff65ee92af8482</mml:systemID>
+				<mml:uri>www.macmillan.com/workflow/user/bcross</mml:uri>
+				<mml:dateCreated>2015-04-12 10:35</mml:dateCreated>
+				<mml:createdBy>gsrivat</mml:createdBy>
+				<mml:dateLastModified>2015-04-12 11:30</mml:dateLastModified>
+				<mml:modifiedBy>gsrivat</mml:modifiedBy>
+				<mml:objectType>User</mml:objectType>
+			</mml:administrative>
+			<mml:descriptive>
+				<mml:username>bcross</mml:username>
+				<mml:fullName>Brian Cross</mml:fullName>
+				<mml:firstName>Brian</mml:firstName>
+				<mml:lastName>Cross</mml:lastName>
+				<mml:email>brian.cross@macmillan.com</mml:email>
+				<mml:password>Password123!</mml:password>
+			</mml:descriptive>
+		</mml:user>
+		<mml:user>
+			<mml:administrative>
+				<mml:systemID>0561c08c8549298fe158de2ce0ad5fce</mml:systemID>
+				<mml:uri>www.macmillan.com/workflow/user/apwar</mml:uri>
+				<mml:dateCreated>2015-04-12 10:36</mml:dateCreated>
+				<mml:createdBy>gsrivat</mml:createdBy>
+				<mml:dateLastModified>2015-04-12 10:36</mml:dateLastModified>
+				<mml:modifiedBy>gsrivat</mml:modifiedBy>
+				<mml:objectType>User</mml:objectType>
+			</mml:administrative>
+			<mml:descriptive>
+				<mml:username>apwar</mml:username>
+				<mml:fullName>Atul Pawar</mml:fullName>
+				<mml:firstName>Atul</mml:firstName>
+				<mml:lastName>Pawar</mml:lastName>
+				<mml:email>atul.pawar@macmillan.com</mml:email>
+				<mml:password>Password123!</mml:password>
+			</mml:descriptive>
+		</mml:user>
+	</mml:users>
+</mml:userDocument>
