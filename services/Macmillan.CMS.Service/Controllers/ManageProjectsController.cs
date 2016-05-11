@@ -33,6 +33,7 @@ using System.Web.Http;
         { 
             this.business = manageProjectBusiness;
         }  
+
         /// Creates project
         [HttpPost]
         public object CreateProject(HttpRequestMessage request,
@@ -42,25 +43,32 @@ using System.Web.Http;
         }
                
         ///Updates project
+        [HttpPut]
         public object UpdateProject(Project project)
         {
             return this.business.UpdateProject(project);
         }
        
         ///Delete project
-        public object DeleteProject(Project project)
+        [HttpDelete]
+        public object DeleteProject(HttpRequestMessage request,
+            [FromBody] Project project)
         {
-            return this.business.DeleteProject(project);
+            return this.business.DeleteProject(project);          
         }
-   
-        public object GetProjectDetails(int projectId)
+
+        [HttpGet]
+        public object GetProjectDetails(string uri)
         {
-            return this.business.GetProjectDetails(projectId);
+            return this.business.GetProjectDetails(uri);
         }
-        public object GetAllProjects(List<Project> ProjectDetail)
+
+        public object GetProjectMasterData(List<Project> ProjectDetail)
         {
-            return this.business.GetAllProjects(ProjectDetail);
+            return this.business.GetProjectMasterData(ProjectDetail);
         }
+
+        [HttpGet]
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {
             return this.business.SearchProjects(searchText, pageNumber, pageSize, orderBy);
