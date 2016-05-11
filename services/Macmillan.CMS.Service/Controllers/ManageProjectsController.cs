@@ -32,8 +32,7 @@ using System.Web.Http;
         public ManageProjectsController(IManageProjectBusiness manageProjectBusiness)
         { 
             this.business = manageProjectBusiness;
-        }
- 
+        }  
         /// Creates project
         [HttpPost]
         public object CreateProject(HttpRequestMessage request,
@@ -53,17 +52,15 @@ using System.Web.Http;
         {
             return this.business.DeleteProject(project);
         }
-         [HttpGet]
+   
         public object GetProjectDetails(int projectId)
         {
             return this.business.GetProjectDetails(projectId);
         }
-
-        public object GetProjectMasterData(string type)
+        public object GetAllProjects(List<Project> ProjectDetail)
         {
-            return this.business.GetProjectMasterData(type);
+            return this.business.GetAllProjects(ProjectDetail);
         }
-
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {
             return this.business.SearchProjects(searchText, pageNumber, pageSize, orderBy);

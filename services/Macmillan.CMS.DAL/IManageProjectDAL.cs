@@ -13,12 +13,7 @@ namespace Macmillan.CMS.DAL
        object UpdateProject(Project project);
        object DeleteProject(Project project);
        object GetProjectDetails(int projectId);
-       object GetProjectMasterData(string type);
+       object GetAllProjects(List<Project> ProjectDetail);
        object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy);
-       
-       // string GetProjectDetails(string Uri);
-       //List<Project> GetAllProjects(List<Project> ProjectDetail);
-       //List<Project> SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy);
-
     }
 }
