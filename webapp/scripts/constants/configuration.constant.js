@@ -21,7 +21,7 @@
             development : {
 
                 //Set useMocks to true to simulate/mock actual webservice.
-                useMocks : false,
+                useMocks : true,
                 fakeDelay : true,
                 fakeDelayTime: 0,//0.8secs
                 baseUrl: 'http://localhost:34573/api/',

@@ -69,14 +69,14 @@ namespace Macmillan.CMS.Business
             return this.dal.DeleteProject(project);
         }
 
-        public object GetProjectDetails(string uri)
+        public object GetProjectDetails(int projectId)
         {
-            return this.dal.GetProjectDetails(uri);
+            return this.dal.GetProjectDetails(projectId);
         }
 
-        public object GetProjectMasterData(List<Project> ProjectDetail)
+        public object GetAllProjects(List<Project> ProjectDetail)
         {
-            return this.dal.GetProjectMasterData(ProjectDetail);
+            return this.dal.GetAllProjects(ProjectDetail);
         }
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {
