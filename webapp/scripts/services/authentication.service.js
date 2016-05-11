@@ -72,7 +72,7 @@
             var deferred = $q.defer(), self = this;
 
             $http.post('Security', postdata).then(function(response) {
-                if (!response.error && response.session_token) {
+                if (!response.data.errors && response.data.session_token) {
                     response.data.username = postdata.username;
                     response.data.roles = ['User'];
                     self.authenticate(response.data);

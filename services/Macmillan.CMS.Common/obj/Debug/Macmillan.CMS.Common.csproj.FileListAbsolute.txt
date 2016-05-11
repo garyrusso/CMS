@@ -21,3 +21,12 @@ D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\bin\Debug\Newtonsoft.Json.dll
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.dll
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.pdb
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.csprojResolveAssemblyReference.cache
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Common\bin\Debug\Macmillan.CMS.Common.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Common\bin\Debug\Macmillan.CMS.Common.pdb
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Common\bin\Debug\log4net.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Common\bin\Debug\Newtonsoft.Json.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Common\bin\Debug\log4net.xml
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Common\bin\Debug\Newtonsoft.Json.xml
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.csprojResolveAssemblyReference.cache
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.pdb

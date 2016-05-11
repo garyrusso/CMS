@@ -32,14 +32,14 @@ namespace Macmillan.CMS.DAL
 
         public object ValidateUserCredentials(Authentication authentication)
         {
-            var jsonString = @"{'UserName':'UserName','PassWord':'PassWord',}";
+            //var jsonString = @"{'UserName':'UserName','PassWord':'PassWord',}";
 
-            dynamic json = JValue.Parse(jsonString);
+            //dynamic json = JValue.Parse(jsonString);
 
-            var jsonObject = json;//new JObject();
+            //var jsonObject = json;//new JObject();
 
-            dynamic Authentication = jsonObject;
-            if (Authentication.UserName == "UserName" && Authentication.PassWord =="PassWord")
+            //dynamic Authentication = jsonObject;
+            if (authentication.UserName == "username" && authentication.PassWord == "password")
             {
                 JsonNetSerialization ser = new JsonNetSerialization();
                 string content = @"{'session_token':'ZTQyMjE4YTdhYTE3OTI4NTljdhYTU0ZTAyNjk2Mg',
@@ -51,14 +51,16 @@ namespace Macmillan.CMS.DAL
             else
             {
                 JsonNetSerialization ser = new JsonNetSerialization();
-                string content = @"{
-                            'code': 'invalid grant',
-                            'user_message': 'Invalid Authentication',
-                		    'Developers': 'Please review the system logs for more information',
-                		    'info': [],
-                            'data':[]}";
+                string content = @"{'errors': [{
+		                    'code': 'invalid_grant',
+		                    'user_message': 'Invalid Authentication',
+		                    'developer_message': 'Developers: Please review the system logs for more information',
+		                    'info': []
+	                    }],
+	                    'data': []
+                        }";
                 return ser.DeSerialize(content);
-            }       
+            }
         }
 
     }

@@ -35,3 +35,16 @@ D:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.Com
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.DAL.pdb
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.dll
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.pdb
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.Business.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.Business.pdb
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.Common.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.DAL.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Newtonsoft.Json.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\log4net.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.Common.pdb
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.DAL.pdb
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Newtonsoft.Json.xml
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\log4net.xml
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.csprojResolveAssemblyReference.cache
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.pdb

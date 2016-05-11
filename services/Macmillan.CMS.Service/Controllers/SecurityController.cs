@@ -30,8 +30,9 @@
         //{            
         //    return this.secureBusiness.GetUserData();
         //}
-        [HttpGet]
-        public object ValidateUserCredentials(Authentication authentication)
+        [HttpPost]
+        public object ValidateUserCredentials(HttpRequestMessage request,   
+            [FromBody] Authentication authentication)
         {     
             return this.secureBusiness.ValidateUserCredentials(authentication);
         }

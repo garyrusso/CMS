@@ -35,7 +35,9 @@ using System.Web.Http;
         }
  
         /// Creates project
-        public object CreateProject(Project project)
+        [HttpPost]
+        public object CreateProject(HttpRequestMessage request,
+            [FromBody] Project project)
         {
             return this.business.CreateProject(project);
         }
