@@ -76,7 +76,7 @@ namespace Macmillan.CMS.Business
 
         public object GetAllProjects(List<Project> ProjectDetail)
         {
-            return this.dal.GetAllProjects(ProjectDetail);
+            return ProjectDetail;
         }
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {

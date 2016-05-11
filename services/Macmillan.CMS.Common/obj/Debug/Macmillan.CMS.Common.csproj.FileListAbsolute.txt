@@ -30,3 +30,6 @@ D:\CMS Workstation\CMS\services\Macmillan.CMS.Common\bin\Debug\Newtonsoft.Json.x
 D:\CMS Workstation\CMS\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.csprojResolveAssemblyReference.cache
 D:\CMS Workstation\CMS\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.dll
 D:\CMS Workstation\CMS\services\Macmillan.CMS.Common\obj\Debug\Macmillan.CMS.Common.pdb
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\bin\Debug\log4net.dll
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\bin\Debug\log4net.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\bin\Debug\Newtonsoft.Json.xml

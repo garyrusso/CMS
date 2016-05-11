@@ -186,3 +186,27 @@ D:\CMS Workstation\CMS\services\Macmillan.CMS.Service\bin\System.Web.Razor.xml
 D:\CMS Workstation\CMS\services\Macmillan.CMS.Service\bin\System.Web.WebPages.xml
 D:\CMS Workstation\CMS\services\Macmillan.CMS.Service\bin\System.Web.WebPages.Deployment.xml
 D:\CMS Workstation\CMS\services\Macmillan.CMS.Service\bin\System.Web.WebPages.Razor.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\Antlr3.Runtime.dll
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\Microsoft.Practices.Unity.WebApi.dll
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\System.Web.Cors.dll
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\System.Web.Http.Cors.dll
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\WebActivatorEx.dll
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\WebGrease.dll
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\Microsoft.Practices.ServiceLocation.pdb
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\Microsoft.Practices.ServiceLocation.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\Microsoft.Practices.Unity.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\Microsoft.Practices.Unity.Configuration.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\Microsoft.Practices.Unity.WebApi.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\Newtonsoft.Json.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\System.Net.Http.Formatting.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\System.Web.Http.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\System.Web.Http.Cors.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\System.Web.Http.WebHost.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\System.Web.Helpers.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\System.Web.Mvc.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\System.Web.Razor.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\System.Web.WebPages.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\System.Web.WebPages.Deployment.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\System.Web.WebPages.Razor.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\log4net.xml

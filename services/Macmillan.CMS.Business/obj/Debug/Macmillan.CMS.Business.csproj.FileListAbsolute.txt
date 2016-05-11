@@ -48,3 +48,5 @@ D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\log4net.xml
 D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.csprojResolveAssemblyReference.cache
 D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.dll
 D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.pdb
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\bin\Debug\Newtonsoft.Json.xml
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\bin\Debug\log4net.xml
