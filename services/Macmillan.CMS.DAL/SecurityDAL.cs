@@ -32,14 +32,8 @@ namespace Macmillan.CMS.DAL
 
         public object ValidateUserCredentials(Authentication authentication)
         {
-            //var jsonString = @"{'UserName':'UserName','PassWord':'PassWord',}";
-
-            //dynamic json = JValue.Parse(jsonString);
-
-            //var jsonObject = json;//new JObject();
-
-            //dynamic Authentication = jsonObject;
-            if (authentication.UserName == "username" && authentication.PassWord == "password")
+ 
+            if (authentication.username == "username" && authentication.password == "password")
             {
                 JsonNetSerialization ser = new JsonNetSerialization();
                 string content = @"{'session_token':'ZTQyMjE4YTdhYTE3OTI4NTljdhYTU0ZTAyNjk2Mg',
