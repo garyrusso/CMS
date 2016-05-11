@@ -13,7 +13,7 @@ namespace Macmillan.CMS.Business
         object UpdateProject(Project project);
         object DeleteProject(Project project);
         object GetProjectDetails(int projectId);
-        object GetProjectMasterData(string type);
+        object GetAllProjects(List<Project> ProjectDetail);
         object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy);
     }
 }

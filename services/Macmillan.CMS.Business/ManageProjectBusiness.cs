@@ -74,11 +74,10 @@ namespace Macmillan.CMS.Business
             return this.dal.GetProjectDetails(projectId);
         }
 
-        public object GetProjectMasterData(string type)
+        public object GetAllProjects(List<Project> ProjectDetail)
         {
-            return this.dal.GetProjectMasterData(type);
+            return this.dal.GetAllProjects(ProjectDetail);
         }
-
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {
             return this.dal.SearchProjects(searchText, pageNumber, pageSize, orderBy);

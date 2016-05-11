@@ -90,17 +90,26 @@ namespace Macmillan.CMS.DAL
             //Call ML and Delete the project xml
             return null;
         }
-
         public object GetProjectDetails(int projectId)
         {
             return 0;
         }
-
-        public object GetProjectMasterData(string type)
+        public object GetAllProjects(List<Project> ProjectDetail)
         {
-            return null;
+            JsonNetSerialization ser = new JsonNetSerialization();
+            string content = @"{'Title': 'Hockenbury 5e-1',
+          'uri': '/mydocuments/project1.xml',
+          'path': 'fn:doc(\'/mydocuments/project1.xml\')',
+          'href': '/v1/documents?uri=%2Fmydocuments%2Fproject1.xml',
+          'mimetype': 'application/xml',
+          'format': 'xml',
+          'dateLastModified': '2015-04-15 13:30',
+          'username': 'bcross',
+          'fullName': 'Brian Cross'
+           }
+           }";
+            return ser.DeSerialize(content);
         }
-
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {
             return null;
