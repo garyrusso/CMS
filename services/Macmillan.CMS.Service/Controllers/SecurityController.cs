@@ -24,12 +24,8 @@
         public SecurityController(ISecurityBusiness securityBusiness)
         {
             this.secureBusiness = securityBusiness;
-        }
-        
-        //public object Get()
-        //{            
-        //    return this.secureBusiness.GetUserData();
-        //}
+        }              
+
         [HttpPost]
         public object ValidateUserCredentials(HttpRequestMessage request,   
             [FromBody] Authentication authentication)

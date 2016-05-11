@@ -12,8 +12,8 @@ namespace Macmillan.CMS.DAL
        object CreateProject(Project project);
        object UpdateProject(Project project);
        object DeleteProject(Project project);
-       object GetProjectDetails(int projectId);
-       object GetAllProjects(List<Project> ProjectDetail);
+       object GetProjectDetails(string uri);
+       object GetProjectMasterData(List<Project> ProjectDetail);
        object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy);
     }
 }

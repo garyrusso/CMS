@@ -35,13 +35,13 @@
             $log.debug('getProjects - ManageProjectsService', searchText, pageNumber, pageSize, orderBy);
 			var params = {
                 searchText : _.isString(searchText) ? searchText : '',
-                pageNumber : _.isNumber(pageNumber) ? pageNumber : 0,
+                pageNumber : _.isNumber(pageNumber) ? pageNumber : 1,
                 pageSize : _.isNumber(pageSize) ? pageSize : APP_CONFIG.limit,
                 orderBy : _.isString(orderBy) ? orderBy : '',
             };
 
-            return $http.get('projects', {
-                data : params
+			return $http.get('ManageProjects/SearchProjects', {
+			    params: params
             }).then(function(response) {
                 return response.data;
             });
@@ -59,8 +59,8 @@
                 uri : _.isString(uri) ? uri : ''
             };
 
-            return $http.get('projects', {
-                data : params
+            return $http.get('ManageProjects/GetProjectDetails', {
+                params: params
             }).then(function(response) {
                 return response.data;
             });
@@ -145,20 +145,20 @@
         }
 
         function createProject(postData) {
-            return $http.post('projects', postData).then(function(response) {
+            return $http.post('ManageProjects/CreateProject', postData).then(function (response) {
                 return response.data;
             });
 
         }
 
         function updateProject(postData) {
-            return $http.put('projects', postData).then(function(response) {
+            return $http.put('ManageProjects/UpdateProject', postData).then(function (response) {
                 return response.data;
             });
         }
         
         function deleteProject(postData) {
-            return $http.delete('projects', {data:postData}).then(function(response) {
+            return $http.delete('ManageProjects/DeleteProject', { params: postData }).then(function (response) {
                 return response.data;
             });
         }
