@@ -71,7 +71,7 @@
         function authenticateUser(postdata) {
             var deferred = $q.defer(), self = this;
 
-            $http.post('Security', postdata).then(function(response) {
+            $http.post('Security/ValidateUserCredentials', postdata).then(function (response) {
                 if (!response.data.errors && response.data.session_token) {
                     response.data.username = postdata.username;
                     response.data.roles = ['User'];
