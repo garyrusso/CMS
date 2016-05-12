@@ -20,13 +20,13 @@
                 <tr ng-repeat="issue in $data">
                     <td data-title="'Title'">{{issue.Title}}</td>
                     <td data-title="'Date Modified'">{{issue.dateLastModified}}</td>
-                    <td data-title="'View'" class="cms-main-display-center"><a href="#/projectview"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                    <td data-title="'View'" class="cms-main-display-center"><a ui-sref="projectview({uri:issue.uri})"><span class="glyphicon glyphicon-eye-open"></span></a></td>
                 </tr>
             </table>
 
         </div>
         <div class="pull-right">
-            <a href="#">See all Projects</a>
+            <a ui-sref="search({searchType:'projects'})">See all Projects</a>
         </div>
     </div>
 </div>

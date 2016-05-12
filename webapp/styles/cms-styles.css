@@ -249,6 +249,12 @@ td.cms-main-display-center {
     margin-bottom: 130px;
 }
 
+.cms-vcenter {
+    padding-top:5px;
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
 /*************
  * Search Page 
  *************    

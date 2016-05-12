@@ -24,6 +24,9 @@
         
         /* function to open modal window with create project form */
         header.onclickCreateEditProject = onclickCreateEditProject;
+
+
+
         
         /**
          * @ngdoc method
@@ -60,6 +63,19 @@
          */
         function changeSearchType (searchType) {
             header.searchType = searchType;
+        }
+
+        /**
+         * @ngdoc method
+         * @name mySplit
+         * @methodOf cmsWebApp.controller:HeaderController
+         * @param {String} which is required for split
+         * @description
+         * Split the username/email string.
+         */
+        $scope.cmsSplit = function (string, nb) {
+            var array = string.split('@');
+            return array[nb];
         }
     }
 
