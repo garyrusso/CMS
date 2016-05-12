@@ -46,8 +46,9 @@ namespace Macmillan.CMS.Service.Controllers
             [FromBody] Project project)
         {
             Logger.Debug("Entering CreateProject");
-            return this.business.CreateProject(project);
+            var results = this.business.CreateProject(project);
             Logger.Debug("Exiting CreateProject");
+            return results;
         }
                
         /// <summary>
@@ -59,8 +60,9 @@ namespace Macmillan.CMS.Service.Controllers
         public object UpdateProject(Project project)
         {
             Logger.Debug("Entering UpdateProject");         
-            return this.business.UpdateProject(project);
+            var results= this.business.UpdateProject(project);
             Logger.Debug("Exiting UpdateProject");
+            return results;
         }
        
         /// <summary>
@@ -74,8 +76,9 @@ namespace Macmillan.CMS.Service.Controllers
             [FromBody] Project project)
         {
             Logger.Debug("Entering DeleteProject");
-            return this.business.DeleteProject(project);
+            var results= this.business.DeleteProject(project);
             Logger.Debug("Exiting DeleteProject");
+            return results;
         }
 
         /// <summary>
@@ -87,8 +90,9 @@ namespace Macmillan.CMS.Service.Controllers
         public object GetProjectDetails(string uri)
         {
             Logger.Debug("Entering GetProjectDetails");          
-            return this.business.GetProjectDetails(uri);
+            var results= this.business.GetProjectDetails(uri);
             Logger.Debug("Exiting GetProjectDetails");
+            return results;
   
         }
         
@@ -100,8 +104,9 @@ namespace Macmillan.CMS.Service.Controllers
         public object GetProjectMasterData(List<Project> ProjectDetail)
         {
             Logger.Debug("Entering GetProjectMasterData");
-            return this.business.GetProjectMasterData(ProjectDetail);
+            var results= this.business.GetProjectMasterData(ProjectDetail);
             Logger.Debug("Exiting GetProjectMasterData");
+            return results;
         }
         
         /// <summary>
@@ -116,8 +121,9 @@ namespace Macmillan.CMS.Service.Controllers
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {
             Logger.Debug("Entering SearchProjects");     
-            return this.business.SearchProjects(searchText, pageNumber, pageSize, orderBy);
+            var results= this.business.SearchProjects(searchText, pageNumber, pageSize, orderBy);
             Logger.Debug("Exiting SearchProjects");
+            return results;
         }
     }
 }

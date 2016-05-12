@@ -37,8 +37,9 @@
             [FromBody] Authentication authentication)
         {
             Logger.Debug("Entering ValidateUserCredentials");
-            return this.secureBusiness.ValidateUserCredentials(authentication);
-            Logger.Debug("Exiting ValidateUserCredentials");  
+            var results= this.secureBusiness.ValidateUserCredentials(authentication);
+            Logger.Debug("Exiting ValidateUserCredentials");
+            return results;
         }
     }
     

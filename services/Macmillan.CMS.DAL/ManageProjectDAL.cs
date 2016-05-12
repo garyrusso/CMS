@@ -33,8 +33,10 @@ namespace Macmillan.CMS.DAL
                                   'username': 'bcross',
                                   'fullName': 'Brian Cross'                                   
                                    }";
-            Logger.Debug("Exitinging CreateProject");
-            return ser.DeSerialize(content);
+         
+            var results = ser.DeSerialize(content);
+            Logger.Debug("Exitinging UpdateProject");
+            return results;
         }
 
         /// <summary>
@@ -48,6 +50,7 @@ namespace Macmillan.CMS.DAL
             //Call ML and Put the project xml
             Logger.Debug("Exitinging UpdateProject");
             return project;
+            
         }
 
         /// <summary>
@@ -61,6 +64,7 @@ namespace Macmillan.CMS.DAL
             //Call ML and Delete the project xml
             Logger.Debug("Exiting DeleteProject");
             return true;
+         
         }
 
         /// <summary>
@@ -133,9 +137,10 @@ namespace Macmillan.CMS.DAL
                             'Title': 'Content-2'
                         }
                     ]
-                }";
+                }";    
+            var results= ser.DeSerialize(content);
             Logger.Debug("Exiting GetProjectDetails");
-            return ser.DeSerialize(content);
+            return results;
         }
 
         /// <summary>
@@ -158,8 +163,10 @@ namespace Macmillan.CMS.DAL
                                   'fullName': 'Brian Cross'
                                    }
                                    }";
+            
+            var results= ser.DeSerialize(content);
             Logger.Debug("Exiting GetProjectMasterData");
-            return ser.DeSerialize(content);
+            return results;
         }
 
         /// <summary>
@@ -543,8 +550,10 @@ namespace Macmillan.CMS.DAL
                                   }
                            }
                     }";
+          
+            var results= ser.DeSerialize(content);
             Logger.Debug("Exiting SearchProjects");
-            return ser.DeSerialize(content);
+            return results;
         }
 
     }

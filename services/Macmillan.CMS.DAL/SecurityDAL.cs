@@ -23,9 +23,10 @@ namespace Macmillan.CMS.DAL
         {
             Logger.Debug("Entering GetUserData");
             JsonNetSerialization ser = new JsonNetSerialization();
-            string content = @"{ 'Name': 'Jon Smith', 'Address': { 'City': 'New York', 'State': 'NY' }, 'Age': 42 }";
+            string content = @"{ 'Name': 'Jon Smith', 'Address': { 'City': 'New York', 'State': 'NY' }, 'Age': 42 }";         
+            var results= ser.DeSerialize(content);
             Logger.Debug("Exiting GetUserData");
-            return ser.DeSerialize(content);
+            return results;
         }
 
         /// <summary>
@@ -40,8 +41,10 @@ namespace Macmillan.CMS.DAL
             MLReader mlReader = new MLReader();
 
             Project proj = mlReader.GetHttpContent<Project>("http://ML/Project?docUri=adf");
+          
+            var results= proj;
             Logger.Debug("Exiting GetProject");
-            return proj;
+            return results;
         }
 
         /// <summary>
@@ -73,8 +76,10 @@ namespace Macmillan.CMS.DAL
 	                    }],
 	                    'data': []
                         }";
-                Logger.Debug("Exiting ValidateUserCredentials");
-                return ser.DeSerialize(content);
+               
+                var results= ser.DeSerialize(content);
+                 Logger.Debug("Exiting ValidateUserCredentials");
+                 return results;
             }
         }
 

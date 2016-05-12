@@ -29,8 +29,9 @@ namespace Macmillan.CMS.Business
         public object GetUserData()
         {
             Logger.Debug("Entering ValidateUserCredentials");
+            var results= this.securityDAL.GetUserData();
             Logger.Debug("Exiting ValidateUserCredentials");
-            return this.securityDAL.GetUserData();
+            return results;
         }
         
         /// <summary>
@@ -44,8 +45,10 @@ namespace Macmillan.CMS.Business
             ////Build XML
             //string AuthenticationXML = this.BuildauthenticationXML(Authentication);         
             ////Post it to MarkLogic           
-            return this.securityDAL.ValidateUserCredentials(authentication);
+            var results= this.securityDAL.ValidateUserCredentials(authentication);
             Logger.Debug("Exiting ValidateUserCredentials");
+
+            return results;
         }
     }
 }
