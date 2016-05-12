@@ -39,8 +39,9 @@ namespace Macmillan.CMS.Business
             //string projectXML = this.BuildProjectXML(project);
 
             //Post it to MarkLogic  
-            Logger.Debug(" Exiting CreateProject");  
+       
             return this.dal.CreateProject(project);
+            Logger.Debug(" Exiting CreateProject");  
         }
 
         /// <summary>
@@ -83,9 +84,9 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         public object UpdateProject(Project project)
         {
-            Logger.Debug(" Entering UpdateProject");
-            Logger.Debug(" Exiting UpdateProject");
+            Logger.Debug(" Entering UpdateProject");         
             return this.dal.UpdateProject(project);
+            Logger.Debug(" Exiting UpdateProject");
         }
   
         /// <summary>
@@ -96,8 +97,8 @@ namespace Macmillan.CMS.Business
         public object DeleteProject(Project project)
         {
             Logger.Debug(" Entering DeleteProject");
-            Logger.Debug(" Exiting DeleteProject"); 
             return this.dal.DeleteProject(project);
+            Logger.Debug(" Exiting DeleteProject"); 
         }
 
         /// <summary>
@@ -107,9 +108,9 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         public object GetProjectDetails(string uri)
         {
-            Logger.Debug("Entering GetProjectDetails");
-            Logger.Debug("Exiting GetProjectDetails"); 
+            Logger.Debug("Entering GetProjectDetails"); 
             return this.dal.GetProjectDetails(uri);
+            Logger.Debug("Exiting GetProjectDetails");
         }
         
         /// <summary>
@@ -119,9 +120,9 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         public object GetProjectMasterData(List<Project> ProjectDetail)
         {
-            Logger.Debug("Entering GetProjectMasterData");
-            Logger.Debug("Exiting GetProjectMasterData"); 
+            Logger.Debug("Entering GetProjectMasterData");        
             return this.dal.GetProjectMasterData(ProjectDetail);
+            Logger.Debug("Exiting GetProjectMasterData"); 
         }
         
         /// <summary>
@@ -134,9 +135,9 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {
-            Logger.Debug("Entering SearchProjects");
-            Logger.Debug("Exiting SearchProjects"); 
+            Logger.Debug("Entering SearchProjects");        
             return this.dal.SearchProjects(searchText, pageNumber, pageSize, orderBy);
+            Logger.Debug("Exiting SearchProjects"); 
         }
     }
 }
