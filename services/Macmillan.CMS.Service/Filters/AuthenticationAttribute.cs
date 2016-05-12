@@ -11,6 +11,10 @@
       
     public class AuthenticationAttribute : ActionFilterAttribute
     {        
+        /// <summary>
+        /// Fires on any exception in any controller
+        /// </summary>
+        /// <param name="actionContext"></param>
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
             

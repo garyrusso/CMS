@@ -35,50 +35,88 @@ namespace Macmillan.CMS.Service.Controllers
             this.business = manageProjectBusiness;
         }  
 
-        /// Creates project
+        /// <summary>
+        /// CreateProject with given details
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="project"></param>
+        /// <returns></returns>
         [HttpPost]
         public object CreateProject(HttpRequestMessage request,
             [FromBody] Project project)
         {
-            Logger.Debug("Entry CreateProject");
+            Logger.Debug("Entering CreateProject");
+            Logger.Debug("Exiting CreateProject");
             return this.business.CreateProject(project);
         }
                
-        ///Updates project
+        /// <summary>
+        /// UpdateProject with given details
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
         [HttpPut]
         public object UpdateProject(Project project)
         {
-            Logger.Debug("Entry UpdateProject");
+            Logger.Debug("Entering UpdateProject");
+            Logger.Debug("Exiting UpdateProject");
             return this.business.UpdateProject(project);
         }
        
-        ///Delete project
+        /// <summary>
+        /// DeleteProject with given details
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="project"></param>
+        /// <returns></returns>
         [HttpDelete]
         public object DeleteProject(HttpRequestMessage request,
             [FromBody] Project project)
         {
-            Logger.Debug("Entry DeleteProject");
+            Logger.Debug("Entering DeleteProject");
+            Logger.Debug("Exiting DeleteProject");
             return this.business.DeleteProject(project);          
         }
-        ///GetProjectDetails
 
+        /// <summary>
+        /// GetProjectDetails with given details
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
         [HttpGet]
         public object GetProjectDetails(string uri)
         {
-            Logger.Debug("Entry GetProjectDetails");
+            Logger.Debug("Entering GetProjectDetails");
+            Logger.Debug("Exiting GetProjectDetails");
             return this.business.GetProjectDetails(uri);
+  
         }
-        ///Get ProjectMasterData
+        
+        /// <summary>
+        /// GetProjectMasterData with given details
+        /// </summary>
+        /// <param name="ProjectDetail"></param>
+        /// <returns></returns>
         public object GetProjectMasterData(List<Project> ProjectDetail)
         {
-            Logger.Debug("Entry GetProjectMasterData");
+            Logger.Debug("Entering GetProjectMasterData");
+            Logger.Debug("Exiting GetProjectMasterData");
             return this.business.GetProjectMasterData(ProjectDetail);
         }
-        ///Get SearchProjects
+        
+        /// <summary>
+        /// SearchProjects with given details
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="orderBy"></param>
+        /// <returns></returns>
         [HttpGet]
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {
-            Logger.Debug("Entry SearchProjects");
+            Logger.Debug("Entering SearchProjects");
+            Logger.Debug("Exiting SearchProjects");
             return this.business.SearchProjects(searchText, pageNumber, pageSize, orderBy);
         }
     }

@@ -25,14 +25,20 @@
         {
             this.secureBusiness = securityBusiness;
         }
-        /// ValidateUserCredetails Functionality
+       
+        /// <summary>
+        /// ValidateUserCredentials with given details
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="authentication"></param>
+        /// <returns></returns>
         [HttpPost]
         public object ValidateUserCredentials(HttpRequestMessage request,   
             [FromBody] Authentication authentication)
         {
-            Logger.Debug("entry ValidateUserCredentials");  
+            Logger.Debug("Entering ValidateUserCredentials");
+            Logger.Debug("Exiting ValidateUserCredentials");  
             return this.secureBusiness.ValidateUserCredentials(authentication);
-
         }
     }
     
