@@ -1,9 +1,10 @@
-/**
- * Controller Name: DashboardController
- * Desc: DashboardController have functionality related to landing page like create project, display top n project list etc...
- *
- *  */
 (function() {"use strict";
+    /**
+     * @ngdoc controller
+     * @name cmsWebApp.controller:DashboardController
+     * @description 
+     * DashboardController have functionality related to landing page like create project, display top n project list etc...
+     */
     angular.module('cmsWebApp').controller('DashboardController', DashboardController);
 
     /*Inject angular services to controller*/
@@ -234,7 +235,9 @@
         });
 
         /**
+         * @ngdoc method
          * @name dashboardCreateProject
+         * @methodOf cmsWebApp.controller:DashboardController
          * @description
          * open create project modal
          */

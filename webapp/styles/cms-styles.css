@@ -250,6 +250,54 @@ td.cms-main-display-center {
 }
 
 /*************
+ * Search Page 
+ *************    
+ **/
+.cms-main-container-search-row, .cms-main-container-search {
+    height: 100%;
+}
+.cms-main-container-search {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    flex-direction: column;
+}
+.cms-main-container-search-main {
+    -webkit-flex-grow: 1;
+    -moz-flex-grow: 1;
+    flex-grow: 1;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -moz-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.cms-main-container-search-header {
+    padding-top: 15px;
+}
+.cms-main-container-search-main .cms-sidebar {
+    border: none;
+}
+.cms-main-container-search-main .cms-main {
+    padding-top: 30px;
+}
+.cms-main-container-search-main .ng-table-counts,
+.cms-main-container-search-main .ng-table-pagination li:first-child,
+.cms-main-container-search-main .ng-table-pagination li:last-child{
+    display: none;
+}
+.cms-main-container-search-main .ng-table-pagination {
+    float: right;
+}
+/*************
+ * End Search Page 
+ *************    
+ **/
+
+/*************
  * breadcrumb
  *************
  **/

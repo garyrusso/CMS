@@ -1,0 +1,152 @@
+<div class="row cms-main-container-search-row">
+    <div class="col-sm-12 cms-main-container-search">
+        <div class="row cms-main-container-search-header">
+            <div class="col-sm-6 ">
+                <p>
+                    <span ng-bind="search.tableParams.page()"></span> - <span ng-bind="search.tableParams.count()"></span> of <span ng-bind="search.tableParams.total()"></span> SearchType:"<span class="text-capitalize" ng-bind="search.searchType"></span>"
+                </p>
+            </div>
+            <div class="col-sm-6 ">
+                <div class="pull-right clearfix cms-sub-main-2">
+
+                    <ul class="nav nav-pills">
+                        <li class="cms-padding-left-ten">
+                            <ul class="nav nav-pills">
+                                <li>
+                                    Result Number
+                                </li>
+                                <li>
+                                    <select class="form-control input-sm" ng-model="search.tableParams.count" ng-model-options="{ getterSetter: true}" ng-options="size for size in search.tableParams.settings().counts"></select>
+                                </li>
+                            </ul>
+
+                        </li>
+                        <li class="cms-padding-left-ten">
+                            <ul class="nav nav-pills">
+                                <li>
+                                    Sort By
+                                </li>
+                                <li>
+                                    <select class="form-control input-sm" >
+                                        <option>
+                                            Relevance
+                                        </option>
+                                    </select>
+                                </li>
+                            </ul>
+                            
+                        </li>
+                        <li class="cms-padding-left-ten">
+                            <button ng-class="{'active':!search.listView}" ng-click="search.toggleView(false)">
+                                <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+                            </button>
+                        </li>
+                        <li>
+                            <button ng-class="{'active':search.listView}" ng-click="search.toggleView(true)">
+                                <span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row cms-main-container-search-main">
+            <div class="col-sm-3 col-md-2 cms-sidebar">
+                <nav>
+                    <!-- Facets -->
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3>Refine By</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <strong class="text-capitalize">Search Type</strong>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <a href="#" ng-click="$event.preventDefault(); search.changeSearchType('all');"><span class="glyphicon" ng-class="{'glyphicon-check': search.searchType==='all', 'glyphicon-unchecked': search.searchType!=='all'}" aria-hidden="true"></span> All</a>
+                                </li>
+                                <li>
+                                    <a href="#" ng-click="$event.preventDefault(); search.changeSearchType('projects');"><span class="glyphicon" ng-class="{'glyphicon-check': search.searchType==='projects', 'glyphicon-unchecked': search.searchType!=='projects'}" aria-hidden="true"></span> Projects</a>
+                                </li>
+                                <li>
+                                    <a href="#" ng-click="$event.preventDefault(); search.changeSearchType('contents');"><span class="glyphicon" ng-class="{'glyphicon-check': search.searchType==='contents', 'glyphicon-unchecked': search.searchType!=='contents'}" aria-hidden="true"></span> Contents</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row" ng-repeat="facet in search.facets">
+                                <div class="col-sm-12">
+                                    <strong class="text-capitalize" ng-bind="facet.facetTitle"></strong>
+                                </div>
+                                <div class="col-sm-12">
+                                    <ul class="list-unstyled">
+                                        <li ng-repeat="items in facet.facetArray | limitTo:5">
+                                            <a href="#" ng-bind="items.name + ' ('+items.count+')'"></a>
+                                        </li>
+                                        <li ng-if="facet.facetArray.length>5">
+                                            <a href="#" ng-click="$event.preventDefault(); search.showAllFacetsItems(facet)">+ See All</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div class="col-sm-9 col-md-10 cms-main" ng-class="{'cms-projects-page':$state.current.name==='projects'||$state.current.name==='dashboard'}">
+                <!-- Main content -->
+                <div class="row">
+                    <div class="col-md-12" ng-class="{'cms-content-tile-view-container':!search.listView}">
+                        <!--loading-container="projects.tableParams.settings().$loading" -->
+                        <div >
+                            <table ng-table="search.tableParams" class="table table-condensed table-bordered table-striped">
+                                <tr ng-if="search.listView" ng-repeat="issue in $data">
+                                    <td class="text-capitalize" data-title="'Title'">{{issue.Title}}</td>
+                                    <td data-title="'Owner'">{{issue.username}}</td>
+                                    <td data-title="'Date Modified'">{{issue.dateLastModified}}</td>
+                                    <td data-title="'View'" class="cms-main-display-center"><a ui-sref="projectview({uri:issue.uri})"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                                </tr>
+                                <tr ng-if="!search.listView">
+                                    <td class="cms-content-tile-view">
+                                    <div class="row">
+                                        <div class="col-xs-12 col-sm-6 col-md-2 cms-content-tile" ng-repeat="issue in $data">
+                                            <div class="row">
+                                                <div class="col-xs-12">
+                                                    <a ui-sref="projectview({uri:issue.uri})">
+                                                    <div class="cms-content-tile-image">
+                                                        <div class="cms-content-tile-image-dummy"></div>
+                                                        <div class="cms-content-tile-image-color"></div>
+                                                    </div></a>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 cms-content-tile-title text-capitalize">
+                                                    <a href="#/projectview">{{issue.Title}}</a>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 cms-content-tile-date">
+                                                    {{issue.dateLastModified}}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-12 cms-content-tile-owner">
+                                                    {{issue.username}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div></td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

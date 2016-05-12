@@ -26,17 +26,17 @@
                 <div class="input-group">
                     <div class="input-group-btn" uib-dropdown>
                         <button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
-                            All <span class="caret"></span>
+                            <span ng-bind="header.searchType"></span> <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                             <li>
-                                <a href="#">All Types</a>
+                                <a href="#" ng-click="$event.preventDefault(); header.changeSearchType('All');">All Types</a>
                             </li>
                             <li>
-                                <a href="#">Project</a>
+                                <a href="#" ng-click="$event.preventDefault(); header.changeSearchType('Project');">Project</a>
                             </li>
                             <li>
-                                <a href="#">Content</a>
+                                <a href="#" ng-click="$event.preventDefault(); header.changeSearchType('Content');">Content</a>
                             </li>
                         </ul>
                     </div>
