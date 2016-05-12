@@ -21,10 +21,10 @@ namespace Macmillan.CMS.DAL
         /// <returns></returns>
         public object GetUserData()
         {
-            Logger.Debug("Entry GetUserData");
+            Logger.Debug("Entering GetUserData");
             JsonNetSerialization ser = new JsonNetSerialization();
             string content = @"{ 'Name': 'Jon Smith', 'Address': { 'City': 'New York', 'State': 'NY' }, 'Age': 42 }";
-            Logger.Debug("Exit GetUserData");
+            Logger.Debug("Exiting GetUserData");
             return ser.DeSerialize(content);
         }
 
@@ -35,12 +35,12 @@ namespace Macmillan.CMS.DAL
         /// <returns></returns>
         public Project GetProject(string uri)
         {
-            Logger.Debug("Entry GetProject");
+            Logger.Debug("Entering GetProject");
             //Call ML and GetProject
             MLReader mlReader = new MLReader();
 
             Project proj = mlReader.GetHttpContent<Project>("http://ML/Project?docUri=adf");
-            Logger.Debug("Exit GetProject");
+            Logger.Debug("Exiting GetProject");
             return proj;
         }
 
@@ -52,7 +52,7 @@ namespace Macmillan.CMS.DAL
         public object ValidateUserCredentials(Authentication authentication)
         {
             //Call ML and ValidateUserCredentials
-            Logger.Debug("Entry ValidateUserCredentials");
+            Logger.Debug("Entering ValidateUserCredentials");
             if (authentication.username == "admin@techm.com" && authentication.password == "password")
             {
                 JsonNetSerialization ser = new JsonNetSerialization();
@@ -73,7 +73,7 @@ namespace Macmillan.CMS.DAL
 	                    }],
 	                    'data': []
                         }";
-                Logger.Debug("Exit ValidateUserCredentials");
+                Logger.Debug("Exiting ValidateUserCredentials");
                 return ser.DeSerialize(content);
             }
         }

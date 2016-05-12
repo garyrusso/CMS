@@ -28,8 +28,8 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         public object GetUserData()
         {
-            Logger.Debug("Entry ValidateUserCredentials");
-            Logger.Debug("Exit ValidateUserCredentials");
+            Logger.Debug("Entering ValidateUserCredentials");
+            Logger.Debug("Exiting ValidateUserCredentials");
             return this.securityDAL.GetUserData();
         }
         
@@ -40,11 +40,11 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         public object ValidateUserCredentials(Authentication authentication)
         {
-            Logger.Debug("Entry ValidateUserCredentials"); 
+            Logger.Debug("Entering ValidateUserCredentials"); 
             ////Build XML
             //string AuthenticationXML = this.BuildauthenticationXML(Authentication);         
             ////Post it to MarkLogic     
-            Logger.Debug("Exit ValidateUserCredentials"); 
+            Logger.Debug("Exiting ValidateUserCredentials"); 
             return this.securityDAL.ValidateUserCredentials(authentication);
         }
     }

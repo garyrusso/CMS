@@ -21,7 +21,7 @@ namespace Macmillan.CMS.DAL
         public object CreateProject(Project project)
         {
             //Call ML and post the project xml
-            Logger.Debug("Entry CreateProject");
+            Logger.Debug("Entering CreateProject");
             JsonNetSerialization ser = new JsonNetSerialization();
             string content = @"{'Title': 'Hockenbury 5e-1',
                                   'uri': '/mydocuments/project1.xml',
@@ -33,7 +33,7 @@ namespace Macmillan.CMS.DAL
                                   'username': 'bcross',
                                   'fullName': 'Brian Cross'                                   
                                    }";
-            Logger.Debug("Exit CreateProject");
+            Logger.Debug("Exitinging CreateProject");
             return ser.DeSerialize(content);
         }
 
@@ -44,9 +44,9 @@ namespace Macmillan.CMS.DAL
         /// <returns></returns>
         public object UpdateProject(Project project)
         {
-            Logger.Debug("Entry UpdateProject");
+            Logger.Debug("Entering UpdateProject");
             //Call ML and Put the project xml
-            Logger.Debug("Exit UpdateProject");
+            Logger.Debug("Exitinging UpdateProject");
             return project;
         }
 
@@ -59,7 +59,7 @@ namespace Macmillan.CMS.DAL
         {
             Logger.Debug("Entry DeleteProject");
             //Call ML and Delete the project xml
-            Logger.Debug("Exit DeleteProject");
+            Logger.Debug("Exiting DeleteProject");
             return true;
         }
 
@@ -70,7 +70,7 @@ namespace Macmillan.CMS.DAL
         /// <returns></returns>
         public object GetProjectDetails(string uri)
         {
-            Logger.Debug("Entry GetProjectDetails");
+            Logger.Debug("Entering GetProjectDetails");
             JsonNetSerialization ser = new JsonNetSerialization();
             string content = @"{
                     'systemUID': 'd41d8cd98f00b204e9800998ecf8427e',
@@ -134,7 +134,7 @@ namespace Macmillan.CMS.DAL
                         }
                     ]
                 }";
-            Logger.Debug("Exit GetProjectDetails");
+            Logger.Debug("Exiting GetProjectDetails");
             return ser.DeSerialize(content);
         }
 
@@ -145,7 +145,7 @@ namespace Macmillan.CMS.DAL
         /// <returns></returns>
         public object GetProjectMasterData(List<Project> ProjectDetail)
         {
-            Logger.Debug("Entry GetProjectMasterData");
+            Logger.Debug("Entering GetProjectMasterData");
             JsonNetSerialization ser = new JsonNetSerialization();
             string content = @"{'Title': 'Hockenbury 5e-1',
                                   'uri': '/mydocuments/project1.xml',
@@ -158,7 +158,7 @@ namespace Macmillan.CMS.DAL
                                   'fullName': 'Brian Cross'
                                    }
                                    }";
-            Logger.Debug("Exit GetProjectMasterData");
+            Logger.Debug("Exiting GetProjectMasterData");
             return ser.DeSerialize(content);
         }
 
@@ -173,7 +173,7 @@ namespace Macmillan.CMS.DAL
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {
             //Call ML and SearchProjects
-            Logger.Debug("Entry SearchProjects");
+            Logger.Debug("Entering SearchProjects");
             JsonNetSerialization ser = new JsonNetSerialization();
             string content = @"{
                            'total': 27,
@@ -543,7 +543,7 @@ namespace Macmillan.CMS.DAL
                                   }
                            }
                     }";
-            Logger.Debug("Exit SearchProjects");
+            Logger.Debug("Exiting SearchProjects");
             return ser.DeSerialize(content);
         }
 

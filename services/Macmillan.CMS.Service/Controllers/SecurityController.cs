@@ -36,8 +36,8 @@
         public object ValidateUserCredentials(HttpRequestMessage request,   
             [FromBody] Authentication authentication)
         {
-            Logger.Debug("Entry ValidateUserCredentials");
-            Logger.Debug("Exit ValidateUserCredentials");  
+            Logger.Debug("Entering ValidateUserCredentials");
+            Logger.Debug("Exiting ValidateUserCredentials");  
             return this.secureBusiness.ValidateUserCredentials(authentication);
         }
     }
