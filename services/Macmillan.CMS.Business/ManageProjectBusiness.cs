@@ -1,6 +1,4 @@
-﻿using Macmillan.CMS.Common.Models;
-using Macmillan.CMS.DAL;
-using Newtonsoft.Json.Linq;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -9,6 +7,10 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Macmillan.CMS.Common.Models;
+using Macmillan.CMS.DAL;
+using Newtonsoft.Json.Linq;
+using Macmillan.CMS.Common.Logging;
 
 namespace Macmillan.CMS.Business
 {
@@ -20,7 +22,7 @@ namespace Macmillan.CMS.Business
         {
             this.dal = manageProjectDAL;
         }
-
+        ///functionalities for CreateProject
         public object CreateProject(Project project)
         {
             //Build create project XML
@@ -28,7 +30,7 @@ namespace Macmillan.CMS.Business
             //string projectXML = this.BuildProjectXML(project);
 
             //Post it to MarkLogic  
-
+            Logger.Debug("CreateProject");  
             return this.dal.CreateProject(project);
         }
 
@@ -58,28 +60,34 @@ namespace Macmillan.CMS.Business
 
             return text.ToString();
         }
-
+        ///functionalities for UpdateProject
         public object UpdateProject(Project project)
         {
+            Logger.Debug("UpdateProject");  
             return this.dal.UpdateProject(project);
         }
-
+        ///functionalities for DeleteProject
         public object DeleteProject(Project project)
         {
+            Logger.Debug("DeleteProject"); 
             return this.dal.DeleteProject(project);
         }
-
+        ///functionalities for GetProjectDetails
         public object GetProjectDetails(string uri)
         {
+            Logger.Debug("GetProjectDetails"); 
             return this.dal.GetProjectDetails(uri);
         }
-
+        ///functionalities for GetProjectMasterData
         public object GetProjectMasterData(List<Project> ProjectDetail)
         {
+            Logger.Debug("GetProjectMasterData"); 
             return this.dal.GetProjectMasterData(ProjectDetail);
         }
+        ///functionalities for SearchProjects
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {
+            Logger.Debug("SearchProjects"); 
             return this.dal.SearchProjects(searchText, pageNumber, pageSize, orderBy);
         }
     }
