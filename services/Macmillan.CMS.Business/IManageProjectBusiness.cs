@@ -8,6 +8,9 @@ using Macmillan.CMS.Common.Models;
 
 namespace Macmillan.CMS.Business
 {
+    /// <summary>
+    /// Hosts all ManageProjects and other ManageProjects (if any) related functionalities.
+    /// </summary>
     public interface IManageProjectBusiness
     {
         object CreateProject(Project project);

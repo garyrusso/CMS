@@ -15,28 +15,44 @@ namespace Macmillan.CMS.DAL
     {
         public SecurityDAL()
         { }
-
+        /// <summary>
+        /// get user data with given details
+        /// </summary>
+        /// <returns></returns>
         public object GetUserData()
         {
+            Logger.Debug("Entry GetUserData");
             JsonNetSerialization ser = new JsonNetSerialization();
             string content = @"{ 'Name': 'Jon Smith', 'Address': { 'City': 'New York', 'State': 'NY' }, 'Age': 42 }";
+            Logger.Debug("Exit GetUserData");
             return ser.DeSerialize(content);
         }
 
+        /// <summary>
+        /// get project for given details
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
         public Project GetProject(string uri)
         {
+            Logger.Debug("Entry GetProject");
             //Call ML and GetProject
             MLReader mlReader = new MLReader();
 
             Project proj = mlReader.GetHttpContent<Project>("http://ML/Project?docUri=adf");
-
+            Logger.Debug("Exit GetProject");
             return proj;
         }
 
+        /// <summary>
+        /// ValidateUserCredentials with given details
+        /// </summary>
+        /// <param name="authentication"></param>
+        /// <returns></returns>
         public object ValidateUserCredentials(Authentication authentication)
         {
             //Call ML and ValidateUserCredentials
-            Logger.Debug("Exit ValidateUserCredentials");
+            Logger.Debug("Entry ValidateUserCredentials");
             if (authentication.username == "admin@techm.com" && authentication.password == "password")
             {
                 JsonNetSerialization ser = new JsonNetSerialization();
@@ -57,6 +73,7 @@ namespace Macmillan.CMS.DAL
 	                    }],
 	                    'data': []
                         }";
+                Logger.Debug("Exit ValidateUserCredentials");
                 return ser.DeSerialize(content);
             }
         }

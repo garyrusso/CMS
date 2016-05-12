@@ -22,24 +22,30 @@ namespace Macmillan.CMS.Business
             this.securityDAL = securityDal;
         }
 
+        /// <summary>
+        /// GetUserData with given details
+        /// </summary>
+        /// <returns></returns>
         public object GetUserData()
         {
+            Logger.Debug("Entry ValidateUserCredentials");
+            Logger.Debug("Exit ValidateUserCredentials");
             return this.securityDAL.GetUserData();
         }
-        ///functionalities for ValidateUserCredentials
+        
+        /// <summary>
+        /// ValidateUserCredentials with given details
+        /// </summary>
+        /// <param name="authentication"></param>
+        /// <returns></returns>
         public object ValidateUserCredentials(Authentication authentication)
         {
+            Logger.Debug("Entry ValidateUserCredentials"); 
             ////Build XML
             //string AuthenticationXML = this.BuildauthenticationXML(Authentication);         
             ////Post it to MarkLogic     
-            Logger.Debug("ValidateUserCredentials"); 
+            Logger.Debug("Exit ValidateUserCredentials"); 
             return this.securityDAL.ValidateUserCredentials(authentication);
         }
-
-        //public string BuildauthenticationXML(Authentication Authentication)
-        //{
-           
-        //    return this.securityDAL.ValidateUserCredentials(Authentication);
-        //}
     }
 }

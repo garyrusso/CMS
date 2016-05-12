@@ -8,6 +8,9 @@ using Macmillan.CMS.Common.Models;
 
 namespace Macmillan.CMS.DAL
 {
+    /// <summary>
+    /// Interface for ManageProjectDAL Layer
+    /// </summary>
     public interface IManageProjectDAL
     {
        object CreateProject(Project project);

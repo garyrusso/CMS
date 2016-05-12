@@ -17,25 +17,40 @@ namespace Macmillan.CMS.Business
     public class ManageProjectBusiness:IManageProjectBusiness
     {
         IManageProjectDAL dal;
-
+        /// <summary>
+        /// ManageProjectBusiness dependency injection
+        /// </summary>
+        /// <param name="manageProjectDAL"></param>
         public ManageProjectBusiness(IManageProjectDAL manageProjectDAL)
         {
             this.dal = manageProjectDAL;
         }
-        ///functionalities for CreateProject
+       
+        /// <summary>
+        /// CreateProject with given details
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
         public object CreateProject(Project project)
         {
+            Logger.Debug(" Entry CreateProject");
             //Build create project XML
 
             //string projectXML = this.BuildProjectXML(project);
 
             //Post it to MarkLogic  
-            Logger.Debug("CreateProject");  
+            Logger.Debug(" Exit CreateProject");  
             return this.dal.CreateProject(project);
         }
 
+        /// <summary>
+        /// BuildProjectXML with given details
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
         private string BuildProjectXML(Project project)
         {
+            Logger.Debug(" Entry BuildProjectXML");
             string path = Assembly.GetEntryAssembly().Location + @"\AppData\CreateProject.xml";
             StringBuilder text = new StringBuilder(File.ReadAllText(path));
             //d41d8cd98f00b204e9800998ecf8427e
@@ -57,37 +72,70 @@ namespace Macmillan.CMS.Business
 
             text.Replace("####keywords####", keywords.ToString());
             text.Replace("##createdby##", project.CreatedBy);
-
+            Logger.Debug(" Exit BuildProjectXML");
             return text.ToString();
         }
-        ///functionalities for UpdateProject
+
+        /// <summary>
+        /// UpdateProject with given details
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
         public object UpdateProject(Project project)
         {
-            Logger.Debug("UpdateProject");  
+            Logger.Debug(" Entry UpdateProject");
+            Logger.Debug(" Exit UpdateProject");
             return this.dal.UpdateProject(project);
         }
-        ///functionalities for DeleteProject
+  
+        /// <summary>
+        /// DeleteProject with given details
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
         public object DeleteProject(Project project)
         {
-            Logger.Debug("DeleteProject"); 
+            Logger.Debug(" Entry DeleteProject");
+            Logger.Debug(" Exit DeleteProject"); 
             return this.dal.DeleteProject(project);
         }
-        ///functionalities for GetProjectDetails
+
+        /// <summary>
+        /// GetProjectDetails with given details
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
         public object GetProjectDetails(string uri)
         {
-            Logger.Debug("GetProjectDetails"); 
+            Logger.Debug("Entry GetProjectDetails");
+            Logger.Debug("Exit GetProjectDetails"); 
             return this.dal.GetProjectDetails(uri);
         }
-        ///functionalities for GetProjectMasterData
+        
+        /// <summary>
+        /// GetProjectMasterData with given details
+        /// </summary>
+        /// <param name="ProjectDetail"></param>
+        /// <returns></returns>
         public object GetProjectMasterData(List<Project> ProjectDetail)
         {
-            Logger.Debug("GetProjectMasterData"); 
+            Logger.Debug("Entry GetProjectMasterData");
+            Logger.Debug("Exit GetProjectMasterData"); 
             return this.dal.GetProjectMasterData(ProjectDetail);
         }
-        ///functionalities for SearchProjects
+        
+        /// <summary>
+        /// SearchProjects with given details
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="orderBy"></param>
+        /// <returns></returns>
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {
-            Logger.Debug("SearchProjects"); 
+            Logger.Debug("Entry SearchProjects");
+            Logger.Debug("Exit SearchProjects"); 
             return this.dal.SearchProjects(searchText, pageNumber, pageSize, orderBy);
         }
     }
