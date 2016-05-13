@@ -5,6 +5,7 @@ This application uses and extends MarkLogic REST API's for Macmillan learning co
 For developers execute below commands
 * $ ml local bootstrap
 * $ ml local deploy modules
+
 ### for master data 
 Here we load user document data & data dictionary data
 * $ ml local deploy content

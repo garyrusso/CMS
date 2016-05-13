@@ -20,26 +20,12 @@ declare namespace rapi = "http://marklogic.com/rest-api";
  :   ("415","Raven","nevermore"))
  :)
 
-(:
- :)
-declare 
-%roxy:params("")
-function usr:get(
-  $context as map:map,
-  $params  as map:map
-) as document-node()*
-{
-  map:put($context, "output-types", "application/xml"),
-  map:put($context, "output-status", (200, "OK")),
-  document { "GET called on the ext service extension" }
-};
-
 
 (:
- :)
+	This API is responsible for validating user credential against user document stored in MarkLogic
+:)
 declare 
-%roxy:params("")
-%rapi:transaction-mode("update")
+%roxy:params("username=xs:string", "password=xs:string")
 function usr:post(
     $context as map:map,
     $params  as map:map,
@@ -48,11 +34,7 @@ function usr:post(
 {
   map:put($context, "output-types", "application/xml"),
   map:put($context, "output-status", (201, "Created")),
-  document { 
-	<result>
-		<username>{map:get($params, "username")}</username>
-		<password>{map:get($params, "password")}</password>
-	</result>
-  }
+  map:put($context, "mml-auth-token","MjBhMGU4ZDU4YmJjODhlYTRlMWNkMTUwNTBmYjFmZjE4NTE0ZjE4NTg4ZGUzNGUyNGYwNGVjMjRiYTMyYmQ0ZA"),
+  document { xdmp:log("POST result..." || map:get($params, "username") || " is valid user...")}
 };
 

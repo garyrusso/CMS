@@ -1,0 +1,4 @@
+<namespace xmlns="http://marklogic.com/rest-api">
+   <prefix>mml</prefix>
+   <uri>http://macmillanlearning.com/</uri>
+</namespace>   
