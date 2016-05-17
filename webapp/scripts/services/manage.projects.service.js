@@ -34,10 +34,10 @@
         function getProjects(searchText, pageNumber, pageSize, orderBy) {
             $log.debug('getProjects - ManageProjectsService', searchText, pageNumber, pageSize, orderBy);
 			var params = {
-                searchText : _.isString(searchText) ? searchText : '',
-                pageNumber : _.isNumber(pageNumber) ? pageNumber : 1,
-                pageSize : _.isNumber(pageSize) ? pageSize : APP_CONFIG.limit,
-                orderBy : _.isString(orderBy) ? orderBy : '',
+                searchText : searchText ? searchText : '',
+                pageNumber : pageNumber ? parseInt(pageNumber) : 1,
+                pageSize : pageSize ? parseInt(pageSize) : APP_CONFIG.limit,
+                orderBy : orderBy ? orderBy : '',
             };
 
 			return $http.get('ManageProjects/SearchProjects', {
