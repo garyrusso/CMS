@@ -44,8 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IManageContentBusiness.cs" />
     <Compile Include="IManageProjectBusiness.cs" />
     <Compile Include="ISecurityBusiness.cs" />
+    <Compile Include="ManageContentBusiness.cs" />
     <Compile Include="ManageProjectBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecurityBusiness.cs" />

@@ -35,7 +35,7 @@ namespace Macmillan.CMS.DAL
                                    }";
          
             var results = ser.DeSerialize(content);
-            Logger.Debug("Exitinging UpdateProject");
+            Logger.Debug("Exitinging CreateProject");
             return results;
         }
 
@@ -479,8 +479,8 @@ namespace Macmillan.CMS.DAL
                                   'mimetype': 'application/xml',
                                   'format': 'xml',
                                   'dateLastModified': '2015-04-15 13:30',
-                                  'username': 'Hari',
-                                  'fullName': 'Hari Cross'
+                                  'username': 'bcross',
+                                  'fullName': 'Brian Cross'
                            }],
                            'facets': {
                                 'Title': {
