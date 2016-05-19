@@ -205,7 +205,7 @@
         }
         
         function deleteProject(postData) {
-            return $http.delete('ManageProjects/DeleteProject', { params: postData }).then(function (response) {
+            return $http.post('ManageProjects/DeleteProject', postData).then(function (response) {
                 return response.data;
             });
         }
