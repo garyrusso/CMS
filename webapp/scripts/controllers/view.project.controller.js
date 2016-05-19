@@ -16,8 +16,8 @@
         $log.debug('ViewProjectController', routeResolvedProjectView);
         var project = this;
         project.data = routeResolvedProjectView;
-        project.data.subjects = _.chain(routeResolvedProjectView.subjectHeadings).indexBy('subjectHeading').keys().value();
-        project.data.keywords = _.chain(routeResolvedProjectView.subjectKeywords).indexBy('subjectKeyword').keys().value();
+        /*project.data.subjects = _.chain(routeResolvedProjectView.SubjectHeadings).indexBy('subjectHeading').keys().value();
+        project.data.keywords = _.chain(routeResolvedProjectView.SubjectKeywords).indexBy('subjectKeyword').keys().value();*/
 
         //TODO: move to Commonservice
         project.editProject = projectsEditProject;

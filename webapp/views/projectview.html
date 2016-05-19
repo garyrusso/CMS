@@ -38,22 +38,22 @@
     <h3> Adminstrative Metadata</h3>
     <ul class="list-unstyled cms-padding-left-ten">
         <li>
-            <strong>System ID: </strong><span ng-bind="project.data.systemUID"></span>
+            <strong>System ID: </strong><span ng-bind="project.data.SystemId"></span>
         </li>
         <li>
-            <strong>Project URI: </strong><span ng-bind="project.data.uri"></span>
+            <strong>Project URI: </strong><span ng-bind="project.data.ProjectURL"></span>
         </li>
         <li>
-            <strong>Date Created: </strong><span ng-bind="project.data.dateCreated"></span>
+            <strong>Date Created: </strong><span ng-bind="project.data.DateCreated"></span>
         </li>
         <li>
-            <strong>Created By: </strong><span ng-bind="project.data.createdBy"></span>
+            <strong>Created By: </strong><span ng-bind="project.data.CreatedBy"></span>
         </li>
         <li>
-            <strong>Date Modified: </strong><span ng-bind="project.data.dateLastModified"></span>
+            <strong>Date Modified: </strong><span ng-bind="project.data.DateModified"></span>
         </li>
         <li>
-            <strong>Modified By: </strong><span ng-bind="project.data.modifiedBy"></span>
+            <strong>Modified By: </strong><span ng-bind="project.data.ModifiedBy"></span>
         </li>
 
     </ul>
@@ -65,16 +65,16 @@
             <strong>Project Name: </strong><span ng-bind="project.data.Title"></span>
         </li>
         <li>
-            <strong>Project Description: </strong><span ng-bind="project.data.description"></span>
+            <strong>Project Description: </strong><span ng-bind="project.data.Description"></span>
         </li>
         <li>
-            <strong>Project State: </strong><span ng-bind="project.data.projectState"></span>
+            <strong>Project State: </strong><span ng-bind="project.data.ProjectState"></span>
         </li>
         <li>
-            <strong>Subjects: </strong><span ng-bind="project.data.subjects"></span>
+            <strong>Subjects: </strong><span ng-bind="project.data.SubjectHeadings"></span>
         </li>
         <li>
-            <strong>Keywords: </strong><span ng-bind="project.data.keywords"></span>
+            <strong>Keywords: </strong><span ng-bind="project.data.SubjectKeywords"></span>
         </li>
     </ul>
 
@@ -83,7 +83,7 @@
     <h3>Associated Content</h3>
     <!-- em>There is no content in this project</em -->
     <div class="row" ng-if="project.data.content.length>0">
-        <div  class="col-xs-12 col-sm-6 col-md-2 cms-content-tile ng-scope" ng-repeat="content in project.data.content">
+        <div  class="col-xs-12 col-sm-6 col-md-2 cms-content-tile ng-scope" ng-repeat="content in project.data.Content">
             <div class="row">
                 <div class="col-xs-12">
                     <a href="#/">
