@@ -20,12 +20,10 @@
         } else {
             $scope.data = {
                 "Title" : "",
-                "description" : "",
-                "projectState" : "",
-                "subjectHeadings" : [],
-                "subjectKeywords" : [{
-                    "subjectKeyword" : ""
-                }]
+                "Description" : "",
+                "ProjectState" : "",
+                "SubjectHeadings" : [],
+                "SubjectKeywords" : [""]
             };
         }
 
@@ -41,28 +39,22 @@
         
 
         /*Project Subject dropdown */
-        $scope.subjects = [{
-            "subjectHeading" : "Psychology"
-        }, {
-            "subjectHeading" : "Economics"
-        }, {
-            "subjectHeading" : "History"
-        },{
-            "subjectHeading" : "Biology"
-        }];
+        $scope.subjects = [ "Psychology", "Economics", "History", "Biology"];
 
         /*$scope.selectedSubjects = _.chain($scope.subjects).indexBy('subjectHeading').mapObject(function(val, key) {
          return {selected: _.contains(_.pluck($scope.data.subjectHeadings), key)};
          }).value();*/
 
         $scope.statuses = $scope.subjects;
-        $scope.selectedStatuses = $scope.data.subjectHeadings;
+        $scope.selectedStatuses = $scope.data.SubjectHeadings;
+        
+        $scope.addKeywordField = addKeywordField;
 
         /* Create/Update Proejct submit function*/
         //TODO format
         $scope.submit = function() {
 			/*$scope.data.dateLastModified = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");*/
-			var returnData = {
+			/*var returnData = {
 			    "Title": $scope.data.Title,
 			    "Description" : $scope.data.description,
 			    "ProjectState": $scope.data.projectState,
@@ -76,32 +68,22 @@
 			    "ModifiedBy": $scope.data.modifiedBy,
 			    "DateCreated": $scope.data.dateCreated,
                 "DateModified": $scope.data.dateLastModified
-			};
+			};*/
             if (!items.edit) {
-                /*$scope.data.dateCreated = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");
-				$scope.data.username = CommonService.getItems('username');*/
-				returnData.CreatedBy = CommonService.getItems('username');
+                /*$scope.data.dateCreated = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");*/
+				$scope.data.CreatedBy = CommonService.getItems('username');
+			    /*returnData.CreatedBy = CommonService.getItems('username');*/
             } else {
-                returnData.ModifiedBy = CommonService.getItems('username');
+                $scope.data.ModifiedBy = CommonService.getItems('username');
             }
 
-            $uibModalInstance.close(returnData);
+            $uibModalInstance.close(angular.copy($scope.data));
         };
 
         /*Dyanmic Keyword textbox*/
-        var counter = 0;
-
-        $scope.keyword = $scope.data.subjectKeywords;
-
-        $scope.addKeywordField = addKeywordField;
 
         function addKeywordField(keyword, $event) {
-            counter++;
-            keyword.push({
-                id : counter,
-                subjectKeyword : '',
-                inline : true
-            });
+            keyword.push('');
             $event.preventDefault();
         }
 
@@ -134,14 +116,14 @@
         /* start dropdown*/
 
         var counter = 0;
-        $scope.data = {
+        $scope.data1 = {
             fields: [{ name: "" }]
         }
 
         $scope.days = ['Hockenbury 5e-1', 'Hockenbury 5e-2', 'Hockenbury 5e-3', 'Hockenbury 5e-4', 'Hockenbury 5e-5'];
 
         $scope.addField = function () {            
-            $scope.data.fields.push({
+            $scope.data1.fields.push({
                 name: "projectName " + counter++
             });
         };

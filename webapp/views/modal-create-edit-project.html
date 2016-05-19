@@ -13,7 +13,7 @@
     <div class="form-group">
         <label for="InputProjectDescription">Description *</label>
         <textarea class="form-control" id="projectDescription"
-                  ng-model="data.description"
+                  ng-model="data.Description"
                   ng-class="{red: projectForm.projectDescription.$invalid &&  projectForm.projectDescription.$touched && !projectForm.projectDescription.$focused}"
                   name="projectDescription"
                   rows="3" required=""></textarea>
@@ -21,7 +21,7 @@
     <div class="form-group row">
         <div class="col-md-8">
             <label for="InputProjectState">Project State*</label>       
-            <select class="form-control" name="projectState" id="projectState" ng-model = "data.projectState" 
+            <select class="form-control" name="projectState" id="projectState" ng-model = "data.ProjectState" 
                     ng-class="{red: projectForm.projectState.$invalid &&  projectForm.projectState.$touched && !projectForm.projectState.$focused}"
                     required ng-options="states for states in projectStates">
                 <!-- option ng-repeat="item in list" ng-selected="{{selected.label == item.label}}">{{item.label}}</option -->
@@ -32,8 +32,8 @@
         <div class="col-md-8">
             <label for="InputProjectSubjects">Subjects</label>                     
             <select class="form-control" name="projectSubject" id="projectSubjects"
-                    ng-model="data.subjectHeadings"                    
-                    multiple ng-options="status.subjectHeading for status in statuses track by status.subjectHeading"></select>  
+                    ng-model="data.SubjectHeadings"                    
+                    multiple ng-options="status for status in statuses"></select>  
            
         </div>
     </div>
@@ -42,21 +42,21 @@
    
     <div class="form-group">
         <div>
-            <div ng-repeat="keyElement in keywords=(data.subjectKeywords)">             
+            <div ng-repeat="keyElement in data.SubjectKeywords track by $index">             
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-8">
-                            <input type="text" class="form-control" ng-model="keyElement.subjectKeyword" placeholder="keywords" />
+                            <input type="text" class="form-control" ng-model="data.SubjectKeywords[$index]" placeholder="keywords" />
                         </div>
                         <div class="col-md-4">
                             <div ng-if="$last">
                                 <span>
-                                    <span class="glyphicon glyphicon-plus" ng-click="addKeywordField(keyword,$event)"></span>
+                                    <span class="glyphicon glyphicon-plus" ng-click="addKeywordField(data.SubjectKeywords,$event)"></span>
                                 </span>
                             </div>
                             <div ng-if="!$last">
                                 <span>
-                                    <span class="glyphicon glyphicon-minus" ng-click="keyword.splice($index, 1)"></span>
+                                    <span class="glyphicon glyphicon-minus" ng-click="data.SubjectKeywords.splice($index, 1)"></span>
                                 </span>
                             </div>
                         </div>
