@@ -19,13 +19,8 @@
 
         } else {
             $scope.data = {
-                "systemUID" : "d41d8cd98f00b" + Math.random(),
-                "uri" : '/projects/project' + Math.random() + '.xml',
-                "path" : "fn:doc(\"/projects/project" + Math.random() + ".xml\")",
-                "href" : "/v1/documents?uri=%2Fprojects%2Fproject1.xml",
-                "mimetype" : "application/xml",
-                "format" : "xml",
-                "dateCreated" : '',
+                
+                
                 "Title" : "",
                 "description" : "",
                 "projectState" : "",
@@ -68,13 +63,27 @@
         /* Create/Update Proejct submit function*/
         //TODO format
         $scope.submit = function() {
-			$scope.data.dateLastModified = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");
+			/*$scope.data.dateLastModified = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");*/
+			var returnData = {
+			    "Title": $scope.data.Title,
+			    "Description" : $scope.data.description,
+			    "ProjectState": $scope.data.projectState,
+			    "SubjectHeadings": $scope.data.subjectHeadings,
+			    "SubjectKeywords": $scope.data.subjectKeywords,
+			    "CreatedBy": $scope.data.createdBy,
+			    "ModifiedBy": $scope.data.modifiedBy,
+			    "DateCreated": $scope.data.dateCreated,
+                "DateModified": $scope.data.dateLastModified
+			};
             if (!items.edit) {
-                $scope.data.dateCreated = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");
-				$scope.data.username = CommonService.getItems('username');
+                /*$scope.data.dateCreated = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");
+				$scope.data.username = CommonService.getItems('username');*/
+				returnData.CreatedBy = CommonService.getItems('username');
+            } else {
+                returnData.ModifiedBy = CommonService.getItems('username');
             }
 
-            $uibModalInstance.close($scope.data);
+            $uibModalInstance.close(returnData);
         };
 
         /*Dyanmic Keyword textbox*/
