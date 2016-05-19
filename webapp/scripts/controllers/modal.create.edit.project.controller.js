@@ -19,8 +19,6 @@
 
         } else {
             $scope.data = {
-                
-                
                 "Title" : "",
                 "description" : "",
                 "projectState" : "",

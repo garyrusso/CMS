@@ -9,10 +9,10 @@
     angular.module('cmsWebApp').controller('ModalDeleteProjectController', ModalDeleteProjectController);
 
     /*Inject angular services to controller*/
-    ModalDeleteProjectController.$inject = ['$scope', '$uibModalInstance', 'items', '$log'];
+    ModalDeleteProjectController.$inject = ['$scope', '$uibModalInstance', 'items', '_','$log', 'CommonService'];
 
     /*Function ModalDeleteProjectController*/
-    function ModalDeleteProjectController($scope, $uibModalInstance, items, $log) {
+    function ModalDeleteProjectController($scope, $uibModalInstance, items, _, $log, CommonService) {
         $log.debug('ModalDeleteProjectController');
         $scope.items = items;
         $scope.cancel = closeModalProject;
@@ -33,7 +33,21 @@
          * Purpose to Delete Project 
          */
         function deleteProject () {
-            $uibModalInstance.close($scope.items.data);
+            var returnData = angular.copy($scope.items.data);
+            returnData.subjectHeadings = _.map(returnData.subjectHeadings, function(eachHeading){
+                    return eachHeading.subjectHeading;
+                });
+            returnData.subjectKeywords = _.map(returnData.subjectKeywords, function(eachKeyword){
+                    return eachKeyword.subjectKeyword;
+                }); 
+            returnData.dateModified = returnData.dateLastModified;
+            returnData.modifiedBy = CommonService.getItems('username');
+            returnData = _.chain(returnData)
+                          .omit('username')
+                          .omit('dateLastModified')
+                          .omit('keywords')
+                          .value();    
+            $uibModalInstance.close(returnData);
         }
     }
 
