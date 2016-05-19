@@ -68,8 +68,12 @@
 			    "Title": $scope.data.Title,
 			    "Description" : $scope.data.description,
 			    "ProjectState": $scope.data.projectState,
-			    "SubjectHeadings": $scope.data.subjectHeadings,
-			    "SubjectKeywords": $scope.data.subjectKeywords,
+			    "SubjectHeadings": _.map($scope.data.subjectHeadings, function(eachHeading){
+			        return eachHeading.subjectHeading;
+			    }),
+			    "SubjectKeywords": _.map($scope.data.subjectKeywords, function(eachKeyword){
+			        return eachKeyword.subjectKeyword;
+			    }),
 			    "CreatedBy": $scope.data.createdBy,
 			    "ModifiedBy": $scope.data.modifiedBy,
 			    "DateCreated": $scope.data.dateCreated,
