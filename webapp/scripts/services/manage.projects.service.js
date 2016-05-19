@@ -15,7 +15,8 @@
         return {
             getProjects : getProjects,
             viewProject : viewProject,
-            openProjectModal : openProjectModal,
+            openProjectModal: openProjectModal,
+            openUploadContentModal: openUploadContentModal,
             openDeleteProjectModal : openDeleteProjectModal,
             createProject : createProject,
             updateProject : updateProject,
@@ -111,6 +112,52 @@
             return deffered.promise;
         }
         
+
+        /**
+        * @name openProjectModal
+        * @param {Boolean} editProject - modal is loaded with edit form or new form.
+        * @param {Object} data - get data on for edit project
+        * @Description
+        * open modal window with create/Edit project form
+        */
+        function openUploadContentModal(editProject, data) {          
+            var self = this, deffered = $q.defer(), modalInstance = $uibModal.open({
+                templateUrl: 'views/modal-template.html',
+                controller: 'ModalCreateEditProjectController',
+                size: 'lg',
+                resolve: {
+                    items: function () {
+                        return {
+                            templateUrl: 'views/modal-upload-edit-content.html',
+                            edit: editProject,
+                            data: data
+                        };
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (updatedData) {
+                $rootScope.setLoading(true);
+                if (editProject) {
+                    self.updateProject(updatedData).then(function (data) {
+                        deffered.resolve(data);
+                        $rootScope.setLoading(false);
+                        $state.go('success', { type: 'project', status: 'edit', name: data.Title, id: data.uri }, { location: false });
+                    });
+                } else {
+                    self.createProject(updatedData).then(function (data) {
+                        deffered.resolve(data);
+                        $rootScope.setLoading(false);
+                        $state.go('success', { type: 'project', status: 'new', name: data.Title, id: data.uri }, { location: false });
+                    });
+                }
+            }, function () {
+
+            });
+
+            return deffered.promise;
+        }
+
         /**
          * @name openDeleteProjectModal
          * @param {Object} data - get data on for delete project
