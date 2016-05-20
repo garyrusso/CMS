@@ -8,7 +8,7 @@
     using System.Net.Http.Headers;
     using System.Runtime.Serialization;
     using Newtonsoft.Json.Linq;
-    using Macmillan.CMS.Common.Logging;
+    using System.Net;
 
     public enum SupportedHttpMethods
     {
@@ -23,21 +23,21 @@
         private Uri uri;
 
         private HttpMethod httpMethod;
-        
+
         private HttpContent content;
-        
-        private HttpClient httpClient = new HttpClient(new HttpClientHandler() { UseDefaultCredentials = true });
-        
+
+        private HttpClient httpClient; // = new HttpClient(new HttpClientHandler() { UseDefaultCredentials = true });
+
         private Action action;
 
         private HttpResponseMessage httpResponseMessage;
-  
+
         private bool disposed = false;
-        
+
         public string responseStatusCode = string.Empty;
         public bool errorOccurred = false;
 
-        public HttpClass(SupportedHttpMethods httpMethod, string uri, string mediaType = "text/json", string content = null)
+        public HttpClass(string uri, SupportedHttpMethods httpMethod, string mediaType = "text/json", string content = null)
         {
             if (content != null)
             {
@@ -46,10 +46,15 @@
                 this.content.Headers.ContentType = new MediaTypeHeaderValue(mediaType);
             }
 
-            
+            HttpClientHandler hch = new HttpClientHandler();
+            hch.Credentials = new NetworkCredential("admin", "printf");
+            //hch.Credentials = new NetworkCredential("admin", "admin");
+
+            this.httpClient = new HttpClient(hch);
+
             this.uri = new Uri(uri);
             this.httpMethod = new HttpMethod(httpMethod.ToString());
-            
+
             if (ConfigurationManager.AppSettings["TimeOut"] != null)
             {
                 this.httpClient.Timeout = new TimeSpan(0, Convert.ToInt16(ConfigurationManager.AppSettings["TimeOut"]), 0);
@@ -57,23 +62,23 @@
 
             switch (httpMethod)
             {
-            case SupportedHttpMethods.GET:
-                this.action = this.Get;
-                break;
-            case SupportedHttpMethods.POST:
-                this.action = this.Post;
-                break;
-            case SupportedHttpMethods.PUT:
-                this.action = this.Put;
-                break;
-            case SupportedHttpMethods.DELETE:
-                this.action = this.Delete;
-                break;
-            default:
-                throw new InvalidHttpMethodException();
+                case SupportedHttpMethods.GET:
+                    this.action = this.Get;
+                    break;
+                case SupportedHttpMethods.POST:
+                    this.action = this.Post;
+                    break;
+                case SupportedHttpMethods.PUT:
+                    this.action = this.Put;
+                    break;
+                case SupportedHttpMethods.DELETE:
+                    this.action = this.Delete;
+                    break;
+                default:
+                    throw new InvalidHttpMethodException();
             }
         }
-       
+
         ~HttpClass()
         {
             this.Dispose(false);
@@ -89,21 +94,17 @@
         {
             return this.httpResponseMessage;
         }
-         
-        public string  GetResponseContent()
+
+        public string GetResponseContent()
         {
             string result = this.httpResponseMessage.Content.ReadAsStringAsync().Result;
 
-            Logger.Debug("///////////Response from server//////////////////////");
-            Logger.Debug(result);
-            Logger.Debug("////////////////////////////////////////////////////");
-
-            return result;       
+            return result;
         }
 
         public void Invoke()
         {
-            this.action.Invoke();       
+            this.action.Invoke();
         }
 
         protected virtual void Dispose(bool disposing)
@@ -154,38 +155,37 @@
         private void IdentifyErrors(HttpResponseMessage msg)
         {
             string content = msg.ToString();
-            Logger.Debug(content);
 
-            responseStatusCode = msg.StatusCode.ToString();
+            //responseStatusCode = msg.StatusCode.ToString();
 
-            if (!responseStatusCode.Contains("20"))
-               this.errorOccurred = true;               
+            if (!content.Contains("StatusCode: 20"))
+                this.errorOccurred = true;
         }
- }
+    }
 
     [Serializable]
     public class InvalidHttpMethodContentCombinationException : Exception
-    {        
-         public InvalidHttpMethodContentCombinationException()
-             : base("When specifying content, either a POST or PUT must be used")
-         {
-         }
-    
-         public InvalidHttpMethodContentCombinationException(string msg)
-             : base(msg) 
-        { 
+    {
+        public InvalidHttpMethodContentCombinationException()
+            : base("When specifying content, either a POST or PUT must be used")
+        {
         }
-               
+
+        public InvalidHttpMethodContentCombinationException(string msg)
+            : base(msg)
+        {
+        }
+
         public InvalidHttpMethodContentCombinationException(string msg, Exception ex)
             : base(msg, ex)
         {
         }
-      
+
         protected InvalidHttpMethodContentCombinationException(
             SerializationInfo info,
             StreamingContext context)
             : base(info, context)
-        {            
+        {
         }
 
         public override void GetObjectData(
@@ -198,17 +198,17 @@
 
     [Serializable]
     public class InvalidHttpMethodException : Exception
-    {       
+    {
         public InvalidHttpMethodException()
             : base("Only PUT, POST, GET and DELETE Methods are supported")
         {
         }
-       
+
         public InvalidHttpMethodException(string msg)
-            : base(msg) 
-        { 
+            : base(msg)
+        {
         }
-      
+
         public InvalidHttpMethodException(string msg, Exception ex)
             : base(msg, ex)
         {
@@ -217,8 +217,8 @@
         protected InvalidHttpMethodException(
         SerializationInfo info,
         StreamingContext context)
-        : base(info, context)
-        {            
+            : base(info, context)
+        {
         }
 
         public override void GetObjectData(
@@ -227,5 +227,5 @@
         {
             base.GetObjectData(info, context);
         }
- }
+    }
 }

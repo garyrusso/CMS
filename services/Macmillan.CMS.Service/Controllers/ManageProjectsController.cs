@@ -11,6 +11,7 @@
 namespace Macmillan.CMS.Service.Controllers
 {
     using Macmillan.CMS.Business;
+    using Macmillan.CMS.Common;
     using Macmillan.CMS.Common.Logging;
     using Macmillan.CMS.Common.Models;
     using Macmillan.CMS.Service.Filters;
@@ -33,7 +34,26 @@ namespace Macmillan.CMS.Service.Controllers
         public ManageProjectsController(IManageProjectBusiness manageProjectBusiness)
         { 
             this.business = manageProjectBusiness;
-        }  
+        }
+
+        public string GetProject()
+        {
+            string results = string.Empty;
+
+            Project p = new Project();
+
+            p.Title = "test title";
+            p.Description = "test description";
+            p.ProjectState = "in progress";
+            p.SubjectHeadings = new string[] { "test1", "test2", "test3"};
+            p.SubjectKeywords = new string[] { "kw1", "kw2", "kw3" };
+            p.CreatedBy = "test@admin.com";
+
+            JsonNetSerialization ser = new JsonNetSerialization();
+            results = ser.Serialize<Project>(p);
+
+            return results;
+        }
 
         /// <summary>
         /// CreateProject with given details
@@ -71,7 +91,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="request"></param>
         /// <param name="project"></param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpPost]
         public object DeleteProject(HttpRequestMessage request,
             [FromBody] Project project)
         {
