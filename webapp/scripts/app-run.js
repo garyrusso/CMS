@@ -191,6 +191,13 @@
             data = angular.fromJson(data);
             return [200, data];
         });
+        
+         //Get MasterData
+        $httpBackend.whenGET(/GetProjectMasterData/).respond(function(method, url, data, headers) {
+        	 return [200, '{"results":[{"name":"In Progress","value":"In Progress"},{"name":"Active","value":"Active"},{"name":"Completed","value":"Completed"},{"name":"Inactive","value":"Inactive"}]}', {/*headers*/}];
+            //data = angular.fromJson(data);
+          //  return [200, data];
+        });
     }
 
 })();

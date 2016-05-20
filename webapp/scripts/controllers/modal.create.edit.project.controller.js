@@ -5,161 +5,87 @@
  **/
 
 (function() {"use strict";
-    angular.module('cmsWebApp').controller('ModalCreateEditProjectController', ModalCreateEditProjectController);
+	angular.module('cmsWebApp').controller('ModalCreateEditProjectController', ModalCreateEditProjectController);
 
-    /*Inject angular services to controller*/
-    ModalCreateEditProjectController.$inject = ['$scope', '$uibModalInstance', 'items', '_', '$filter', 'CommonService'];
+	/*Inject angular services to controller*/
+	ModalCreateEditProjectController.$inject = ['$scope', '$uibModalInstance', 'items', 'getProjectMasterData', '_', '$filter', 'CommonService'];
 
-    /*Function ModalCreateEditProjectController*/
-    function ModalCreateEditProjectController($scope, $uibModalInstance, items, _, $filter, CommonService) {
-        $scope.items = items;
+	/*Function ModalCreateEditProjectController*/
+	function ModalCreateEditProjectController($scope, $uibModalInstance, items, getProjectMasterData, _, $filter, CommonService) {
+		$scope.items = items;
 
-        if (items.edit) {
-            $scope.data = items.data;
+		if (items.edit) {
+			$scope.data = items.data;
 
-        } else {
-            $scope.data = {
-                "Title" : "",
-                "Description" : "",
-                "ProjectState" : "",
-                "SubjectHeadings" : [],
-                "SubjectKeywords" : [""]
-            };
-        }
+		} else {
+			$scope.data = {
+				"Title" : "",
+				"Description" : "",
+				"ProjectState" : "",
+				"SubjectHeadings" : [],
+				"SubjectKeywords" : [""]
+			};
+		}
 
-        $scope.cancel = closeModalProject;
+		$scope.cancel = closeModalProject;
 
-        function closeModalProject() {
-            $uibModalInstance.dismiss('cancel');
-        }
+		function closeModalProject() {
+			$uibModalInstance.dismiss('cancel');
+		}
 
-        /*Project state dropdown*/
-        $scope.projectStates =  ["In Progress", "Active", "Completed","Inactive"];
+		/*Project state dropdown*/
+		$scope.projectStates = getProjectMasterData.results;
+		//["In Progress", "Active", "Completed","Inactive"];
 
-        
+		/*Project Subject dropdown */
+		$scope.subjects = ["Psychology", "Economics", "History", "Biology"];
 
-        /*Project Subject dropdown */
-        $scope.subjects = [ "Psychology", "Economics", "History", "Biology"];
+		/*$scope.selectedSubjects = _.chain($scope.subjects).indexBy('subjectHeading').mapObject(function(val, key) {
+		 return {selected: _.contains(_.pluck($scope.data.subjectHeadings), key)};
+		 }).value();*/
 
-        /*$scope.selectedSubjects = _.chain($scope.subjects).indexBy('subjectHeading').mapObject(function(val, key) {
-         return {selected: _.contains(_.pluck($scope.data.subjectHeadings), key)};
-         }).value();*/
+		$scope.statuses = $scope.subjects;
+		$scope.selectedStatuses = $scope.data.SubjectHeadings;
 
-        $scope.statuses = $scope.subjects;
-        $scope.selectedStatuses = $scope.data.SubjectHeadings;
-        
-        $scope.addKeywordField = addKeywordField;
+		$scope.addKeywordField = addKeywordField;
 
-        /* Create/Update Proejct submit function*/
-        //TODO format
-        $scope.submit = function() {
+		/* Create/Update Proejct submit function*/
+		//TODO format
+		$scope.submit = function() {
 			/*$scope.data.dateLastModified = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");*/
 			/*var returnData = {
-			    "Title": $scope.data.Title,
-			    "Description" : $scope.data.description,
-			    "ProjectState": $scope.data.projectState,
-			    "SubjectHeadings": _.map($scope.data.subjectHeadings, function(eachHeading){
-			        return eachHeading.subjectHeading;
-			    }),
-			    "SubjectKeywords": _.map($scope.data.subjectKeywords, function(eachKeyword){
-			        return eachKeyword.subjectKeyword;
-			    }),
-			    "CreatedBy": $scope.data.createdBy,
-			    "ModifiedBy": $scope.data.modifiedBy,
-			    "DateCreated": $scope.data.dateCreated,
-                "DateModified": $scope.data.dateLastModified
-			};*/
-            if (!items.edit) {
-                /*$scope.data.dateCreated = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");*/
+			 "Title": $scope.data.Title,
+			 "Description" : $scope.data.description,
+			 "ProjectState": $scope.data.projectState,
+			 "SubjectHeadings": _.map($scope.data.subjectHeadings, function(eachHeading){
+			 return eachHeading.subjectHeading;
+			 }),
+			 "SubjectKeywords": _.map($scope.data.subjectKeywords, function(eachKeyword){
+			 return eachKeyword.subjectKeyword;
+			 }),
+			 "CreatedBy": $scope.data.createdBy,
+			 "ModifiedBy": $scope.data.modifiedBy,
+			 "DateCreated": $scope.data.dateCreated,
+			 "DateModified": $scope.data.dateLastModified
+			 };*/
+			if (!items.edit) {
+				/*$scope.data.dateCreated = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");*/
 				$scope.data.CreatedBy = CommonService.getItems('username');
-			    /*returnData.CreatedBy = CommonService.getItems('username');*/
-            } else {
-                $scope.data.ModifiedBy = CommonService.getItems('username');
-            }
+				/*returnData.CreatedBy = CommonService.getItems('username');*/
+			} else {
+				$scope.data.ModifiedBy = CommonService.getItems('username');
+			}
 
-            $uibModalInstance.close(angular.copy($scope.data));
-        };
+			$uibModalInstance.close(angular.copy($scope.data));
+		};
 
-        /*Dyanmic Keyword textbox*/
+		/*Dyanmic Keyword textbox*/
 
-        function addKeywordField(keyword, $event) {
-            keyword.push('');
-            $event.preventDefault();
-        }
+		function addKeywordField(keyword, $event) {
+			keyword.push('');
+			$event.preventDefault();
+		}
 
+	}
 
-        /*Dyanmic project dropdown*/
-        var tcounter = 0;  
-
-        $scope.projectslist = [{
-            projectName: 'Hockenbury 5e-1',
-        }, {
-            projectName: 'Hockenbury 5e-2',
-        }]
-
-       // $scope.projectsdropdown = $scope.projectslist;
-
-        $scope.addProjectsField = addProjectsField;
-
-        function addProjectsField(projectslist, $event) {            
-            tcounter++;
-            projectslist.push({
-                id: tcounter,
-                projectName: '',
-                inline: true
-            });
-            $event.preventDefault();
-        }
-
-
-
-        /* start dropdown*/
-
-        var counter = 0;
-        $scope.data1 = {
-            fields: [{ name: "" }]
-        }
-
-        $scope.days = ['Hockenbury 5e-1', 'Hockenbury 5e-2', 'Hockenbury 5e-3', 'Hockenbury 5e-4', 'Hockenbury 5e-5'];
-
-        $scope.addField = function () {            
-            $scope.data1.fields.push({
-                name: "projectName " + counter++
-            });
-        };
-    
-
-
-
-       
-    /* end dropdown*/
-    }
-
-    angular.module('cmsWebApp').directive('demoDisplay', function ($compile) {
-        
-        return {
-            scope: {
-                demoDisplay: "=", //import referenced model to our directives scope
-                demoDays: "="
-            },
-            templateUrl: 'views/dropdown-template.html',
-            link: function (scope, elem, attr, ctrl) {
-                /*
-                scope.$watch('demoDisplay', function() { // watch for when model changes
-          
-                  elem.html("") //remove all elements
-          
-                  angular.forEach(scope.demoDisplay, function(d) { //iterate list
-                    var s = scope.$new(); //create a new scope
-                    angular.extend(s, d); //copy data onto it
-                    console.log(scope.demoDays);
-          
-                    var template = '';
-                    elem.append($compile(template)(s)); // compile template & append
-                  });
-                }, true) //look deep into object
-                */
-            }
-        }
-    })
 })();

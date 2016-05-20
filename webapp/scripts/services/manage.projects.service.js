@@ -86,8 +86,10 @@
                             edit : editProject,
                             data : data
                         };
-                    }
-                }
+                    },                
+                	getProjectMasterData : getProjectState
+                }                
+             
             });
 
             modalInstance.result.then(function(updatedData) {
@@ -207,6 +209,12 @@
         function deleteProject(postData) {
             return $http.post('ManageProjects/DeleteProject', postData).then(function (response) {
                 return response.data;
+            });
+        }
+        getProjectState.$inject = ['$http'];
+         function getProjectState($http) {
+            return $http.get('ManageProjects/GetProjectMasterData').then(function (response) {
+             return response.data;
             });
         }
 
