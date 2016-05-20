@@ -193,6 +193,7 @@ td.cms-main-display-center {
     top: 0px;
     background-color: #D8D8D8; 
 }
+.cms-content-page .ng-table-pager,
 .cms-projects-page .ng-table-pager {
     display: none;
 }

@@ -8,10 +8,10 @@
     angular.module('cmsWebApp').controller('HeaderController', HeaderController);
 
     /*Inject angular services to controller*/
-    HeaderController.$inject = ['$scope', '$state', '$uibModal', 'CommonService', 'AuthenticationService', 'ManageProjectsService', '$log'];
+    HeaderController.$inject = ['$scope', '$state', '$uibModal', 'CommonService', 'AuthenticationService', 'ManageProjectsService', 'ManageContentService', '$log'];
 
     /*Function HeaderController*/
-    function HeaderController($scope, $state, $uibModal, CommonService, AuthenticationService, ManageProjectsService, $log) {
+    function HeaderController($scope, $state, $uibModal, CommonService, AuthenticationService, ManageProjectsService, ManageContentService, $log) {
         var header = this;
 
         header.searchType = 'All'; //by default
@@ -25,7 +25,8 @@
         /* function to open modal window with create project form */
         header.onclickCreateEditProject = onclickCreateEditProject;
 
-
+        /* function to open modal window with Upload content form */
+        header.onclickUploadContent = onclickUploadContent;
 
         
         /**
@@ -40,6 +41,17 @@
                 $log.debug('project created - header');
                 //$scope.$emit('onCreateProjectHeader', {});
             });
+        }
+        
+        /**
+         * @ngdoc method
+         * @name onclickUploadContent
+         * @methodOf cmsWebApp.controller:HeaderController
+         * @description
+         * open modal window with upload content form
+         */
+        function onclickUploadContent () {
+            ManageContentService.openUploadContentModal();
         }
         
         /**

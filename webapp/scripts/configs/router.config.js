@@ -49,7 +49,21 @@
             data : {
                 roles : ['User']
             }
-        }).state('success', {
+        })
+        .state('content', {
+            url : "/content",
+            templateUrl : "views/commonMainWithNav.html",
+            controller : 'ManageContentController',
+            controllerAs : 'content',
+            resolve : {
+                routeResolvedContentList : contentList
+            },
+            data : {
+                roles : ['User']
+            }
+
+        })
+        .state('success', {
             url : "/success?type&status&name&id",
             templateUrl : "views/success-view.html",
             controller : 'SuccessStatusController',
@@ -82,6 +96,18 @@
         projectList.$inject = ['ManageProjectsService'];
         function projectList(ManageProjectsService) {
             return ManageProjectsService.getProjects();
+        }
+
+        /**
+         * @ngdoc service
+         * @name cmsWebApp.service:contentList
+         * @description
+         * Resolved method to 'content' state. It call the searchData method to get all content list.
+         * @return promise with get content list
+         */
+        contentList.$inject = ['SearchService'];
+        function contentList(SearchService) {
+            return SearchService.searchData('content');
         }
 
         /**

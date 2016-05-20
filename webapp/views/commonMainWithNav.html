@@ -26,6 +26,25 @@
                     </div>
                 </div>
             </div>
+            <div ng-if="$state.current.name==='content'" class="row">
+                <div class="col-sm-12">
+                    <div class="row" ng-repeat="facet in content.facets">
+                        <div class="col-sm-12">
+                            <strong class="text-capitalize" ng-bind="facet.facetTitle"></strong>
+                        </div>
+                        <div class="col-sm-12">
+                            <ul class="list-unstyled">
+                                <li ng-repeat="items in facet.facetArray | limitTo:5">
+                                    <a href="#" ng-bind="items.name + ' ('+items.count+')'"></a>
+                                </li>
+                                <li ng-if="facet.facetArray.length>5">
+                                    <a href="#" ng-click="$event.preventDefault(); content.showAllFacetsItems(facet)">+ See All</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div ng-if="$state.current.name==='dashboard'" class="row">
                 <div class="col-sm-12">
                     <div class="row" ng-repeat="facet in dashboard.facets">
@@ -47,9 +66,10 @@
             </div>
         </nav>
     </div>
-    <div class="col-sm-9 col-md-10 cms-main" ng-class="{'cms-projects-page':$state.current.name==='projects'||$state.current.name==='dashboard'}">
+    <div class="col-sm-9 col-md-10 cms-main" ng-class="{'cms-projects-page':$state.current.name==='projects'||$state.current.name==='dashboard', 'cms-content-page':$state.current.name==='content'}">
         <!-- Main content -->
         <div ng-if="$state.current.name==='projects'" ng-include="'views/display-project-grid-list-view.html'"></div>
+        <div ng-if="$state.current.name==='content'" ng-include="'views/display-content-grid-list-view.html'"></div>
         <div ng-if="$state.current.name==='dashboard'" ng-include="'views/dashboard-view.html'"></div>
     </div>
 </div>

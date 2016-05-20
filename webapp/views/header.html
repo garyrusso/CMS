@@ -71,7 +71,7 @@
                     <a ui-sref="projects">Projects</a>
                 </div>
                 <div class="col-xs-2">
-                    <a href="#">Content</a>
+                    <a ui-sref="content">Content</a>
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@
 
             <div class="pull-right clearfix cms-horizontal-menu">
                 <span> <a href="#" ng-click="$event.preventDefault(); header.onclickCreateEditProject(false);">Create Project <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span></a> </span>
-                <span > <a href="#" ng-click="$event.preventDefault();">Upload Content <span class="glyphicon glyphicon-open" aria-hidden="true"></span></a> </span>
+                <span > <a href="#" ng-click="$event.preventDefault();header.onclickUploadContent();">Upload Content <span class="glyphicon glyphicon-open" aria-hidden="true"></span></a> </span>
             </div>
         </div>
     </div>
