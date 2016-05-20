@@ -25,17 +25,17 @@ import module namespace json="http://marklogic.com/xdmp/json" at "/MarkLogic/jso
 
 (:
 This API is responsible to get list of dictionary values for a given dictionary type
- Parameter - "dictionaryType=xs:string" 
+ Parameters - "dictionaryType=xs:string", "output-format=xs:string" - to support JSON & XML
  :)
 declare 
-%roxy:params("dictionaryType=xs:string")
+%roxy:params("dictionaryType=xs:string", "output-format=xs:string")
 function mml-api:get(
   $context as map:map,
   $params  as map:map
 ) as document-node()*
 {
   let $dictionary-type := map:get($params, "dictionaryType")
-  let $output-format := map:get($context, "input-types")
+  let $output-format := map:get($params, "output-format")
   
   (: Custom JSON configurator to support nested array elements :)
   let $custom :=
@@ -59,7 +59,7 @@ function mml-api:get(
 	  </results> 
 	  
   (: Depends on content-type either XML or JSON output will be returned :)
-  let $result := if ($output-format = "application/json") then 
+  let $result := if ($output-format = "json") then 
 					json:transform-to-json($result-xml, $custom)
 				 else
 					$result-xml
