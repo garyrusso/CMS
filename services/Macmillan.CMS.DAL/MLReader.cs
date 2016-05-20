@@ -12,22 +12,22 @@ namespace Macmillan.CMS.DAL
     {
         private readonly JsonNetSerialization serializer = new JsonNetSerialization();
 
-        public string HttpInvoke(SupportedHttpMethods httpMethod, string url, string content = null)
+        public string HttpInvoke(string url, SupportedHttpMethods httpMethod, string mediaType, string content = null)
         {
-            using (var httpClass = new HttpClass(httpMethod, url,"text/json", content))
+            using (var httpClass = new HttpClass(url, httpMethod, mediaType, content))
             {
                 httpClass.Invoke();
 
                 this.ProcessErrors(httpClass);
-                                               
-                return httpClass.GetResponseContent();;
+
+                return httpClass.GetResponseContent(); ;
             }
         }
 
         public object GetHttpResponse(string url)
         {
             string content;
-            using (var httpClass = new HttpClass(SupportedHttpMethods.GET, "text/json", url))
+            using (var httpClass = new HttpClass(url, SupportedHttpMethods.GET, "text/json", url))
             {
                 httpClass.Invoke();
 
@@ -40,10 +40,10 @@ namespace Macmillan.CMS.DAL
             return ser.DeSerialize(content);
         }
 
-        public string GetHttpContent(string url)
+        public string GetHttpContent(string url, string mediaType = "application/json")
         {
             string content;
-            using (var httpClass = new HttpClass(SupportedHttpMethods.GET, "text/json", url))
+            using (var httpClass = new HttpClass(url, SupportedHttpMethods.GET, mediaType, url))
             {
                 httpClass.Invoke();
 
@@ -57,7 +57,7 @@ namespace Macmillan.CMS.DAL
 
         public T GetHttpContent<T>(string url)
         {
-            using (var httpClass = new HttpClass(SupportedHttpMethods.GET, "text/json", url))
+            using (var httpClass = new HttpClass(url, SupportedHttpMethods.GET, "text/json", url))
             {
                 httpClass.Invoke();
 
@@ -67,15 +67,15 @@ namespace Macmillan.CMS.DAL
                 return (T)this.serializer.DeSerialize<T>(content);
             }
         }
-                
+
         public void ProcessErrors(HttpClass httpClass) // string errorContent, bool isCustomError)
         {
             if (httpClass.errorOccurred)
             {
-                CMSException cmsException = new CMSException(CMSExceptionTypes.DataException, httpClass.GetResponseContent(), httpClass.responseStatusCode);
+                Exception cmsException = new Exception(httpClass.GetResponseContent());
 
                 throw cmsException;
             }
-        }       
+        }
     }
 }

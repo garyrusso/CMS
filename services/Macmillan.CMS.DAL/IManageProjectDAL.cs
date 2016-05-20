@@ -13,11 +13,11 @@ namespace Macmillan.CMS.DAL
     /// </summary>
     public interface IManageProjectDAL
     {
-       object CreateProject(Project project);
-       object UpdateProject(Project project);
-       object DeleteProject(Project project);
-       object GetProjectDetails(string uri);
-       object GetProjectMasterData(List<Project> ProjectDetail);
-       object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy);
+        object CreateProject(string projXml, string projUri);
+        object UpdateProject(string projXml, string projUri);
+        object DeleteProject(string projXml, string projUri);
+        object GetProjectDetails(string uri);
+        object GetProjectMasterData(List<Project> ProjectDetail);
+        object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy);
     }
 }

@@ -4,6 +4,7 @@
     using System.IO;
     using System.Linq;
     using Newtonsoft.Json;
+    using System.Xml;
 
     public class JsonNetSerialization : ISerialization
     {
@@ -34,7 +35,20 @@
 
         public object DeSerialize(string content)
         {
-            return JsonConvert.DeserializeObject(content);
+            return JsonConvert.DeserializeObject(content);            
+        }
+
+        public string ConvertToJson(string xml)
+        {
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+            
+            return JsonConvert.SerializeXmlNode(doc);
+        }
+
+        public string SerializeAnonymous(object obj)
+        {
+            return JsonConvert.SerializeObject(obj);  
         }
     }
 }

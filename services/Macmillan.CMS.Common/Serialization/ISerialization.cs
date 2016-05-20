@@ -11,5 +11,9 @@
         T DeSerialize<T>(string content);
 
         object DeSerialize(string content);
+
+        string ConvertToJson(string xml);
+
+        string SerializeAnonymous(object obj);
     }
 }
