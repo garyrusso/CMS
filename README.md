@@ -9,4 +9,58 @@ Application layers:
 3. Database tier - MarkLogic
 
 
+## MarkLogic Database Tier
+
+Will provide the following RESTFul APIs.
+
+1. Authentication – consists of login, logout, and validate functions. Login function will look for valid user. If user is valid then a session document is generated that has a token. This token is then used for all subsequent REST API requests. Token will expire after 24 hours. 
+1. Master data definition API
+1. Project Document API - Create, View, Edit, Delete (Change State), and Search
+1. Content Upload API – binary document via XCC & create wrapper document & audit document
+1. Content Wrapper API - View, Edit, Delete (Change State), and Search will also include audit information
+1. Listing of contents – MarkLogic search API with facet constraints, project associations
+1. Project List API - will show content associations (related content)
+1. Content Download API (binary document)
+
+
+# RESTful APIs
+
+<table>
+    <tr>
+        <td colspan="4" style="font-size:x-large;color:green"><b>Request Mappings</b></td>
+    </tr>
+    <tr>
+        <td width="100" style="background-color:green;color:white"><b>Method</b></td>
+        <td width="180" style="background-color:green;color:white"><b>URL Template</b></td>
+        <td width="420" style="background-color:green;color:white"><b>Parameters</b></td>
+        <td width="720" style="background-color:green;color:white"><b>Description</b></td>
+    </tr>
+    <tr>
+        <td valign="top" colspan="4"><b>Search APIs</b></td>
+    </tr>
+    <tr>
+        <td valign="top">GET</td>
+        <td valign="top">/search</td>
+        <td valign="top">
+		<table>
+			<tr><td valign="top">rs:q</td><td>query string<hr/>leading and trailing wildcards<hr/>constraints:<ul><li>dname</li><li>row</li><li>col</li><li>cell</li></ul></td></tr>
+			<tr><td valign="top">rs:start</td><td>starting record</td></tr>
+			<tr><td valign="top">rs:pageLength</td><td>number of records to return</td></tr>
+		</table>
+		</td>
+        <td valign="top" style ="font-family:'Courier New'">Searches entire data hub.<hr/>Returns search results using custom snippets with highlighting.</td>
+    </tr>
+    <tr>
+        <td valign="top">GET</td>
+        <td valign="top">/spreadsheet/search</td>
+        <td valign="top">
+		<table>
+			<tr><td valign="top">rs:q</td><td>query string<hr/>leading and trailing wildcards<hr/>constraints:<ul><li>dname</li><li>row</li><li>col</li><li>cell</li><li>user</li></ul></td></tr>
+			<tr><td valign="top">rs:start</td><td>starting record</td></tr>
+			<tr><td valign="top">rs:pageLength</td><td>number of records to return</td></tr>
+		</table>
+		</td>
+        <td valign="top" style ="font-family:'Courier New'">Search across all spreadsheet data of all users.<hr/>Returns search results using custom snippets with highlighting.</td>
+    </tr>
+</table>
 
