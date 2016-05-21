@@ -22,7 +22,7 @@ Will provide the following RESTFul APIs.
 1. Project List API - will show content associations (related content)
 1. Content Download API (binary document)
 
-Content Repository Search Portal Demo Build: [http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/](Demo Build)
+Content Repository Search Portal: [Demo Build](http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/)
 
 ### Database RESTful APIs
 
