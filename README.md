@@ -46,7 +46,7 @@ Will provide the following RESTFul APIs.
 			<tr><td valign="top">X-Auth-Token</td><td>header<hr/>uses base 64 encoded string</td></tr>
 		</table>
 		</td>
-        <td valign="top" style ="font-family:'Courier New'">Login API looks for valid user. If user is found and validated then a session document is generated that has a token.</br>The token is then used for all subsequent REST API requests.</br>Token will expire after 24 hours.</br></td>
+        <td valign="top" style ="font-family:'Courier New'">Login API looks for valid user.</br></br>If user is found and validated then a session document is generated that has a token.</br></br>The token is then used for all subsequent REST API requests.</br></br>Token will expire after 24 hours.</br></br></br></td>
     </tr>
     <tr>
         <td valign="top">GET</td>
