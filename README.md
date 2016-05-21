@@ -36,23 +36,44 @@ Will provide the following RESTFul APIs.
         <td width="720" style="background-color:green;color:white"><b>Description</b></td>
     </tr>
     <tr>
-        <td valign="top" colspan="4"><b>Search APIs</b></td>
+        <td valign="top" colspan="4"><b>Authentication APIs</b></td>
+    </tr>
+    <tr>
+        <td valign="top">GET or POST</td>
+        <td valign="top">/login</td>
+        <td valign="top">
+		<table>
+			<tr><td valign="top">X-Auth-Token</td><td>header<hr/>uses base 64 encoded string<hr/>more info to be provided soon.....</td></tr>
+		</table>
+		</td>
+    </tr>
+    <tr>
+        <td valign="top">GET</td>
+        <td valign="top">/logout</td>
+        <td valign="top">
+		<table>
+			<tr><td valign="top">X-Auth-Token</td><td>header<hr/>uses base 64 encoded string<hr/>more info to be provided soon.....</td></tr>
+		</table>
+		</td>
+    </tr>
+    <tr>
+        <td valign="top" colspan="4"><b>Project APIs</b></td>
     </tr>
     <tr>
         <td valign="top">GET</td>
         <td valign="top">/search</td>
         <td valign="top">
 		<table>
-			<tr><td valign="top">rs:q</td><td>query string<hr/>leading and trailing wildcards<hr/>constraints:<ul><li>dname</li><li>row</li><li>col</li><li>cell</li></ul></td></tr>
+			<tr><td valign="top">rs:q</td><td>query string<hr/>leading and trailing wildcards<hr/>constraints:<ul><li>author</li><li>name</li><li>user</li><li>book</li></ul></td></tr>
 			<tr><td valign="top">rs:start</td><td>starting record</td></tr>
 			<tr><td valign="top">rs:pageLength</td><td>number of records to return</td></tr>
 		</table>
 		</td>
-        <td valign="top" style ="font-family:'Courier New'">Searches entire data hub.<hr/>Returns search results using custom snippets with highlighting.</td>
+        <td valign="top" style ="font-family:'Courier New'">Searches entire content repository.<hr/>Returns search results using custom snippets with highlighting.</td>
     </tr>
     <tr>
         <td valign="top">GET</td>
-        <td valign="top">/spreadsheet/search</td>
+        <td valign="top">/project/search</td>
         <td valign="top">
 		<table>
 			<tr><td valign="top">rs:q</td><td>query string<hr/>leading and trailing wildcards<hr/>constraints:<ul><li>dname</li><li>row</li><li>col</li><li>cell</li><li>user</li></ul></td></tr>
@@ -60,7 +81,7 @@ Will provide the following RESTFul APIs.
 			<tr><td valign="top">rs:pageLength</td><td>number of records to return</td></tr>
 		</table>
 		</td>
-        <td valign="top" style ="font-family:'Courier New'">Search across all spreadsheet data of all users.<hr/>Returns search results using custom snippets with highlighting.</td>
+        <td valign="top" style ="font-family:'Courier New'">Search across all project data of all users.<hr/>Returns search results using custom snippets with highlighting.</td>
     </tr>
 </table>
 
