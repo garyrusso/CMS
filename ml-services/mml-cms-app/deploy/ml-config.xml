@@ -257,6 +257,7 @@
           <localname>subjectHeading</localname>
           <collation>http://marklogic.com/collation/codepoint</collation>
           <range-value-positions>false</range-value-positions>
+          <invalid-values>ignore</invalid-values>
         </range-element-index>
 		
         <range-element-index>
@@ -265,6 +266,7 @@
           <localname>subjectKeyword</localname>
           <collation>http://marklogic.com/collation/codepoint</collation>
           <range-value-positions>false</range-value-positions>
+          <invalid-values>ignore</invalid-values>
         </range-element-index>		
 		
         <range-element-index>
@@ -273,7 +275,18 @@
           <localname>projectState</localname>
           <collation>http://marklogic.com/collation/codepoint</collation>
           <range-value-positions>false</range-value-positions>
-        </range-element-index>		
+          <invalid-values>ignore</invalid-values>
+        </range-element-index>
+
+        <range-element-index>
+          <scalar-type>dateTime</scalar-type>
+          <namespace-uri/>
+          <localname>expiration</localname>
+          <collation/>
+          <range-value-positions>false</range-value-positions>
+          <invalid-values>ignore</invalid-values>
+        </range-element-index>
+
       </range-element-indexes>
       <range-element-attribute-indexes>
 <!--

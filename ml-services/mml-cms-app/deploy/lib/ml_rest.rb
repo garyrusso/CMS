@@ -167,7 +167,7 @@ module Roxy
           
           url = "http://#{@hostname}:#{@port}/v1/config/resources/#{extensionName}"
           if (params.length > 0)
-            url << "?" << params.join("&")
+            url << "?name=#{extensionName}&" << params.join("&")
           end
           @logger.debug "loading: #{d}"
           
