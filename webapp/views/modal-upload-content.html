@@ -1,171 +1,158 @@
-﻿    <h3>Upload Content</h3>
-    <form name="contentForm" ng-submit="submit()">
-        <div class="form-group">
-            <label for="InputContentFile">Select File</label>
-            <input type="file" filelist-bind name="files" class="filestyle" id="InputContentFile" />
-        </div>
-        
-        <div class="form-group">
-            <label for="InputContentName">Title *</label>
-            <input class="form-control" type="text" id="InputContentName"
-                   ng-model="data.Title"
-                   ng-class="{red: contentForm.contentTitle.$invalid &&  contentForm.contentTitle.$touched && !contentForm.contentTitle.$focused}"
-                   name="contentTitle"
-                   required="">
-        </div>
-        <div class="form-group">
-            <label for="InputContentDescription">Description *</label>
-            <textarea class="form-control" id="InputContentDescription"
+﻿<h3>Upload Content</h3>
+<form name="contentForm" ng-submit="submit()">
+    <div class="form-group">
+        <label for="InputContentFile">Select File</label>
+        <input type="file" filelist-bind name="files" class="filestyle" id="InputContentFile" />
+    </div>
+
+    <div class="form-group">
+        <label for="InputContentName">Title *</label>
+        <input class="form-control" type="text" id="InputContentName"
+        ng-model="data.Title"
+        ng-class="{red: contentForm.contentTitle.$invalid &&  contentForm.contentTitle.$touched && !contentForm.contentTitle.$focused}"
+        name="contentTitle"
+        required="">
+    </div>
+    <div class="form-group">
+        <label for="InputContentDescription">Description *</label>
+        <textarea class="form-control" id="InputContentDescription"
                       ng-model="data.Description"
                       ng-class="{red: contentForm.contentDescription.$invalid && contentForm.contentDescription.$touched && !contentForm.contentDescription.$focused}"
                       name="contentDescription"
                       rows="3" required=""></textarea>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-8">
+            <label for="InputContentSource">Source*</label>
+            <select class="form-control" name="contentSource" id="InputContentSource"
+            ng-model="data.Source"
+            ng-options="source for source in sourceData" >
+                <option ng-selected="true" value="">Select Source</option>
+            </select>
         </div>
-        <div class="form-group row">
-            <div class="col-md-8">
-                <label for="InputContentSource">Source*</label>
-                <select class="form-control" name="contentState" id="InputContentSource">
-                    <option>Book</option>
-                    <option>Internet</option>
-                </select>
-            </div>
-        </div>
-        <label>Creator</label>
-        
-        <div class="form-group">
-            <div>
-                <div ng-repeat="keyElement in data.Creator track by $index">                   
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" ng-model="data.Creator[$index]" placeholder="Creator" />
+    </div>
+    <label>Creator</label>
+
+    <div class="form-group">
+        <div>
+            <div ng-repeat="keyElement in data.Creator track by $index">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="data.Creator[$index]" placeholder="Creator" />
+                        </div>
+                        <div class="col-md-4">
+                            <div ng-if="$last">
+                                <span> <span class="glyphicon glyphicon-plus" ng-click="addRepeatedField(data.Creator,$event)"></span> </span>
                             </div>
-                            <div class="col-md-4">
-                                <div ng-if="$last">
-                                    <span>
-                                        <span class="glyphicon glyphicon-plus" ng-click="addRepeatedField(data.Creator,$event)"></span>
-                                    </span>
-                                </div>
-                                <div ng-if="!$last">
-                                    <span>
-                                        <span class="glyphicon glyphicon-minus" ng-click="data.Creator.splice($index, 1)"></span>
-                                    </span>
-                                </div>
+                            <div ng-if="!$last">
+                                <span> <span class="glyphicon glyphicon-minus" ng-click="data.Creator.splice($index, 1)"></span> </span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="form-group row">
-            <div class="col-md-8">
-                <label for="InputContentPublisher">Publisher*</label>
-                <select class="form-control" name="contentPublisher" id="InputContentPublisher">
-                    <option>Worth Publisher</option>
-                    <option>North Publisher</option>
-                </select>
-            </div>
+    <div class="form-group row">
+        <div class="col-md-8">
+            <label for="InputContentPublisher">Publisher*</label>
+            <select class="form-control" name="contentPublisher" id="InputContentPublisher"
+            ng-model="data.Publisher"
+            ng-options="publisher for publisher in publisherData" >
+                <option ng-selected="true" value="">Select Publisher</option>
+            </select>
         </div>
-        <div class="form-group row">
-            <div class="col-md-8">
-                <label for="InputContentVenderState">Version State*</label>
-                <select class="form-control" name="contentVenderState" id="InputContentVenderState">
-                    <option>Vender</option>
-                    <option>Publisher</option>
-                </select>
-            </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-8">
+            <label for="InputContentVenderState">Version State*</label>
+            <select class="form-control" name="contentVenderState" id="InputContentVenderState"
+            ng-model="data.ContentState"
+            ng-options="version for version in versionData" >
+                <option ng-selected="true" value="">Select Version State</option>
+            </select>
         </div>
-        <div class="form-group row">
-            <div class="col-md-8">
-                <label for="InputContentSource">Content Resource Type</label>
-                <select class="form-control" name="contentState" id="InputContentSource">
-                    <option>Book</option>
-                    <option>Internet</option>
-                </select>
-            </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-8">
+            <label for="InputContentResourceType">Content Resource Type</label>
+            <input class="form-control" type="text" id="InputContentResourceType"
+            ng-model="data.ContentResourceType"
+            name="ContentResourceType"
+            >
         </div>
-        <div class="form-group row">
-            <div class="col-md-8">
-                <label for="InputContentProjects">Projects</label>     
-                
-                <button class="glyphicon glyphicon-plus" ng-click="addField()"></button>
+    </div>
 
-                <!--<div ng-repeat="field in data.fields">
-                    <div demo-display="field" demo-days="days"></div>
-                </div>
-                <tt>{{data.fields}}</tt>-->
-                            <br />
-                <div>
+    <label>Projects</label>
 
-                    <div ng-repeat="field in data.fields">                        
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-md-8">                                   
-                                        <div demo-display="field" demo-days="days"></div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div ng-if="$last">
-                                        <span>
-                                            <span class="glyphicon glyphicon-plus" ng-click="addField()"></span>
-                                        </span>
-                                    </div>
-                                    <div ng-if="!$last">
-                                        <span>
-                                            <span class="glyphicon glyphicon-minus" ng-click="data.fields.splice($index, 1)"></span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="form-group">
+        <div>
+            <div ng-repeat="keyElement in data.Projects track by $index">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <ui-select ng-model="ctrl.person.selected" theme="bootstrap">
+                                <ui-select-match placeholder="Select or search a project in the list...">
+                                    {{$select.selected.Title}}
+                                </ui-select-match>
+                                <ui-select-choices repeat="item in ctrl.people | filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                </ui-select-choices>
+                            </ui-select>
                         </div>
-                    </div>
-
-                    
-                </div>            
-            </div>
-        </div>
-        <div class="form-group row">
-            <div class="col-md-8">
-                <label for="InputContentSubjects">Subjects</label>
-                <select class="form-control" name="contentSubject" id="InputContentSubjects"
-                        ng-model="data.subjectHeadings"
-                        multiple ng-options="status.subjectHeading for status in statuses track by status.subjectHeading"></select>
-
-            </div>
-        </div>
-
-        <label>Keywords</label>
-        
-        <div class="form-group">
-            <div>
-                <div ng-repeat="keyElement in data.SubjectKeywords track by $index">                   
-                    <div class="form-group">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <input type="text" class="form-control" ng-model="data.SubjectKeywords[$index]" placeholder="keywords" />
+                        <div class="col-md-4">
+                            <div ng-if="$last">
+                                <span> <span class="glyphicon glyphicon-plus" ng-click="addRepeatedField(data.Projects,$event)"></span> </span>
                             </div>
-                            <div class="col-md-4">
-                                <div ng-if="$last">
-                                    <span>
-                                        <span class="glyphicon glyphicon-plus" ng-click="addRepeatedField(data.SubjectKeywords,$event)"></span>
-                                    </span>
-                                </div>
-                                <div ng-if="!$last">
-                                    <span>
-                                        <span class="glyphicon glyphicon-minus" ng-click="data.SubjectKeywords.splice($index, 1)"></span>
-                                    </span>
-                                </div>
+                            <div ng-if="!$last">
+                                <span> <span class="glyphicon glyphicon-minus" ng-click="data.Projects.splice($index, 1)"></span> </span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-8">
+            <label for="InputContentSubjects">Subjects</label>
+            <select class="form-control" name="contentSubject" id="InputContentSubjects"
+            ng-model="data.SubjectHeadings"
+            multiple ng-options="status for status in subjectHeadingsData"></select>
 
-        <p class="text-center">
-            <button type="submit" class="btn btn-default" ng-disabled="contentForm.$invalid">
-                Upload
-            </button>
-            
-        </p>
-    </form>
+        </div>
+    </div>
+
+    <label>Keywords</label>
+
+    <div class="form-group">
+        <div>
+            <div ng-repeat="keyElement in data.SubjectKeywords track by $index">
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="data.SubjectKeywords[$index]" placeholder="keywords" />
+                        </div>
+                        <div class="col-md-4">
+                            <div ng-if="$last">
+                                <span> <span class="glyphicon glyphicon-plus" ng-click="addRepeatedField(data.SubjectKeywords,$event)"></span> </span>
+                            </div>
+                            <div ng-if="!$last">
+                                <span> <span class="glyphicon glyphicon-minus" ng-click="data.SubjectKeywords.splice($index, 1)"></span> </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p class="text-center">
+        <button type="submit" class="btn btn-default" ng-disabled="contentForm.$invalid">
+            Upload
+        </button>
+
+    </p>
+</form>
