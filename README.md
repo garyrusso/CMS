@@ -43,7 +43,7 @@ Will provide the following RESTFul APIs.
         <td valign="top">/login</td>
         <td valign="top">
 		<table>
-			<tr><td valign="top">X-Auth-Token</td><td>header<hr/>uses base 64 encoded string<hr/>more info to be provided soon.....</td></tr>
+			<tr><td valign="top">X-Auth-Token</td><td>header<hr/>uses base 64 encoded string</td></tr>
 		</table>
 		</td>
         <td valign="top" style ="font-family:'Courier New'">pending....</td>
@@ -53,7 +53,7 @@ Will provide the following RESTFul APIs.
         <td valign="top">/logout</td>
         <td valign="top">
 		<table>
-			<tr><td valign="top">X-Auth-Token</td><td>header<hr/>uses base 64 encoded string<hr/>more info to be provided soon.....</td></tr>
+			<tr><td valign="top">X-Auth-Token</td><td>header<hr/>uses base 64 encoded string</td></tr>
 		</table>
 		</td>
         <td valign="top" style ="font-family:'Courier New'">pending....</td>
@@ -78,7 +78,7 @@ Will provide the following RESTFul APIs.
         <td valign="top">/project/search</td>
         <td valign="top">
 		<table>
-			<tr><td valign="top">rs:q</td><td>query string<hr/>leading and trailing wildcards<hr/>constraints:<ul><li>dname</li><li>row</li><li>col</li><li>cell</li><li>user</li></ul></td></tr>
+			<tr><td valign="top">rs:q</td><td>query string<hr/>leading and trailing wildcards<hr/>constraints:<ul><li>author</li><li>name</li><li>user</li><li>book</li></ul></td></tr>
 			<tr><td valign="top">rs:start</td><td>starting record</td></tr>
 			<tr><td valign="top">rs:pageLength</td><td>number of records to return</td></tr>
 		</table>
