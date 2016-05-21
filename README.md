@@ -46,6 +46,7 @@ Will provide the following RESTFul APIs.
 			<tr><td valign="top">X-Auth-Token</td><td>header<hr/>uses base 64 encoded string<hr/>more info to be provided soon.....</td></tr>
 		</table>
 		</td>
+        <td valign="top" style ="font-family:'Courier New'">pending....</td>
     </tr>
     <tr>
         <td valign="top">GET</td>
@@ -55,6 +56,7 @@ Will provide the following RESTFul APIs.
 			<tr><td valign="top">X-Auth-Token</td><td>header<hr/>uses base 64 encoded string<hr/>more info to be provided soon.....</td></tr>
 		</table>
 		</td>
+        <td valign="top" style ="font-family:'Courier New'">pending....</td>
     </tr>
     <tr>
         <td valign="top" colspan="4"><b>Project APIs</b></td>
