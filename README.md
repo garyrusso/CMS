@@ -13,8 +13,8 @@ Application layers:
 
 Will provide the following RESTFul APIs.
 
-1. Authentication – consists of login, logout, and validate functions. Login function will look for valid user. If user is valid then a session document is generated that has a token. This token is then used for all subsequent REST API requests. Token will expire after 24 hours. 
-1. Master data definition API
+1. Authentication API 
+1. Master Data Definition API
 1. Project Document API - Create, View, Edit, Delete (Change State), and Search
 1. Content Upload API – binary document via XCC & create wrapper document & audit document
 1. Content Wrapper API - View, Edit, Delete (Change State), and Search will also include audit information
@@ -23,7 +23,7 @@ Will provide the following RESTFul APIs.
 1. Content Download API (binary document)
 
 
-### RESTful APIs
+### Database RESTful APIs
 
 <table>
     <tr>
@@ -46,7 +46,7 @@ Will provide the following RESTFul APIs.
 			<tr><td valign="top">X-Auth-Token</td><td>header<hr/>uses base 64 encoded string</td></tr>
 		</table>
 		</td>
-        <td valign="top" style ="font-family:'Courier New'">pending....</td>
+        <td valign="top" style ="font-family:'Courier New'">Login API looks for valid user. If user is found and validated then a session document is generated that has a token. This token is then used for all subsequent REST API requests. Token will expire after 24 hours.</td>
     </tr>
     <tr>
         <td valign="top">GET</td>
