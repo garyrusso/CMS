@@ -19,7 +19,8 @@
             var templateDirectories = [
                 'uib', //folder 'uib' is used angularui 
                 'template', //is a commonly used folder name for many modules
-                'ng-table' //folder 'ng-table' is used by 'ng-table' module 
+                'ng-table', //folder 'ng-table' is used by 'ng-table' module
+                'bootstrap' // bootstrap is used by ui-select
             ];
             templateDirectories.push(APP_CONFIG.viewDir); //APP_CONFIG.viewDir is used our app.
             return {

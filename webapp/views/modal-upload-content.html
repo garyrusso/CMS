@@ -93,12 +93,10 @@
                 <div class="form-group">
                     <div class="row">
                         <div class="col-md-8">
-                            <ui-select ng-model="ctrl.person.selected" theme="bootstrap">
+                            <ui-select ng-model="data.Projects[$index]" theme="bootstrap">
                                 <ui-select-match placeholder="Select or search a project in the list...">
                                     {{$select.selected.Title}}
                                 </ui-select-match>
-                                <ui-select-choices repeat="item in ctrl.people | filter: $select.search">
-                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>
                         </div>

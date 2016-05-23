@@ -50,6 +50,9 @@
         
         $scope.addRepeatedField = addRepeatedField;
         
+        //search projects
+        $scope.searchProject = searchProject;
+        
         $scope.submit = submitContent;
 
         function closeModalProject() {
@@ -63,6 +66,26 @@
         
         function submitContent(){
             $log.debug('submitContent', $scope.data);
+        /**
+         * @ngdoc method
+         * @name searchProject
+         * @methodOf cmsWebApp.controller:ModalUploadContentController
+         * @description
+         * search project based on text entered by used in form to select project.  
+         */
+        function searchProject(text) {
+            
+            SearchService.searchData('project', text).then(function(response){
+                _.map(response.results, function(project){
+                    var existingTitles = _.pluck($scope.ProjectsData, 'Title');
+                    //checks whether project title is already added to list.
+                    if(!_.contains(existingTitles, project.Title)){
+                        $scope.ProjectsData.push(project);
+                    }
+                });
+            });
+           
+        }
         }
     }
 
