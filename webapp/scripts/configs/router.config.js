@@ -50,6 +50,18 @@
                 roles : ['User']
             }
         })
+         .state('contentview', {
+            url : "/content/contentview?uri",
+            templateUrl : "views/contentview.html",
+            controller : 'ViewContentController',
+            controllerAs : 'content',
+            resolve : {
+                routeResolvedContentView : contentVeiw
+            },
+            data : {
+                roles : ['User']
+            }
+       }) 
         .state('content', {
             url : "/content",
             templateUrl : "views/commonMainWithNav.html",
@@ -62,7 +74,7 @@
                 roles : ['User']
             }
 
-        })
+        })    
         .state('success', {
             url : "/success?type&status&name&id",
             templateUrl : "views/success-view.html",
@@ -123,6 +135,19 @@
             return ManageProjectsService.viewProject($stateParams.uri);
         }
 
+         /**
+         * @ngdoc service
+         * @name cmsWebApp.service:projectVeiw
+         * @description
+         * Resolved method to 'contentVeiw' state. It call the viewcontent method to get the project details.
+         * @return promise with project details.
+         */
+       contentVeiw.$inject = ['$stateParams', 'ManageContentService', '$log'];
+        function contentVeiw($stateParams, ManageContentService, $log) {
+            $log.debug('contentVeiw' + $stateParams.uri);
+            return ManageContentService.viewContent($stateParams.uri);
+        }
+        
     }
 
 })();
