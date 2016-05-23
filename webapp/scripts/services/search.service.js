@@ -30,7 +30,7 @@
         function searchData(searchType, searchText, pageNumber, pageSize, orderBy, username) {
             $log.debug('SearchService.searchData', searchType, searchText, pageNumber, pageSize, orderBy, username);
             var params = {
-                searchType : searchType ? searchType : 'all',
+                searchType : searchType ? searchType : 'all',//possible values 'project'/'content'/'all'
                 searchText : searchText ? searchText : '',
                 pageNumber : pageNumber ? parseInt(pageNumber) : 1,
                 pageSize : pageSize ? parseInt(pageSize) : APP_CONFIG.limit,
