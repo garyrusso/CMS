@@ -201,7 +201,7 @@
         
             //Get Content Details
         $httpBackend.whenGET(/GetContentDetails/).respond(function(method, url, data, headers) {
-        	 return [200, '{"Title":"Myers 11e EPUB3","uri":"/mydocuments/conent1.xml","path":"fn:doc(\"/mydocuments/conent1.xml\")","href":"/v1/documents?uri=%2Fmydocuments%2Fconent1.xml","mimetype":"application/xml","format":"xml","fileName":"myers113.epub","dateLastModified":"2015-04-15 13:30","username":"bcross","fullName":"Brian Cross","audit_info":[{"actionType":"Upload","actionCreatedOn":"2015-04-15 13:30","actionCreatedBy":"Brain Cross"},{"actionType":"Downloaded","actionCreatedOn":"2015-04-15 13:30","actionCreatedBy":"Brain Cross"}]}', {/*headers*/}];
+        	 return [200, {"Title":"Myers 11e EPUB3","uri":"/mydocuments/conent1.xml","path":"fn:doc(\"/mydocuments/conent1.xml\")","href":"/v1/documents?uri=%2Fmydocuments%2Fconent1.xml","mimetype":"application/xml","format":"xml","fileName":"myers113.epub","dateLastModified":"2015-04-15 13:30","username":"bcross","fullName":"Brian Cross","audit_info":[{"actionType":"Upload","actionCreatedOn":"2015-04-15 13:30","actionCreatedBy":"Brain Cross"},{"actionType":"Downloaded","actionCreatedOn":"2015-04-15 13:30","actionCreatedBy":"Brain Cross"}]}, {/*headers*/}];
         });
        
     }

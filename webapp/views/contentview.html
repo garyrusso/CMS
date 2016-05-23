@@ -1,0 +1,178 @@
+<div class="cms-titlepanel cms-main">
+    <div class="row">
+
+        <div class="col-md-6">
+            <h1>Content View</h1>
+            <!--<div class="cms-titlepanel"></div>-->
+            <ol class="breadcrumb cms-breadcrumb">
+                <li>
+                    <a href="#/">home</a>
+                </li>
+                <li>
+                    <a ui-sref="projects">projects</a>
+                </li>
+                <li class="active">
+                    Content view
+                </li>
+            </ol>
+
+        </div>
+
+        <div class="col-md-6">
+            <div class="pull-right clearfix cms-horizontal-menu cms-sub-main">
+                <span> <a href="#" ng-click="$event.preventDefault();">Upload Content <span class="glyphicon glyphicon-open"></span></a> </span>
+                <span > <a href="#" ng-click="$event.preventDefault(); project.editProject();">Edit <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a> </span>
+                <span > <a href="#" ng-click="$event.preventDefault(); project.deleteProject()">Delete <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> </span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-md-8">
+            <h2 ng-bind="content.data.Title"></h2>
+        </div>
+        <div class="col-xs-6 col-md-4"></div>
+    </div>
+
+    <h3> Adminstrative </h3>  
+    <ul class="list-unstyled cms-padding-left-ten">
+        <li>
+            <strong>System ID: </strong><span ng-bind="content.data.SystemId"></span>
+        </li>
+        <li>
+            <strong>Project URI: </strong><span ng-bind="content.data.uri"></span>
+        </li>
+        <li>
+            <strong>Date Created: </strong><span ng-bind="content.data.DateCreated"></span>
+        </li>
+        <li>
+            <strong>Created By: </strong><span ng-bind="content.data.CreatedBy"></span>
+        </li>
+        <li>
+            <strong>Date Modified: </strong><span ng-bind="content.data.dateLastModified"></span>
+        </li>
+        <li>
+            <strong>Modified By: </strong><span ng-bind="content.data.ModifiedBy"></span>
+        </li>
+
+    </ul>
+
+    <h3> Descriptive </h3>
+
+    <ul class="list-unstyled cms-padding-left-ten">
+        <li>
+            <strong>Project Name: </strong><span ng-bind="content.data.Title"></span>
+        </li>
+        <li>
+            <strong>Project Description: </strong><span ng-bind="content.data.Description"></span>
+        </li>
+        <li>
+            <strong>Source: </strong><span ng-bind="content.data.Description"></span>
+        </li>
+        <li>
+            <strong>Creator: </strong><span ng-bind="content.data.Description"></span>
+        </li>        
+        <li>
+            <strong>Publisher: </strong><span ng-bind="content.data.Description"></span>
+        </li>
+        <li>
+            <strong>Date Published: </strong><span ng-bind="content.data.Description"></span>
+        </li>
+        <li>
+            <strong>Content Resource Type: </strong><span ng-bind="content.data.ProjectState"></span>
+        </li>
+        <li>
+            <strong>Content State: </strong><span ng-bind="content.data.SubjectHeadings"></span>
+        </li>
+        <li>
+            <strong>Keywords: </strong><span ng-bind="content.data.SubjectKeywords"></span>
+        </li>
+    </ul>
+ <h3> Semantic </h3>
+   <ul class="list-unstyled cms-padding-left-ten">
+        <li>
+            <strong>Subject: </strong><span ng-bind="content.data.Title"></span>
+        </li>
+        <li>
+            <strong>Keywords: </strong><span ng-bind="content.data.Description"></span>
+        </li>
+        </ul>
+        
+        <h3> File </h3>
+   <ul class="list-unstyled cms-padding-left-ten">
+        <li>
+            <strong>File Format: </strong><span ng-bind="content.data.format"></span>
+        </li>
+        <li>
+            <strong>Filename: </strong><span ng-bind="content.data.fileName"></span>
+        </li>
+         <li>
+            <strong>File Path: </strong><span ng-bind="content.data.path"></span>
+        </li>
+         <li>
+            <strong>File Size: </strong><span ng-bind="content.data.Description"></span>
+        </li>
+        </ul>
+        
+    <hr />
+
+    <h3>Associated Projects</h3>
+    <!-- em>There is no content in this project</em -->
+    <div class="row" ng-if="content.data.content.length>0">
+        <div  class="col-xs-12 col-sm-6 col-md-2 cms-content-tile ng-scope" ng-repeat="content in content.data.Content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <a href="#/">
+                    <div class="cms-content-tile-image">
+                        <div class="cms-content-tile-image-dummy"></div>
+                        <div class="cms-content-tile-image-color"></div>
+                    </div></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 cms-content-tile-title">
+                    <a href="#/"><span ng-bind="content.Title"></span></a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 cms-content-tile-date">
+                    <span ng-bind="content.dateLastModified"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 cms-content-tile-owner">
+                    <span ng-bind="content.username"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="pull-right">
+                <a href="#">See all Contents</a>
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-if="!content.data.content">
+        <div class="col-xs-12">
+            <em>There is no content in this project</em>
+        </div>
+    </div>
+<h3>Audit History</h3>
+   
+       <div class="table-responsive">
+                    <table class="table table-bordered" >
+                        <thead>
+                        <th>Action Type</th>
+                        <th>Action Time</th>
+                        <th>Created By</th>
+                        <th>Note</th>
+                        </thead>
+                        <tr ng-repeat="page in content.data.audit_info">
+                            <td>{{page.actionType}}</td>
+                            <td>{{page.actionCreatedOn}}</td>
+                            <td>{{page.actionCreatedBy}}</td>
+                            <td>Review of epub file</td>
+                        </tr>                                            
+                    </table>
+                </div>
+</div>
