@@ -9,10 +9,10 @@
     angular.module('cmsWebApp').controller('ViewProjectController', ViewProjectController);
 
     /*Inject angular services to controller*/
-    ViewProjectController.$inject = ['$state', 'routeResolvedProjectView', '$log', 'ManageProjectsService'];
+    ViewProjectController.$inject = ['$state', 'routeResolvedProjectView', '$log', 'ManageProjectsService', 'ManageContentService'];
 
     /*Function ViewProjectController*/
-    function ViewProjectController($state, routeResolvedProjectView, $log, ManageProjectsService) {
+    function ViewProjectController($state, routeResolvedProjectView, $log, ManageProjectsService, ManageContentService) {
         $log.debug('ViewProjectController', routeResolvedProjectView);
         var project = this;
         project.data = routeResolvedProjectView;
@@ -24,6 +24,8 @@
 
         //TODO: move to Commonservice
         project.deleteProject = projectsdeleteProject;
+        
+        project.uploadContent = ManageContentService.openUploadContentModal;
 
         /**
          * @name projectsEditProject
