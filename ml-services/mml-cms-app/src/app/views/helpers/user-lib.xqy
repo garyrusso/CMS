@@ -21,6 +21,8 @@ import module namespace form = "http://marklogic.com/roxy/form-lib" at "/app/vie
 
 declare default element namespace "http://www.w3.org/1999/xhtml";
 
+declare namespace mml = "http://macmillanlearning.com";
+
 declare option xdmp:mapping "false";
 
 declare function uv:build-user($username, $message, $login-link, $register-link, $logout-link)
@@ -66,14 +68,14 @@ declare function uv:build-register($register-link, $user, $edit)
       <form action="{$register-link}" method="POST">
         {
           (: form:text-input-readonly("Username:", "username", "registeruser", if ($user) then $user/*:username else ""), :)
-          form:text-input("Username:", "username", "registeruser", if ($user) then $user/*:username else ""),
+          form:text-input("Username:", "username", "registeruser", if ($user) then $user//*:username else ""),
           form:line-break(),
-          form:text-input("First Name:", "firstname", "registeruser", if ($user) then $user/*:firstname else ""),
+          form:text-input("First Name:", "firstname", "registeruser", if ($user) then "aaaa" else ""),
           form:line-break(),
-          form:text-input("Last Name:", "lastname", "registeruser", if ($user) then $user/*:lastname else ""),
+          form:text-input("Last Name:", "lastname", "registeruser", if ($user) then "bbbb" else ""),
           form:line-break(),
           form:password-input("Password:", "password", "registeruser", ""),
-          form:hidden-input("created", if ($user) then $user/*:created else "")
+          form:hidden-input("created", if ($user) then $user//*:created else "")
         }
         <br/>
         <input type="submit" value="{$button}"/>
@@ -90,10 +92,10 @@ declare function uv:build-userlist($userlist)
       return
         <tr>
           <td align="center" width="20">{$i}</td>
-          <td align="left" width="70">{$user/*:username}</td>
-          <td align="left" width="140">{fn:concat($user/*:firstname, " ", $user/*:lastname/text())}</td>
-          <td align="center" width="40"><a href="?edit={$user/*:username}">edit</a></td>
-          <td align="center" width="40"><a onclick="return confirm('About to delete {$user/*:username}: Are you sure?');" href="?delete={$user/*:username}">delete</a></td>
+          <td align="left" width="70">{$user/mml:feed/mml:username/text()}</td>
+          <td align="left" width="140">{$user/mml:feed/mml:fullName/text()}</td>
+          <td align="center" width="40"><a href="?edit={$user/mml:feed/mml:username/text()}">edit</a></td>
+          <td align="center" width="40"><a onclick="return confirm('About to delete {$user/mml:feed/mml:username/text()}: Are you sure?');" href="?delete={$user/mml:feed/mml:username/text()}">delete</a></td>
         </tr>
   }
   </table>

@@ -12,8 +12,11 @@ import module namespace tools   = "http://marklogic.com/ps/custom/common-tools" 
 
 declare namespace search = "http://marklogic.com/appservices/search";
 declare namespace cts    = "http://marklogic.com/cts";
+declare namespace mml    = "http://macmillanlearning.com";
 
 declare option xdmp:mapping "false";
+
+declare variable $NS := "http://macmillanlearning.com";
 
 declare variable $SEARCH-OPTIONS :=
   <options xmlns="http://marklogic.com/appservices/search">
@@ -27,7 +30,7 @@ declare function usr:getUserUri($username)
   return $uri
 };
 
-declare function usr:save($user)
+declare function usr:save1($user)
 {
   (
     usr:_save(
@@ -45,16 +48,45 @@ declare function usr:save($user)
   )
 };
 
+declare function usr:save($user)
+{
+  (
+    usr:_save(
+      element {fn:QName($NS,"mml:user")}
+      {
+        element {fn:QName($NS,"metadata")}
+        {
+          element {fn:QName($NS,"created")}    { if (fn:empty($user/created/text())) then fn:current-dateTime() else $user/created/text() },
+          element {fn:QName($NS,"createdBy")}  { "webuser" },
+          element {fn:QName($NS,"modified")}   { fn:current-dateTime() },
+          element {fn:QName($NS,"modifiedBy")} { "webuser" },
+          element {fn:QName($NS,"objectType")} { "User" }
+        },
+        element {fn:QName($NS,"feed")}
+        {
+          element {fn:QName($NS,"username")}   { fn:normalize-space(req:get("username", "", "type=xs:string")) },
+          element {fn:QName($NS,"fullName")}   { $user/firstname/text()||" "||$user/lastname/text() },
+          element {fn:QName($NS,"firstName")}  { $user/firstname/text() },
+          element {fn:QName($NS,"lastName")}   { $user/lastname/text() },
+          element {fn:QName($NS,"email")}      { fn:lower-case($user/firstname/text())||"."||fn:lower-case($user/lastname/text())||"@macmillan.com" },
+          element {fn:QName($NS,"password")}   { xdmp:md5($user/password/fn:string()) }
+        }
+      }
+    ),
+    fn:concat("User Successfully Saved: ", $user/username/text())
+  )
+};
+
 declare function usr:_save($user)
 {
-  let $uri := usr:getUserUri($user/username/fn:string())
+  let $uri := usr:getUserUri($user/mml:feed/mml:username/fn:string())
 
   let $cmd :=
         fn:concat
         (
           'declare variable $uri external;
            declare variable $user external;
-           xdmp:document-insert($uri, $user)'
+           xdmp:document-insert($uri, $user, xdmp:default-permissions(), ("user"))'
         )
   return
     xdmp:eval
@@ -75,7 +107,7 @@ declare function usr:_update($user)
           'declare variable $uri external;
            declare variable $doc external;
            declare variable $user external;
-           xdmp:node-replace(fn:doc()/user-profile/firstname, <firstname>aaa</firstname>)'
+           xdmp:node-replace(fn:doc()/mml:user/mml:feed/firstname, <firstname>aaa</firstname>)'
         )
   return
     xdmp:eval
@@ -109,18 +141,18 @@ declare function usr:delete($username)
 declare function usr:get($lookup)
 {
   if ($lookup) then
-    cts:search(
-      //user-profile,
-      cts:element-value-query(xs:QName("username"), $lookup)
-    )
+      cts:search(
+        //mml:user,
+        cts:element-value-query(fn:QName($NS, "username"), $lookup)
+      )
   else ()
 };
 
 declare function usr:getUserList()
 {
   let $userlist :=
-    for $n in //user-profile
-      order by $n/username/text()
+    for $n in //mml:user
+      order by $n/mml:feed/mml:username/text()
         return $n
   
   return

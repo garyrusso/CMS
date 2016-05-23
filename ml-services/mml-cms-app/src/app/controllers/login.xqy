@@ -20,6 +20,10 @@ declare function c:main() as item()*
   let $username := fn:string((xdmp:get-request-header("username"),fn:tokenize($userPwd, ":")[1])[1])
   let $password := fn:string((xdmp:get-request-header("password"),fn:tokenize($userPwd, ":")[2])[1])
 
+let $log := xdmp:log("................. $username: "||$username)
+let $log := xdmp:log("................. $password: "||$password)
+let $log := xdmp:log("................. $userPwd:  "||$userPwd)
+
   let $result   := auth:login($username, $password)
 
   return

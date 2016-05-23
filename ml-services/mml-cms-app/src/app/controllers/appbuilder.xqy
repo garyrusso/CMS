@@ -44,7 +44,13 @@ declare function c:main() as item()*
   let $logout   := req:get("logout", "", "type=xs:string")
   let $loggedin :=
     if ($logout eq "1") then
-      xdmp:set-session-field("logged-in-user", "")
+    (
+      (: temporary - use map:map instead of session-field :)
+      let $_ := auth:clearSession(xdmp:get-session-field("logged-in-username"))
+      let $_ := xdmp:set-session-field("logged-in-user", "")
+      let $_ := xdmp:set-session-field("logged-in-username", "")
+      return ""
+    )
     else
       xdmp:get-session-field("logged-in-user")
 
