@@ -165,7 +165,7 @@
                     return project.uri === params.uri;
                 }).value();
             }
-            returnData = {"Title":"test10","Description":"/projects/test10","ProjectState":"test 10 desc","SubjectHeadings":null,"SubjectKeywords":["kw1"],"SystemId":"c8eb3eb9329e418da7ffdf2f3d3cc9c7","ProjectURL":"/projects/test10","DateCreated":"2016-05-19T18:26:28","DateModified":"2016-05-19T18:26:28","CreatedBy":"admin@techm.com","ModifiedBy":"admin@techm.com","Content":null};
+            returnData = {"Title":"test10","Description":"/projects/test10","ProjectState":"Active","SubjectHeadings":null,"SubjectKeywords":["kw1"],"SystemId":"c8eb3eb9329e418da7ffdf2f3d3cc9c7","ProjectURL":"/projects/test10","DateCreated":"2016-05-19T18:26:28","DateModified":"2016-05-19T18:26:28","CreatedBy":"admin@techm.com","ModifiedBy":"admin@techm.com","Content":null};
             return [200, returnData, {/*headers*/}];
         });
 
@@ -192,12 +192,18 @@
             return [200, data];
         });
         
-         //Get MasterData
+        //Get MasterData
         $httpBackend.whenGET(/GetProjectMasterData/).respond(function(method, url, data, headers) {
         	 return [200, '{"results":[{"name":"In Progress","value":"In Progress"},{"name":"Active","value":"Active"},{"name":"Completed","value":"Completed"},{"name":"Inactive","value":"Inactive"}]}', {/*headers*/}];
             //data = angular.fromJson(data);
           //  return [200, data];
         });
+        
+            //Get Content Details
+        $httpBackend.whenGET(/GetContentDetails/).respond(function(method, url, data, headers) {
+        	 return [200, '{"Title":"Myers 11e EPUB3","uri":"/mydocuments/conent1.xml","path":"fn:doc(\"/mydocuments/conent1.xml\")","href":"/v1/documents?uri=%2Fmydocuments%2Fconent1.xml","mimetype":"application/xml","format":"xml","fileName":"myers113.epub","dateLastModified":"2015-04-15 13:30","username":"bcross","fullName":"Brian Cross","audit_info":[{"actionType":"Upload","actionCreatedOn":"2015-04-15 13:30","actionCreatedBy":"Brain Cross"},{"actionType":"Downloaded","actionCreatedOn":"2015-04-15 13:30","actionCreatedBy":"Brain Cross"}]}', {/*headers*/}];
+        });
+       
     }
 
 })();
