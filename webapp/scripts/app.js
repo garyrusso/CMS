@@ -8,5 +8,5 @@
      * The project is scoped to build a content repository,
      * ensuring compliance with Macmillan Learning’s technology stack.
      */
-    angular.module('cmsWebApp', ['ui.router', 'ui.bootstrap', 'cms-underscore', 'ngTable', 'ngSanitize', 'ui.select']);
+    angular.module('cmsWebApp', ['ui.router', 'ui.bootstrap', 'cms-underscore', 'ngTable', 'ngSanitize', 'ui.select', 'flow']);
 })(); 
