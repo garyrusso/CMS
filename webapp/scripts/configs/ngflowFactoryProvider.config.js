@@ -9,7 +9,7 @@
 
     function FlowFactoryProvider(flowFactoryProvider, APP_CONFIG) {
         flowFactoryProvider.defaults = {
-            target : 'http://localhost:8888/upload.php',//APP_CONFIG.API[APP_CONFIG.environment].baseUrl+'uploadContent',//http://localhost:8888/upload.php
+            target : APP_CONFIG.API[APP_CONFIG.environment].baseUrl+'uploadContent',//http://localhost:8888/upload.php
             permanentErrors : [404, 500, 501],
             maxChunkRetries : 1,
             chunkRetryInterval : 5000,
