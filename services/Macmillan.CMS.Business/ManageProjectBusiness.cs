@@ -31,7 +31,7 @@ namespace Macmillan.CMS.Business
         /// </summary>
         /// <param name="project"></param>
         /// <returns></returns>
-        public object CreateProject(Project project)
+        public object CreateProject(string projXml, string projUri)
         {
             Logger.Debug(" Entering CreateProject");
             //Build create project XML
@@ -40,7 +40,7 @@ namespace Macmillan.CMS.Business
 
             //Post it to MarkLogic  
        
-            var results= this.dal.CreateProject(project);
+            var results= this.dal.CreateProject(projXml , projUri);
             Logger.Debug(" Exiting CreateProject");
             return results;
         }
@@ -62,12 +62,12 @@ namespace Macmillan.CMS.Business
             text.Replace("##docUri##", ConfigurationSettings.AppSettings["MarkLogicURL"] + "/projects/" + project.Title);
             text.Replace("##createdby##", project.CreatedBy);
             text.Replace("##title##", project.Title);
-            text.Replace("##subject##", project.Subject);
-            text.Replace("##projectState##", project.State);
+            //text.Replace("##subject##", project.SubjectKeywords);
+            text.Replace("##projectState##", project.ProjectState);
 
             StringBuilder keywords = new StringBuilder();
 
-            foreach (string keyword in project.Keywords)
+            foreach (string keyword in project.SubjectKeywords)
             {
                 keywords.Append("<mml:subjectKeyword>" + keyword + "</mml:subjectKeyword>");
             }
@@ -83,10 +83,10 @@ namespace Macmillan.CMS.Business
         /// </summary>
         /// <param name="project"></param>
         /// <returns></returns>
-        public object UpdateProject(Project project)
+        public object UpdateProject(string projXml, string projUri)
         {
-            Logger.Debug(" Entering UpdateProject");         
-            var results= this.dal.UpdateProject(project);
+            Logger.Debug(" Entering UpdateProject");
+            var results = this.dal.UpdateProject(projXml, projUri);
             Logger.Debug(" Exiting UpdateProject");
             return results;
         }
@@ -96,10 +96,10 @@ namespace Macmillan.CMS.Business
         /// </summary>
         /// <param name="project"></param>
         /// <returns></returns>
-        public object DeleteProject(Project project)
+        public object DeleteProject(string projXml, string projUri)
         {
             Logger.Debug(" Entering DeleteProject");
-            var results= this.dal.DeleteProject(project);
+            var results= this.dal.DeleteProject(projXml,projUri);
             Logger.Debug(" Exiting DeleteProject");
             return results;
         }

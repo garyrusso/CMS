@@ -13,9 +13,9 @@ namespace Macmillan.CMS.Business
     /// </summary>
     public interface IManageProjectBusiness
     {
-        object CreateProject(Project project);
-        object UpdateProject(Project project);
-        object DeleteProject(Project project);
+        object CreateProject(string projXml, string projUri);
+        object UpdateProject(string projXml, string projUri);
+        object DeleteProject(string projXml, string projUri);
         object GetProjectDetails(string uri);
         object GetProjectMasterData(List<Project> ProjectDetail);
         object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy);
