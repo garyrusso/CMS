@@ -93,21 +93,13 @@
                 }
             });
 
-            modalInstance.result.then(function (updatedData) {
-                $rootScope.setLoading(true);
-                if (editContent) {
-                    self.updateContent(updatedData).then(function (data) {
-                        deffered.resolve(data);
-                        $rootScope.setLoading(false);
-                        $state.go('success', { type: 'Content', status: 'edit', name: data.Title, id: data.uri }, { location: false });
-                    });
-                } else {
-                    self.createContent(updatedData).then(function (data) {
-                        deffered.resolve(data);
-                        $rootScope.setLoading(false);
-                        $state.go('success', { type: 'Content', status: 'new', name: data.Title, id: data.uri }, { location: false });
-                    });
-                }
+            modalInstance.result.then(function (updatedData) {                
+                self.uploadContent(updatedData).then(function (data) {
+                    deffered.resolve(data);
+                    $rootScope.setLoading(false);
+                    $state.go('success', { type: 'Content', status: 'new', name: data.Title, id: data.uri }, { location: false });
+                });
+                
             }, function () {
 
             });

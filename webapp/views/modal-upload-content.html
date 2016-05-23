@@ -1,12 +1,17 @@
 ﻿<h3>Upload Content</h3>
-<form name="contentForm" ng-submit="submit()">
+<div >
+<form name="contentForm" ng-submit="submit()" flow-init flow-name="uploader.flow" flow-files-submitted="readytoUpload( $files, $event, $flow )" flow-file-success="uploadCompleted( $file, $message, $flow )" novalidate>
     <div class="form-group">
-        <label for="InputContentFile">Select File</label>
-        <input type="file" filelist-bind name="files" class="filestyle" id="InputContentFile" />
+        <label for="InputContentFile">Select File*</label>
+        <span flow-btn class="btn btn-default" flow-single-file flow-attrs="{'id':'InputContentFile','name':'contentFile','required':'', 'validFile':''}" 
+        ng-class="{red: $flow.files.length===0}">
+            Upload File
+        </span>
+        
     </div>
 
     <div class="form-group">
-        <label for="InputContentName">Title *</label>
+        <label for="InputContentName">Title*</label>
         <input class="form-control" type="text" id="InputContentName"
         ng-model="data.Title"
         ng-class="{red: contentForm.contentTitle.$invalid &&  contentForm.contentTitle.$touched && !contentForm.contentTitle.$focused}"
@@ -14,7 +19,7 @@
         required="">
     </div>
     <div class="form-group">
-        <label for="InputContentDescription">Description *</label>
+        <label for="InputContentDescription">Description*</label>
         <textarea class="form-control" id="InputContentDescription"
                       ng-model="data.Description"
                       ng-class="{red: contentForm.contentDescription.$invalid && contentForm.contentDescription.$touched && !contentForm.contentDescription.$focused}"
@@ -26,7 +31,7 @@
             <label for="InputContentSource">Source*</label>
             <select class="form-control" name="contentSource" id="InputContentSource"
             ng-model="data.Source"
-            ng-options="source for source in sourceData" >
+            ng-options="source for source in sourceData" required="">
                 <option ng-selected="true" value="">Select Source</option>
             </select>
         </div>
@@ -60,7 +65,7 @@
             <label for="InputContentPublisher">Publisher*</label>
             <select class="form-control" name="contentPublisher" id="InputContentPublisher"
             ng-model="data.Publisher"
-            ng-options="publisher for publisher in publisherData" >
+            ng-options="publisher for publisher in publisherData" required="">
                 <option ng-selected="true" value="">Select Publisher</option>
             </select>
         </div>
@@ -70,7 +75,7 @@
             <label for="InputContentVenderState">Version State*</label>
             <select class="form-control" name="contentVenderState" id="InputContentVenderState"
             ng-model="data.ContentState"
-            ng-options="version for version in versionData" >
+            ng-options="version for version in versionData" required="">
                 <option ng-selected="true" value="">Select Version State</option>
             </select>
         </div>
@@ -97,6 +102,8 @@
                                 <ui-select-match placeholder="Select or search a project in the list...">
                                     {{$select.selected.Title}}
                                 </ui-select-match>
+                                <ui-select-choices repeat="item.Title as item in ProjectsData | filter: $select.search" refresh-delay="0" refresh="searchProject($select.search)">
+                                    <div ng-bind-html="item.Title | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>
                         </div>
