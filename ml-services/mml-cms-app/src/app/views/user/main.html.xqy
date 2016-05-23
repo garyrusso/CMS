@@ -29,7 +29,7 @@ declare variable $user            := vh:get("user");
   </head>
   <body>
     <div class="home" id="home">
-      <a class="text" href="/" title="Home">My Application</a>
+      <a class="text" href="/" title="Home">MacMillan CMS - User Registration</a>
     </div>
     <div class="home">
       <table border="0"><tr><td width="270">{$message}</td><td><a href="?reset">reset</a></td></tr></table>

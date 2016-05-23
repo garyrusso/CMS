@@ -8,13 +8,17 @@ import module namespace tools  = "http://marklogic.com/ps/custom/common-tools" a
 import module namespace json   = "http://marklogic.com/json" at "/roxy/lib/json.xqy";
 import module namespace req   = "http://marklogic.com/roxy/request" at "/roxy/lib/request.xqy";
 
+declare namespace mml = "http://macmillanlearning.com";
+
 declare option xdmp:mapping "false";
 declare option xdmp:update "false";
 
+declare variable $NS := "http://macmillanlearning.com";
+
 declare variable $auth:SESSION-PREFIX := "session";
 
-(: declare variable $auth:SESSION-TIMEOUT := xs:dayTimeDuration("P1D"); :)
-declare variable $auth:SESSION-TIMEOUT := xs:dayTimeDuration("PT0H05M");
+declare variable $auth:SESSION-TIMEOUT := xs:dayTimeDuration("P1D");
+(: declare variable $auth:SESSION-TIMEOUT := xs:dayTimeDuration("PT0H05M"); :)
 
 declare variable $auth:DEFAULT-USER as xs:string := "tester";
 
@@ -38,7 +42,7 @@ declare function auth:login($username as xs:string*, $password as xs:string*)
     let $currentSession := auth:findSessionByUser($username)
     let $user := auth:userFind($username)
 
-    let $session := if($currentSession) then $currentSession else auth:startSession($username)
+    let $session := if($currentSession) then $currentSession/*:session else auth:startSession($username)
     
     let $token := xs:string($session/@user-sid)
 
@@ -47,8 +51,8 @@ declare function auth:login($username as xs:string*, $password as xs:string*)
         <json:responseCode>200</json:responseCode>
         <json:message>Login successful</json:message>
         <json:authToken>{$token}</json:authToken>
-        <json:username>{$user/username/text()}</json:username>
-        <json:fullName>{fn:string-join((($user/firstName,$user/firstname)[1], ($user/lastName,$user/lastname)[1])," ")}</json:fullName>
+        <json:username>{$user/mml:feed/mml:username/text()}</json:username>
+        <json:fullName>{$user/mml:feed/mml:firstName/text()||" "||$user/mml:feed/mml:lastName/text()}</json:fullName>
         <json:expiration>{$session/expiration/text()}</json:expiration>
       </json:object>
   )
@@ -72,14 +76,15 @@ declare function auth:weblogin($username as xs:string*, $password as xs:string*)
     (: let $__ := auth:cacheSession($session) :)
 
     let $token := $session/@user-sid/fn:string()
-    let $__    := xdmp:set-session-field("logged-in-user", fn:concat($user/firstname/text(), " ", $user/lastname/text()))
-              
+    let $__    := xdmp:set-session-field("logged-in-user", $user/mml:feed/mml:firstName/text()||" "||$user/mml:feed/mml:lastName/text())
+    let $__    := xdmp:set-session-field("logged-in-username", $username)
+
     return
       element logged-in-user
       {
         element message    { "Login successful" },
-        element fullName   { fn:concat($user/firstname/text(), " ", $user/lastname/text()) }, 
-        element username   { $user/username/text() }, 
+        element fullName   { fn:concat($user/mml:feed/mml:firstName/text(), " ", $user/mml:feed/mml:lastName/text()) }, 
+        element username   { $user/mml:feed/mml:username/text() }, 
         element expiration { $session/expiration/text() },
         element authToken  { $token }
       }
@@ -175,14 +180,56 @@ declare function auth:clearSession($username)
 {
   for $session in auth:findSessionByUserForCleanup($username)
     return
-      auth:deleteToken(xdmp:node-uri($session))
+    (
+      xdmp:log("........................ deleting token for $uri "||xdmp:node-uri($session))
+      (: , auth:deleteToken(xdmp:node-uri($session)) :)
+    )
 };
 
-declare function auth:deleteToken($uri)
+declare function auth:deleteTokenOrig($uri)
 {
   let $doc := fn:doc($uri)
   return
     if($doc) then xdmp:document-delete($uri) else ()
+};
+
+declare function auth:deleteToken($uri as xs:string)
+{
+  let $s := fn:concat('xdmp:document-delete("', $uri, '")')
+
+  let $action :=
+    xdmp:eval
+    (
+      $s, (),
+      <options xmlns="xdmp:eval">
+        <isolation>different-transaction</isolation> 
+        <prevent-deadlocks>false</prevent-deadlocks>
+        <database>{xdmp:database()}</database>
+      </options>
+    )
+
+  return "done"
+
+(:
+  let $doc :=
+    if(fn:doc($uri)) then
+    (
+      xdmp:log(".................. delete token: "||$uri),
+      xdmp:eval
+      (
+        fn:concat('xdmp:document-delete("', $uri, '")'),
+        (),
+        <options xmlns="xdmp:eval">
+          <isolation>different-transaction</isolation> 
+          <prevent-deadlocks>false</prevent-deadlocks>
+          <database>{xdmp:database()}</database>
+        </options>
+      )
+    )
+    else ()
+
+  return "done"
+:)
 };
 
 declare function auth:cacheSession($session as element(session))
@@ -257,14 +304,14 @@ declare function auth:is-valid-user($username as xs:string, $password as xs:stri
 {
   let $user := auth:userFind($username)
   return
-    if($user/password eq xdmp:md5($password)) then fn:true() else fn:false()
+    if($user/mml:feed/mml:password/text() eq xdmp:md5($password)) then fn:true() else fn:false()
 };
 
 declare function auth:userFind($username)
 {
   if ($username) then
-    cts:search(//user-profile,
-      cts:element-value-query(xs:QName("username"), $username))[1]
+    cts:search(//mml:user,
+      cts:element-value-query(fn:QName($NS, "username"), $username))[1]
   else ()
 };
 

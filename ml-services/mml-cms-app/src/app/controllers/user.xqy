@@ -14,7 +14,6 @@ import module namespace cfg    = "http://marklogic.com/roxy/config" at "/app/con
 
 declare option xdmp:mapping "false";
  
-
 (:
  :
  : Default function that is returns an error message.
