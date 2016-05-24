@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DictionaryBusiness.cs" />
+    <Compile Include="IDictionaryBusiness.cs" />
     <Compile Include="IManageContentBusiness.cs" />
     <Compile Include="IManageProjectBusiness.cs" />
     <Compile Include="ISecurityBusiness.cs" />
