@@ -49,7 +49,7 @@
         $scope.ProjectsData = [];
         
         //Close dialog/modal
-        $scope.cancel = closeModalProject;
+        $scope.cancel = closeModalContent;
         
         //add repeated form elements
         $scope.addRepeatedField = addRepeatedField;
@@ -81,7 +81,7 @@
          * @description
          * Close dialog/modal
          */
-        function closeModalProject() {
+        function closeModalContent() {
             $uibModalInstance.dismiss('cancel');
         }
         
