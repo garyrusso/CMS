@@ -88,7 +88,7 @@
         $scope.cmsSplit = function (string, nb) {
             var array = string.split('@');
             return array[nb];
-        }
+        };
     }
 
 })();
