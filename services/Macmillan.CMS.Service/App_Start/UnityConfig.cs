@@ -48,6 +48,8 @@ namespace Macmillan.CMS.Service.App_Start
             container.RegisterType<IManageContentBusiness, ManageContentBusiness>();
             container.RegisterType<IDictionaryDAL, DictionaryDAL>();
             container.RegisterType<IDictionaryBusiness, DictionaryBusiness>();
+            container.RegisterType<ISearchDataDAL, SearchDataDAL>();
+            container.RegisterType<ISearchDataBusinses, SearchDataBusinses>();
         }
     }
 }

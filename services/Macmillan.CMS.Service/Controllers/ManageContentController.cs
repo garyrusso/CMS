@@ -10,14 +10,14 @@ using System.Web.Http;
 
 namespace Macmillan.CMS.Service.Controllers
 {
-    public class ManageContentsController : ApiController
+    public class ManageContentController : ApiController
     {
         IManageContentBusiness business;
         /// <summary>
         ///  ManageContentsController dependency injection
         /// </summary>
         /// <param name="ManageContentBusiness"></param>
-        public ManageContentsController(IManageContentBusiness ManageContentBusiness)
+        public ManageContentController(IManageContentBusiness ManageContentBusiness)
         {
             this.business = ManageContentBusiness;
         }
@@ -28,7 +28,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="content"></param>
         /// <returns></returns>       
         [HttpPost]
-        public object CreateContent (HttpRequestMessage request,
+        public object CreateContent(HttpRequestMessage request,
             [FromBody] string projXml, string projUri)
         {
             Logger.Debug("Entering CreateContent");
@@ -72,10 +72,10 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="docUri"></param>
         /// <returns></returns>
         [HttpGet]
-        public object GetContent(string docUri)
+        public object GetContentDetails(string uri)
         {
             Logger.Debug("Entering GetContent");
-            var results = this.business.GetContent(docUri);
+            var results = this.business.GetContent(uri);
             Logger.Debug("Exiting GetContent");
             return results;
         }
