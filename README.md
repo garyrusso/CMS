@@ -24,7 +24,9 @@ Will provide the following RESTFul APIs.
 1. Content Download API (binary document)
 
 
-*Content Repository Search Portal:*  [Demo Build](http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/) login: macmillan/password
+Content Repository Search Portal:  [Demo Build](http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/)
+
+* login: macmillan/password
 
 
 ### Database RESTful APIs
