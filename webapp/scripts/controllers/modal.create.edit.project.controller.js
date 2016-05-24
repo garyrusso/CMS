@@ -8,12 +8,12 @@
 	angular.module('cmsWebApp').controller('ModalCreateEditProjectController', ModalCreateEditProjectController);
 
 	/*Inject angular services to controller*/
-	ModalCreateEditProjectController.$inject = ['$scope', '$uibModalInstance', 'items', 'getProjectMasterDataProjectState', 'getProjectMasterDataSubjects', '_', '$filter', 'CommonService'];
+	ModalCreateEditProjectController.$inject = ['$scope', '$rootScope', '$uibModalInstance', 'items', 'getProjectMasterDataProjectState', 'getProjectMasterDataSubjects', '_', '$filter', 'CommonService'];
 
 	/*Function ModalCreateEditProjectController*/
-	function ModalCreateEditProjectController($scope, $uibModalInstance, items, getProjectMasterDataProjectState, getProjectMasterDataSubjects, _, $filter, CommonService) {
+	function ModalCreateEditProjectController($scope, $rootScope, $uibModalInstance, items, getProjectMasterDataProjectState, getProjectMasterDataSubjects, _, $filter, CommonService) {
 		$scope.items = items;
-
+        $rootScope.setLoading(false);
 		if (items.edit) {
 			$scope.data = items.data;
 

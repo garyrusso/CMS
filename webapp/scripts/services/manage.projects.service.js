@@ -92,7 +92,7 @@
                 }                
              
             });
-
+            $rootScope.setLoading(true);
             modalInstance.result.then(function(updatedData) {
                 $rootScope.setLoading(true);
                 if (editProject) {
@@ -123,6 +123,7 @@
         * @Description
         * open modal window with create/Edit project form
         */
+       //TODO check & remove
         function openUploadContentModal(editProject, data) {          
             var self = this, deffered = $q.defer(), modalInstance = $uibModal.open({
                 templateUrl: 'views/modal-template.html',
