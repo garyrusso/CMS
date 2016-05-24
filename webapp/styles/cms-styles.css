@@ -22,6 +22,9 @@ a, a:focus, a:hover {
     display: table;
     width: 100%;
 }
+.cms-row-fluid {
+    word-wrap: break-word;
+}
 main {
     display: table-row;
 }
