@@ -218,6 +218,13 @@
             contentData.results.unshift(angular.fromJson(data));
             return [200, data];
         });
+        
+         //Delete
+        $httpBackend.whenPOST(/DeleteContent/).respond(function(method, url, data, headers) {
+            data = angular.fromJson(data);
+            return [200, data];
+        });
+        
         //GetDictionary?dictionarytype=publisher&outputformat=json
         $httpBackend.whenGET(/GetDictionary/).respond(function(method, url, data, headers, params) {
             var returnObject = {};
