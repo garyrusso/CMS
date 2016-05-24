@@ -10,9 +10,9 @@
      */
     angular.module('cmsWebApp').run(RunBlock);
 
-    RunBlock.$inject = ['APP_CONFIG', '$rootScope', '$state', '$stateParams', '_', '$log', '$httpBackend', 'AuthorizationService'];
+    RunBlock.$inject = ['APP_CONFIG', '$rootScope', '$state', '$stateParams', '_', '$log', '$httpBackend', 'AuthorizationService', 'UserAlertService'];
 
-    function RunBlock(APP_CONFIG, $rootScope, $state, $stateParams, _, $log, $httpBackend, AuthorizationService) {
+    function RunBlock(APP_CONFIG, $rootScope, $state, $stateParams, _, $log, $httpBackend, AuthorizationService, UserAlertService) {
         // It's very handy to add references to $state and $stateParams to the $rootScope
         // so that you can access them from any scope within your applications.For example,
         // <li ng-class="{ active: $state.includes('contacts.list') }"> will set the <li>
