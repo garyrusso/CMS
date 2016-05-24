@@ -8,10 +8,10 @@
 	angular.module('cmsWebApp').controller('ModalCreateEditProjectController', ModalCreateEditProjectController);
 
 	/*Inject angular services to controller*/
-	ModalCreateEditProjectController.$inject = ['$scope', '$uibModalInstance', 'items', 'getProjectMasterData', '_', '$filter', 'CommonService'];
+	ModalCreateEditProjectController.$inject = ['$scope', '$uibModalInstance', 'items', 'getProjectMasterDataProjectState', 'getProjectMasterDataSubjects', '_', '$filter', 'CommonService'];
 
 	/*Function ModalCreateEditProjectController*/
-	function ModalCreateEditProjectController($scope, $uibModalInstance, items, getProjectMasterData, _, $filter, CommonService) {
+	function ModalCreateEditProjectController($scope, $uibModalInstance, items, getProjectMasterDataProjectState, getProjectMasterDataSubjects, _, $filter, CommonService) {
 		$scope.items = items;
 
 		if (items.edit) {
@@ -34,11 +34,20 @@
 		}
 
 		/*Project state dropdown*/
-		$scope.projectStates = getProjectMasterData.results;
-		//["In Progress", "Active", "Completed","Inactive"];
+		$scope.projectStates = [];//["In Progress", "Active", "Completed","Inactive"];
+		
+		if(getProjectMasterDataProjectState && getProjectMasterDataProjectState.results && getProjectMasterDataProjectState.results.val){
+		    $scope.projectStates = _.pluck(getProjectMasterDataProjectState.results.val, 'value');
+		}
+		
+		
 
 		/*Project Subject dropdown */
-		$scope.subjects = ["Psychology", "Economics", "History", "Biology"];
+		$scope.subjects = [];//["Psychology", "Economics", "History", "Biology"];
+		
+		if(getProjectMasterDataSubjects && getProjectMasterDataSubjects.results && getProjectMasterDataSubjects.results.val){
+            $scope.subjects = _.pluck(getProjectMasterDataSubjects.results.val, 'value');
+        }
 
 		/*$scope.selectedSubjects = _.chain($scope.subjects).indexBy('subjectHeading').mapObject(function(val, key) {
 		 return {selected: _.contains(_.pluck($scope.data.subjectHeadings), key)};
