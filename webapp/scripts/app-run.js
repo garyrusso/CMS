@@ -155,6 +155,15 @@
             return [200, returnData, {/*headers*/}];
         });
         
+        //Search/list projects 
+        $httpBackend.whenGET(/SearchProjects/).respond(function(method, url, data, headers, params) {
+            var returnData = {};
+            
+                returnData = projectData;
+            
+            return [200, returnData, {/*headers*/}];
+        });
+        
         //get project details
         $httpBackend.whenGET(/GetProjectDetails/).respond(function(method, url, data, headers, params) {
             var returnData = {};
