@@ -14,6 +14,7 @@ Application layers:
 Will provide the following RESTFul APIs.
 
 1. Authentication API 
+1. User API - Search and CRUD operations 
 1. Master Data Definition API
 1. Project Document API - Create, View, Edit, Delete (Change State), and Search
 1. Content Upload API – binary document via XCC & create wrapper document & audit document
@@ -22,7 +23,10 @@ Will provide the following RESTFul APIs.
 1. Project List API - will show content associations (related content)
 1. Content Download API (binary document)
 
-Content Repository Search Portal: [Demo Build](http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/)
+Content Repository Search Portal:
+
+* [Demo Build](http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/)
+* login: macmillan/password
 
 ### Database RESTful APIs
 
