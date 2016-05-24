@@ -1,7 +1,7 @@
 (function() {"use strict";
 /**
- * @ngdoc overview
- * @name ViewContentController
+ * @ngdoc controller
+ * @name cmsWebApp.controller:ViewContentController
  * @description
  * ViewContentController
  **/
@@ -23,30 +23,30 @@
         project.data.keywords = _.chain(routeResolvedProjectView.SubjectKeywords).indexBy('subjectKeyword').keys().value();*/
 
         //TODO: move to Commonservice
-        content.editProject = contentEditProject;
+        content.editContent = contentEditContent;
 
         //TODO: move to Commonservice
-        content.deleteProject = contentdeleteProject;
+        content.deleteContent = contentdeleteContent;
 
         /**
          * @name projectsEditProject
          * @description
          * Edit project function.
          */
-        function contentEditProject() {
-            ManageProjectsService.openProjectModal(true, project.data).then(function() {
+        function contentEditContent() {
+            ManageContentService.openProjectModal(true, project.data).then(function() {
                 $log.debug('project updated');
             });
         }
 
         /**
-         * @name projectsdeleteProject
+         * @name contentdeleteContent
          * @description
          * Delete project function.
          */
-        function contentdeleteProject() {  
-            ManageProjectsService.openDeleteProjectModal(project.data).then(function() {
-                $log.debug('project deleted');
+        function contentdeleteContent() {  
+            ManageContentService.openDeleteContentModal(content.data).then(function() {
+                $log.debug('Content deleted');
             });        
         }
 
