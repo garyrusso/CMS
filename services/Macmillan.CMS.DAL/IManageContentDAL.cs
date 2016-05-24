@@ -12,9 +12,9 @@ namespace Macmillan.CMS.DAL
     /// </summary>
      public interface IManageContentDAL
     {
-         object CreateContent(Content content);
-         object UpdateContent(Content content);
-         object DeleteContent(Content content);
+         object CreateContent(string projXml, string projUri);
+         object UpdateContent(string projXml, string projUri);
+         object DeleteContent(string projXml, string projUri);
          object GetContent(string docUri);
          object GetContentMasterData(List<Content> ContentDetails);
          object SearchContents(string searchText, int pageNumber, int pageSize, string orderBy);

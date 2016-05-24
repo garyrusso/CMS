@@ -3,6 +3,7 @@ using Macmillan.CMS.Common.Logging;
 using Macmillan.CMS.Common.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,35 +17,38 @@ namespace Macmillan.CMS.DAL
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object CreateContent(Content content)
+         public object CreateContent(string projXml, string projUri)
          {
              Logger.Debug("Entering CreateContent");
-             JsonNetSerialization ser = new JsonNetSerialization();
-             string con = @"{'Title': 'Myers 11e EPUB3',
-                          'uri': '/mydocuments/conent1.xml',
-                          'path': 'fn:doc(\'/mydocuments/conent1.xml\')',
-                          'href': '/v1/documents?uri=%2Fmydocuments%2Fconent1.xml',
-                          'mimetype': 'application/xml',
-                          'format': 'xml',
-                          'fileName': 'myers113.epub',
-                          'dateLastModified': '2015-04-15 13:30',
-                          'username': 'bcross',
-                          'fullName': 'Brian Cross',
-                          'audit_info': [
-                            {
-                              'actionType': 'Upload',
-                              'actionCreatedOn': '2015-04-15 13:30',
-                              'actionCreatedBy': 'Brain Cross'
-                            },
-                            {
-                              'actionType': 'Downloaded',
-                              'actionCreatedOn': '2015-04-15 13:30',
-                              'actionCreatedBy': 'Brain Cross'
-                            }
-                          ]
-                        }
-                        ";
-             var results = ser.DeSerialize(con);
+//             JsonNetSerialization ser = new JsonNetSerialization();
+//             string con = @"{'Title': 'Myers 11e EPUB3',
+//                          'uri': '/mydocuments/conent1.xml',
+//                          'path': 'fn:doc(\'/mydocuments/conent1.xml\')',
+//                          'href': '/v1/documents?uri=%2Fmydocuments%2Fconent1.xml',
+//                          'mimetype': 'application/xml',
+//                          'format': 'xml',
+//                          'fileName': 'myers113.epub',
+//                          'dateLastModified': '2015-04-15 13:30',
+//                          'username': 'bcross',
+//                          'fullName': 'Brian Cross',
+//                          'audit_info': [
+//                            {
+//                              'actionType': 'Upload',
+//                              'actionCreatedOn': '2015-04-15 13:30',
+//                              'actionCreatedBy': 'Brain Cross'
+//                            },
+//                            {
+//                              'actionType': 'Downloaded',
+//                              'actionCreatedOn': '2015-04-15 13:30',
+//                              'actionCreatedBy': 'Brain Cross'
+//                            }
+//                          ]
+//                        }
+//                        ";
+//             var results = ser.DeSerialize(con);
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "?uri=" + projUri;
+             MLReader mlReader = new MLReader();
+             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.POST, "application/xml", projXml);
              Logger.Debug("Exitinging CreateContent");
              return results;
          }
@@ -54,12 +58,15 @@ namespace Macmillan.CMS.DAL
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object UpdateContent(Content content)
+         public object UpdateContent(string projXml, string projUri)
          {
              Logger.Debug("Entering UpdateProject");
              //Call ML and Put the project xml
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "?uri=" + projUri;
+             MLReader mlReader = new MLReader();
+             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.PUT, "application/xml", projXml);
              Logger.Debug("Exitinging UpdateProject");
-             return content;
+             return results;
          }
 
          /// <summary>
@@ -67,12 +74,15 @@ namespace Macmillan.CMS.DAL
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object DeleteContent(Content content)
+         public object DeleteContent(string projXml, string projUri)
          {
              Logger.Debug("Entry DeleteProject");
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "?uri=" + projUri;
+             MLReader mlReader = new MLReader();
+             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.DELETE, "application/xml", projXml);
              //Call ML and Delete the project xml
              Logger.Debug("Exiting DeleteProject");
-             return content;
+             return results;
          }
 
          /// <summary>
