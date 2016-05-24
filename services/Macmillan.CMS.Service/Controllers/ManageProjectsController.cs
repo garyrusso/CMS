@@ -63,10 +63,10 @@ namespace Macmillan.CMS.Service.Controllers
         /// <returns></returns>
         [HttpPost]
         public object CreateProject(HttpRequestMessage request,
-            [FromBody] string projXml, string projUri)
+            [FromBody]Project project)
         {
             Logger.Debug("Entering CreateProject");
-            var results = this.business.CreateProject(projXml, projUri);
+            var results = this.business.CreateProject(project);
             Logger.Debug("Exiting CreateProject");
             return results;
         }
@@ -77,10 +77,10 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="project"></param>
         /// <returns></returns>
         [HttpPut]
-        public object UpdateProject(string projXml, string projUri)
+        public object UpdateProject(Project project)
         {
             Logger.Debug("Entering UpdateProject");
-            var results = this.business.UpdateProject(projXml, projUri);
+            var results = this.business.UpdateProject(project);
             Logger.Debug("Exiting UpdateProject");
             return results;
         }
@@ -93,10 +93,10 @@ namespace Macmillan.CMS.Service.Controllers
         /// <returns></returns>
         [HttpPost]
         public object DeleteProject(HttpRequestMessage request,
-            [FromBody] string projXml, string projUri)
+            [FromBody] Project project)
         {
             Logger.Debug("Entering DeleteProject");
-            var results = this.business.DeleteProject(projXml, projUri);
+            var results = this.business.DeleteProject(project);
             Logger.Debug("Exiting DeleteProject");
             return results;
         }
