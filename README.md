@@ -26,8 +26,8 @@ Will provide the following RESTFul APIs.
 
 <table>
     <tr>
-        <td width="100" style="background-color:green;color:white"><b>Content Repository Search Portal:</b></td>
-        <td width="380" style="background-color:green;color:white">[Demo Build](http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/) login: macmillan/password</td>
+        <td width="380" style="background-color:green;color:white"><b>Content Repository Search Portal:</b></td>
+        <td width="250" style="background-color:green;color:white"> [Demo Build](http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/) login: macmillan/password </td>
     </tr>
 </table>
 
