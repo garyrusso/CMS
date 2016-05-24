@@ -1,0 +1,100 @@
+(function() {"use strict";
+    /**
+     * @ngdoc controller
+     * @name cmsWebApp.controller:EditContentController
+     * @description
+     * EditContentController manages Edit content functionality
+     */
+    angular.module('cmsWebApp').controller('EditContentController', EditContentController);
+
+    /*Inject angular services to controller*/
+    EditContentController.$inject = ['$log', '$scope', '$rootScope', '$stateParams', 'routeResolvedContentEdit', 'ManageContentService'];
+
+    /*Function EditContentController*/
+    function EditContentController($log, $scope, $rootScope, $stateParams, routeResolvedContentEdit, ManageContentService) {
+        $log.debug('EditContentController - $stateParams', $stateParams);
+        var content = this;
+        content.data = routeResolvedContentEdit;
+        
+        if(!content.data.Creator) {
+            content.data.Creator = [''];
+        }
+        
+        if(!content.data.SubjectKeywords) {
+            content.data.SubjectKeywords = [''];
+        }
+        if(!content.data.Projects) {
+            content.data.Projects = [''];
+        }
+        content.sourceData = ["Book", "Internet"];
+
+        content.publisherData = ["Publisher", "Worth Publisher"];
+
+        content.versionData = ["Vendor1", "Vendor2"];
+
+        content.subjectHeadingsData = ["subject1", "subject1"];
+
+        content.ProjectsData = [];
+
+        //add repeated form elements
+        content.addRepeatedField = addRepeatedField;
+
+        //search projects
+        content.searchProject = searchProject;
+
+        //submit functionality
+        content.submit = submitContent;
+
+        /**
+         * @ngdoc method
+         * @name addRepeatedField
+         * @param {Array} dataArray array list with all exsiting elemnets
+         * @param {Object} $event event of button plus
+         * @methodOf cmsWebApp.controller:EditContentController
+         * @description
+         * Close dialog/modal
+         */
+        function addRepeatedField(dataArray, $event) {
+            dataArray.push('');
+            $event.preventDefault();
+        }
+
+        /**
+         * @ngdoc method
+         * @name searchProject
+         * @methodOf cmsWebApp.controller:EditContentController
+         * @description
+         * search project based on text entered by used in form to select project.
+         */
+        function searchProject(text) {
+            SearchService.searchData('project', text).then(function(response) {
+                _.map(response.results, function(project) {
+                    var existingTitles = _.pluck(content.ProjectsData, 'Title');
+                    //checks whether project title is already added to list.
+                    if (!_.contains(existingTitles, project.Title)) {
+                        content.ProjectsData.push(project);
+                    }
+                });
+            });
+
+        }
+
+        /**
+         * @ngdoc method
+         * @name submitContent
+         * @methodOf cmsWebApp.controller:EditContentController
+         * @description
+         * function for on click of upload button in modal
+         */
+        function submitContent() {
+            $log.debug('submitContent', content.data);
+            $rootScope.setLoading(true);
+            ManageContentService.updateContent(content.data).then(function(response){
+                $rootScope.setLoading(false);
+                $state.go('success', { type: 'content', status: 'edit', name: content.data.Title, id: content.data.uri }, { location: false });
+            });
+        }
+
+    }
+
+})();
