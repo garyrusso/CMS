@@ -8,10 +8,10 @@
     angular.module('cmsWebApp').controller('EditContentController', EditContentController);
 
     /*Inject angular services to controller*/
-    EditContentController.$inject = ['$log', '$scope', '$rootScope', '$stateParams', 'routeResolvedContentEdit', 'ManageContentService'];
+    EditContentController.$inject = ['$log', '$scope', '$rootScope', '$stateParams', 'routeResolvedContentEdit', 'ManageContentService', 'SearchService'];
 
     /*Function EditContentController*/
-    function EditContentController($log, $scope, $rootScope, $stateParams, routeResolvedContentEdit, ManageContentService) {
+    function EditContentController($log, $scope, $rootScope, $stateParams, routeResolvedContentEdit, ManageContentService, SearchService) {
         $log.debug('EditContentController - $stateParams', $stateParams);
         var content = this;
         content.data = routeResolvedContentEdit;
@@ -44,6 +44,8 @@
 
         //submit functionality
         content.submit = submitContent;
+        
+        content.deleteContent = contentdeleteContent;
 
         /**
          * @ngdoc method
@@ -93,6 +95,19 @@
                 $rootScope.setLoading(false);
                 $state.go('success', { type: 'content', status: 'edit', name: content.data.Title, id: content.data.uri }, { location: false });
             });
+        }
+        
+        /**
+         * @ngdoc method
+         * @name contentdeleteContent
+         * @methodOf cmsWebApp.controller:EditContentController
+         * @description
+         * Delete project function.
+         */
+        function contentdeleteContent() {  
+            ManageContentService.openDeleteContentModal(content.data).then(function() {
+                $log.debug('Content deleted');
+            });        
         }
 
     }
