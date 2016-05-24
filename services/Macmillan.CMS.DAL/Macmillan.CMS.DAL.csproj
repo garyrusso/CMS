@@ -45,6 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DictionaryDAL.cs" />
+    <Compile Include="IDictionaryDAL.cs" />
     <Compile Include="IManageContentDAL.cs" />
     <Compile Include="IManageProjectDAL.cs" />
     <Compile Include="ISecurityDAL.cs" />
