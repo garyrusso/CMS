@@ -19,7 +19,8 @@
             openDeleteContentModal : openDeleteContentModal,
             uploadContent : uploadContent,
             updateContent : updateContent,
-            deleteContent : deleteContent
+            deleteContent : deleteContent,
+            downloadContent : downloadContent
         };
 
         /**
@@ -107,6 +108,43 @@
             return deffered.promise;
         }
 
+
+/**
+         * @ngdoc method
+         * @name openDownloadContentModal
+         * @methodOf cmsWebApp.service:ManageContentService      
+         * @description
+         * open modal window with Download Content form
+         */
+        function openDownloadContentModal() {          
+            var self = this, deffered = $q.defer(), modalInstance = $uibModal.open({
+                templateUrl: 'views/modal-template.html',
+                controller: 'ModalDownloadContentController',
+                size: 'lg',
+                resolve: {
+                    items: function () {
+                        return {
+                            templateUrl: 'views/modal-download-content.html'
+                        };
+                    }
+                }
+            });
+
+            modalInstance.result.then(function (updatedData) {                
+                self.uploadContent(updatedData).then(function (data) {
+                    deffered.resolve(data);
+                    $rootScope.setLoading(false);
+                    $state.go('success', { type: 'Content', status: 'new', name: data.Title, id: data.uri }, { location: false });
+                });
+                
+            }, function () {
+
+            });
+
+            return deffered.promise;
+        }
+
+
         /**
          * @name openDeleteContentModal
          * @param {Object} data - get data on for delete Content
@@ -121,18 +159,18 @@
                 resolve : {
                     items : function() {
                         return {
-                            templateUrl : 'views/modal-delete-Content.html',
+                            templateUrl : 'views/modal-delete-content.html',
                             data : data
                         };
                     }
                 }
             });
 
-            modalInstance.result.then(function(Content) {
-                self.deleteContent(Content).then(function(data) {
+            modalInstance.result.then(function(content) {
+                self.deleteContent(content).then(function(data) {
                         deffered.resolve(data);
                         $rootScope.setLoading(false);
-                        $state.go('success',{type:'Content',status:'delete',name:data.Title,id:data.uri}, { location: false });
+                        $state.go('success',{type:'content',status:'delete',name:data.Title,id:data.uri}, { location: false });
                     });
             }, function() {
 
@@ -157,6 +195,13 @@
             return $http.post('ManageContents/DeleteContent', postData).then(function (response) {
                 return response.data;
             });
+        }
+        
+         function downloadContent(postData) {
+            return $http.post('ManageContents/DownloadContent', postData).then(function (response) {
+                return response.data;
+            });
+
         }
 
     }

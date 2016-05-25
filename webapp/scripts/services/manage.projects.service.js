@@ -87,11 +87,12 @@
                             data : data
                         };
                     },                
-                	getProjectMasterData : getProjectState
+                	getProjectMasterDataProjectState : getProjectState,
+                	getProjectMasterDataSubjects : getSubjects
                 }                
              
             });
-
+            $rootScope.setLoading(true);
             modalInstance.result.then(function(updatedData) {
                 $rootScope.setLoading(true);
                 if (editProject) {
@@ -122,6 +123,7 @@
         * @Description
         * open modal window with create/Edit project form
         */
+       //TODO check & remove
         function openUploadContentModal(editProject, data) {          
             var self = this, deffered = $q.defer(), modalInstance = $uibModal.open({
                 templateUrl: 'views/modal-template.html',
@@ -211,10 +213,30 @@
                 return response.data;
             });
         }
+        
         getProjectState.$inject = ['$http'];
-         function getProjectState($http) {
-            return $http.get('ManageProjects/GetProjectMasterData').then(function (response) {
-             return response.data;
+        function getProjectState($http) {
+            var params = {
+                'dictionarytype':'project-status',
+                'outputformat': 'json'
+            };
+            return $http.get('dictionary/GetDictionary', {
+                params: params
+            }).then(function (response) {
+                return response.data;
+            });
+        }
+        
+        getSubjects.$inject = ['$http'];
+        function getSubjects($http) {
+            var params = {
+                'dictionarytype':'subject-heading',
+                'outputformat': 'json'
+            };
+            return $http.get('dictionary/GetDictionary', {
+                params: params
+            }).then(function (response) {
+                return response.data;
             });
         }
 

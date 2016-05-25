@@ -2,14 +2,16 @@
     <div class="row cms-successpanel-row ">
 
         <div class="col-md-6">
-            <h1>Projects</h1>
+            <h1 ng-if="ss.data.type ==='project'">Projects</h1>
+            <h1 ng-if="ss.data.type ==='content'">Content</h1>
             <!--<div class="cms-titlepanel"></div>-->
             <ol class="breadcrumb cms-breadcrumb">
                 <li>
-                    <a href="#">home</a>
+                    <a ui-sref="dashboard">home</a>
                 </li>
                 <li>
-                    <a href="#">projects</a>
+                    <a ng-if="ss.data.type ==='project'" ui-sref="projects">projects</a>
+                    <a ng-if="ss.data.type ==='content'" ui-sref="content">content</a>
                 </li>
             </ol>
 
@@ -20,7 +22,7 @@
     <div class="row cms-successpanel-row cms-successpanel-row2 ">
         <div class="col-xs-12 cms-successpanel-row-flex">
             <div class="row cms-successpanel-row-flex-box">
-                <div class="col-xs-12 text-capitalize">                    
+                <div class="col-xs-12 text-capitalize" ng-if="ss.data.type ==='project'">
                     <div ng-if="ss.data.status=='edit'">
                         <h2><span ng-bind="ss.data.name "></span> was updated.</h2>
                     </div>
@@ -28,15 +30,32 @@
                         <h2><span ng-bind="ss.data.name "></span> was created.</h2>
                     </div>
                     <div ng-if="ss.data.status=='delete'">
-                        <h2>
-                            <span ng-bind="ss.data.name "></span>The selected project is deleted successfully.                            
-                        </h2>
+                        <h2><span ng-bind="ss.data.name "></span>The selected project is deleted successfully. </h2>
                     </div>
-                    <p>Go to <a ui-sref="projectview({uri:ss.data.id})"><u>Project View</u></a></p>
+                    <p>
+                        Go to <a ui-sref="projectview({uri:ss.data.id})"><u>Project View</u></a>
+                    </p>
                 </div>
+                <div class="col-xs-12 text-capitalize" ng-if="ss.data.type ==='content'">
+                    <div ng-if="ss.data.status=='edit'">
+                        <h2><span ng-bind="ss.data.name "></span> metadata was updated.</h2>
+                    </div>
+                    <div ng-if="ss.data.status=='new'">
+                        <h2><span ng-bind="ss.data.name "></span> upload ticket was created.
+                        <br>
+                        You’ll receive an email once it is complete.</h2>
+                    </div>
+                    <div ng-if="ss.data.status=='delete'">
+                        <h2><span ng-bind="ss.data.name "></span>delete ticket was created.
+                        <br>
+                        You’ll receive an email once it is complete. </h2>
+                    </div>
+                    <p>
+                        Go to <a ui-sref="contentview({uri:ss.data.id})"><u>Content View</u></a>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
+

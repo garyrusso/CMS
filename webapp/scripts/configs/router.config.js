@@ -61,6 +61,18 @@
             data : {
                 roles : ['User']
             }
+       })
+       .state('contentedit', {
+            url : "/content/contentedit?uri",
+            templateUrl : "views/contentedit.html",
+            controller : 'EditContentController',
+            controllerAs : 'content',
+            resolve : {
+                routeResolvedContentEdit : contentVeiw
+            },
+            data : {
+                roles : ['User']
+            }
        }) 
         .state('content', {
             url : "/content",

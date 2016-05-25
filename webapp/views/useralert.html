@@ -1,0 +1,20 @@
+<div class="modal-body">
+    <h4>{{modalContent.title}}</h4>
+    <div class="row cms-row-fluid">
+        <div class="col-sm-12" ng-if="modalContent.url">
+            Url: {{modalContent.url}}
+        </div>
+        <div class="col-sm-12 ">
+            {{modalContent.message}}
+        </div>
+    </div>
+        
+    </p>
+    <button ng-show="modalContent.ok" ng-disabled="modalContent.ok.disabled" class="btn btn-default" ng-click="ok()">
+        {{modalContent.ok.text}}
+    </button>
+    <button ng-show="modalContent.cancel" class="btn btn-default" ng-click="cancel()">
+        {{modalContent.cancel.text}}
+    </button>
+</div>
+

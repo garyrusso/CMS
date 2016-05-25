@@ -8,6 +8,15 @@ Application layers:
 2. Middle tier / Business services - .NET web API's
 3. Database tier - MarkLogic
 
+## Deploy
+For developers execute below commands
+* $ ml local bootstrap
+* $ ml local deploy modules
+
+### for master data 
+Here we load user document data & data dictionary data
+* $ ml local deploy content
+
 
 ## MarkLogic Database Tier
 

@@ -22,6 +22,9 @@ a, a:focus, a:hover {
     display: table;
     width: 100%;
 }
+.cms-row-fluid {
+    word-wrap: break-word;
+}
 main {
     display: table-row;
 }
@@ -47,6 +50,12 @@ main {
 }
 .cms-padding-left-ten {
     padding-left: 10px;
+}
+.cms-padding-right-ten {
+    padding-right: 10px;
+}
+.cms-margin-top-zero {
+    margin-top: 0px;
 }
 .cms-login-page main, .cms-login-page .container-fluid {
     height: 100%;
