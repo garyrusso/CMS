@@ -9,9 +9,9 @@
     angular.module('cmsWebApp').service('ManageProjectsService', ManageProjectsService);
 
     /*Inject angular services*/
-    ManageProjectsService.$inject = ['$rootScope', '$q', '_', '$http', '$log', 'APP_CONFIG', '$uibModal', '$state'];
+    ManageProjectsService.$inject = ['$rootScope', '$q', '_', '$http', '$log', 'APP_CONFIG', '$uibModal', '$state', 'CommonService'];
 
-    function ManageProjectsService($rootScope, $q, _, $http, $log, APP_CONFIG, $uibModal, $state) {
+    function ManageProjectsService($rootScope, $q, _, $http, $log, APP_CONFIG, $uibModal, $state, CommonService) {
         return {
             getProjects : getProjects,
             viewProject : viewProject,
@@ -87,8 +87,8 @@
                             data : data
                         };
                     },                
-                	getProjectMasterDataProjectState : getProjectState,
-                	getProjectMasterDataSubjects : getSubjects
+                	getProjectMasterDataProjectState : CommonService.getDictionary('project-status'),
+                	getProjectMasterDataSubjects : CommonService.getDictionary('subject-heading')
                 }                
              
             });
@@ -210,32 +210,6 @@
         
         function deleteProject(postData) {
             return $http.post('ManageProjects/DeleteProject', postData).then(function (response) {
-                return response.data;
-            });
-        }
-        
-        getProjectState.$inject = ['$http'];
-        function getProjectState($http) {
-            var params = {
-                'dictionarytype':'project-status',
-                'outputformat': 'json'
-            };
-            return $http.get('dictionary/GetDictionary', {
-                params: params
-            }).then(function (response) {
-                return response.data;
-            });
-        }
-        
-        getSubjects.$inject = ['$http'];
-        function getSubjects($http) {
-            var params = {
-                'dictionarytype':'subject-heading',
-                'outputformat': 'json'
-            };
-            return $http.get('dictionary/GetDictionary', {
-                params: params
-            }).then(function (response) {
                 return response.data;
             });
         }
