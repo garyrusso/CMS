@@ -225,6 +225,12 @@
             return [200, data];
         });
         
+        //UpdateContent
+        $httpBackend.whenPUT(/UpdateContent/).respond(function(method, url, data, headers, params) {
+            data = angular.fromJson(data);
+            return [200, data];
+        });
+        
         //GetDictionary?dictionarytype=publisher&outputformat=json
         $httpBackend.whenGET(/GetDictionary/).respond(function(method, url, data, headers, params) {
             var returnObject = {};
