@@ -68,7 +68,19 @@
             controller : 'EditContentController',
             controllerAs : 'content',
             resolve : {
-                routeResolvedContentEdit : contentVeiw
+                routeResolvedContentEdit : contentVeiw,
+                getContentSourceResolve : ['CommonService', function(CommonService){
+                    return CommonService.getDictionary('Source');
+                }],
+                getContentPublisherResolve : ['CommonService', function(CommonService){
+                    return CommonService.getDictionary('Publisher');
+                }],
+                getContentStateResolve : ['CommonService', function(CommonService){
+                    return CommonService.getDictionary('version-state');
+                }],
+                getContentSubjectsResolve : ['CommonService', function(CommonService){
+                    return CommonService.getDictionary('subject-heading');
+                }]
             },
             data : {
                 roles : ['User']

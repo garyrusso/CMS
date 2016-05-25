@@ -41,27 +41,27 @@
         }
         contentModel.prototype = {
             setContent: function(contentData){
-                this.ContentUri = contentData.uri;
+                this.ContentUri = contentData.ContentUri;
                 this.Title = contentData.Title;
-                this.Description = contentData.description;
-                this.Source = contentData.source;
-                this.Creator = _.pluck(contentData.creators, 'creator');
-                this.Publisher = contentData.publisher; 
-                this.ContentState = contentData.contentState; 
-                this.Projects = contentData.projects; 
-                this.SubjectHeadings = _.pluck(contentData.subjectHeadings, 'subjectHeading'); 
-                this.SubjectKeywords = _.pluck(contentData.subjectKeywords, 'subjectKeyword'); 
-                this.SystemId = contentData.systemUID; 
-                this.DateCreated = contentData.dateCreated; 
-                this.DateModified = contentData.dateLastModified; 
-                this.CreatedBy = contentData.createdBy; 
-                this.ModifiedBy = contentData.modifiedBy; 
-                this.DatePublished = contentData.datePublished; 
-                this.ContentResourceType = contentData.contentResourceType; 
-                this.FileFormat = contentData.format; 
-                this.FileName = contentData.fileName; 
-                this.FileSize = contentData.fileSize; 
-                this.FilePath = contentData.filePath;
+                this.Description = contentData.Description;
+                this.Source = contentData.Source;
+                this.Creator = contentData.Creator;
+                this.Publisher = contentData.Publisher; 
+                this.ContentState = contentData.ContentState; 
+                this.Projects = contentData.Projects; 
+                this.SubjectHeadings = contentData.SubjectHeadings; 
+                this.SubjectKeywords = contentData.SubjectKeywords; 
+                this.SystemId = contentData.SystemId; 
+                this.DateCreated = contentData.DateCreated; 
+                this.DateModified = contentData.DateModified; 
+                this.CreatedBy = contentData.CreatedBy; 
+                this.ModifiedBy = contentData.ModifiedBy; 
+                this.DatePublished = contentData.DatePublished; 
+                this.ContentResourceType = contentData.ContentResourceType; 
+                this.FileFormat = contentData.FileFormat; 
+                this.FileName = contentData.FileName; 
+                this.FileSize = contentData.FileSize; 
+                this.FilePath = contentData.FilePath;
                 
                 if((this.Creator && this.Creator.length === 0) || !this.Creator ) {
                     this.Creator = [''];

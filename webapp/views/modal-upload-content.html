@@ -3,11 +3,15 @@
 <form name="contentForm" ng-submit="submit()" flow-init flow-name="uploader.flow" flow-files-submitted="readytoUpload( $files, $event, $flow )" flow-file-success="uploadCompleted( $file, $message, $flow )" novalidate>
     <div class="form-group">
         <label for="InputContentFile">Select File*</label>
-        <span flow-btn class="btn btn-default" flow-single-file flow-attrs="{'id':'InputContentFile','name':'contentFile','required':'', 'validFile':''}" 
+        <span flow-btn class="btn btn-default" flow-attrs="{'id':'InputContentFile','name':'contentFile','required':'', 'validFile':''}" 
         ng-class="{red: $flow.files.length===0}">
             Upload File
         </span>
-        
+        <div class="row cms-row-fluid" ng-repeat="file in $flow.files" ng-if="$flow && $flow.files.length!==0">
+            <div class="col-xs-6">{{file.relativePath}}</div>
+            <div class="col-xs-4">({{file.size}}bytes)</div>
+            <div class="col-xs-2"><span class="glyphicon glyphicon-remove-circle" ng-click="$flow.removeFile(file)"></span></div>
+        </div>
     </div>
 
     <div class="form-group">

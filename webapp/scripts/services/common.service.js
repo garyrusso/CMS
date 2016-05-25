@@ -7,14 +7,15 @@
     angular.module('cmsWebApp').service('CommonService', CommonService);
 
     /*Inject angular services*/
-    CommonService.$inject = ['$uibModal'];
+    CommonService.$inject = ['$uibModal', '$http'];
 
     /*  All global functionality used in all controllers across the system availaible here.*/
-    function CommonService($uibModal) {
+    function CommonService($uibModal, $http) {
         return {
             showAllFacetsItems : showAllFacetsItems,
             setItems : setItems,
-            getItems : getItems
+            getItems : getItems,
+            getDictionary : getDictionary
         };
 
         function showAllFacetsItems(facetObj) {
@@ -60,6 +61,19 @@
 				return angular.fromJson(localStorage.getItem('cms.user_details')).username;
 			}
             return angular.fromJson(localStorage.getItem(key));
+        }
+        
+        //TODO add desc
+        function getDictionary(dictionaryName){
+            var params = {
+                'dictionarytype': dictionaryName,
+                'outputformat': 'json'
+            };
+            return $http.get('dictionary/GetDictionary', {
+                params: params
+            }).then(function (response) {
+                return response.data;
+            });
         }
 
     }

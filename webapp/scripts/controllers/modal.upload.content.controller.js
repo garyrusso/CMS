@@ -8,14 +8,16 @@
     angular.module('cmsWebApp').controller('ModalUploadContentController', ModalUploadContentController);
 
     /*Inject angular services to controller*/
-    ModalUploadContentController.$inject = ['$rootScope', '$scope', '$uibModalInstance', 'items', '_', '$filter', 'CommonService', '$log', 'SearchService', '$q'];
+    ModalUploadContentController.$inject = ['$rootScope', '$scope', '$uibModalInstance', 'items', '_', '$filter', 'CommonService', '$log', 
+    'SearchService', '$q', 'getContentSourceResolve', 'getContentPublisherResolve', 'getContentStateResolve', 'getContentSubjectsResolve'];
 
     /*Function ModalUploadContentController*/
-    function ModalUploadContentController($rootScope, $scope, $uibModalInstance, items, _, $filter, CommonService, $log, SearchService, $q) {
+    function ModalUploadContentController($rootScope, $scope, $uibModalInstance, items, _, $filter, CommonService, $log, 
+        SearchService, $q, getContentSourceResolve, getContentPublisherResolve, getContentStateResolve, getContentSubjectsResolve) {
         $scope.items = items;
-
+        $rootScope.setLoading(false);
         $scope.data = {
-            "ContentUri" : "asdasd",
+            "ContentUri" : "",
             "Title" : "",
             "Description" : "",
             "Source" : "",
@@ -38,13 +40,25 @@
             "FilePath": "" 
         };
 
-        $scope.sourceData = ["Book", "Internet"];
+        $scope.sourceData = [];//["Book", "Internet"];
+        if(getContentSourceResolve && getContentSourceResolve.results && getContentSourceResolve.results.val){
+            $scope.sourceData = _.pluck(getContentSourceResolve.results.val, 'value');
+        }
         
-        $scope.publisherData = ["Publisher", "Worth Publisher"];
+        $scope.publisherData = [];//["Publisher", "Worth Publisher"];
+        if(getContentPublisherResolve && getContentPublisherResolve.results && getContentPublisherResolve.results.val){
+            $scope.publisherData = _.pluck(getContentPublisherResolve.results.val, 'value');
+        }
         
-        $scope.versionData = ["Vendor1", "Vendor2"];
+        $scope.versionData = [];//["Vendor1", "Vendor2"];
+        if(getContentStateResolve && getContentStateResolve.results && getContentStateResolve.results.val){
+            $scope.versionData = _.pluck(getContentStateResolve.results.val, 'value');
+        }
         
-        $scope.subjectHeadingsData = ["subject1","subject1"];
+        $scope.subjectHeadingsData = [];//["subject1","subject1"];
+        if(getContentSubjectsResolve && getContentSubjectsResolve.results && getContentSubjectsResolve.results.val){
+            $scope.subjectHeadingsData = _.pluck(getContentSubjectsResolve.results.val, 'value');
+        }
         
         $scope.ProjectsData = [];
         
@@ -109,7 +123,7 @@
         function submitContent(){
             $log.debug('submitContent', $scope.uploader.flow, $scope.data);
             $rootScope.setLoading(true);
-            $scope.uploader.flow.upload();
+            /*$scope.uploader.flow.upload();
             //check whether ng-flow is ready to upload
             readytoUploadDefer.promise.then(function(){
                 //check whether upload is completed
@@ -123,7 +137,7 @@
                     } 
                 });
                 
-                if(!errorUpload){
+                if(!errorUpload){*/
                     _.map($scope.uploader.flow.files, function(eachfile){
                         $scope.data.FileFormat = eachfile.file.name? eachfile.file.name.split('.').pop():'';
                         $scope.data.FileName = eachfile.file.name? eachfile.file.name:'';
@@ -133,9 +147,9 @@
                     });
                     //passing data to parent controller.
                     $uibModalInstance.close(angular.copy($scope.data));
-                }
+                /*}
                 
-            });
+            });*/
             
         }
         

@@ -114,6 +114,16 @@ header {
     /*padding: 15px 77px 2px 14px;*/
    padding-top: 15px;
    padding-bottom: 5px;
+   padding-left: 0px;
+}
+
+.cms-menupanel .nav>li>a {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    border-radius: 0px;
+}
+.cms-menupanel  .nav>li>a:focus, .cms-menupanel  .nav>li>a:hover {
+    background-color: transparent;
 }
 
 .cms-horizontal-menu>span {

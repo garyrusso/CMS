@@ -9,9 +9,9 @@
     angular.module('cmsWebApp').service('ManageContentService', ManageContentService);
 
     /*Inject angular services*/
-    ManageContentService.$inject = ['$rootScope', '$q', '_', '$http', '$log', 'APP_CONFIG', '$uibModal', '$state'];
+    ManageContentService.$inject = ['$rootScope', '$q', '_', '$http', '$log', 'APP_CONFIG', '$uibModal', '$state', 'CommonService'];
 
-    function ManageContentService($rootScope, $q, _, $http, $log, APP_CONFIG, $uibModal, $state) {
+    function ManageContentService($rootScope, $q, _, $http, $log, APP_CONFIG, $uibModal, $state, CommonService) {
         return {
             getContents : getContents,
             viewContent : viewContent,
@@ -90,15 +90,19 @@
                         return {
                             templateUrl: 'views/modal-upload-content.html'
                         };
-                    }
+                    },
+                    getContentSourceResolve : CommonService.getDictionary('Source'),
+                    getContentPublisherResolve : CommonService.getDictionary('Publisher'),
+                    getContentStateResolve : CommonService.getDictionary('version-state'),
+                    getContentSubjectsResolve : CommonService.getDictionary('subject-heading')
                 }
             });
-
+            $rootScope.setLoading(true);
             modalInstance.result.then(function (updatedData) {                
                 self.uploadContent(updatedData).then(function (data) {
                     deffered.resolve(data);
                     $rootScope.setLoading(false);
-                    $state.go('success', { type: 'Content', status: 'new', name: data.Title, id: data.uri }, { location: false });
+                    $state.go('success', { type: 'content', status: 'new', name: data.Title, id: data.ContentUri }, { location: false });
                 });
                 
             }, function () {
@@ -167,10 +171,11 @@
             });
 
             modalInstance.result.then(function(content) {
+                $rootScope.setLoading(true);
                 self.deleteContent(content).then(function(data) {
                         deffered.resolve(data);
                         $rootScope.setLoading(false);
-                        $state.go('success',{type:'content',status:'delete',name:data.Title,id:data.uri}, { location: false });
+                        $state.go('success',{type:'content',status:'delete',name:data.Title,id:data.ContentUri}, { location: false });
                     });
             }, function() {
 
@@ -179,26 +184,26 @@
         }
 
         function uploadContent(postData) {
-            return $http.post('ManageContents/CreateContent', postData).then(function (response) {
+            return $http.post('ManageContent/CreateContent', postData).then(function (response) {
                 return response.data;
             });
 
         }
 
         function updateContent(postData) {
-            return $http.put('ManageContents/UpdateContent', postData).then(function (response) {
+            return $http.put('ManageContent/UpdateContent', postData).then(function (response) {
                 return response.data;
             });
         }
         
         function deleteContent(postData) {
-            return $http.post('ManageContents/DeleteContent', postData).then(function (response) {
+            return $http.post('ManageContent/DeleteContent', postData).then(function (response) {
                 return response.data;
             });
         }
         
          function downloadContent(postData) {
-            return $http.post('ManageContents/DownloadContent', postData).then(function (response) {
+            return $http.post('ManageContent/DownloadContent', postData).then(function (response) {
                 return response.data;
             });
 

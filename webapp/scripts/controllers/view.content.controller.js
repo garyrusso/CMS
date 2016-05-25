@@ -1,12 +1,11 @@
 (function() {"use strict";
-/**
- * @ngdoc controller
- * @name cmsWebApp.controller:ViewContentController
- * @description
- * ViewContentController
- **/
+    /**
+     * @ngdoc controller
+     * @name cmsWebApp.controller:ViewContentController
+     * @description
+     * ViewContentController
+     **/
 
-  
     angular.module('cmsWebApp').controller('ViewContentController', ViewContentController);
 
     /*Inject angular services to controller*/
@@ -14,11 +13,10 @@
 
     /*Function ViewContentController*/
     function ViewContentController($state, routeResolvedContentView, $log, ManageContentService, DataModelContentService) {
-        $log.debug('ViewContentController', routeResolvedContentView);     
-        var content = this,
-        dataModelContent = new DataModelContentService(routeResolvedContentView)
+        $log.debug('ViewContentController', routeResolvedContentView);
+        var content = this, dataModelContent = new DataModelContentService(routeResolvedContentView);
         content.data = angular.copy(dataModelContent.getContent());
-      
+
         /*project.data.subjects = _.chain(routeResolvedProjectView.SubjectHeadings).indexBy('subjectHeading').keys().value();
         project.data.keywords = _.chain(routeResolvedProjectView.SubjectKeywords).indexBy('subjectKeyword').keys().value();*/
 
@@ -44,12 +42,12 @@
          * @description
          * Delete project function.
          */
-        function contentdeleteContent() {  
+        function contentdeleteContent() {
             ManageContentService.openDeleteContentModal(content.data).then(function() {
                 $log.debug('Content deleted');
-            });        
+            });
         }
 
     }
 
-})(); 
+})();

@@ -8,13 +8,16 @@
     angular.module('cmsWebApp').controller('EditContentController', EditContentController);
 
     /*Inject angular services to controller*/
-    EditContentController.$inject = ['$log', '$scope', '$rootScope', '$stateParams', 'routeResolvedContentEdit', 'ManageContentService', 'SearchService'];
+    EditContentController.$inject = ['$log', '$scope', '$rootScope', '$state', '$stateParams', 'routeResolvedContentEdit', 'ManageContentService', 'SearchService', 'DataModelContentService', 
+    'getContentSourceResolve', 'getContentPublisherResolve', 'getContentStateResolve', 'getContentSubjectsResolve'];
 
     /*Function EditContentController*/
-    function EditContentController($log, $scope, $rootScope, $stateParams, routeResolvedContentEdit, ManageContentService, SearchService) {
+    function EditContentController($log, $scope, $rootScope, $state, $stateParams, routeResolvedContentEdit, 
+        ManageContentService, SearchService, DataModelContentService, 
+        getContentSourceResolve, getContentPublisherResolve, getContentStateResolve, getContentSubjectsResolve) {
         $log.debug('EditContentController - $stateParams', $stateParams);
-        var content = this;
-        content.data = routeResolvedContentEdit;
+        var content = this, dataModelContent = new DataModelContentService(routeResolvedContentEdit);
+        content.data = angular.copy(dataModelContent.getContent());
         
         if(!content.data.Creator) {
             content.data.Creator = [''];
@@ -26,13 +29,26 @@
         if(!content.data.Projects) {
             content.data.Projects = [''];
         }
-        content.sourceData = ["Book", "Internet"];
-
-        content.publisherData = ["Publisher", "Worth Publisher"];
-
-        content.versionData = ["Vendor1", "Vendor2"];
-
-        content.subjectHeadingsData = ["subject1", "subject1"];
+        
+        content.sourceData = [];//["Book", "Internet"];
+        if(getContentSourceResolve && getContentSourceResolve.results && getContentSourceResolve.results.val){
+            content.sourceData = _.pluck(getContentSourceResolve.results.val, 'value');
+        }
+        
+        content.publisherData = [];//["Publisher", "Worth Publisher"];
+        if(getContentPublisherResolve && getContentPublisherResolve.results && getContentPublisherResolve.results.val){
+            content.publisherData = _.pluck(getContentPublisherResolve.results.val, 'value');
+        }
+        
+        content.versionData = [];//["Vendor1", "Vendor2"];
+        if(getContentStateResolve && getContentStateResolve.results && getContentStateResolve.results.val){
+            content.versionData = _.pluck(getContentStateResolve.results.val, 'value');
+        }
+        
+        content.subjectHeadingsData = [];//["subject1","subject1"];
+        if(getContentSubjectsResolve && getContentSubjectsResolve.results && getContentSubjectsResolve.results.val){
+            content.subjectHeadingsData = _.pluck(getContentSubjectsResolve.results.val, 'value');
+        }
 
         content.ProjectsData = [];
 
@@ -93,7 +109,7 @@
             $rootScope.setLoading(true);
             ManageContentService.updateContent(content.data).then(function(response){
                 $rootScope.setLoading(false);
-                $state.go('success', { type: 'content', status: 'edit', name: content.data.Title, id: content.data.uri }, { location: false });
+                $state.go('success', { type: 'content', status: 'edit', name: content.data.Title, id: content.data.ContentUri }, { location: false });
             });
         }
         

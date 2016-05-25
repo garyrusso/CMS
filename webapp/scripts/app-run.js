@@ -210,7 +210,7 @@
         
             //Get Content Details
         $httpBackend.whenGET(/GetContentDetails/).respond(function(method, url, data, headers) {
-        	 return [200, {"Title":"Myers 11e EPUB3","uri":"/mydocuments/conent1.xml","path":"fn:doc(\"/mydocuments/conent1.xml\")","href":"/v1/documents?uri=%2Fmydocuments%2Fconent1.xml","mimetype":"application/xml","format":"xml","fileName":"myers113.epub","dateLastModified":"2015-04-15 13:30","username":"bcross","fullName":"Brian Cross","audit_info":[{"actionType":"Upload","actionCreatedOn":"2015-04-15 13:30","actionCreatedBy":"Brain Cross"},{"actionType":"Downloaded","actionCreatedOn":"2015-04-15 13:30","actionCreatedBy":"Brain Cross"}]}, {/*headers*/}];
+        	 return [200, {"systemUID":"d44d8cd98f00b204e9800998ecf8427e","uri":"/documents/content4.xml","path":"fn:doc(\"/documents/content4.xml\")","href":"/v1/documents?uri=%2Fdocuments%2Fcontent4.xml","mimetype":"application/xml","format":"xml","filePath":"/documents/content4.xml","fileSize":"45400","dateCreated":"2015-04-15 13:30","dateLastModified":"2015-04-15 13:30","createdBy":"Brian Cross","modifiedBy":"Brian Cross","Title":"Content-4","description":"Content description","contentState":"Active","source":"Book","creators":[{"creator":"David Myers"},{"creator":"Brain Cross"}],"publisher":"Worth Publishers","datePublished":"2015-04-15 13:30","contentResourceTypes":[{"contentResourceType":"Section"},{"contentResourceType":"Learning Objective"}],"subjectHeadings":[{"subjectHeading":"Psychology"},{"subjectHeading":"Biology"}],"subjectKeywords":[{"subjectKeyword":"Psychology"},{"subjectKeyword":"Biology"}],"projects":[{"systemUID":"d41d8cd98f00b204e9800998ecf8427e","uri":"/projects/project1.xml","path":"fn:doc(\"/projects/project1.xml\")","href":"/v1/documents?uri=%2Fprojects%2Fproject1.xml","mimetype":"application/xml","format":"xml","dateCreated":"2015-04-15 13:30","dateLastModified":"2015-04-15 13:30","username":"bcross","createdBy":"Brian Cross","modifiedBy":"Brian Cross","Title":"Project-1"},{"systemUID":"d41d8cd98f00b204e9800998ecf8427e","uri":"/projects/project2.xml","path":"fn:doc(\"/projects/project.xml\")","href":"/v1/documents?uri=%2Fprojects%2Fproject2.xml","mimetype":"application/xml","format":"xml","dateCreated":"2015-04-15 13:30","dateLastModified":"2015-04-15 13:30","username":"bcross","createdBy":"Brian Cross","modifiedBy":"Brian Cross","Title":"Project-2"}],"audit_info":[{"actionType":"Upload","actionCreatedOn":"2015-04-15 13:30","actionCreatedBy":"Brain Cross"},{"actionType":"Downloaded","actionCreatedOn":"2015-04-15 13:30","actionCreatedBy":"Brain Cross"}]}];
         });
        
         //create content 
@@ -225,15 +225,21 @@
             return [200, data];
         });
         
+        //UpdateContent
+        $httpBackend.whenPUT(/UpdateContent/).respond(function(method, url, data, headers, params) {
+            data = angular.fromJson(data);
+            return [200, data];
+        });
+        
         //GetDictionary?dictionarytype=publisher&outputformat=json
         $httpBackend.whenGET(/GetDictionary/).respond(function(method, url, data, headers, params) {
             var returnObject = {};
-            if(params.dictionarytype === 'publisher')
+            if(params.dictionarytype === 'Publisher')
             {
                 returnObject = {"results":{"val":[{"name":"bedford_st_martins","value":"Bedford/St. Martins"},{"name":"wh_freeman","value":"W.H. Freeman"},{"name":"worth_publishers","value":"Worth Publishers"},{"name":"sapling_learning","value":"Sapling Learning"},{"name":"late_nite_labs","value":"Late Nite Labs"},{"name":"hayden-mcneil","value":"Hayden-McNeil"},{"name":"prepu","value":"PrepU"},{"name":"dynamic_books","value":"Dynamic Books"},{"name":"bfw_high_school","value":"BFW High School"}]}};
-            } else if(params.dictionarytype === 'source'){
+            } else if(params.dictionarytype === 'Source'){
                 returnObject = {"results":{"val":[{"name":"book","value":"Book"},{"name":"internet","value":"Internet"}]}};
-            } else if(params.dictionarytype === 'contentstate'){
+            } else if(params.dictionarytype === 'version-state'){
                 returnObject = {"results":{"val":[{"name":"vendor1","value":"Vendor1"},{"name":"vendor2","value":"Vendor2"}]}};
             } else if(params.dictionarytype === 'subjectHeadingsData'){
                 returnObject = {"results":{"val":[{"name":"subject1","value":"Subject1"},{"name":"subject2","value":"Subject2"}]}};
