@@ -1,4 +1,5 @@
-﻿using Macmillan.CMS.DAL;
+﻿using Macmillan.CMS.Common.Logging;
+using Macmillan.CMS.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,17 +9,29 @@ using System.Threading.Tasks;
 namespace Macmillan.CMS.Business
 {
     public class DictionaryBusiness:IDictionaryBusiness
-    {
+    {    
         IDictionaryDAL dal;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="<DictionaryBusiness>"/> class.
+        /// </summary>
+        /// <param name="dal"></param>
         public DictionaryBusiness(IDictionaryDAL dal)
         {
             this.dal = dal;
         }
 
+        /// <summary>
+        /// GetDictionary with given details
+        /// </summary>
+        /// <param name="dictionaryType"></param>
+        /// <param name="outputFormat"></param>
+        /// <returns></returns>
         public object GetDictionary(string dictionaryType, string outputFormat)
         {
-            return this.dal.GetDictionary(dictionaryType, outputFormat);
+            Logger.Debug("Entering GetDictionary");
+            var results = this.dal.GetDictionary(dictionaryType, outputFormat);
+            Logger.Debug("Exiting GetDictionary");
+            return results;
         }
     }
 }

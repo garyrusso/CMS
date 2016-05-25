@@ -1,4 +1,5 @@
 ﻿using Macmillan.CMS.Common;
+using Macmillan.CMS.Common.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,19 @@ namespace Macmillan.CMS.DAL
 {
     public class SearchDataDAL : ISearchDataDAL
     {
-
+        /// <summary>
+        /// GetData for search data with given details
+        /// </summary>
+        /// <param name="orderBy"></param>
+        /// <param name="pageNumber"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="searchText"></param>
+        /// <param name="searchType"></param>
+        /// <param name="userName"></param>
+        /// <returns></returns>
         public object GetData(string orderBy, int pageNumber, int pageSize, string searchText, string searchType, string userName)
         {
+            Logger.Debug("Entering GetData");
             JsonNetSerialization ser = new JsonNetSerialization();
             string con = @"{
 	                            'total': 27,
@@ -116,7 +127,9 @@ namespace Macmillan.CMS.DAL
                             }
                             ";
 
-            return ser.DeSerialize(con);
+            var results = ser.DeSerialize(con);
+            Logger.Debug("Exiting GetData");
+            return results;
         }
     }
 }

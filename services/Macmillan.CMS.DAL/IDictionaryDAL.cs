@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Macmillan.CMS.DAL
 {
+    /// <summary>
+    /// Interface for DictionaryDAL Layer
+    /// </summary>
     public interface IDictionaryDAL
     {
         object GetDictionary(string dictionaryType, string outputFormat);        
