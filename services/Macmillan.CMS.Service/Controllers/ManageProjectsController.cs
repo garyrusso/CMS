@@ -30,12 +30,19 @@ namespace Macmillan.CMS.Service.Controllers
     public class ManageProjectsController : ApiController
     {
         IManageProjectBusiness business;
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="<ManageProjectsController>"/> class.
+        /// </summary>
+        /// <param name="manageProjectBusiness"></param>
         public ManageProjectsController(IManageProjectBusiness manageProjectBusiness)
         { 
             this.business = manageProjectBusiness;
         }
 
+        /// <summary>
+        /// GetProject with given details
+        /// </summary>
+        /// <returns></returns>
         public string GetProject()
         {
             string results = string.Empty;

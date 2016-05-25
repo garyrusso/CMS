@@ -29,10 +29,10 @@ namespace Macmillan.CMS.Service.Controllers
         /// <returns></returns>       
         [HttpPost]
         public object CreateContent(HttpRequestMessage request,
-            [FromBody] string projXml, string projUri)
+            [FromBody] Content content)
         {
             Logger.Debug("Entering CreateContent");
-            var results = this.business.CreateContent(projXml, projUri);
+            var results = this.business.CreateContent(content);
             Logger.Debug("Exiting CreateContent");
             return results;
         }
@@ -43,10 +43,10 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="content"></param>
         /// <returns></returns>
         [HttpPut]
-        public object UpdateContent(string projXml, string projUri)
+        public object UpdateContent(Content content)
         {
             Logger.Debug("Entering UpdateContent");
-            var results = this.business.UpdateContent(projXml, projUri);
+            var results = this.business.UpdateContent(content);
             Logger.Debug("Exiting UpdateContent");
             return results;
         }
@@ -58,10 +58,10 @@ namespace Macmillan.CMS.Service.Controllers
         /// <returns></returns>
         [HttpDelete]
         public object DeleteContent(HttpRequestMessage request,
-            [FromBody]string projXml, string projUri)
+            [FromBody]Content content)
         {
             Logger.Debug("Entering DeleteContent");
-            var results = this.business.DeleteContent(projXml, projUri);
+            var results = this.business.DeleteContent(content);
             Logger.Debug("Exiting DeleteContent");
             return results;
         }
