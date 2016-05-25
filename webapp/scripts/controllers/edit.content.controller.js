@@ -8,10 +8,13 @@
     angular.module('cmsWebApp').controller('EditContentController', EditContentController);
 
     /*Inject angular services to controller*/
-    EditContentController.$inject = ['$log', '$scope', '$rootScope', '$state', '$stateParams', 'routeResolvedContentEdit', 'ManageContentService', 'SearchService', 'DataModelContentService'];
+    EditContentController.$inject = ['$log', '$scope', '$rootScope', '$state', '$stateParams', 'routeResolvedContentEdit', 'ManageContentService', 'SearchService', 'DataModelContentService', 
+    'getContentSourceResolve', 'getContentPublisherResolve', 'getContentStateResolve', 'getContentSubjectsResolve'];
 
     /*Function EditContentController*/
-    function EditContentController($log, $scope, $rootScope, $state, $stateParams, routeResolvedContentEdit, ManageContentService, SearchService, DataModelContentService) {
+    function EditContentController($log, $scope, $rootScope, $state, $stateParams, routeResolvedContentEdit, 
+        ManageContentService, SearchService, DataModelContentService, 
+        getContentSourceResolve, getContentPublisherResolve, getContentStateResolve, getContentSubjectsResolve) {
         $log.debug('EditContentController - $stateParams', $stateParams);
         var content = this, dataModelContent = new DataModelContentService(routeResolvedContentEdit);
         content.data = angular.copy(dataModelContent.getContent());
@@ -26,13 +29,26 @@
         if(!content.data.Projects) {
             content.data.Projects = [''];
         }
-        content.sourceData = ["Book", "Internet"];
-
-        content.publisherData = ["Publisher", "Worth Publishers"];
-
-        content.versionData = ["Vendor1", "Active"];
-
-        content.subjectHeadingsData = ["Psychology", "subject1"];
+        
+        content.sourceData = [];//["Book", "Internet"];
+        if(getContentSourceResolve && getContentSourceResolve.results && getContentSourceResolve.results.val){
+            content.sourceData = _.pluck(getContentSourceResolve.results.val, 'value');
+        }
+        
+        content.publisherData = [];//["Publisher", "Worth Publisher"];
+        if(getContentPublisherResolve && getContentPublisherResolve.results && getContentPublisherResolve.results.val){
+            content.publisherData = _.pluck(getContentPublisherResolve.results.val, 'value');
+        }
+        
+        content.versionData = [];//["Vendor1", "Vendor2"];
+        if(getContentStateResolve && getContentStateResolve.results && getContentStateResolve.results.val){
+            content.versionData = _.pluck(getContentStateResolve.results.val, 'value');
+        }
+        
+        content.subjectHeadingsData = [];//["subject1","subject1"];
+        if(getContentSubjectsResolve && getContentSubjectsResolve.results && getContentSubjectsResolve.results.val){
+            content.subjectHeadingsData = _.pluck(getContentSubjectsResolve.results.val, 'value');
+        }
 
         content.ProjectsData = [];
 

@@ -234,12 +234,12 @@
         //GetDictionary?dictionarytype=publisher&outputformat=json
         $httpBackend.whenGET(/GetDictionary/).respond(function(method, url, data, headers, params) {
             var returnObject = {};
-            if(params.dictionarytype === 'publisher')
+            if(params.dictionarytype === 'Publisher')
             {
                 returnObject = {"results":{"val":[{"name":"bedford_st_martins","value":"Bedford/St. Martins"},{"name":"wh_freeman","value":"W.H. Freeman"},{"name":"worth_publishers","value":"Worth Publishers"},{"name":"sapling_learning","value":"Sapling Learning"},{"name":"late_nite_labs","value":"Late Nite Labs"},{"name":"hayden-mcneil","value":"Hayden-McNeil"},{"name":"prepu","value":"PrepU"},{"name":"dynamic_books","value":"Dynamic Books"},{"name":"bfw_high_school","value":"BFW High School"}]}};
-            } else if(params.dictionarytype === 'source'){
+            } else if(params.dictionarytype === 'Source'){
                 returnObject = {"results":{"val":[{"name":"book","value":"Book"},{"name":"internet","value":"Internet"}]}};
-            } else if(params.dictionarytype === 'contentstate'){
+            } else if(params.dictionarytype === 'version-state'){
                 returnObject = {"results":{"val":[{"name":"vendor1","value":"Vendor1"},{"name":"vendor2","value":"Vendor2"}]}};
             } else if(params.dictionarytype === 'subjectHeadingsData'){
                 returnObject = {"results":{"val":[{"name":"subject1","value":"Subject1"},{"name":"subject2","value":"Subject2"}]}};

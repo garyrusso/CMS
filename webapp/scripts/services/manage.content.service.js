@@ -9,9 +9,9 @@
     angular.module('cmsWebApp').service('ManageContentService', ManageContentService);
 
     /*Inject angular services*/
-    ManageContentService.$inject = ['$rootScope', '$q', '_', '$http', '$log', 'APP_CONFIG', '$uibModal', '$state'];
+    ManageContentService.$inject = ['$rootScope', '$q', '_', '$http', '$log', 'APP_CONFIG', '$uibModal', '$state', 'CommonService'];
 
-    function ManageContentService($rootScope, $q, _, $http, $log, APP_CONFIG, $uibModal, $state) {
+    function ManageContentService($rootScope, $q, _, $http, $log, APP_CONFIG, $uibModal, $state, CommonService) {
         return {
             getContents : getContents,
             viewContent : viewContent,
@@ -90,10 +90,14 @@
                         return {
                             templateUrl: 'views/modal-upload-content.html'
                         };
-                    }
+                    },
+                    getContentSourceResolve : CommonService.getDictionary('Source'),
+                    getContentPublisherResolve : CommonService.getDictionary('Publisher'),
+                    getContentStateResolve : CommonService.getDictionary('version-state'),
+                    getContentSubjectsResolve : CommonService.getDictionary('subject-heading')
                 }
             });
-
+            $rootScope.setLoading(true);
             modalInstance.result.then(function (updatedData) {                
                 self.uploadContent(updatedData).then(function (data) {
                     deffered.resolve(data);
