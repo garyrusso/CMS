@@ -10,14 +10,14 @@
     angular.module('cmsWebApp').controller('ViewContentController', ViewContentController);
 
     /*Inject angular services to controller*/
-    ViewContentController.$inject = ['$state', 'routeResolvedContentView', '$log', 'ManageContentService'];
+    ViewContentController.$inject = ['$state', 'routeResolvedContentView', '$log', 'ManageContentService', 'DataModelContentService'];
 
     /*Function ViewContentController*/
-    function ViewContentController($state, routeResolvedContentView, $log, ManageContentService) {
+    function ViewContentController($state, routeResolvedContentView, $log, ManageContentService, DataModelContentService) {
         $log.debug('ViewContentController', routeResolvedContentView);     
-        var content = this;
-      
-        content.data = routeResolvedContentView;
+        var content = this,
+        dataModelContent = new DataModelContentService(routeResolvedContentView)
+        content.data = angular.copy(dataModelContent.getContent());
       
         /*project.data.subjects = _.chain(routeResolvedProjectView.SubjectHeadings).indexBy('subjectHeading').keys().value();
         project.data.keywords = _.chain(routeResolvedProjectView.SubjectKeywords).indexBy('subjectKeyword').keys().value();*/
