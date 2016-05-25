@@ -184,26 +184,26 @@
         }
 
         function uploadContent(postData) {
-            return $http.post('ManageContents/CreateContent', postData).then(function (response) {
+            return $http.post('ManageContent/CreateContent', postData).then(function (response) {
                 return response.data;
             });
 
         }
 
         function updateContent(postData) {
-            return $http.put('ManageContents/UpdateContent', postData).then(function (response) {
+            return $http.put('ManageContent/UpdateContent', postData).then(function (response) {
                 return response.data;
             });
         }
         
         function deleteContent(postData) {
-            return $http.post('ManageContents/DeleteContent', postData).then(function (response) {
+            return $http.post('ManageContent/DeleteContent', postData).then(function (response) {
                 return response.data;
             });
         }
         
          function downloadContent(postData) {
-            return $http.post('ManageContents/DownloadContent', postData).then(function (response) {
+            return $http.post('ManageContent/DownloadContent', postData).then(function (response) {
                 return response.data;
             });
 
