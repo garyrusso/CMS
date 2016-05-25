@@ -24,13 +24,13 @@
             <div class="row cms-successpanel-row-flex-box">
                 <div class="col-xs-12 text-capitalize" ng-if="ss.data.type ==='project'">
                     <div ng-if="ss.data.status=='edit'">
-                        <h2><span ng-bind="ss.data.name "></span> was updated.</h2>
+                        <h2><span ng-bind="ss.data.name "></span> project was updated.</h2>
                     </div>
                     <div ng-if="ss.data.status=='new'">
-                        <h2><span ng-bind="ss.data.name "></span> was created.</h2>
+                        <h2><span ng-bind="ss.data.name "></span> project was created.</h2>
                     </div>
                     <div ng-if="ss.data.status=='delete'">
-                        <h2><span ng-bind="ss.data.name "></span>The selected project is deleted successfully. </h2>
+                        <h2><span ng-bind="ss.data.name "></span> project was deleted. </h2>
                     </div>
                     <p>
                         Go to <a ui-sref="projectview({uri:ss.data.id})"><u>Project View</u></a>
@@ -41,14 +41,10 @@
                         <h2><span ng-bind="ss.data.name "></span> metadata was updated.</h2>
                     </div>
                     <div ng-if="ss.data.status=='new'">
-                        <h2><span ng-bind="ss.data.name "></span> upload ticket was created.
-                        <br>
-                        You’ll receive an email once it is complete.</h2>
+                        <h2><span ng-bind="ss.data.name "></span> content was created.</h2>
                     </div>
                     <div ng-if="ss.data.status=='delete'">
-                        <h2><span ng-bind="ss.data.name "></span>delete ticket was created.
-                        <br>
-                        You’ll receive an email once it is complete. </h2>
+                        <h2><span ng-bind="ss.data.name "></span> content was deleted. </h2>
                     </div>
                     <p>
                         Go to <a ui-sref="contentview({uri:ss.data.id})"><u>Content View</u></a>
