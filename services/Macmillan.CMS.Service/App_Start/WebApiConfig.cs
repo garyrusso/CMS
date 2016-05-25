@@ -17,6 +17,12 @@ namespace Macmillan.CMS.Service
                 defaults: new { id = RouteParameter.Optional }
             );
 
+            config.Routes.MapHttpRoute(
+                name: "DefaultVerbs",
+                routeTemplate: "api/{controller}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
+
             config.Filters.Add(new AuthenticationAttribute());
             config.Filters.Add(new ManageExceptionAttribute());
 

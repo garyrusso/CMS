@@ -45,13 +45,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DictionaryDAL.cs" />
+    <Compile Include="IDictionaryDAL.cs" />
     <Compile Include="IManageContentDAL.cs" />
     <Compile Include="IManageProjectDAL.cs" />
+    <Compile Include="ISearchDataDAL.cs" />
     <Compile Include="ISecurityDAL.cs" />
     <Compile Include="ManageContentDAL.cs" />
     <Compile Include="ManageProjectDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MLReader.cs" />
+    <Compile Include="SearchDataDAL.cs" />
     <Compile Include="SecurityDAL.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -156,11 +156,14 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityWebApiActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\DictionaryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageContentsController.cs" />
+    <Compile Include="Controllers\ManageContentController.cs" />
     <Compile Include="Controllers\ManageProjectsController.cs" />
+    <Compile Include="Controllers\SearchDataController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\ValuesController1.cs" />
     <Compile Include="Filters\AuthenticationAttribute.cs" />
     <Compile Include="Filters\ManageExceptionAttribute.cs" />
     <Compile Include="Global.asax.cs">
