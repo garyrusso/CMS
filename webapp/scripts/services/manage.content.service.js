@@ -167,10 +167,11 @@
             });
 
             modalInstance.result.then(function(content) {
+                $rootScope.setLoading(true);
                 self.deleteContent(content).then(function(data) {
                         deffered.resolve(data);
                         $rootScope.setLoading(false);
-                        $state.go('success',{type:'content',status:'delete',name:data.Title,id:data.uri}, { location: false });
+                        $state.go('success',{type:'content',status:'delete',name:data.Title,id:data.ContentUri}, { location: false });
                     });
             }, function() {
 

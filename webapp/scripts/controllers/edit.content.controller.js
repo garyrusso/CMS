@@ -8,13 +8,13 @@
     angular.module('cmsWebApp').controller('EditContentController', EditContentController);
 
     /*Inject angular services to controller*/
-    EditContentController.$inject = ['$log', '$scope', '$rootScope', '$stateParams', 'routeResolvedContentEdit', 'ManageContentService', 'SearchService'];
+    EditContentController.$inject = ['$log', '$scope', '$rootScope', '$state', '$stateParams', 'routeResolvedContentEdit', 'ManageContentService', 'SearchService', 'DataModelContentService'];
 
     /*Function EditContentController*/
-    function EditContentController($log, $scope, $rootScope, $stateParams, routeResolvedContentEdit, ManageContentService, SearchService) {
+    function EditContentController($log, $scope, $rootScope, $state, $stateParams, routeResolvedContentEdit, ManageContentService, SearchService, DataModelContentService) {
         $log.debug('EditContentController - $stateParams', $stateParams);
-        var content = this;
-        content.data = routeResolvedContentEdit;
+        var content = this, dataModelContent = new DataModelContentService(routeResolvedContentEdit);
+        content.data = angular.copy(dataModelContent.getContent());
         
         if(!content.data.Creator) {
             content.data.Creator = [''];
@@ -28,11 +28,11 @@
         }
         content.sourceData = ["Book", "Internet"];
 
-        content.publisherData = ["Publisher", "Worth Publisher"];
+        content.publisherData = ["Publisher", "Worth Publishers"];
 
-        content.versionData = ["Vendor1", "Vendor2"];
+        content.versionData = ["Vendor1", "Active"];
 
-        content.subjectHeadingsData = ["subject1", "subject1"];
+        content.subjectHeadingsData = ["Psychology", "subject1"];
 
         content.ProjectsData = [];
 
@@ -93,7 +93,7 @@
             $rootScope.setLoading(true);
             ManageContentService.updateContent(content.data).then(function(response){
                 $rootScope.setLoading(false);
-                $state.go('success', { type: 'content', status: 'edit', name: content.data.Title, id: content.data.uri }, { location: false });
+                $state.go('success', { type: 'content', status: 'edit', name: content.data.Title, id: content.data.ContentUri }, { location: false });
             });
         }
         
