@@ -67,8 +67,8 @@
 
                 var modalContent = {
                     title : 'Webservice: HTTP error, please contact administrator',
-                    url : rejection.config.url,
-                    message : rejection.data,
+                    url : (rejection && rejection.config && rejection.config.url)?rejection.config.url:'',
+                    message : (rejection && rejection.data)?rejection.data:'',
                     ok : false,
                     cancel : {
                         text : 'OK',
