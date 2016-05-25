@@ -102,7 +102,7 @@
                 self.uploadContent(updatedData).then(function (data) {
                     deffered.resolve(data);
                     $rootScope.setLoading(false);
-                    $state.go('success', { type: 'Content', status: 'new', name: data.Title, id: data.uri }, { location: false });
+                    $state.go('success', { type: 'content', status: 'new', name: data.Title, id: data.ContentUri }, { location: false });
                 });
                 
             }, function () {

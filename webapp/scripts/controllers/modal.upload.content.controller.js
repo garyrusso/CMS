@@ -123,7 +123,7 @@
         function submitContent(){
             $log.debug('submitContent', $scope.uploader.flow, $scope.data);
             $rootScope.setLoading(true);
-            $scope.uploader.flow.upload();
+            /*$scope.uploader.flow.upload();
             //check whether ng-flow is ready to upload
             readytoUploadDefer.promise.then(function(){
                 //check whether upload is completed
@@ -137,7 +137,7 @@
                     } 
                 });
                 
-                if(!errorUpload){
+                if(!errorUpload){*/
                     _.map($scope.uploader.flow.files, function(eachfile){
                         $scope.data.FileFormat = eachfile.file.name? eachfile.file.name.split('.').pop():'';
                         $scope.data.FileName = eachfile.file.name? eachfile.file.name:'';
@@ -147,9 +147,9 @@
                     });
                     //passing data to parent controller.
                     $uibModalInstance.close(angular.copy($scope.data));
-                }
+                /*}
                 
-            });
+            });*/
             
         }
         
