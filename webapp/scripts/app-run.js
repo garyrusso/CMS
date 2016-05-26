@@ -136,12 +136,8 @@
 
         //login service
         $httpBackend.whenPOST(/Security/).respond(function(/*method, url, data, headers*/) {
-            return [200, {
-                "session_token" : "ZTQyMjE4YTdhYTE3OTI4NTljdhYTU0ZTAyNjk2Mg",
-                "expires_in" : 3600,
-                "token_type" : "bearer",
-                "scope" : "user"
-            }, {/*headers*/}];
+            return [200, {"responseCode":"200","message":"Login successful","authToken":"d9a14ceef9252ba67dcc6001bd9936fe|5/27/2016 1:43:26 PM","username":"ghopper","fullName":"Grace Hopper","expiration":"2016-05-27T13:43:26.561612Z"}, {/*headers*/}];
+            //return [200, {"responseCode":"401","message":"User/Pass incorrect"}];
         });
 
         //Search/list projects 

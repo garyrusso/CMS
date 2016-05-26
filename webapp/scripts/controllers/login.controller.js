@@ -32,8 +32,8 @@
                     password : auth.password.trim()
                 }).then(function() {
                     $state.go('dashboard');
-                }, function() {
-                    auth.message = "Invalid username/password!";
+                }, function(failResponse) {
+                    auth.message = (failResponse && failResponse.data && failResponse.data.message)? failResponse.data.message : "Invalid username/password!";
                     $rootScope.setLoading(false);
                 });
                 //$state.go('dashboard');
