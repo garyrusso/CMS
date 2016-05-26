@@ -26,10 +26,10 @@ namespace Macmillan.CMS.Business
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object CreateContent(Content Content)
+         public object CreateContent(string projXml, string projUri)
         {
             Logger.Debug(" Entering CreateProject");
-            var resutls = this.dal.CreateContent(Content);
+            var resutls = this.dal.CreateContent(projXml, projUri);
             Logger.Debug(" Exiting CreateProject");
             return resutls;
         }
@@ -39,10 +39,10 @@ namespace Macmillan.CMS.Business
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object UpdateContent(Content Content)
+         public object UpdateContent(string projXml, string projUri)
         {
             Logger.Debug(" Entering UpdateContent");
-            var results = this.dal.UpdateContent(Content);
+            var results = this.dal.UpdateContent(projXml, projUri);
             Logger.Debug(" Exiting UpdateContent");
             return results;
         }
@@ -52,10 +52,10 @@ namespace Macmillan.CMS.Business
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object DeleteContent(Content Content)
+         public object DeleteContent(string projXml, string projUri)
         {
             Logger.Debug(" Entering DeleteProject");
-            var results = this.dal.DeleteContent(Content);
+            var results = this.dal.DeleteContent(projXml, projUri);
             Logger.Debug(" Exiting DeleteProject");
             return results;
         }

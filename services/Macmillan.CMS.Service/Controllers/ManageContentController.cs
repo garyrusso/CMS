@@ -32,7 +32,7 @@ namespace Macmillan.CMS.Service.Controllers
             [FromBody] Content content)
         {
             Logger.Debug("Entering CreateContent");
-            var results = this.business.CreateContent(content);
+            var results = this.business.GetContent("");
             Logger.Debug("Exiting CreateContent");
             return results;
         }
@@ -43,10 +43,10 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="content"></param>
         /// <returns></returns>
         [HttpPut]
-        public object UpdateContent(Content content)
+        public object UpdateContent([FromBody] Content content)
         {
             Logger.Debug("Entering UpdateContent");
-            var results = this.business.UpdateContent(content);
+            var results = this.business.GetContent("");
             Logger.Debug("Exiting UpdateContent");
             return results;
         }
@@ -56,12 +56,11 @@ namespace Macmillan.CMS.Service.Controllers
         /// </summary>
         /// <param name="content"></param>
         /// <returns></returns>
-        [HttpDelete]
-        public object DeleteContent(HttpRequestMessage request,
-            [FromBody]Content content)
+        [HttpPost]
+        public object DeleteContent([FromBody] Content content)
         {
             Logger.Debug("Entering DeleteContent");
-            var results = this.business.DeleteContent(content);
+            var results = this.business.GetContent("");
             Logger.Debug("Exiting DeleteContent");
             return results;
         }
