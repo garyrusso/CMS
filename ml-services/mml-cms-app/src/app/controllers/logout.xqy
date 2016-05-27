@@ -16,7 +16,7 @@ declare variable $RES-PREFIX as xs:string := "LOGOUT";
 
 declare function c:main() as item()*
 {
-  let $userPwd  := xdmp:base64-decode(fn:string(fn:tokenize(xdmp:get-request-header("Authorization"), "Basic ")[2]))
+  let $userPwd  := xdmp:base64-decode(xdmp:get-request-header("UserInfo"))
   let $username := fn:string((xdmp:get-request-header("username"),fn:tokenize($userPwd, ":")[1])[1])
   let $password := fn:string((xdmp:get-request-header("password"),fn:tokenize($userPwd, ":")[2])[1])
 
