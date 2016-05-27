@@ -19,8 +19,8 @@
             openDeleteContentModal : openDeleteContentModal,
             uploadContent : uploadContent,
             updateContent : updateContent,
-            deleteContent : deleteContent,
-            downloadContent : downloadContent
+            deleteContent : deleteContent,            
+            openDownloadContentModal : openDownloadContentModal
         };
 
         /**
@@ -135,9 +135,9 @@
             });
 
             modalInstance.result.then(function (updatedData) {                
-                self.uploadContent(updatedData).then(function (data) {
-                    deffered.resolve(data);
-                    $rootScope.setLoading(false);
+                self.downloadContent(updatedData).then(function (data) {
+                  //  deffered.resolve(data);
+                  //  $rootScope.setLoading(false);
                     $state.go('success', { type: 'Content', status: 'new', name: data.Title, id: data.uri }, { location: false });
                 });
                 
