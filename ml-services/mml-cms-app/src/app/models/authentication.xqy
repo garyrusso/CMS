@@ -214,27 +214,6 @@ declare function auth:deleteToken2($uri as xs:string)
     )
 
   return "done"
-
-(:
-  let $doc :=
-    if(fn:doc($uri)) then
-    (
-      xdmp:log(".................. delete token: "||$uri),
-      xdmp:eval
-      (
-        fn:concat('xdmp:document-delete("', $uri, '")'),
-        (),
-        <options xmlns="xdmp:eval">
-          <isolation>different-transaction</isolation> 
-          <prevent-deadlocks>false</prevent-deadlocks>
-          <database>{xdmp:database()}</database>
-        </options>
-      )
-    )
-    else ()
-
-  return "done"
-:)
 };
 
 declare function auth:cacheSession($session as element(session))
@@ -326,13 +305,39 @@ declare function auth:logout($username as xs:string)
     let $user := auth:userFind($username)
 
     let $token := if($session) then $session/session/@user-sid/fn:string() else ()
-    let $__ := auth:clearSession($username)
+    
+    let $result :=
+      if (fn:string-length($token) gt 0) then
+      (
+        let $_ := auth:clearSession($username)
         return
            <json:object type="object">
               <json:responseCode>200</json:responseCode>
               <json:message>Logout Successful - Token Deleted</json:message>
               <json:authToken>{$token}</json:authToken>
-              <json:username>{$user/username/text()}</json:username>
-              <json:fullName>{fn:string-join((($user/firstName,$user/firstname)[1], ($user/lastName,$user/lastname)[1])," ")}</json:fullName>
+              <json:username>{$username}</json:username>
            </json:object>
+      )
+      else
+      if (fn:string-length($username) gt 0) then
+      (
+           <json:object type="object">
+              <json:responseCode>400</json:responseCode>
+              <json:message>user not logged in</json:message>
+              <json:authToken>none</json:authToken>
+              <json:username>{$username}</json:username>
+           </json:object>
+      )
+      else
+      (
+           <json:object type="object">
+              <json:responseCode>400</json:responseCode>
+              <json:message>Unknown Username</json:message>
+              <json:authToken>none</json:authToken>
+              <json:username>unknown</json:username>
+           </json:object>
+      )
+      
+    return $result
 };
+

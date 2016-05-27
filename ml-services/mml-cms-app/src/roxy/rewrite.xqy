@@ -34,11 +34,18 @@ let $final-uri :=
     $method,
     $config:ROXY-ROUTES)
 return
-  if ($final-uri) then $final-uri
+  if ($final-uri) then
+  (
+    let $log := xdmp:log(".................. roxy rewrite $final-url: "||$final-uri)
+    return $final-uri
+  )
   else
     try
     {
-      (rewriter:rewrite($method, $uri, $path), $uri)[1]
+      let $url := (rewriter:rewrite($method, $uri, $path), $uri)[1]
+      let $log:= xdmp:log("")
+      let $log:= xdmp:log(".................. roxy rewrite:rewrite() $method: "||$method||" --- $url: "||$url)
+      return $url
     }
     catch($ex) {
       if ($ex/error:code = "XDMP-MODNOTFOUND") then
