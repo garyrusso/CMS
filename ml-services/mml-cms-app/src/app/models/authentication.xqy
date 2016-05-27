@@ -6,7 +6,10 @@ import module namespace invoke = "http://marklogic.com/ps/invoke/functions" at "
 import module namespace cfg    = "http://marklogic.com/roxy/config" at "/app/config/config.xqy";
 import module namespace tools  = "http://marklogic.com/ps/custom/common-tools" at "/app/lib/common-tools.xqy";
 import module namespace json   = "http://marklogic.com/json" at "/roxy/lib/json.xqy";
-import module namespace req   = "http://marklogic.com/roxy/request" at "/roxy/lib/request.xqy";
+import module namespace req    = "http://marklogic.com/roxy/request" at "/roxy/lib/request.xqy";
+(:
+import module namespace token  = "http://marklogic.com/ps/custom/deleteToken" at "/app/lib/deleteToken.xqy";
+:)
 
 declare namespace mml = "http://macmillanlearning.com";
 
@@ -181,19 +184,21 @@ declare function auth:clearSession($username)
   for $session in auth:findSessionByUserForCleanup($username)
     return
     (
-      xdmp:log("........................ deleting token for $uri "||xdmp:node-uri($session))
-      (: auth:deleteToken(xdmp:node-uri($session)) :)
+      xdmp:log("........................ deleting token for $uri "||xdmp:node-uri($session)),
+      auth:deleteToken(xdmp:node-uri($session))
     )
 };
 
-declare function auth:deleteTokenOrig($uri)
+declare function auth:deleteToken($uri as xs:string)
 {
   let $doc := fn:doc($uri)
   return
-    if($doc) then xdmp:document-delete($uri) else ()
+    if($doc) then
+      xdmp:spawn("/app/lib/deleteToken.xqy", ((xs:QName("uri"), $uri)))
+    else ()
 };
 
-declare function auth:deleteToken($uri as xs:string)
+declare function auth:deleteToken2($uri as xs:string)
 {
   let $s := fn:concat('xdmp:document-delete("', $uri, '")')
 
