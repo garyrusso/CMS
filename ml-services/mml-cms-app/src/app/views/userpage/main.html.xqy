@@ -36,7 +36,7 @@ declare variable $user            := vh:get("user");
       <br/>
       <table border="0">
         <tr>
-          <td width="350" valign="top">{uv:build-register("/user", $user, $edit) }</td>
+          <td width="350" valign="top">{uv:build-register("/userpage", $user, $edit) }</td>
           <td width="350" valign="top">{ uv:build-userlist($userlist) }</td>
         </tr>
       </table>
