@@ -11,10 +11,14 @@ namespace Macmillan.CMS.DAL
     public class MLReader
     {
         private readonly JsonNetSerialization serializer = new JsonNetSerialization();
-
-        public string HttpInvoke(string url, SupportedHttpMethods httpMethod, string mediaType, string content = null)
+                
+        public string HttpInvoke(string url, SupportedHttpMethods httpMethod, 
+            string mediaType, 
+            string content = null,
+            Dictionary<string, string> requestHeaders = null,
+            Dictionary<string, string> contentHeaders = null)
         {
-            using (var httpClass = new HttpClass(url, httpMethod, mediaType, content))
+            using (var httpClass = new HttpClass(url, httpMethod, mediaType, content, requestHeaders, contentHeaders))
             {
                 httpClass.Invoke();
 
@@ -24,10 +28,11 @@ namespace Macmillan.CMS.DAL
             }
         }
 
-        public object GetHttpResponse(string url)
+        public object GetHttpResponse(string url,
+            Dictionary<string, string> requestHeaders = null)
         {
             string content;
-            using (var httpClass = new HttpClass(url, SupportedHttpMethods.GET, "text/json", url))
+            using (var httpClass = new HttpClass(url, SupportedHttpMethods.GET, "text/json", url, requestHeaders))
             {
                 httpClass.Invoke();
 
@@ -40,10 +45,12 @@ namespace Macmillan.CMS.DAL
             return ser.DeSerialize(content);
         }
 
-        public string GetHttpContent(string url, string mediaType = "application/json")
+        public string GetHttpContent(string url, 
+            string mediaType = "application/json", 
+            Dictionary<string, string> requestHeaders = null)
         {
             string content;
-            using (var httpClass = new HttpClass(url, SupportedHttpMethods.GET, mediaType, url))
+            using (var httpClass = new HttpClass(url, SupportedHttpMethods.GET, mediaType, url, requestHeaders))
             {
                 httpClass.Invoke();
 
@@ -55,9 +62,11 @@ namespace Macmillan.CMS.DAL
             return content;
         }
 
-        public T GetHttpContent<T>(string url)
+        public T GetHttpContent<T>(string url,
+            string mediaType = "application/json", 
+            Dictionary<string, string> requestHeaders = null)
         {
-            using (var httpClass = new HttpClass(url, SupportedHttpMethods.GET, "text/json", url))
+            using (var httpClass = new HttpClass(url, SupportedHttpMethods.GET, mediaType, url, requestHeaders))
             {
                 httpClass.Invoke();
 

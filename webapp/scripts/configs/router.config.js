@@ -23,6 +23,9 @@
             templateUrl : "views/commonMainWithNav.html",
             controller : 'DashboardController',
             controllerAs : 'dashboard',
+            resolve : {
+                routeResolvedDashboardProjectListView : dashboardProjectList
+            },            
             data : {
                 roles : ['User']
             }
@@ -134,6 +137,20 @@
             return ManageProjectsService.getProjects();
         }
 
+
+         /**
+         * @ngdoc service
+         * @name cmsWebApp.service:dashboardProjectList
+         * @description
+         * Get list of projects created by user
+         * @return promise with get projects list
+         */
+        dashboardProjectList.$inject = ['SearchService', 'CommonService'];
+        function dashboardProjectList(SearchService, CommonService) {
+            var username = CommonService.getItems('username');
+            return SearchService.searchData('project', '', '', '', '', username);
+        }
+        
         /**
          * @ngdoc service
          * @name cmsWebApp.service:contentList

@@ -16,13 +16,17 @@ declare variable $RES-PREFIX as xs:string := "LOGIN";
 
 declare function c:main() as item()*
 {
+(:
   let $userPwd  := xdmp:base64-decode(fn:string(fn:tokenize(xdmp:get-request-header("Authorization"), "Basic ")[2]))
-  let $username := fn:string((xdmp:get-request-header("username"),fn:tokenize($userPwd, ":")[1])[1])
-  let $password := fn:string((xdmp:get-request-header("password"),fn:tokenize($userPwd, ":")[2])[1])
+:)
+  let $reqHeader := xdmp:get-request-header("UserInfo")
+  let $userPwd  := if ($reqHeader) then xdmp:base64-decode($reqHeader) else ""
+  
+  let $username := if ($userPwd) then fn:string((xdmp:get-request-header("username"),fn:tokenize($userPwd, ":")[1])[1]) else ""
+  let $password := if ($userPwd) then fn:string((xdmp:get-request-header("password"),fn:tokenize($userPwd, ":")[2])[1]) else ""
 
-let $log := xdmp:log("................. $username: "||$username)
-let $log := xdmp:log("................. $password: "||$password)
-let $log := xdmp:log("................. $userPwd:  "||$userPwd)
+let $log := xdmp:log("................. $username: '"||$username||"'")
+let $log := xdmp:log("................. $password: '"||$password||"'")
 
   let $result   := auth:login($username, $password)
 

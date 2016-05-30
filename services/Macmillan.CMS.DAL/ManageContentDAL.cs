@@ -17,38 +17,38 @@ namespace Macmillan.CMS.DAL
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object CreateContent(Content Content)
+         public object CreateContent(string projXml, string projUri)
          {
              Logger.Debug("Entering CreateContent");
-             JsonNetSerialization ser = new JsonNetSerialization();
-             string con = @"{'Title': 'Myers 11e EPUB3',
-                          'uri': '/mydocuments/conent1.xml',
-                          'path': 'fn:doc(\'/mydocuments/conent1.xml\')',
-                          'href': '/v1/documents?uri=%2Fmydocuments%2Fconent1.xml',
-                          'mimetype': 'application/xml',
-                          'format': 'xml',
-                          'fileName': 'myers113.epub',
-                          'dateLastModified': '2015-04-15 13:30',
-                          'username': 'bcross',
-                          'fullName': 'Brian Cross',
-                          'audit_info': [
-                            {
-                              'actionType': 'Upload',
-                              'actionCreatedOn': '2015-04-15 13:30',
-                              'actionCreatedBy': 'Brain Cross'
-                            },
-                            {
-                              'actionType': 'Downloaded',
-                              'actionCreatedOn': '2015-04-15 13:30',
-                              'actionCreatedBy': 'Brain Cross'
-                            }
-                          ]
-                        }
-                        ";
-             var results = ser.DeSerialize(con);
-             //string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "?uri=" + projUri;
-             //MLReader mlReader = new MLReader();
-             //string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.POST, "application/xml", projXml);
+//             JsonNetSerialization ser = new JsonNetSerialization();
+//             string con = @"{'Title': 'Myers 11e EPUB3',
+//                          'uri': '/mydocuments/conent1.xml',
+//                          'path': 'fn:doc(\'/mydocuments/conent1.xml\')',
+//                          'href': '/v1/documents?uri=%2Fmydocuments%2Fconent1.xml',
+//                          'mimetype': 'application/xml',
+//                          'format': 'xml',
+//                          'fileName': 'myers113.epub',
+//                          'dateLastModified': '2015-04-15 13:30',
+//                          'username': 'bcross',
+//                          'fullName': 'Brian Cross',
+//                          'audit_info': [
+//                            {
+//                              'actionType': 'Upload',
+//                              'actionCreatedOn': '2015-04-15 13:30',
+//                              'actionCreatedBy': 'Brain Cross'
+//                            },
+//                            {
+//                              'actionType': 'Downloaded',
+//                              'actionCreatedOn': '2015-04-15 13:30',
+//                              'actionCreatedBy': 'Brain Cross'
+//                            }
+//                          ]
+//                        }
+//                        ";
+//             var results = ser.DeSerialize(con);
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "?uri=" + projUri;
+             MLReader mlReader = new MLReader();
+             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.POST, "application/xml", projXml);
              Logger.Debug("Exitinging CreateContent");
              return results;
          }
@@ -58,14 +58,13 @@ namespace Macmillan.CMS.DAL
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object UpdateContent(Content Content)
+         public object UpdateContent(string projXml, string projUri)
          {
              Logger.Debug("Entering UpdateProject");
              //Call ML and Put the project xml
-             //string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "?uri=" + projUri;
-             //MLReader mlReader = new MLReader();
-             //string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.PUT, "application/xml", projXml);
-             var results = this.UpdateContent(Content);
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "?uri=" + projUri;
+             MLReader mlReader = new MLReader();
+             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.PUT, "application/xml", projXml);
              Logger.Debug("Exitinging UpdateProject");
              return results;
          }
@@ -75,14 +74,13 @@ namespace Macmillan.CMS.DAL
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object DeleteContent(Content Content)
+         public object DeleteContent(string projXml, string projUri)
          {
              Logger.Debug("Entry DeleteProject");
-             //string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "?uri=" + projUri;
-             //MLReader mlReader = new MLReader();
-             //string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.DELETE, "application/xml", projXml);
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "?uri=" + projUri;
+             MLReader mlReader = new MLReader();
+             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.DELETE, "application/xml", projXml);
              //Call ML and Delete the project xml
-             var results = this.DeleteContent(Content);
              Logger.Debug("Exiting DeleteProject");
              return results;
          }
@@ -96,33 +94,58 @@ namespace Macmillan.CMS.DAL
          {
              Logger.Debug("Entering GetContent");
              JsonNetSerialization ser = new JsonNetSerialization();
-             string con = @"{'Title': 'Myers 11e EPUB3',
-                          'uri': '/mydocuments/conent1.xml',
-                          'path': 'fn:doc(\'/mydocuments/conent1.xml\')',
-                          'href': '/v1/documents?uri=%2Fmydocuments%2Fconent1.xml',
-                          'mimetype': 'application/xml',
-                          'format': 'xml',
-                          'fileName': 'myers113.epub',
-                          'dateLastModified': '2015-04-15 13:30',
-                          'username': 'bcross',
-                          'fullName': 'Brian Cross',
-                          'audit_info': [
-                            {
-                              'actionType': 'Upload',
-                              'actionCreatedOn': '2015-04-15 13:30',
-                              'actionCreatedBy': 'Brain Cross'
-                            },
-                            {
-                              'actionType': 'Downloaded',
-                              'actionCreatedOn': '2015-04-15 13:30',
-                              'actionCreatedBy': 'Brain Cross'
-                            }
-                          ]
-                        }
-                       ";
-             var results = ser.DeSerialize(con);
+
+             Content content = new Content();
+
+             content.Title = "Myers 11e EPUB3";
+             content.ContentUri = "/mydocuments/conent1.xml";
+             content.Description = "The EPUB3/EDUPUB of David";
+             content.Source = "Book";
+             content.Creator = new string[] { "David Myers" }; 
+             content.Publisher = "Worth Publishers";
+             content.ContentState = "Vendor";
+             content.Projects = null;
+             content.SubjectHeadings = new string[]{"Psychology"};
+             content.SubjectKeywords = new string[] { "Test", "Working" };
+             content.SystemId = "05b8825669ae9dee519349e4a9edafca";
+             content.DateCreated = DateTime.Now;
+             content.DateModified = DateTime.Now;
+             content.DatePublished = DateTime.Now;
+             content.CreatedBy = "bcross";
+             content.ModifiedBy = "bcross";
+             content.ContentResourceType = "";
+             content.FileFormat = "EPUB";
+             content.FileName = "myers11e.epub";
+             content.FilePath = "s3://cms/myers11e.epub";
+             content.FileSize = "45400";
+
+//             string con = @"{'Title': 'Myers 11e EPUB3',
+//                          'uri': '/mydocuments/conent1.xml',
+//                          'path': 'fn:doc(\'/mydocuments/conent1.xml\')',
+//                          'href': '/v1/documents?uri=%2Fmydocuments%2Fconent1.xml',
+//                          'mimetype': 'application/xml',
+//                          'format': 'xml',
+//                          'fileName': 'myers113.epub',
+//                          'dateLastModified': '2015-04-15 13:30',
+//                          'username': 'bcross',
+//                          'fullName': 'Brian Cross',
+//                          'audit_info': [
+//                            {
+//                              'actionType': 'Upload',
+//                              'actionCreatedOn': '2015-04-15 13:30',
+//                              'actionCreatedBy': 'Brain Cross'
+//                            },
+//                            {
+//                              'actionType': 'Downloaded',
+//                              'actionCreatedOn': '2015-04-15 13:30',
+//                              'actionCreatedBy': 'Brain Cross'
+//                            }
+//                          ]
+//                        }
+//                       ";
+             //var results = ser.Serialize<Content>(content);
              Logger.Debug("Exitinging CreateContent");
-             return results;
+             return content;
          }
 
          /// <summary>

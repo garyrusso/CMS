@@ -47,8 +47,8 @@ declare variable $loggedin as xs:string? := vh:get("loggedin");
       <a class="text" href="/" title="Home">MacMillan CMS</a>
     </div>
     {
-      (: uv:build-user($username, fn:concat("/user/profile?user=", $username), "/user/login", "/user/register", "/user/logout") :)
-      uv:build-user($username, $message, "?login=1", "/user", "?logout=1")
+      (: uv:build-user($username, fn:concat("/userpage/profile?user=", $username), "/userpage/login", "/userpage/register", "/userpage/logout") :)
+      uv:build-user($username, $message, "?login=1", "/userpage", "?logout=1")
     }
     <div class="canvas">
       <div class="header" arcsize="5 5 0 0">

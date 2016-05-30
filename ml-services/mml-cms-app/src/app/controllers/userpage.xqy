@@ -1,6 +1,6 @@
 xquery version "1.0-ml";
 
-module namespace c = "http://marklogic.com/roxy/controller/user";
+module namespace c = "http://marklogic.com/roxy/controller/userpage";
 
 import module namespace ch    = "http://marklogic.com/roxy/controller-helper" at "/roxy/lib/controller-helper.xqy";
 import module namespace req   = "http://marklogic.com/roxy/request" at "/roxy/lib/request.xqy";

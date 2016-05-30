@@ -72,12 +72,12 @@
             var deferred = $q.defer(), self = this;
 
             $http.post('Security/ValidateUserCredentials', postdata).then(function (response) {
-                if (!response.data.errors && response.data.session_token) {
-                    response.data.username = postdata.username;
+                if (response.data.authToken) {
                     response.data.roles = ['User'];
                     self.authenticate(response.data);
                     deferred.resolve(response.data);
                 } else {
+                    //{"responseCode":"401","message":"User/Pass incorrect"}
                     deferred.reject(response);
                 }
             }, function(message) {

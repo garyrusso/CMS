@@ -34,15 +34,15 @@
          */
         function getProjects(searchText, pageNumber, pageSize, orderBy) {
             $log.debug('getProjects - ManageProjectsService', searchText, pageNumber, pageSize, orderBy);
-			var params = {
+            var params = {
                 searchText : searchText ? searchText : '',
                 pageNumber : pageNumber ? parseInt(pageNumber) : 1,
                 pageSize : pageSize ? parseInt(pageSize) : APP_CONFIG.limit,
                 orderBy : orderBy ? orderBy : '',
             };
 
-			return $http.get('ManageProjects/SearchProjects', {
-			    params: params
+            return $http.get('ManageProjects/SearchProjects', {
+                params: params
             }).then(function(response) {
                 return response.data;
             });
@@ -87,8 +87,8 @@
                             data : data
                         };
                     },                
-                	getProjectMasterDataProjectState : CommonService.getDictionary('project-status'),
-                	getProjectMasterDataSubjects : CommonService.getDictionary('subject-heading')
+                    getProjectMasterDataProjectState : CommonService.getDictionary('project-status'),
+                    getProjectMasterDataSubjects : CommonService.getDictionary('subject-heading')
                 }                
              
             });

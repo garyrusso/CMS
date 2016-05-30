@@ -28,23 +28,48 @@ namespace Macmillan.CMS.DAL
             Logger.Debug("Exiting GetUserData");
             return results;
         }
-
-        /// <summary>
-        /// get project for given details
-        /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
-        public Project GetProject(string uri)
+       
+        public object ValidateUser(Authentication authentication)
         {
-            Logger.Debug("Entering GetProject");
-            //Call ML and GetProject
+            //Post it to MarkLogic  
+            string mlUrl = "http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/login";
             MLReader mlReader = new MLReader();
 
-            Project proj = mlReader.GetHttpContent<Project>("http://ML/Project?docUri=adf");
-          
-            var results= proj;
-            Logger.Debug("Exiting GetProject");
+            //get base64 representaion of user name and password
+            string credentials = "Basic" + this.ConvertoBase64(authentication.username.Split(new char[] {'@'})[0] + "|" + authentication.password);
+            
+            Dictionary<string, string> requestHeader = new Dictionary<string, string>();
+            requestHeader.Add("Authorization", credentials);
+            object results = null;
+            try
+            {
+                results = mlReader.GetHttpContent<object>(mlUrl, "application/xml", requestHeader);
+            }
+            catch (Exception ex)
+            {
+                //{"responseCode":"401","message":"User/Pass incorrect"}
+
+                if (ex.Message.Contains("401"))
+                { 
+                    var error = new {responseCode ="401", message = "User/Pass incorrect"};
+
+                    results = error;
+                }
+            }
+
             return results;
+        }
+
+        public string ConvertoBase64(string text)
+        {
+            var textBytes = System.Text.Encoding.UTF8.GetBytes(text);
+            return System.Convert.ToBase64String(textBytes);
+        }
+
+        public string Base64Decode(string base64EncodedData)
+        {
+            var base64EncodedBytes = System.Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
 
         /// <summary>

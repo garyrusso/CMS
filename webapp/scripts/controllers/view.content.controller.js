@@ -26,6 +26,9 @@
         //TODO: move to Commonservice
         content.deleteContent = contentdeleteContent;
 
+        //TODO: move to Commonservice
+        content.downloadContent = contentDownloadContent;
+        
         /**
          * @name projectsEditProject
          * @description
@@ -46,6 +49,19 @@
             ManageContentService.openDeleteContentModal(content.data).then(function() {
                 $log.debug('Content deleted');
             });
+        }
+
+
+         /**
+         * @ngdoc method 
+         * @name cmsWebApp.controller:ViewContentController 
+         * @description
+         * Delete project function.
+         */
+        function contentDownloadContent() {  
+            ManageContentService.openDownloadContentModal(content.data).then(function() {
+                $log.debug('Content download');
+            });        
         }
 
     }

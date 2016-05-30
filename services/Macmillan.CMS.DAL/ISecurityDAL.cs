@@ -15,6 +15,7 @@ namespace Macmillan.CMS.DAL
     {
         object GetUserData();
         object ValidateUserCredentials(Authentication authentication);
+        object ValidateUser(Authentication authentication);
     }
 }
     
