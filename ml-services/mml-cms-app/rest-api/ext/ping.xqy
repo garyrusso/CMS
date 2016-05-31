@@ -2,23 +2,10 @@ xquery version "1.0-ml";
 
 module namespace mml = "http://marklogic.com/rest-api/resource/ping";
 
+import module namespace json = "http://marklogic.com/json" at "/roxy/lib/json.xqy";
+
 declare namespace roxy = "http://marklogic.com/roxy";
 declare namespace rapi = "http://marklogic.com/rest-api";
-
-(:
- : To add parameters to the functions, specify them in the params annotations.
- : Example
- :   declare %roxy:params("uri=xs:string", "priority=xs:int") mml:get(...)
- : This means that the get function will take two parameters, a string and an int.
- :
- : To report errors in your extension, use fn:error(). For details, see
- : http://docs.marklogic.com/guide/rest-dev/extensions#id_33892, but here's
- : an example from the docs:
- : fn:error(
- :   (),
- :   "RESTAPI-SRVEXERR",
- :   ("415","Raven","nevermore"))
- :)
 
 (:
  :)
@@ -29,9 +16,19 @@ function mml:get(
   $params  as map:map
 ) as document-node()*
 {
-  map:put($context, "output-types", "text/json"),
-  map:put($context, "output-status", (200, "OK")),
-  document {
-    '{"responseCode":"200","message":"Ping successful"}'
-  }
+  let $result   := 
+         <json:object type="object">
+            <json:responseCode>200</json:responseCode>
+            <json:message>Ping successful</json:message>
+         </json:object>
+
+  let $resultCode := $result/json:responseCode/text()
+
+  let $_ := map:put($context, "output-types", "text/json")
+  let $_ := map:put($context, "output-status", ($resultCode, "OK"))
+  
+  return
+    document {
+      json:serialize($result)
+    }
 };
