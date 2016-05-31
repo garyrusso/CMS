@@ -1,6 +1,6 @@
 xquery version "1.0-ml";
 
-module namespace mml = "http://marklogic.com/rest-api/resource/login";
+module namespace mml = "http://marklogic.com/rest-api/resource/logout";
 
 import module namespace json = "http://marklogic.com/json" at "/roxy/lib/json.xqy";
 import module namespace auth  = "http://marklogic.com/roxy/models/authentication" at "/app/models/authentication.xqy";
@@ -28,10 +28,9 @@ function mml:get(
   let $username := if ($userPwd) then fn:string((xdmp:get-request-header("username"),fn:tokenize($userPwd, ":")[1])[1]) else ""
   let $password := if ($userPwd) then fn:string((xdmp:get-request-header("password"),fn:tokenize($userPwd, ":")[2])[1]) else ""
 
-  let $log := xdmp:log("................. $username: '"||$username||"'")
-  let $log := xdmp:log("................. $password: '"||$password||"'")
+  let $_ := xdmp:log(fn:concat("logout ----------- username/pwd = '", $username, " : ", $password||"'"))
 
-  let $result := auth:login($username, $password)
+  let $result   := auth:logout($username)
 
   let $resultCode := $result/json:responseCode/text()
 

@@ -46,6 +46,8 @@ declare variable $default-layout as xs:string? :=
 
 declare function router:route()
 {
+  let $log := xdmp:log("777...roxy\router....... not checking login info yet here ... roxy-extension controller: "||$controller-path)
+
   (: run the controller. errors bubble up to the error module :)
   let $data :=
     xdmp:apply(
