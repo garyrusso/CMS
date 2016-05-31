@@ -7,26 +7,13 @@
     angular.module('cmsWebApp').controller('ManageProjectController', ManageProjectController);
 
     /*Inject angular services to controller*/
-    ManageProjectController.$inject = ['$scope', 'NgTableParams', '$uibModal', '_', '$log', 'CommonService', 'ManageProjectsService', 'routeResolvedProjectList'];
+    ManageProjectController.$inject = ['$scope', 'NgTableParams', '$uibModal', '_', '$log', 'CommonService', 'ManageProjectsService', 'SearchService'];
 
     /*Function ManageProjectController*/
-    function ManageProjectController($scope, NgTableParams, $uibModal, _, $log, CommonService, ManageProjectsService, routeResolvedProjectList) {
+    function ManageProjectController($scope, NgTableParams, $uibModal, _, $log, CommonService, ManageProjectsService, SearchService) {
         var projects = this;
 
-        projects.data = routeResolvedProjectList;
-
-        if (projects.data && projects.data.results && _.isArray(projects.data.results)) {
-            projects.data.results = projects.data.results.slice(0, 10);
-        }
-
-        if (projects.data && projects.data.facets) {
-            projects.facets = _.chain(projects.data.facets).omit('query').map(function(value, key) {
-                return {
-                    facetTitle : key,
-                    facetArray : value.facetValues
-                };
-            }).value();
-        }
+        projects.facets = {};
 
         projects.listView = true;
 
@@ -35,37 +22,61 @@
 
         //TODO: move to Commonservice
         projects.createProject = projectsCreateProject;
-        
+
         //TODO check & remove.
         projects.refreshData = refreshData;
 
         projects.showAllFacetsItems = CommonService.showAllFacetsItems;
 
+        //ng-table col configuration
+        projects.cols = [{
+            field : "Title",
+            title : "Title",
+            sortable : "Title",
+            sortDirection : "desc"
+        }, {
+            field : "username",
+            title : "Owner",
+            sortable : "username",
+            sortDirection : "desc"
+        }, {
+            field : "dateLastModified",
+            title : "Date Modified",
+            sortable : "dateLastModified",
+            sortDirection : "asc"
+        }];
+        projects.sortables = _.indexBy(projects.cols, "field");
+        
         projects.tableParams = new NgTableParams({
             count : 10
         }, {
             /*counts:[],*/
-            data : projects.data.results/*.slice(0,10)*/
+            getData: function (params) {
+                $log.debug('ManageProjectController - params', params);
+                $scope.setLoading(true);
+                var pageDetails = params.url(), orderBy = params.orderBy()?params.orderBy()[0]:'';
+                return SearchService.searchData('project', '', pageDetails.page, pageDetails.count, orderBy).then(function(response){
+                    $scope.setLoading(false);
+                    params.total(response.total);
+                    projects.facets = CommonService.formatFacets(response.facets);
+                    return response.results;
+                });
+            }
         });
-        
+
         $scope.$on('createProjectEvent', createProjectEvent);
-        
+
         /**
          * @name createProjectEvent
          * @description
          * Update the projects table list.
          */
-        function createProjectEvent () {
+        function createProjectEvent() {
             projects.refreshData();
         }
-        
-        function refreshData () {
-            ManageProjectsService.getProjects().then(function(response) {
-                    projects.data = response;
-                    projects.tableParams.settings({
-                        data : projects.data.results.slice(0, 10)
-                    });
-                });
+
+        function refreshData() {
+            projects.tableParams.reload();
         }
 
         /*
@@ -86,7 +97,7 @@
         function projectsCreateProject() {
             //$scope.$emit('rootScopeCreateProjectHeaderOnEvent', {});
             ManageProjectsService.openProjectModal(false).then(function() {
-                //projects.refreshData();
+                projects.refreshData();
                 $log.debug('project updated with new one');
             });
         }

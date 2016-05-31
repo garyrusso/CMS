@@ -34,9 +34,9 @@
         <div >
             <table ng-table="projects.tableParams" class="table table-condensed table-bordered table-striped">
                 <tr ng-if="projects.listView" ng-repeat="issue in $data">
-                    <td class="text-capitalize" data-title="'Title'">{{issue.Title}}</td>
-                    <td data-title="'Owner'">{{issue.username}}</td>
-                    <td data-title="'Date Modified'">{{issue.dateLastModified}}</td>
+                    <td class="text-capitalize" data-title="'Title'" sortable="projects.sortables.Title.sortable">{{issue.Title}}</td>
+                    <td data-title="'Owner'" sortable="projects.sortables.username.sortable">{{issue.username}}</td>
+                    <td data-title="'Date Modified'" sortable="projects.sortables.dateLastModified.sortable">{{issue.dateLastModified}}</td>
                     <td data-title="'View'" class="cms-main-display-center"><a ui-sref="projectview({uri:issue.uri})"><span class="glyphicon glyphicon-eye-open"></span></a></td>
                 </tr>
                 <tr ng-if="!projects.listView">

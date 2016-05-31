@@ -39,7 +39,7 @@
         function onclickCreateEditProject() {
             ManageProjectsService.openProjectModal(false).then(function() {
                 $log.debug('project created - header');
-                //$scope.$emit('onCreateProjectHeader', {});
+                $scope.$emit('onCreateProjectHeader', {});
             });
         }
         

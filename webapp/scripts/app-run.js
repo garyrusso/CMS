@@ -25,7 +25,6 @@
 
         $rootScope.setLoading = setLoading;
 
-        //TODO move to services instead of event broadcasting.
         $rootScope.$on('onCreateProjectHeader', onCreateProjectHeader);
 
         $rootScope.$on('$stateChangeStart', stateChangeStart);
@@ -43,7 +42,6 @@
          * @description
          * Broadcast to manage project Cltr to update the table list.
          */
-        //TODO check & remove, might not be required.
         function onCreateProjectHeader() {
             $rootScope.$broadcast('createProjectEvent', {});
         }

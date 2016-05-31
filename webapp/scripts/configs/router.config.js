@@ -34,9 +34,6 @@
             templateUrl : "views/commonMainWithNav.html",
             controller : 'ManageProjectController',
             controllerAs : 'projects',
-            resolve : {
-                routeResolvedProjectList : projectList
-            },
             data : {
                 roles : ['User']
             }
@@ -126,19 +123,6 @@
         });
 
         /**
-         * @ngdoc service
-         * @name cmsWebApp.service:projectList
-         * @description
-         * Resolved method to 'projects' state. It call the getprojects method to get all projects list.
-         * @return promise with get projects list
-         */
-        projectList.$inject = ['ManageProjectsService'];
-        function projectList(ManageProjectsService) {
-            return ManageProjectsService.getProjects();
-        }
-
-
-         /**
          * @ngdoc service
          * @name cmsWebApp.service:dashboardProjectList
          * @description
