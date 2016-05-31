@@ -60,7 +60,7 @@
          */
         function contentDownloadContent() {  
             ManageContentService.openDownloadContentModal(content.data).then(function() {
-                $log.debug('Content deleted');
+                $log.debug('Content download');
             });        
         }
 

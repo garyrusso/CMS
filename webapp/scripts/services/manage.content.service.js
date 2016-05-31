@@ -113,7 +113,7 @@
         }
 
 
-/**
+        /**
          * @ngdoc method
          * @name openDownloadContentModal
          * @methodOf cmsWebApp.service:ManageContentService      
