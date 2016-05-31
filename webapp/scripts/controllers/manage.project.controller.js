@@ -1,9 +1,10 @@
-/**
- * Controller Name: ManageProjectController
- * Desc: ManageProjectController hosts all project related functionalities including create, update, delete and enlisting of projects and project contents.
- *
- *  */
 (function() {"use strict";
+    /**
+     * @ngdoc controller
+     * @name cmsWebApp.controller:ManageProjectController
+     * @description 
+     * ManageProjectController controller for project page 
+     */
     angular.module('cmsWebApp').controller('ManageProjectController', ManageProjectController);
 
     /*Inject angular services to controller*/
@@ -20,10 +21,10 @@
         /* function to toggle list, grid views */
         projects.toggleView = toggleView;
 
-        //TODO: move to Commonservice
+        //create project button click function.
         projects.createProject = projectsCreateProject;
 
-        //TODO check & remove.
+        //Update the table view
         projects.refreshData = refreshData;
 
         projects.showAllFacetsItems = CommonService.showAllFacetsItems;
@@ -64,25 +65,25 @@
             }
         });
 
-        $scope.$on('createProjectEvent', createProjectEvent);
+        $scope.$on('createProjectEvent', refreshData);
 
         /**
-         * @name createProjectEvent
+         * @ngdoc method
+         * @name refreshData
+         * methodOf cmsWebApp.controller:ManageProjectController
          * @description
          * Update the projects table list.
          */
-        function createProjectEvent() {
-            projects.refreshData();
-        }
-
         function refreshData() {
             projects.tableParams.reload();
         }
 
-        /*
-         * Name: toggleView
-         * Params: (boolean)viewType - listView is true or false.
-         * Desc:
+        /**
+         * @ngdoc method
+         * @name toggleView
+         * @methodOf cmsWebApp.controller:ManageProjectController
+         * @param {Boolean} viewType listView is true or false.
+         * @description
          * Switch view from list to grid. if listView is set true then projects displayed in table format else in tile view.
          */
         function toggleView(viewType) {
@@ -90,12 +91,13 @@
         }
 
         /**
+         * @ngdoc method
          * @name projectsCreateProject
+         * @methodOf cmsWebApp.controller:ManageProjectController
          * @description
          * open create project modal set on header controller, so first emit event to rootscope & rootscope broadcast to header
          */
         function projectsCreateProject() {
-            //$scope.$emit('rootScopeCreateProjectHeaderOnEvent', {});
             ManageProjectsService.openProjectModal(false).then(function() {
                 projects.refreshData();
                 $log.debug('project updated with new one');
