@@ -109,11 +109,11 @@
             }
         })
         .state('search', {
-            url : "/search",
-            params : {
+            url : "/search?searchType&searchText&facets",
+            /*params : {
                 searchType : 'all',
                 searchText : ''
-            },
+            },*/
             templateUrl : "views/search.html",
             controller : 'SearchController',
             controllerAs : 'search',
