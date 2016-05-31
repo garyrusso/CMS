@@ -30,24 +30,6 @@ declare function usr:getUserUri($username)
   return $uri
 };
 
-declare function usr:save1($user)
-{
-  (
-    usr:_save(
-      element user-profile
-      {
-        element firstname { $user/firstname/text() }, 
-        element lastname  { $user/lastname/text() }, 
-        element username  { $user/username/text() }, 
-        element password  { xdmp:md5($user/password/fn:string()) }, 
-        element created   { if (fn:empty($user/created/text())) then fn:current-dateTime() else $user/created/text() },
-        element modified  { fn:current-dateTime() }
-      }
-    ),
-    fn:concat("User Successfully Saved: ", $user/username/text())
-  )
-};
-
 declare function usr:save($user)
 {
   (
@@ -64,7 +46,8 @@ declare function usr:save($user)
         },
         element {fn:QName($NS,"feed")}
         {
-          element {fn:QName($NS,"username")}   { fn:normalize-space(req:get("username", "", "type=xs:string")) },
+          (: element {fn:QName($NS,"username")}   { fn:normalize-space(req:get("username", "", "type=xs:string")) }, :)
+          element {fn:QName($NS,"username")}   { $user/username/text() },
           element {fn:QName($NS,"fullName")}   { $user/firstname/text()||" "||$user/lastname/text() },
           element {fn:QName($NS,"firstName")}  { $user/firstname/text() },
           element {fn:QName($NS,"lastName")}   { $user/lastname/text() },

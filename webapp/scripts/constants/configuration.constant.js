@@ -19,12 +19,19 @@
         environment : 'development',
         API : {
             development : {
+                useMocks : false,
+                fakeDelay : false,
+                fakeDelayTime: 0,//0.8secs
+                baseUrl: 'http://localhost:34573/api/',
+                debug : true
+            },
+            developmentLocal : {
 
                 //Set useMocks to true to simulate/mock actual webservice.
                 useMocks : true,
                 fakeDelay : true,
-                fakeDelayTime: 100,//0.8secs
-                baseUrl: 'http://midlayerhost/api/v1/', //'http://localhost:34573/api/',
+                fakeDelayTime: 1000,//0.8secs
+                baseUrl: 'http://midlayerhost/api/v1/',
                 debug : true
 
             },

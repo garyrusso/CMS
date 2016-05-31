@@ -184,7 +184,7 @@ declare function auth:clearSession($username)
   for $session in auth:findSessionByUserForCleanup($username)
     return
     (
-      xdmp:log("........................ deleting token for $uri "||xdmp:node-uri($session)),
+      (: xdmp:log("........................ deleting token for $uri "||xdmp:node-uri($session)), :)
       auth:deleteToken(xdmp:node-uri($session))
     )
 };

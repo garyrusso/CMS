@@ -16,9 +16,6 @@ declare variable $RES-PREFIX as xs:string := "LOGIN";
 
 declare function c:main() as item()*
 {
-(:
-  let $userPwd  := xdmp:base64-decode(fn:string(fn:tokenize(xdmp:get-request-header("Authorization"), "Basic ")[2]))
-:)
   let $reqHeader := xdmp:get-request-header("UserInfo")
   let $userPwd  := if ($reqHeader) then xdmp:base64-decode($reqHeader) else ""
   
