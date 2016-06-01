@@ -24,9 +24,6 @@
         //create project button click function.
         projects.createProject = projectsCreateProject;
 
-        //Update the table view
-        projects.refreshData = refreshData;
-
         projects.showAllFacetsItems = CommonService.showAllFacetsItems;
 
         //ng-table col configuration
@@ -65,19 +62,6 @@
             }
         });
 
-        $scope.$on('createProjectEvent', refreshData);
-
-        /**
-         * @ngdoc method
-         * @name refreshData
-         * methodOf cmsWebApp.controller:ManageProjectController
-         * @description
-         * Update the projects table list.
-         */
-        function refreshData() {
-            projects.tableParams.reload();
-        }
-
         /**
          * @ngdoc method
          * @name toggleView
@@ -99,7 +83,6 @@
          */
         function projectsCreateProject() {
             ManageProjectsService.openProjectModal(false).then(function() {
-                projects.refreshData();
                 $log.debug('project updated with new one');
             });
         }

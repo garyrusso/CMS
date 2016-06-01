@@ -25,8 +25,6 @@
 
         $rootScope.setLoading = setLoading;
 
-        $rootScope.$on('onCreateProjectHeader', onCreateProjectHeader);
-
         $rootScope.$on('$stateChangeStart', stateChangeStart);
 
         $rootScope.$on('$stateChangeSuccess', stateChangeSuccess);
@@ -34,17 +32,6 @@
         $rootScope.$on('$stateChangeError', stateChangeError);
 
         $rootScope.$on('$locationChangeSuccess', locationChangeSuccess);
-
-        /**
-         * @ngdoc method
-         * @name onCreateProjectHeader
-         * @methodOf cmsWebApp.run:RunBlock
-         * @description
-         * Broadcast to manage project Cltr to update the table list.
-         */
-        function onCreateProjectHeader() {
-            $rootScope.$broadcast('createProjectEvent', {});
-        }
 
         /**
          * @ngdoc method
