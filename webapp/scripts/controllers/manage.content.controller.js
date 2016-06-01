@@ -8,14 +8,14 @@
     angular.module('cmsWebApp').controller('ManageContentController', ManageContentController);
 
     /*Inject angular services to controller*/
-    ManageContentController.$inject = ['$log', 'CommonService', 'NgTableParams','routeResolvedContentList', 'ManageContentService'];
+    ManageContentController.$inject = ['$scope', '$log', 'CommonService', 'NgTableParams', 'ManageContentService', 'SearchService'];
 
     /*Function ManageContentController*/
-    function ManageContentController($log, CommonService, NgTableParams, routeResolvedContentList, ManageContentService) {
+    function ManageContentController($scope, $log, CommonService, NgTableParams, ManageContentService, SearchService) {
         $log.debug('ManageContentController');
         var content = this;
         
-        content.data = routeResolvedContentList;
+        content.facets = [];
         
         content.listView = true;
         
@@ -26,24 +26,39 @@
         
         content.onclickUploadContent = onclickUploadContent;
         
-        if (content.data && content.data.results && _.isArray(content.data.results)) {
-            content.data.results = content.data.results.slice(0, 10);
-        }
-
-        if (content.data && content.data.facets) {
-            content.facets = _.chain(content.data.facets).omit('query').map(function(value, key) {
-                return {
-                    facetTitle : key,
-                    facetArray : value.facetValues
-                };
-            }).value();
-        }
+        //ng-table col configuration
+        content.cols = [{
+            field : "Title",
+            title : "Title",
+            sortable : "Title",
+            sortDirection : "desc"
+        }, {
+            field : "filePath",
+            title : "File Name",
+            sortable : "filePath",
+            sortDirection : "desc"
+        }, {
+            field : "dateLastModified",
+            title : "Date Modified",
+            sortable : "dateLastModified",
+            sortDirection : "asc"
+        }];
+        content.sortables = _.indexBy(content.cols, "field");
 
         content.tableParams = new NgTableParams({
             count : 10
         }, {
-            /*counts:[],*/
-            data : content.data.results/*.slice(0,10)*/
+            getData: function (params) {
+                $log.debug('ManageContentController - params', params);
+                $scope.setLoading(true);
+                var pageDetails = params.url(), orderBy = params.orderBy()?params.orderBy()[0]:'';
+                return SearchService.searchData('content', '', pageDetails.page, pageDetails.count, orderBy).then(function(response){
+                    $scope.setLoading(false);
+                    params.total(response.total);
+                    content.facets = CommonService.formatFacets(response.facets);
+                    return response.results;
+                });
+            }
         });
         /**
          * @ngdoc method

@@ -91,9 +91,6 @@
             templateUrl : "views/commonMainWithNav.html",
             controller : 'ManageContentController',
             controllerAs : 'content',
-            resolve : {
-                routeResolvedContentList : contentList
-            },
             data : {
                 roles : ['User']
             }
@@ -133,18 +130,6 @@
         function dashboardProjectList(SearchService, CommonService) {
             var username = CommonService.getItems('username');
             return SearchService.searchData('project', '', '', '', '', username);
-        }
-        
-        /**
-         * @ngdoc service
-         * @name cmsWebApp.service:contentList
-         * @description
-         * Resolved method to 'content' state. It call the searchData method to get all content list.
-         * @return promise with get content list
-         */
-        contentList.$inject = ['SearchService'];
-        function contentList(SearchService) {
-            return SearchService.searchData('content');
         }
 
         /**
