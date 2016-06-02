@@ -32,7 +32,7 @@ namespace Macmillan.CMS.Business
         /// CreateProject with given details
         /// </summary>
         /// <param name="project"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for CreateProject</returns>
         public object CreateProject(Project project)
         {
             Logger.Debug(" Entering CreateProject");
@@ -52,7 +52,7 @@ namespace Macmillan.CMS.Business
         /// BuildProjectXML with given details
         /// </summary>
         /// <param name="project"></param>
-        /// <returns></returns>
+        /// <returns>Returns String BuildCreateProjectXML</returns>
         private string BuildCreateProjectXML(Project project)
         {
             Logger.Debug(" Entering BuildProjectXML");
@@ -103,7 +103,7 @@ namespace Macmillan.CMS.Business
         /// BuildProjectXML with given details
         /// </summary>
         /// <param name="project"></param>
-        /// <returns></returns>
+        /// <returns>Returns string BuildEditProjectXML</returns>
         private string BuildEditProjectXML(Project project)
         {
             Logger.Debug(" Entering BuildProjectXML");
@@ -153,7 +153,7 @@ namespace Macmillan.CMS.Business
         /// UpdateProject with given details
         /// </summary>
         /// <param name="project"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for UpdateProject</returns>
         public object UpdateProject(Project project)
         {
             Logger.Debug(" Entering UpdateProject");
@@ -172,7 +172,7 @@ namespace Macmillan.CMS.Business
         /// DeleteProject with given details
         /// </summary>
         /// <param name="project"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for DeleteProject</returns>
         public object DeleteProject(Project project)
         {
             Logger.Debug(" Entering DeleteProject");
@@ -192,7 +192,7 @@ namespace Macmillan.CMS.Business
         /// GetProjectDetails with given details
         /// </summary>
         /// <param name="uri"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for GetProjectDetails</returns>
         public object GetProjectDetails(string uri)
         {
             Logger.Debug("Entering GetProjectDetails"); 
@@ -204,6 +204,11 @@ namespace Macmillan.CMS.Business
             return proj;
         }
 
+        /// <summary>
+        /// GetProjectObject with given details
+        /// </summary>
+        /// <param name="projXml"></param>
+        /// <returns>Returns Project GetProjectObject</returns>
         private Project GetProjectObject(string projXml)
         {
             XmlDocument doc = new XmlDocument();
@@ -264,7 +269,7 @@ namespace Macmillan.CMS.Business
         /// GetProjectMasterData with given details
         /// </summary>
         /// <param name="ProjectDetail"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for GetProjectMasterData</returns>
         public object GetProjectMasterData(List<Project> ProjectDetail)
         {
             Logger.Debug("Entering GetProjectMasterData");        
@@ -280,7 +285,7 @@ namespace Macmillan.CMS.Business
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <param name="orderBy"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for SearchProjects</returns>
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {
             Logger.Debug("Entering SearchProjects");        

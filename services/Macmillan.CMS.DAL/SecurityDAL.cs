@@ -18,7 +18,7 @@ namespace Macmillan.CMS.DAL
         /// <summary>
         /// get user data with given details
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns object for GetUserData</returns>
         public object GetUserData()
         {
             Logger.Debug("Entering GetUserData");
@@ -76,7 +76,7 @@ namespace Macmillan.CMS.DAL
         /// ValidateUserCredentials with given details
         /// </summary>
         /// <param name="authentication"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for ValidateUserCredentials</returns>
         public object ValidateUserCredentials(Authentication authentication)
         {
             //Call ML and ValidateUserCredentials

@@ -21,7 +21,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// </summary>
         /// <param name="dictionaryType"></param>
         /// <param name="outputFormat"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for GetDictionary</returns>
         [HttpGet]
         public object GetDictionary(string dictionaryType, string outputFormat)
         {

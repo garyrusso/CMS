@@ -31,7 +31,7 @@
         /// </summary>
         /// <param name="request"></param>
         /// <param name="authentication"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for ValidateUserCredentials</returns>
         [HttpPost]
         public object ValidateUserCredentials(HttpRequestMessage request,   
             [FromBody] Authentication authentication)

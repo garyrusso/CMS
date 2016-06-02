@@ -30,7 +30,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="searchText"></param>
         /// <param name="searchType"></param>
         /// <param name="userName"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for Get</returns>
         [HttpGet]
         [AcceptVerbs("Get")]
         public object Get(string orderBy, int pageNumber, int pageSize, string searchText, string searchType, string userName)
