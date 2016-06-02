@@ -28,55 +28,60 @@
         </div>
     </div>
 </div>
-<div class="row"> 
+<div class="row">
     <div class="col-md-12" ng-class="{'cms-content-tile-view-container':!content.listView}">
         <!--loading-container="content.tableParams.settings().$loading" -->
-        <div > 
-            <table ng-table="content.tableParams" class="table table-condensed table-bordered table-striped">
-                <tr ng-if="content.listView" ng-repeat="issue in $data">
-                    <td class="text-capitalize" data-title="'Title'" sortable="content.sortables.Title.sortable">{{issue.Title}}</td>
-                    <td data-title="'Filename'" sortable="content.sortables.filePath.sortable">{{issue.filePath}}</td>
-                    <td data-title="'Date Modified'" sortable="content.sortables.dateLastModified.sortable">{{issue.dateLastModified}}</td>
-                    <td data-title="'View'" class="cms-main-display-center">
-                    	
-                    	<a ui-sref="contentview({uri:issue.uri})"><span class="glyphicon glyphicon-eye-open"></span></a></td>
-                </tr>
-                <tr ng-if="!content.listView">
-                    <td class="cms-content-tile-view">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-2 cms-content-tile" ng-repeat="issue in $data">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <a ui-sref="contentview({uri:issue.uri})">
-                                    <div class="cms-content-tile-image">
-                                        <div class="cms-content-tile-image-dummy"></div>
-                                        <div class="cms-content-tile-image-color"></div>
-                                    </div></a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 cms-content-tile-title text-capitalize">
-                                    <a href="#/contentview">{{issue.Title}}</a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 cms-content-tile-date">
-                                    {{issue.dateLastModified}}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 cms-content-tile-owner">
-                                    {{issue.username}}
-                                </div>
-                            </div>
-                        </div>
-                    </div></td>
-                </tr>
-            </table>
-
+        <div ng-show="content.tableParams.data.length === 0 ">
+            <p>
+                <em>Contents not available</em>
+            </p>
         </div>
-        <div class="pull-right">
-            <a ui-sref="search({searchType:'content'})">See all Content</a>
+        <div ng-show="content.tableParams.data.length !== 0 ">
+            <div >
+                <table ng-table="content.tableParams" class="table table-condensed table-bordered table-striped">
+                    <tr ng-if="content.listView" ng-repeat="issue in $data">
+                        <td class="text-capitalize" data-title="'Title'" sortable="content.sortables.Title.sortable">{{issue.Title}}</td>
+                        <td data-title="'Filename'" sortable="content.sortables.filePath.sortable">{{issue.filePath}}</td>
+                        <td data-title="'Date Modified'" sortable="content.sortables.dateLastModified.sortable">{{issue.dateLastModified}}</td>
+                        <td data-title="'View'" class="cms-main-display-center"><a ui-sref="contentview({uri:issue.uri})"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                    </tr>
+                    <tr ng-if="!content.listView">
+                        <td class="cms-content-tile-view">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-2 cms-content-tile" ng-repeat="issue in $data">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <a ui-sref="contentview({uri:issue.uri})">
+                                        <div class="cms-content-tile-image">
+                                            <div class="cms-content-tile-image-dummy"></div>
+                                            <div class="cms-content-tile-image-color"></div>
+                                        </div></a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 cms-content-tile-title text-capitalize">
+                                        <a href="#/contentview">{{issue.Title}}</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 cms-content-tile-date">
+                                        {{issue.dateLastModified}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 cms-content-tile-owner">
+                                        {{issue.username}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div></td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="pull-right">
+                <a ui-sref="search({searchType:'content'})">See all Content</a>
+            </div>
         </div>
     </div>
 </div>

@@ -15,8 +15,14 @@
         <strong>Recent Projects:</strong>
         <p>Your latest projects.</p>
         <!--loading-container="projects.tableParams.settings().$loading" -->
-        <div >
-            <table ng-table="dashboard.tableParams" class="table table-condensed table-bordered table-striped">
+         <div ng-show="dashboard.tableParams.data.length === 0 ">
+            <p>
+                <em>Projects not available</em>
+            </p>
+        </div>
+         <div ng-show="dashboard.tableParams.data.length !== 0 ">
+            <div>
+            <table ng-table="dashboard.tableParams" class="table table-condensed table-bordered table-striped">                
                 <tr ng-repeat="issue in $data">
                     <td data-title="'Title'">{{issue.Title}}</td>
                     <td data-title="'Date Modified'">{{issue.dateLastModified}}</td>
@@ -28,6 +34,7 @@
         <div class="pull-right">
             <a ui-sref="search({searchType:'projects'})">See all Projects</a>
         </div>
+       </div>
     </div>
 </div>
 <div class="row">
