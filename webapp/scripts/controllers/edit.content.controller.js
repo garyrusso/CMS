@@ -61,6 +61,40 @@
         //submit functionality
         content.submit = submitContent;
         
+        /*Date start picker */
+                        
+                        
+          content.clear = function() {
+            content.data.DateCreated = null;
+          };
+        
+         
+        
+          content.dateOptions = {
+            formatYear: 'yy',
+            maxDate: new Date(2020, 5, 22),
+            startingDay: 1
+          };
+                 
+          
+        
+          content.open = function() {
+            content.popup.opened = true;
+          };
+        
+          var formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+          content.format = formats[0];
+          content.altInputFormats = ['M!/d!/yyyy'];
+        
+          content.popup = {
+            opened: false
+          };
+        
+          
+        
+             
+  /* Date picker end */
+            
         content.deleteContent = contentdeleteContent;
 
         /**
