@@ -16,7 +16,7 @@
                         <div class="col-sm-12">
                             <ul class="list-unstyled">
                                 <li ng-repeat="items in facet.facetArray | limitTo:5">
-                                    <a href="#" ng-bind="items.name + ' ('+items.count+')'"></a>
+                                    <a ui-sref="search({searchType:'project',facet:facet.facetTitle+':'+items.name})" ng-bind="items.name + ' ('+items.count+')'"></a>
                                 </li>
                                 <li ng-if="facet.facetArray.length>5">
                                     <a href="#" ng-click="$event.preventDefault(); projects.showAllFacetsItems(facet)">+ See All</a>
@@ -35,7 +35,7 @@
                         <div class="col-sm-12">
                             <ul class="list-unstyled">
                                 <li ng-repeat="items in facet.facetArray | limitTo:5">
-                                    <a href="#" ng-bind="items.name + ' ('+items.count+')'"></a>
+                                    <a ui-sref="search({searchType:'content',facet:facet.facetTitle+':'+items.name})" ng-bind="items.name + ' ('+items.count+')'"></a>
                                 </li>
                                 <li ng-if="facet.facetArray.length>5">
                                     <a href="#" ng-click="$event.preventDefault(); content.showAllFacetsItems(facet)">+ See All</a>
@@ -54,7 +54,7 @@
                         <div class="col-sm-12">
                             <ul class="list-unstyled">
                                 <li ng-repeat="items in facet.facetArray | limitTo:5">
-                                    <a href="#" ng-bind="items.name + ' ('+items.count+')'"></a>
+                                    <a ui-sref="search({searchType:'project',facet:facet.facetTitle+':'+items.name})" ng-bind="items.name + ' ('+items.count+')'"></a>
                                 </li>
                                 <li ng-if="facet.facetArray.length>5">
                                     <a href="#" ng-click="$event.preventDefault(); dashboard.showAllFacetsItems(facet)">+ See All</a>

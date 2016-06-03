@@ -13,11 +13,17 @@
     /*Function SearchController*/
     function SearchController($log, $q, $scope, $state, $stateParams, NgTableParams, APP_CONFIG, SearchService, CommonService) {
         $log.debug('SearchController - $stateParams', $stateParams);
-        var search = this; 
+        var search = this;
         search.stateParams = angular.copy($stateParams);
         search.searchType = $stateParams.searchType;
         search.searchText = $stateParams.searchText;
-        search.sortValues = [{name:'Newest'}, {name:'Relevance'}, {name:'Oldest'}];
+        search.sortValues = [{
+            name : 'Newest'
+        }, {
+            name : 'Relevance'
+        }, {
+            name : 'Oldest'
+        }];
         search.sortBy = '';
         search.sortByChnaged = sortByChnaged;
         search.listView = true;
@@ -27,6 +33,20 @@
         /* function to change SearchType */
         search.changeSearchType = changeSearchType;
 
+        search.facetsSelected = [];
+
+        if ($stateParams.facet) {
+            if (_.isArray($stateParams.facet)) {
+                _.map($stateParams.facet, function(val) {
+                    var facetObj = seperateFacetKeyValue(val);
+                    if(facetObj) {
+                        search.facetsSelected.push(facetObj);
+                    }
+                });
+            } else {
+                search.facetsSelected.push(seperateFacetKeyValue($stateParams.facet));
+            }
+        }
         //ng-table col configuration
         search.cols = [{
             field : "Title",
@@ -108,11 +128,11 @@
          */
         function changeSearchType(searchType) {
             /*search.searchType = searchType;
-            search.tableParams.reload();*/
-           search.stateParams.searchType = searchType;
-           $state.go('search', search.stateParams);
+             search.tableParams.reload();*/
+            search.stateParams.searchType = searchType;
+            $state.go('search', search.stateParams);
         }
-        
+
         /**
          * @ngdoc method
          * @name sortByChnaged
@@ -120,8 +140,21 @@
          * @description
          * change SortBy
          */
-        function sortByChnaged(){
+        function sortByChnaged() {
             search.tableParams.reload();
+        }
+
+        //TODO desc
+        function seperateFacetKeyValue(selectedFacet) {
+            if (selectedFacet) {
+                var facetArr = selectedFacet.split(/:(.+)?/);
+                return {
+                    facetKey : facetArr[0],
+                    facetValue : facetArr[1]
+                };
+            } else {
+                return null;
+            }
         }
 
     }

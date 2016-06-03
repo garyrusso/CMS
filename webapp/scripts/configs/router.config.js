@@ -106,7 +106,7 @@
             }
         })
         .state('search', {
-            url : "/search?searchType&searchText&facets",
+            url : "/search?searchType&searchText&facet",
             /*params : {
                 searchType : 'all',
                 searchText : ''
