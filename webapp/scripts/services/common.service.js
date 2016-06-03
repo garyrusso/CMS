@@ -75,6 +75,7 @@
             if(key === 'username') {
                 return angular.fromJson(localStorage.getItem('cms.user_details')).username;
             }
+            key = key?key:'cms.user_details';
             return angular.fromJson(localStorage.getItem(key));
         }
         
