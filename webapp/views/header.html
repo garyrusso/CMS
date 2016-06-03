@@ -23,33 +23,35 @@
         </div>
         <div class="col-xs-4">
             <div class="cms-searchpanel">
+                <form name="headerSearch" novalidate ng-submit="header.searchData()">
                 <div class="input-group">
                     <div class="input-group-btn" uib-dropdown>
                         <button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
-                            <span ng-bind="header.searchType"></span> <span class="caret"></span>
+                            <span ng-bind="header.searchType" class="text-capitalize"></span> <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="single-button">
                             <li>
-                                <a href="#" ng-click="$event.preventDefault(); header.changeSearchType('All');">All Types</a>
+                                <a href="#" ng-click="$event.preventDefault(); header.changeSearchType('all');">All Types</a>
                             </li>
                             <li>
-                                <a href="#" ng-click="$event.preventDefault(); header.changeSearchType('Project');">Project</a>
+                                <a href="#" ng-click="$event.preventDefault(); header.changeSearchType('project');">Project</a>
                             </li>
                             <li>
-                                <a href="#" ng-click="$event.preventDefault(); header.changeSearchType('Content');">Content</a>
+                                <a href="#" ng-click="$event.preventDefault(); header.changeSearchType('content');">Content</a>
                             </li>
                         </ul>
                     </div>
 
-                    <input type="text" class="form-control" aria-label="...">
+                    <input type="text" class="form-control" aria-label="Search textbox" ng-model="header.searchTextBox">
                     <div class="input-group-btn ">
 
-                        <button class="btn btn-default cms-red-btn-search" type="button">
+                        <button class="btn btn-default cms-red-btn-search" type="submit">
                             <span class="glyphicon glyphicon glyphicon-search"></span>
                         </button>
 
                     </div>
                 </div>
+                </form>
             </div><!-- /input-group -->
         </div>
 

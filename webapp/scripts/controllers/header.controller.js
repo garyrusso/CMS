@@ -8,13 +8,17 @@
     angular.module('cmsWebApp').controller('HeaderController', HeaderController);
 
     /*Inject angular services to controller*/
-    HeaderController.$inject = ['$scope', '$state', '$uibModal', 'CommonService', 'AuthenticationService', 'ManageProjectsService', 'ManageContentService', '$log'];
+    HeaderController.$inject = ['$scope', '$state', '$stateParams', '$uibModal', 'CommonService', 'AuthenticationService', 'ManageProjectsService', 'ManageContentService', '$log'];
 
     /*Function HeaderController*/
-    function HeaderController($scope, $state, $uibModal, CommonService, AuthenticationService, ManageProjectsService, ManageContentService, $log) {
+    function HeaderController($scope, $state, $stateParams, $uibModal, CommonService, AuthenticationService, ManageProjectsService, ManageContentService, $log) {
         var header = this;
 
-        header.searchType = 'All'; //by default
+        header.searchType = 'all'; //by default
+        
+        header.searchTextBox = '';
+        
+        header.searchData = searchData;
         
         header.userDetails = CommonService.getItems('cms.user_details');
         
@@ -84,10 +88,29 @@
          * @description
          * Split the username/email string.
          */
+        //TODO check & remove
         $scope.cmsSplit = function (string, nb) {
             var array = string.split('@');
             return array[nb];
         };
+        
+        /**
+         * @ngdoc method
+         * @name searchData
+         * @methodOf cmsWebApp.controller:HeaderController
+         * @description
+         * Submit search params to search page
+         */
+        function searchData() {
+            var params = {
+                searchType: header.searchType,
+                searchText: header.searchTextBox
+            };
+            if(header.searchTextBox && header.searchTextBox.trim()){
+                searchText: header.searchTextBox = '';
+                $state.go('search', params);
+            }
+        }
     }
 
 })();

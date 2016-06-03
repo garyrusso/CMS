@@ -18,8 +18,7 @@ a, a:focus, a:hover {
  * */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 /* End of AngularUi*/
-.cms-body {
-    display: table;
+.cms-body {   
     width: 100%;
 }
 .cms-row-fluid {
@@ -56,6 +55,9 @@ main {
 }
 .cms-margin-top-zero {
     margin-top: 0px;
+}
+.cms-login-page {
+    display: table;
 }
 .cms-login-page main, .cms-login-page .container-fluid {
     height: 100%;

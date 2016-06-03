@@ -26,10 +26,9 @@
                                 <li>
                                     <div class="cms-vcenter">Sort By</div></li>
                                 <li>
-                                    <select class="form-control input-sm" >
-                                        <option>Newest</option>
-                                        <option>Relevance</option>
-                                        <option>Oldest</option> 
+                                    <select class="form-control input-sm" ng-change="search.sortByChnaged()" ng-model="search.sortBy" ng-options="sortValue.name as sortValue.name for sortValue in search.sortValues">
+                                        <option value=''>Select</option>
+                                        
                                     </select>
                                 </li>
                             </ul>
@@ -66,10 +65,10 @@
                                     <a href="#" ng-click="$event.preventDefault(); search.changeSearchType('all');"><span class="glyphicon" ng-class="{'glyphicon-check': search.searchType==='all', 'glyphicon-unchecked': search.searchType!=='all'}" aria-hidden="true"></span> All</a>
                                 </li>
                                 <li>
-                                    <a href="#" ng-click="$event.preventDefault(); search.changeSearchType('projects');"><span class="glyphicon" ng-class="{'glyphicon-check': search.searchType==='projects', 'glyphicon-unchecked': search.searchType!=='projects'}" aria-hidden="true"></span> Projects</a>
+                                    <a href="#" ng-click="$event.preventDefault(); search.changeSearchType('project');"><span class="glyphicon" ng-class="{'glyphicon-check': search.searchType==='project', 'glyphicon-unchecked': search.searchType!=='project'}" aria-hidden="true"></span> Project</a>
                                 </li>
                                 <li>
-                                    <a href="#" ng-click="$event.preventDefault(); search.changeSearchType('contents');"><span class="glyphicon" ng-class="{'glyphicon-check': search.searchType==='contents', 'glyphicon-unchecked': search.searchType!=='contents'}" aria-hidden="true"></span> Contents</a>
+                                    <a href="#" ng-click="$event.preventDefault(); search.changeSearchType('content');"><span class="glyphicon" ng-class="{'glyphicon-check': search.searchType==='content', 'glyphicon-unchecked': search.searchType!=='content'}" aria-hidden="true"></span> Content</a>
                                 </li>
                             </ul>
                         </div>
@@ -95,7 +94,7 @@
                     </div>
                 </nav>
             </div>
-            <div class="col-sm-9 col-md-10 cms-main" ng-class="{'cms-projects-page':$state.current.name==='projects'||$state.current.name==='dashboard'}">
+            <div class="col-sm-9 col-md-10 cms-main">
                 <!-- Main content -->
                 <div class="row">
                     <div class="col-md-12" ng-class="{'cms-content-tile-view-container':!search.listView}">
@@ -103,8 +102,8 @@
                         <div >
                             <table ng-table="search.tableParams" class="table table-condensed table-bordered table-striped">
                                 <tr ng-if="search.listView" ng-repeat="issue in $data">
-                                    <td class="text-capitalize" data-title="'Title'">{{issue.Title}}</td>
-                                    <td data-title="'Owner'">{{issue.username}}</td>
+                                    <td class="text-capitalize" data-title="'Title'" sortable="search.sortables.Title.sortable">{{issue.Title}}</td>
+                                    <td data-title="search.sortables[search.searchType].data.title">{{issue[search.sortables[search.searchType].data.field]}}</td>
                                     <td data-title="'Date Modified'">{{issue.dateLastModified}}</td>
                                     <td data-title="'View'" class="cms-main-display-center"><a ui-sref="projectview({uri:issue.uri})"><span class="glyphicon glyphicon-eye-open"></span></a></td>
                                 </tr>
