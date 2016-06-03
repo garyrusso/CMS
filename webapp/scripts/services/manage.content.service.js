@@ -9,9 +9,9 @@
     angular.module('cmsWebApp').service('ManageContentService', ManageContentService);
 
     /*Inject angular services*/
-    ManageContentService.$inject = ['$rootScope', '$q', '_', '$http', '$log', 'APP_CONFIG', '$uibModal', '$state', 'CommonService'];
+    ManageContentService.$inject = ['$rootScope', '$q', '_', '$http', '$log', 'APP_CONFIG', '$uibModal', '$state', 'CommonService', 'WS'];
 
-    function ManageContentService($rootScope, $q, _, $http, $log, APP_CONFIG, $uibModal, $state, CommonService) {
+    function ManageContentService($rootScope, $q, _, $http, $log, APP_CONFIG, $uibModal, $state, CommonService, WS) {
         return {
             getContents : getContents,
             viewContent : viewContent,
@@ -43,7 +43,7 @@
                 orderBy : orderBy ? orderBy : '',
             };
 
-            return $http.get('ManageContent/getContents', {
+            return $http.get(WS.getContents, {
                 params: params
             }).then(function(response) {
                 return response.data;
@@ -64,7 +64,7 @@
                 uri : _.isString(uri) ? uri : ''
             };
 
-            return $http.get('ManageContent/GetContentDetails', {
+            return $http.get(WS.getContentDetails, {
                 params: params
             }).then(function(response) {
                 return response.data;
@@ -184,26 +184,26 @@
         }
 
         function uploadContent(postData) {
-            return $http.post('ManageContent/CreateContent', postData).then(function (response) {
+            return $http.post(WS.createContent, postData).then(function (response) {
                 return response.data;
             });
 
         }
 
         function updateContent(postData) {
-            return $http.put('ManageContent/UpdateContent', postData).then(function (response) {
+            return $http.put(WS.updateContent, postData).then(function (response) {
                 return response.data;
             });
         }
         
         function deleteContent(postData) {
-            return $http.post('ManageContent/DeleteContent', postData).then(function (response) {
+            return $http.post(WS.deleteContent, postData).then(function (response) {
                 return response.data;
             });
         }
         
          function downloadContent(postData) {
-            return $http.post('ManageContent/DownloadContent', postData).then(function (response) {
+            return $http.post(WS.downloadContent, postData).then(function (response) {
                 return response.data;
             });
 

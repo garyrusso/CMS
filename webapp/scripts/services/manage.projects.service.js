@@ -9,9 +9,9 @@
     angular.module('cmsWebApp').service('ManageProjectsService', ManageProjectsService);
 
     /*Inject angular services*/
-    ManageProjectsService.$inject = ['$rootScope', '$q', '_', '$http', '$log', 'APP_CONFIG', '$uibModal', '$state', 'CommonService'];
+    ManageProjectsService.$inject = ['$rootScope', '$q', '_', '$http', '$log', 'APP_CONFIG', '$uibModal', '$state', 'CommonService', 'WS'];
 
-    function ManageProjectsService($rootScope, $q, _, $http, $log, APP_CONFIG, $uibModal, $state, CommonService) {
+    function ManageProjectsService($rootScope, $q, _, $http, $log, APP_CONFIG, $uibModal, $state, CommonService, WS) {
         return {
             getProjects : getProjects,
             viewProject : viewProject,
@@ -41,7 +41,7 @@
                 orderBy : orderBy ? orderBy : '',
             };
 
-            return $http.get('ManageProjects/SearchProjects', {
+            return $http.get(WS.searchProjects, {
                 params: params
             }).then(function(response) {
                 return response.data;
@@ -60,7 +60,7 @@
                 uri : _.isString(uri) ? uri : ''
             };
 
-            return $http.get('ManageProjects/GetProjectDetails', {
+            return $http.get(WS.getProjectDetails, {
                 params: params
             }).then(function(response) {
                 return response.data;
@@ -196,20 +196,20 @@
         }
 
         function createProject(postData) {
-            return $http.post('ManageProjects/CreateProject', postData).then(function (response) {
+            return $http.post(WS.createProject, postData).then(function (response) {
                 return response.data;
             });
 
         }
 
         function updateProject(postData) {
-            return $http.put('ManageProjects/UpdateProject', postData).then(function (response) {
+            return $http.put(WS.updateProject, postData).then(function (response) {
                 return response.data;
             });
         }
         
         function deleteProject(postData) {
-            return $http.post('ManageProjects/DeleteProject', postData).then(function (response) {
+            return $http.post(WS.deleteProject, postData).then(function (response) {
                 return response.data;
             });
         }

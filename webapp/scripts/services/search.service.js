@@ -9,9 +9,9 @@
     angular.module('cmsWebApp').service('SearchService', SearchService);
 
     /*Inject angular services*/
-    SearchService.$inject = ['$log', 'APP_CONFIG', '$http'];
+    SearchService.$inject = ['$log', 'APP_CONFIG', '$http', 'WS'];
 
-    function SearchService($log, APP_CONFIG, $http) {
+    function SearchService($log, APP_CONFIG, $http, WS) {
         $log.debug('SearchService - initialization');
         return {
             searchData : searchData
@@ -38,7 +38,7 @@
                 username: username ? username : 'all'
             };
 
-            return $http.get('SearchData', {
+            return $http.get(WS.searchData, {
                 params: params
             }).then(function(response) {
                 return response.data;

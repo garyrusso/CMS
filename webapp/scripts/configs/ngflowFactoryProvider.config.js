@@ -5,11 +5,11 @@
 (function() {"use strict";
     angular.module('cmsWebApp').config(FlowFactoryProvider);
 
-    FlowFactoryProvider.$inject = ['flowFactoryProvider', 'APP_CONFIG'];
+    FlowFactoryProvider.$inject = ['flowFactoryProvider', 'APP_CONFIG', 'WS'];
 
-    function FlowFactoryProvider(flowFactoryProvider, APP_CONFIG) {
+    function FlowFactoryProvider(flowFactoryProvider, APP_CONFIG, WS) {
         flowFactoryProvider.defaults = {
-            target : APP_CONFIG.API[APP_CONFIG.environment].baseUrl+'ManageContent/UploadFile',//http://localhost:8888/upload.php
+            target : APP_CONFIG.API[APP_CONFIG.environment].baseUrl+WS.uploadFile,//http://localhost:8888/upload.php
             permanentErrors : [404, 500, 501],
             maxChunkRetries : 1,
             chunkRetryInterval : 5000,
