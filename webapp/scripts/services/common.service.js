@@ -8,10 +8,10 @@
     angular.module('cmsWebApp').service('CommonService', CommonService);
 
     /*Inject angular services*/
-    CommonService.$inject = ['$uibModal', '$http'];
+    CommonService.$inject = ['$uibModal', '$http', 'WS'];
 
     /*  All global functionality used in all controllers across the system availaible here.*/
-    function CommonService($uibModal, $http) {
+    function CommonService($uibModal, $http, WS) {
         return {
             showAllFacetsItems : showAllFacetsItems,
             setItems : setItems,
@@ -92,7 +92,7 @@
                 'dictionarytype': dictionaryName,
                 'outputformat': 'json'
             };
-            return $http.get('dictionary/GetDictionary', {
+            return $http.get(WS.getDictionary, {
                 params: params
             }).then(function (response) {
                 return response.data;

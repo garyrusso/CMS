@@ -15,9 +15,9 @@
     angular.module('cmsWebApp').service('AuthenticationService', AuthenticationService);
 
     /*Inject angular services*/
-    AuthenticationService.$inject = ['$q', '$http'];
+    AuthenticationService.$inject = ['$q', '$http', 'WS'];
 
-    function AuthenticationService($q, $http) {
+    function AuthenticationService($q, $http, WS) {
         var _identity = undefined, _authenticated = false;
 
         return {
@@ -71,7 +71,7 @@
         function authenticateUser(postdata) {
             var deferred = $q.defer(), self = this;
 
-            $http.post('Security/ValidateUserCredentials', postdata).then(function (response) {
+            $http.post(WS.authenticateUser, postdata).then(function (response) {
                 if (response.data.authToken) {
                     response.data.roles = ['User'];
                     self.authenticate(response.data);
