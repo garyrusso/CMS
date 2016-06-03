@@ -31,50 +31,57 @@
 <div class="row">
     <div class="col-md-12" ng-class="{'cms-content-tile-view-container':!projects.listView}">
         <!--loading-container="projects.tableParams.settings().$loading" -->
-        <div >
-            <table ng-table="projects.tableParams" class="table table-condensed table-bordered table-striped">
-                <tr ng-if="projects.listView" ng-repeat="issue in $data">
-                    <td class="text-capitalize" data-title="'Title'" sortable="projects.sortables.Title.sortable">{{issue.Title}}</td>
-                    <td data-title="'Owner'" sortable="projects.sortables.username.sortable">{{issue.username}}</td>
-                    <td data-title="'Date Modified'" sortable="projects.sortables.dateLastModified.sortable">{{issue.dateLastModified}}</td>
-                    <td data-title="'View'" class="cms-main-display-center"><a ui-sref="projectview({uri:issue.uri})"><span class="glyphicon glyphicon-eye-open"></span></a></td>
-                </tr>
-                <tr ng-if="!projects.listView">
-                    <td class="cms-content-tile-view">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-2 cms-content-tile" ng-repeat="issue in $data">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <a ui-sref="projectview({uri:issue.uri})">
-                                    <div class="cms-content-tile-image">
-                                        <div class="cms-content-tile-image-dummy"></div>
-                                        <div class="cms-content-tile-image-color"></div>
-                                    </div></a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 cms-content-tile-title text-capitalize">
-                                    <a href="#/projectview">{{issue.Title}}</a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 cms-content-tile-date">
-                                    {{issue.dateLastModified}}
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 cms-content-tile-owner">
-                                    {{issue.username}}
-                                </div>
-                            </div>
-                        </div>
-                    </div></td>
-                </tr>
-            </table>
-
+        <div ng-show="projects.tableParams.data.length === 0 ">
+            <p>
+                <em>Projects not available</em>
+            </p>
         </div>
-        <div class="pull-right">
-            <a ui-sref="search({searchType:'project'})">See all Projects</a>
+        <div ng-show="projects.tableParams.data.length !== 0 ">
+            <div>
+                <table ng-table="projects.tableParams" class="table table-condensed table-bordered table-striped">
+                    <tr ng-if="projects.listView" ng-repeat="issue in $data">
+                        <td class="text-capitalize" data-title="'Title'" sortable="projects.sortables.Title.sortable">{{issue.Title}}</td>
+                        <td data-title="'Owner'" sortable="projects.sortables.username.sortable">{{issue.username}}</td>
+                        <td data-title="'Date Modified'" sortable="projects.sortables.dateLastModified.sortable">{{issue.dateLastModified}}</td>
+                        <td data-title="'View'" class="cms-main-display-center"><a ui-sref="projectview({uri:issue.uri})"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+                    </tr>
+                    <tr ng-if="!projects.listView">
+                        <td class="cms-content-tile-view">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-2 cms-content-tile" ng-repeat="issue in $data">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <a ui-sref="projectview({uri:issue.uri})">
+                                        <div class="cms-content-tile-image">
+                                            <div class="cms-content-tile-image-dummy"></div>
+                                            <div class="cms-content-tile-image-color"></div>
+                                        </div></a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 cms-content-tile-title text-capitalize">
+                                        <a href="#/projectview">{{issue.Title}}</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 cms-content-tile-date">
+                                        {{issue.dateLastModified}}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 cms-content-tile-owner">
+                                        {{issue.username}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div></td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="pull-right">
+                <a ui-sref="search({searchType:'project'})">See all Projects</a>
+            </div>
         </div>
     </div>
 </div>

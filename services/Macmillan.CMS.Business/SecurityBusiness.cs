@@ -25,7 +25,7 @@ namespace Macmillan.CMS.Business
         /// <summary>
         /// GetUserData with given details
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns object for GetUserData</returns>
         public object GetUserData()
         {
             Logger.Debug("Entering ValidateUserCredentials");
@@ -38,7 +38,7 @@ namespace Macmillan.CMS.Business
         /// ValidateUserCredentials with given details
         /// </summary>
         /// <param name="authentication"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for ValidateUserCredentials</returns>
         public object ValidateUserCredentials(Authentication authentication)
         {
             Logger.Debug("Entering ValidateUserCredentials"); 

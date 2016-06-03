@@ -16,7 +16,7 @@ namespace Macmillan.CMS.DAL
         /// </summary>
         /// <param name="dictionaryType"></param>
         /// <param name="outputFormat"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for GetDictionary</returns>
         public object GetDictionary(string dictionaryType, string outputFormat)
         {
             Logger.Debug("Entering GetDictionary");

@@ -26,7 +26,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// CreateContent with given details
         /// </summary>
         /// <param name="content"></param>
-        /// <returns></returns>       
+        /// <returns>Returns object for CreateContent</returns>       
         [HttpPost]
         public object CreateContent(HttpRequestMessage request,
             [FromBody] Content content)
@@ -41,7 +41,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// UpdateContent with given details
         /// </summary>
         /// <param name="content"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for UpdateContent</returns>
         [HttpPut]
         public object UpdateContent([FromBody] Content content)
         {
@@ -55,7 +55,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// DeleteContent with given details
         /// </summary>
         /// <param name="content"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for DeleteContent</returns>
         [HttpPost]
         public object DeleteContent([FromBody] Content content)
         {
@@ -69,7 +69,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// GetContent with given details
         /// </summary>
         /// <param name="docUri"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for GetContent</returns>
         [HttpGet]
         public object GetContentDetails(string uri)
         {
@@ -83,7 +83,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// GetContentMasterData with given details
         /// </summary>
         /// <param name="ContentDetails"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for GetContentMasterData</returns>
         [HttpGet]
         public object GetContentMasterData(List<Content> ContentDetails)
         {
@@ -100,7 +100,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <param name="orderBy"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for SearchContents</returns>
         [HttpGet]
         public object SearchContents(string searchText, int pageNumber, int pageSize, string orderBy)
         {

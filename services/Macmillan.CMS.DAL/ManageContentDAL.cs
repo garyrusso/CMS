@@ -16,7 +16,7 @@ namespace Macmillan.CMS.DAL
         /// CreateContent with given details
          /// </summary>
          /// <param name="content"></param>
-         /// <returns></returns>
+        /// <returns>Returns object for CreateContent</returns>
          public object CreateContent(string projXml, string projUri)
          {
              Logger.Debug("Entering CreateContent");
@@ -57,7 +57,7 @@ namespace Macmillan.CMS.DAL
          /// UpdateContent with given details
          /// </summary>
          /// <param name="content"></param>
-         /// <returns></returns>
+         /// <returns>Returns object for UpdateContent</returns>
          public object UpdateContent(string projXml, string projUri)
          {
              Logger.Debug("Entering UpdateProject");
@@ -73,7 +73,7 @@ namespace Macmillan.CMS.DAL
          /// content with given details
          /// </summary>
          /// <param name="content"></param>
-         /// <returns></returns>
+         /// <returns>Returns object for DeleteContent</returns>
          public object DeleteContent(string projXml, string projUri)
          {
              Logger.Debug("Entry DeleteProject");
@@ -89,7 +89,7 @@ namespace Macmillan.CMS.DAL
          /// GetContent with given details
          /// </summary>
          /// <param name="docUri"></param>
-         /// <returns></returns>
+         /// <returns>Returns object for GetContent</returns>
          public object GetContent(string docUri)
          {
              Logger.Debug("Entering GetContent");
@@ -152,7 +152,7 @@ namespace Macmillan.CMS.DAL
          /// GetContentMasterData with given details
          /// </summary>
          /// <param name="ContentDetails"></param>
-         /// <returns></returns>
+         /// <returns>Returns object for GetContentMasterData</returns>
          public object GetContentMasterData(List<Content> ContentDetails)
          {
              Logger.Debug("Entering GetContentMasterData");
@@ -174,7 +174,7 @@ namespace Macmillan.CMS.DAL
          /// <param name="pageNumber"></param>
          /// <param name="pageSize"></param>
          /// <param name="orderBy"></param>
-         /// <returns></returns>
+         /// <returns>Returns object for SearchContents</returns>
          public object SearchContents(string searchText, int pageNumber, int pageSize, string orderBy)
          {
              Logger.Debug("Entering GetContentMasterData");
