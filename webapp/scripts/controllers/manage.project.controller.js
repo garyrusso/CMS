@@ -8,10 +8,10 @@
     angular.module('cmsWebApp').controller('ManageProjectController', ManageProjectController);
 
     /*Inject angular services to controller*/
-    ManageProjectController.$inject = ['$scope', 'NgTableParams', '$uibModal', '_', '$log', 'CommonService', 'ManageProjectsService', 'SearchService'];
+    ManageProjectController.$inject = ['$scope', 'NgTableParams', '$uibModal', '_', '$log', '$q', 'CommonService', 'ManageProjectsService', 'SearchService'];
 
     /*Function ManageProjectController*/
-    function ManageProjectController($scope, NgTableParams, $uibModal, _, $log, CommonService, ManageProjectsService, SearchService) {
+    function ManageProjectController($scope, NgTableParams, $uibModal, _, $log, $q, CommonService, ManageProjectsService, SearchService) {
         var projects = this;
 
         projects.facets = {};
@@ -51,14 +51,18 @@
             /*counts:[],*/
             getData: function (params) {
                 $log.debug('ManageProjectController - params', params);
+                var defer = $q.defer();
                 $scope.setLoading(true);
                 var pageDetails = params.url(), orderBy = params.orderBy()?params.orderBy()[0]:'';
-                return SearchService.searchData('project', '', pageDetails.page, pageDetails.count, orderBy).then(function(response){
+                SearchService.searchData('project', '', pageDetails.page, pageDetails.count, orderBy).then(function(response){
                     $scope.setLoading(false);
                     params.total(response.total);
                     projects.facets = CommonService.formatFacets(response.facets);
-                    return response.results;
+                    defer.resolve(response.results);
+                }, function(){
+                    defer.resolve([]);
                 });
+                return defer.promise;
             }
         });
 

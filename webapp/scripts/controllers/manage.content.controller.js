@@ -8,10 +8,10 @@
     angular.module('cmsWebApp').controller('ManageContentController', ManageContentController);
 
     /*Inject angular services to controller*/
-    ManageContentController.$inject = ['$scope', '$log', 'CommonService', 'NgTableParams', 'ManageContentService', 'SearchService'];
+    ManageContentController.$inject = ['$scope', '$log', '$q', 'CommonService', 'NgTableParams', 'ManageContentService', 'SearchService'];
 
     /*Function ManageContentController*/
-    function ManageContentController($scope, $log, CommonService, NgTableParams, ManageContentService, SearchService) {
+    function ManageContentController($scope, $log, $q, CommonService, NgTableParams, ManageContentService, SearchService) {
         $log.debug('ManageContentController');
         var content = this;
         
@@ -50,14 +50,18 @@
         }, {
             getData: function (params) {
                 $log.debug('ManageContentController - params', params);
+                var defer = $q.defer();
                 $scope.setLoading(true);
                 var pageDetails = params.url(), orderBy = params.orderBy()?params.orderBy()[0]:'';
-                return SearchService.searchData('content', '', pageDetails.page, pageDetails.count, orderBy).then(function(response){
+                SearchService.searchData('content', '', pageDetails.page, pageDetails.count, orderBy).then(function(response){
                     $scope.setLoading(false);
                     params.total(response.total);
                     content.facets = CommonService.formatFacets(response.facets);
-                    return response.results;
+                    defer.resolve(response.results);
+                }, function(){
+                    defer.resolve([]);
                 });
+                return defer.promise;
             }
         });
         /**
