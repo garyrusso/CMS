@@ -40,7 +40,7 @@
             "FilePath": "" 
         };
         
-        $scope.username = CommonService.getItems('username');
+        //$scope.username = CommonService.getItems('username');
 
         $scope.sourceData = [];//["Book", "Internet"];
         if(getContentSourceResolve && getContentSourceResolve.results && getContentSourceResolve.results.val){
