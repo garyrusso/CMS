@@ -1,4 +1,4 @@
-<mml:dataDictionary xmlns:mml="http://macmillanlearning.com">
+<mml:dictionary xmlns:mml="http://macmillanlearning.com">
   <mml:systemID/>
   <mml:uri/>
   <mml:dataCreated>2015-04-12 10:35</mml:dataCreated>
@@ -13,5 +13,5 @@
     <mml:dictionaryValue>Glossary</mml:dictionaryValue>
     <mml:dictionaryValue>Learning Objective</mml:dictionaryValue>
   </mml:dictionaryValues>
-</mml:dataDictionary>
+</mml:dictionary>
 
