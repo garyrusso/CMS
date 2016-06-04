@@ -1,0 +1,17 @@
+<mml:dictionary xmlns:mml="http://macmillanlearning.com">
+  <mml:systemID/>
+  <mml:uri/>
+  <mml:dataCreated>2015-04-12 10:35</mml:dataCreated>
+  <mml:dateLastModified>2015-04-12 11:30</mml:dateLastModified>
+  <mml:objectType>DataDictionary</mml:objectType>
+  <mml:dictionaryType>content-resource-type</mml:dictionaryType>
+  <mml:dictionaryValues>
+    <mml:dictionaryValue>Chapter</mml:dictionaryValue>
+    <mml:dictionaryValue>Section</mml:dictionaryValue>
+    <mml:dictionaryValue>Testing</mml:dictionaryValue>
+    <mml:dictionaryValue>Bibliography</mml:dictionaryValue>
+    <mml:dictionaryValue>Glossary</mml:dictionaryValue>
+    <mml:dictionaryValue>Learning Objective</mml:dictionaryValue>
+  </mml:dictionaryValues>
+</mml:dictionary>
+

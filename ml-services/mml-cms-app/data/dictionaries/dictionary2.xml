@@ -1,0 +1,20 @@
+<mml:dictionary xmlns:mml="http://macmillanlearning.com">
+  <mml:systemID/>
+  <mml:uri/>
+  <mml:dataCreated>2015-04-12 10:35</mml:dataCreated>
+  <mml:dateLastModified>2015-04-12 11:30</mml:dateLastModified>
+  <mml:objectType>DataDictionary</mml:objectType>
+  <mml:dictionaryType>Publisher</mml:dictionaryType>
+  <mml:dictionaryValues>
+    <mml:dictionaryValue>Bedford/St. Martins</mml:dictionaryValue>
+    <mml:dictionaryValue>W.H. Freeman</mml:dictionaryValue>
+    <mml:dictionaryValue>Worth Publishers</mml:dictionaryValue>
+    <mml:dictionaryValue>Sapling Learning</mml:dictionaryValue>
+    <mml:dictionaryValue>Late Nite Labs</mml:dictionaryValue>
+    <mml:dictionaryValue>Hayden-McNeil</mml:dictionaryValue>
+    <mml:dictionaryValue>PrepU</mml:dictionaryValue>
+    <mml:dictionaryValue>Dynamic Books</mml:dictionaryValue>
+    <mml:dictionaryValue>BFW High School</mml:dictionaryValue>
+  </mml:dictionaryValues>
+</mml:dictionary>
+

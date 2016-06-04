@@ -1,0 +1,28 @@
+<mml:dictionary xmlns:mml="http://macmillanlearning.com">
+  <mml:systemID/>
+  <mml:uri/>
+  <mml:dataCreated>2015-04-12 10:35</mml:dataCreated>
+  <mml:dateLastModified>2015-04-12 11:30</mml:dateLastModified>
+  <mml:objectType>DataDictionary</mml:objectType>
+  <mml:dictionaryType>subject-heading</mml:dictionaryType>
+  <mml:dictionaryValues>
+    <mml:dictionaryValue>Astronomy &amp; Physics</mml:dictionaryValue>
+    <mml:dictionaryValue>Biochemistry</mml:dictionaryValue>
+    <mml:dictionaryValue>Biology</mml:dictionaryValue>
+    <mml:dictionaryValue>Chemistry</mml:dictionaryValue>
+    <mml:dictionaryValue>College Success</mml:dictionaryValue>
+    <mml:dictionaryValue>Communication</mml:dictionaryValue>
+    <mml:dictionaryValue>Economics</mml:dictionaryValue>
+    <mml:dictionaryValue>English</mml:dictionaryValue>
+    <mml:dictionaryValue>Environmental Science</mml:dictionaryValue>
+    <mml:dictionaryValue>Geography</mml:dictionaryValue>
+    <mml:dictionaryValue>Geology</mml:dictionaryValue>
+    <mml:dictionaryValue>History</mml:dictionaryValue>
+    <mml:dictionaryValue>Mathematics</mml:dictionaryValue>
+    <mml:dictionaryValue>Music &amp; Theater</mml:dictionaryValue>
+    <mml:dictionaryValue>Nutrition</mml:dictionaryValue>
+    <mml:dictionaryValue>Philosophy &amp; Religion</mml:dictionaryValue>
+    <mml:dictionaryValue>Sociology</mml:dictionaryValue>
+    <mml:dictionaryValue>Statistics</mml:dictionaryValue>
+  </mml:dictionaryValues>
+</mml:dictionary>

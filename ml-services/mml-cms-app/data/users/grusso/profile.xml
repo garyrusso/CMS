@@ -1,0 +1,17 @@
+<mml:user xmlns:mml="http://macmillanlearning.com">
+  <mml:metadata>
+    <mml:created>2016-05-27T16:46:46.977-04:00</mml:created>
+    <mml:createdBy>webuser</mml:createdBy>
+    <mml:modified>2016-05-27T16:46:46.977-04:00</mml:modified>
+    <mml:modifiedBy>webuser</mml:modifiedBy>
+    <mml:objectType>User</mml:objectType>
+  </mml:metadata>
+  <mml:feed>
+    <mml:username>grusso</mml:username>
+    <mml:fullName>Gary Russo</mml:fullName>
+    <mml:firstName>Gary</mml:firstName>
+    <mml:lastName>Russo</mml:lastName>
+    <mml:email>gary.russo@macmillan.com</mml:email>
+    <mml:password>5f4dcc3b5aa765d61d8327deb882cf99</mml:password>
+  </mml:feed>
+</mml:user>

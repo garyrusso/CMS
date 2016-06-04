@@ -18,12 +18,15 @@ xquery version "1.0-ml";
 module namespace uv = "http://www.marklogic.com/roxy/user-view";
 
 import module namespace form = "http://marklogic.com/roxy/form-lib" at "/app/views/helpers/form-lib.xqy";
+import module namespace usr   = "http://marklogic.com/roxy/models/user" at "/app/models/user-model.xqy";
 
 declare default element namespace "http://www.w3.org/1999/xhtml";
 
 declare namespace mml = "http://macmillanlearning.com";
 
 declare option xdmp:mapping "false";
+
+declare variable $NS := "http://macmillanlearning.com";
 
 declare function uv:build-user($username, $message, $login-link, $register-link, $logout-link)
 {
@@ -62,20 +65,22 @@ declare function uv:build-login($message, $login-link, $register-link)
 declare function uv:build-register($register-link, $user, $edit)
 {
   let $button := if ($edit) then "update" else "register"
+  
+  let $editUser := usr:getUserProfile($user//*:username/text())
 
   return
     <div class="registeruser">
       <form action="{$register-link}" method="POST">
         {
           (: form:text-input-readonly("Username:", "username", "registeruser", if ($user) then $user/*:username else ""), :)
-          form:text-input("Username:", "username", "registeruser", if ($user) then $user//*:username else ""),
+          form:text-input("Username:", "username", "registeruser", if ($editUser) then $editUser/*:username/text() else ""),
           form:line-break(),
-          form:text-input("First Name:", "firstname", "registeruser", if ($user) then "aaaa" else ""),
+          form:text-input("First Name:", "firstname", "registeruser", if ($editUser) then $editUser/*:firstname/text() else ""),
           form:line-break(),
-          form:text-input("Last Name:", "lastname", "registeruser", if ($user) then "bbbb" else ""),
+          form:text-input("Last Name:", "lastname", "registeruser", if ($editUser) then $editUser/*:lastname/text() else ""),
           form:line-break(),
           form:password-input("Password:", "password", "registeruser", ""),
-          form:hidden-input("created", if ($user) then $user//*:created else "")
+          form:hidden-input("created", if ($editUser) then $editUser/*:created/text() else "")
         }
         <br/>
         <input type="submit" value="{$button}"/>
