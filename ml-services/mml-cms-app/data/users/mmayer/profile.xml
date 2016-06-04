@@ -1,0 +1,17 @@
+<mml:user xmlns:mml="http://macmillanlearning.com">
+  <mml:metadata>
+    <mml:created>2016-05-27T16:30:00.000-04:00</mml:created>
+    <mml:createdBy>webuser</mml:createdBy>
+    <mml:modified>2016-06-03T14:37:59.351-04:00</mml:modified>
+    <mml:modifiedBy>webuser</mml:modifiedBy>
+    <mml:objectType>User</mml:objectType>
+  </mml:metadata>
+  <mml:feed>
+    <mml:username>mmayer</mml:username>
+    <mml:fullName>Marissa Mayer</mml:fullName>
+    <mml:firstName>Marissa</mml:firstName>
+    <mml:lastName>Mayer</mml:lastName>
+    <mml:email>marissa.mayer@macmillan.com</mml:email>
+    <mml:password>5f4dcc3b5aa765d61d8327deb882cf99</mml:password>
+  </mml:feed>
+</mml:user>

@@ -1,0 +1,17 @@
+<mml:user xmlns:mml="http://macmillanlearning.com">
+  <mml:metadata>
+    <mml:created>2016-05-27T16:35:44.139-04:00</mml:created>
+    <mml:createdBy>webuser</mml:createdBy>
+    <mml:modified>2016-05-27T16:35:44.139-04:00</mml:modified>
+    <mml:modifiedBy>webuser</mml:modifiedBy>
+    <mml:objectType>User</mml:objectType>
+  </mml:metadata>
+  <mml:feed>
+    <mml:username>ghopper</mml:username>
+    <mml:fullName>Grace Hopper</mml:fullName>
+    <mml:firstName>Grace</mml:firstName>
+    <mml:lastName>Hopper</mml:lastName>
+    <mml:email>grace.hopper@macmillan.com</mml:email>
+    <mml:password>5f4dcc3b5aa765d61d8327deb882cf99</mml:password>
+  </mml:feed>
+</mml:user>

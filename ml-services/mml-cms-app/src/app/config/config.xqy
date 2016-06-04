@@ -107,12 +107,20 @@ declare variable $c:SEARCH-OPTIONS :=
     <term>
       <term-option>case-insensitive</term-option>
     </term>
-    <constraint name="facet1">
-      <collection>
+    <constraint name="Users">
+      <range type="xs:string">
+        <element ns="http://macmillanlearning.com" name="username"/>
+        <facet-option>descending</facet-option>
         <facet-option>limit=10</facet-option>
-      </collection>
+      </range>
     </constraint>
-
+    <constraint name="Dictionaries">
+      <range type="xs:string">
+        <element ns="http://macmillanlearning.com" name="dictionaryType"/>
+        <facet-option>descending</facet-option>
+        <facet-option>limit=10</facet-option>
+      </range>
+    </constraint>
     <return-results>true</return-results>
     <return-query>true</return-query>
   </options>;

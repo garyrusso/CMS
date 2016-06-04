@@ -131,6 +131,36 @@ declare function usr:get($lookup)
   else ()
 };
 
+declare function usr:getUserProfile($username)
+{
+  let $doc :=
+    if ($username) then
+    (
+        cts:search(
+          fn:doc(),
+          cts:and-query((
+            cts:directory-query("/users/","infinity"),
+            cts:element-value-query(fn:QName($NS, "username"), $username)
+          ))
+        )[1]
+    )
+    else ()
+  
+  let $user :=
+    if ($doc) then
+      element user-profile
+      {
+        element firstname { $doc/mml:user/mml:feed/mml:firstName/text() }, 
+        element lastname  { $doc/mml:user/mml:feed/mml:lastName/text() }, 
+        element username  { $doc/mml:user/mml:feed/mml:username/text() }, 
+        element password  { $doc/mml:user/mml:feed/mml:password/text() },
+        element created   { $doc/mml:user/mml:metadata/mml:created/text() }
+      }
+    else ()
+
+  return $user
+};
+
 declare function usr:getUserList()
 {
   let $userlist :=

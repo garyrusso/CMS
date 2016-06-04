@@ -1,0 +1,13 @@
+<mml:dataDictionary xmlns:mml="http://macmillanlearning.com">
+  <mml:systemID/>
+  <mml:uri/>
+  <mml:dataCreated>2015-04-12 10:35</mml:dataCreated>
+  <mml:dateLastModified>2015-04-12 11:30</mml:dateLastModified>
+  <mml:objectType>DataDictionary</mml:objectType>
+  <mml:dictionaryType>project-status</mml:dictionaryType>
+  <mml:dictionaryValues>
+    <mml:dictionaryValue>In Progress</mml:dictionaryValue>
+    <mml:dictionaryValue>Complete</mml:dictionaryValue>
+    <mml:dictionaryValue>Inactive</mml:dictionaryValue>
+  </mml:dictionaryValues>
+</mml:dataDictionary>
