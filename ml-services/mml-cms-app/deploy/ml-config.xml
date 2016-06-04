@@ -291,7 +291,7 @@
           <scalar-type>string</scalar-type>
           <namespace-uri>http://macmillanlearning.com</namespace-uri>
           <localname>username</localname>
-          <collation>http://marklogic.com/collation/codepoint</collation>
+          <collation>http://marklogic.com/collation/</collation>
           <range-value-positions>false</range-value-positions>
           <invalid-values>ignore</invalid-values>
         </range-element-index>
@@ -300,7 +300,7 @@
           <scalar-type>string</scalar-type>
           <namespace-uri>http://macmillanlearning.com</namespace-uri>
           <localname>dictionaryType</localname>
-          <collation>http://marklogic.com/collation/codepoint</collation>
+          <collation>http://marklogic.com/collation/</collation>
           <range-value-positions>false</range-value-positions>
           <invalid-values>ignore</invalid-values>
         </range-element-index>
