@@ -1,0 +1,26 @@
+<mml:project xmlns:mml="http://macmillanlearning.com">
+  <mml:metadata>
+    <mml:state>active</mml:state>
+    <mml:type>project</mml:type>
+    <mml:created>2015-04-15 13:30</mml:created>
+    <mml:lastModified>2015-04-15 13:30</mml:lastModified>
+    <mml:createdBy>bcross</mml:createdBy>
+    <mml:modifiedBy>bcross</mml:modifiedBy>
+    <mml:subjectHeadings>
+      <mml:subjectHeading>History</mml:subjectHeading>
+      <mml:subjectHeading>Revolutionary War</mml:subjectHeading>
+    </mml:subjectHeadings>
+    <mml:subjectKeywords>
+      <mml:subjectKeyword>EPUB3</mml:subjectKeyword>
+      <mml:subjectKeyword>EDUPUB</mml:subjectKeyword>
+      <mml:subjectKeyword>Brooklyn</mml:subjectKeyword>
+    </mml:subjectKeywords>
+  </mml:metadata>
+  <mml:feed>
+    <mml:uri>/projects/BattleOfBrooklyn</mml:uri>
+    <mml:title>1776 Battle of Brooklyn</mml:title>
+    <mml:description>The Battle of Brooklyn took place on August 27, 1776. Learn more about what happened on that day in History</mml:description>
+    <mml:body/>
+  </mml:feed>
+</mml:project>
+
