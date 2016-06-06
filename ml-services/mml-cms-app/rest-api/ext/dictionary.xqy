@@ -41,7 +41,7 @@ function mml-api:get(
 
   let $query :=
     cts:and-query((
-        cts:directory-query("/dictionaries/","infinity"),
+        cts:directory-query("/dictionary/","infinity"),
         cts:element-value-query(
           fn:QName($NS, "dictionaryType"), $dictionaryType, ("case-insensitive")
       )

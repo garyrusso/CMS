@@ -25,7 +25,7 @@ declare variable $SEARCH-OPTIONS :=
 
 declare function usr:getUserUri($username)
 {
-  let $uri := fn:concat("/users/", $username, "/", "profile.xml")
+  let $uri := fn:concat("/user/", $username, "/", "profile.xml")
   
   return $uri
 };
@@ -139,7 +139,7 @@ declare function usr:getUserProfile($username)
         cts:search(
           fn:doc(),
           cts:and-query((
-            cts:directory-query("/users/","infinity"),
+            cts:directory-query("/user/","infinity"),
             cts:element-value-query(fn:QName($NS, "username"), $username)
           ))
         )[1]

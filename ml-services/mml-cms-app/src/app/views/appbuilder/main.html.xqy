@@ -48,8 +48,6 @@ declare function local:transform-snippet-orig($nodes as node()*)
 
 declare function local:transform-snippet($nodes as node()*)
 {
-xdmp:log("000............... $nodes count: "||fn:count($nodes)),
-
   for $n in $nodes
     let $sdoc1 := $n/..
     let $sdoc2 := $n/../../..
@@ -58,6 +56,7 @@ xdmp:log("000............... $nodes count: "||fn:count($nodes)),
     
     let $log := xdmp:log("111............... $sdoc1/@uri: "||$sdoc1/@uri)
     let $log := xdmp:log("222............... $sdoc2/@uri: "||$sdoc2/@uri)
+    let $log := xdmp:log("333............... uri: "||xdmp:node-uri($n))
 
   return
     typeswitch($n)
@@ -70,24 +69,57 @@ xdmp:log("000............... $nodes count: "||fn:count($nodes)),
           <span xmlns="http://www.w3.org/1999/xhtml" class="highlight">{fn:data($n)}</span>
           
       case element() return
-        let $docUri := $sdoc1/@uri
-        let $log := xdmp:log("333............... path: "||$docUri)
-        let $username := fn:doc($docUri//*:username/text())
+        let $docUri := xs:string($sdoc1/@uri)
+        let $log := xdmp:log("444............... path: "||$docUri)
+        let $doc := fn:doc($docUri)
+        let $docType := fn:substring-after(xs:string(fn:node-name($doc/child::element())), "mml:")
         
         return
           if (fn:string-length($docUri) gt 0) then
-            element div
-            {
-              <table border="1" width="100%">
-                <tr><td width="145" valign="top">username</td><td valign="top"><span xmlns="http://www.w3.org/1999/xhtml" class="highlight">{$docUri}</span></td></tr>
-                <tr><td width="145" valign="top">First Name</td><td valign="top">{$docUri}</td></tr>
-                <tr><td width="145" valign="top">Last Name</td><td valign="top">{$username}</td></tr>
-                <tr><td width="145" valign="top">Full Name</td><td valign="top">{"111111111"}</td></tr>
-                <tr><td width="145" valign="top">Created</td><td valign="top">{"111111111"}</td></tr>
-                <tr><td width="145" valign="top">Field Value</td><td valign="top">{"111111111"}</td></tr>
-                <tr><td width="145" valign="top">Password</td><td valign="top">{"111111111"}</td></tr>
-              </table>
-            }
+          (
+            if ($docType eq "user") then
+              element div
+              {
+                <table border="1" width="100%">
+                  <tr><td width="145" valign="top">URI</td><td valign="top"><a target="_blank" href="view.xml?uri={$docUri}">{$docUri}</a></td></tr>
+                  <tr><td width="145" valign="top">Type</td><td valign="top">{$docType}</td></tr>
+                  <tr><td width="145" valign="top">username</td><td valign="top">{$doc//*:username/text()}</td></tr>
+                  <tr><td width="145" valign="top">Full Name</td><td valign="top">{$doc//*:fullName/text()}</td></tr>
+                  <tr><td width="145" valign="top">First Name</td><td valign="top">{$doc//*:firstName/text()}</td></tr>
+                  <tr><td width="145" valign="top">Last Name</td><td valign="top">{$doc//*:lastName/text()}</td></tr>
+                  <tr><td width="145" valign="top">Password</td><td valign="top">{$doc//*:password/text()}</td></tr>
+                  <tr><td width="145" valign="top">Created</td><td valign="top">{$doc//*:created/text()}</td></tr>
+                </table>
+              }
+            else
+            if ($docType eq "user") then
+              element div
+              {
+                <table border="1" width="100%">
+                  <tr><td width="145" valign="top">URI</td><td valign="top"><a target="_blank" href="view.xml?uri={$docUri}">{$docUri}</a></td></tr>
+                  <tr><td width="145" valign="top">Type</td><td valign="top">{$docType}</td></tr>
+                  <tr><td width="145" valign="top">Dictionary Type</td><td valign="top">{$docType}</td></tr>
+                </table>
+              }
+            else
+            if ($docType eq "project") then
+              element div
+              {
+                <table border="1" width="100%">
+                  <tr><td width="145" valign="top">URI</td><td valign="top"><a target="_blank" href="view.xml?uri={$docUri}">{$docUri}</a></td></tr>
+                  <tr><td width="145" valign="top">Type</td><td valign="top">{$docType}</td></tr>
+                  <tr><td width="145" valign="top">Project Title</td><td valign="top">{$doc//*:title/text()}</td></tr>
+                </table>
+              }
+            else
+              element div
+              {
+                <table border="1" width="100%">
+                  <tr><td width="145" valign="top">URI</td><td valign="top"><a target="_blank" href="view.xml?uri={$docUri}">{$docUri}</a></td></tr>
+                  <tr><td width="145" valign="top">Type</td><td valign="top">{$docType}</td></tr>
+                </table>
+              }
+          )
           else
             element div
             {
@@ -100,7 +132,7 @@ xdmp:log("000............... $nodes count: "||fn:count($nodes)),
       
       (:
         let $docUri := if ($n) then $n/../@uri else ""
-        let $log := xdmp:log("444............... path: "||$docUri)
+        let $log := xdmp:log("555............... path: "||$docUri)
       :)
       
 };

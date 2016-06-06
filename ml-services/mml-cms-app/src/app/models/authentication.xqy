@@ -281,7 +281,7 @@ declare function auth:findSessionByToken($token as xs:string)
 
 declare function auth:userDirectory()
 {
-    fn:concat("/users/",auth:userName())
+    fn:concat("/user/",auth:userName())
 };
 
 declare function auth:is-valid-user($username as xs:string, $password as xs:string)

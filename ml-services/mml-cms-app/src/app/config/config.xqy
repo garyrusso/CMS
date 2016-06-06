@@ -99,7 +99,7 @@ declare variable $c:ROXY-ROUTES :=
  : default application.
  : ***********************************************
  :)
-declare variable $c:DEFAULT-PAGE-LENGTH as xs:int := 5;
+declare variable $c:DEFAULT-PAGE-LENGTH as xs:int := 10;
 
 declare variable $c:SEARCH-OPTIONS :=
   <options xmlns="http://marklogic.com/appservices/search">
@@ -114,9 +114,16 @@ declare variable $c:SEARCH-OPTIONS :=
         <facet-option>limit=10</facet-option>
       </range>
     </constraint>
-    <constraint name="Dictionaries">
+    <constraint name="Subjects">
       <range type="xs:string">
-        <element ns="http://macmillanlearning.com" name="dictionaryType"/>
+        <element ns="http://macmillanlearning.com" name="subjectHeading"/>
+        <facet-option>descending</facet-option>
+        <facet-option>limit=10</facet-option>
+      </range>
+    </constraint>
+    <constraint name="Keywords">
+      <range type="xs:string">
+        <element ns="http://macmillanlearning.com" name="subjectKeyword"/>
         <facet-option>descending</facet-option>
         <facet-option>limit=10</facet-option>
       </range>
