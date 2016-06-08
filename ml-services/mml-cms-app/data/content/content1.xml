@@ -1,0 +1,68 @@
+<!--Namespace declaration-->
+<mml:content xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:schema="http://schema.org/"
+  xmlns:epub="http://www.idpf.org/2007/ops" xmlns:mml="http://macmillanlearning.com/"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!--Elements specific to metadata markup-->
+  <mml:metadata>
+    <!--Common elements across projects and content-->
+    <mml:cmsCore>
+      <mml:administrative>
+        <mml:systemID>05b8825669ae9dee519349e4a9edafca</mml:systemID>
+        <mml:uri>www.macmillan.com/workflow/content/Myers-11e-EDUPUB-EPUB3</mml:uri>
+        <mml:dataCreated>2015-04-16 11:13</mml:dataCreated>
+        <mml:dateLastModified>2015-04-16 11:13</mml:dateLastModified>
+        <mml:createdBy>bcross</mml:createdBy>
+        <mml:objectType>Content</mml:objectType>
+      </mml:administrative>
+      <mml:descriptive>
+        <dc:title>Myers 11e EPUB3</dc:title>
+        <dc:description>The EPUB3/EDUPUB of David Myers 11th Edition Psychology
+          textbook.</dc:description>
+      </mml:descriptive>
+      <mml:semantic>
+        <mml:subjectHeadings>
+          <mml:subjectHeading>Psychology</mml:subjectHeading>
+        </mml:subjectHeadings>
+        <mml:subjectKeywords>
+          <mml:subjectKeyword>Test</mml:subjectKeyword>
+          <mml:subjectKeyword>Working</mml:subjectKeyword>
+        </mml:subjectKeywords>
+      </mml:semantic>
+    </mml:cmsCore>
+    <!--Elements specific to content-->
+    <mml:content>
+      <mml:descriptive>
+        <dc:source>Book</dc:source>
+        <dc:creators>
+          <dc:creator>David Myers</dc:creator>
+        </dc:creators>
+        <dc:publisher>Worth Publishers</dc:publisher>
+        <schema:datePublished>2013</schema:datePublished>
+        <epub:contentResourceTypes>
+          <epub:contentResourceType/>
+        </epub:contentResourceTypes>
+        <mml:contentState>Vendor</mml:contentState>
+      </mml:descriptive>
+      <mml:technical>
+        <dc:fileFormat>EPUB</dc:fileFormat>
+        <mml:filename>myers11e.epub</mml:filename>
+        <mml:filePath>s3://cms/myers11e.epub</mml:filePath>
+        <mml:fileSize>45400</mml:fileSize>
+      </mml:technical>
+      <mml:relationships>
+        <mml:hasProjects>
+          <mml:hasProject>Myers 11e</mml:hasProject>
+        </mml:hasProjects>
+      </mml:relationships>
+    </mml:content>
+    <!--Elements specific to projects-->
+    <mml:project>
+      <mml:descriptive>
+        <mml:projectState/>
+      </mml:descriptive>
+    </mml:project>
+    <!--Elements specific to audit log.-->
+  </mml:metadata>
+  <!--Elements specific to content body markup-->
+  <xhtml:body> </xhtml:body>
+</mml:content>
