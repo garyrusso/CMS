@@ -35,12 +35,12 @@
                 debug : true
 
             },
-            testing : {
+            qa : {
 
                 //Set useMocks to true to simulate/mock actual webservice.
-                useMocks : true,
-                fakeDelay : true,
-                fakeDelayTime: 800,//0.8secs
+                useMocks : false,
+                fakeDelay : false,
+                fakeDelayTime: 0,//0.8secs
                 baseUrl : 'http://midlayerhost/api/v1/',
                 debug : false
 
