@@ -1,11 +1,13 @@
 <mml:project xmlns:mml="http://macmillanlearning.com">
   <mml:metadata>
-    <mml:state>active</mml:state>
     <mml:type>project</mml:type>
     <mml:created>2015-04-15 13:30</mml:created>
     <mml:lastModified>2015-04-15 13:30</mml:lastModified>
     <mml:createdBy>bcross</mml:createdBy>
     <mml:modifiedBy>bcross</mml:modifiedBy>
+    <mml:state>active</mml:state>
+    <mml:systemId>d41d8cd98f00b204e9800998ecf1118e</mml:systemId>
+    <mml:uri>www.macmillan.com/workflow/projects/BattleOfYorktown</mml:uri>
     <mml:subjectHeadings>
       <mml:subjectHeading>History</mml:subjectHeading>
       <mml:subjectHeading>Revolutionary War</mml:subjectHeading>

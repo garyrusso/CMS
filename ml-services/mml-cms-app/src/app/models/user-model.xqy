@@ -51,7 +51,12 @@ declare function usr:save($user)
           element {fn:QName($NS,"fullName")}   { $user/firstname/text()||" "||$user/lastname/text() },
           element {fn:QName($NS,"firstName")}  { $user/firstname/text() },
           element {fn:QName($NS,"lastName")}   { $user/lastname/text() },
-          element {fn:QName($NS,"email")}      { fn:lower-case($user/firstname/text())||"."||fn:lower-case($user/lastname/text())||"@macmillan.com" },
+          element {fn:QName($NS,"email")}      {
+            if (fn:empty($user/email/text())) then
+              fn:lower-case($user/firstname/text())||"."||fn:lower-case($user/lastname/text())||"@macmillan.com"
+            else
+              $user/email/text()
+          },
           element {fn:QName($NS,"password")}   { xdmp:md5($user/password/fn:string()) }
         }
       }
