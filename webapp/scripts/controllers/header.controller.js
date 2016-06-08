@@ -108,7 +108,7 @@
             };
             if(header.searchTextBox && header.searchTextBox.trim()){
                 searchText: header.searchTextBox = '';
-                $state.go('search', params);
+                $state.go('search', params, {inherit:false});
             }
         }
     }
