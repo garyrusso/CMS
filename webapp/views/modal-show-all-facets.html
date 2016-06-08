@@ -8,7 +8,7 @@
     <div class="col-sm-12">
         <ul class="list-unstyled">
             <li ng-repeat="facetitems in items.facetObj.facetArray | filter : items.filter">
-                <a href="#" ng-bind="facetitems.name + ' ('+facetitems.count+')'"></a>
+                <a ui-sref="search({searchType: items.searchType,facet:prepareFacetUri(items.facetObj.facetTitle+':'+facetitems.name)})" ng-click="cancel()" ng-bind="facetitems.name + ' ('+facetitems.count+')'"></a>
             </li>
         </ul>
     </div>

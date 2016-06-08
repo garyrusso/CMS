@@ -25,10 +25,11 @@
          * @name showAllFacetsItems
          * @methodOf cmsWebApp.service:CommonService
          * @param {Object} facetObj 
+         * @param {String} type search type
          * @description
          * open modal of all facets
          */
-        function showAllFacetsItems(facetObj) {
+        function showAllFacetsItems(facetObj, type) {
             var modalInstance = $uibModal.open({
                 templateUrl : 'views/modal-template.html',
                 controller : 'ModalShowAllFacetsItemsController',
@@ -37,7 +38,8 @@
                     items : function() {
                         return {
                             templateUrl : 'views/modal-show-all-facets.html',
-                            facetObj : facetObj
+                            facetObj : facetObj,
+                            searchType : type
                         };
                     }
                 }

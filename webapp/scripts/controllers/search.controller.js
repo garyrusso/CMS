@@ -8,10 +8,10 @@
     angular.module('cmsWebApp').controller('SearchController', SearchController);
 
     /*Inject angular services to controller*/
-    SearchController.$inject = ['$log', '$q', '$scope', '$state', '$stateParams', 'NgTableParams', 'APP_CONFIG', 'SearchService', 'CommonService'];
+    SearchController.$inject = ['$log', '$q', '$scope', '$state', '$stateParams', 'NgTableParams', 'APP_CONFIG', 'SearchService', 'CommonService', '_'];
 
     /*Function SearchController*/
-    function SearchController($log, $q, $scope, $state, $stateParams, NgTableParams, APP_CONFIG, SearchService, CommonService) {
+    function SearchController($log, $q, $scope, $state, $stateParams, NgTableParams, APP_CONFIG, SearchService, CommonService, _) {
         $log.debug('SearchController - $stateParams', $stateParams);
         var search = this;
         search.stateParams = angular.copy($stateParams);
@@ -32,6 +32,8 @@
 
         /* function to change SearchType */
         search.changeSearchType = changeSearchType;
+        
+        search.showAllFacetsItems = CommonService.showAllFacetsItems;
 
         search.facetsSelected = [];
 
@@ -47,6 +49,9 @@
                 search.facetsSelected.push(seperateFacetKeyValue($stateParams.facet));
             }
         }
+        
+        search.prepareFacetUri = prepareFacetUri;
+        
         //ng-table col configuration
         search.cols = [{
             field : "Title",
@@ -155,6 +160,18 @@
             } else {
                 return null;
             }
+        }
+        
+        //TODO desc
+        function prepareFacetUri (text) {
+            var facetsSelected = angular.copy(search.facetsSelected);
+            facetsSelected = _.map(facetsSelected, function(facet){
+                return facet.facetKey+':'+facet.facetValue;
+            });
+            if(!_.contains(facetsSelected, text)) {
+                facetsSelected.push(text);
+            }
+            return facetsSelected;
         }
 
     }
