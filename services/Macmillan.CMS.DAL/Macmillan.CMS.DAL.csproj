@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MarklogicXcc">
+      <HintPath>C:\Users\hg00461199\Desktop\MarklogicXcc.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -38,6 +41,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,7 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DictionaryDAL.cs" />
+    <Compile Include="FlowJsRepoDAL.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="IDictionaryDAL.cs" />
+    <Compile Include="IFlowJsRepoDAL.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="IManageContentDAL.cs" />
     <Compile Include="IManageProjectDAL.cs" />
     <Compile Include="ISearchDataDAL.cs" />

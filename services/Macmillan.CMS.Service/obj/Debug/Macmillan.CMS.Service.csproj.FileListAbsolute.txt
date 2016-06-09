@@ -185,6 +185,7 @@ D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\System.Web.WebPages.Razo
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\WebActivatorEx.dll
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\WebGrease.dll
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\log4net.dll
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\MarklogicXcc.dll
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\Macmillan.CMS.Business.pdb
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\Macmillan.CMS.Common.pdb
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\bin\Macmillan.CMS.DAL.pdb

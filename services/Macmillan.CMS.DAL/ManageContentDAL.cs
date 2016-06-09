@@ -1,9 +1,11 @@
 ﻿using Macmillan.CMS.Common;
 using Macmillan.CMS.Common.Logging;
 using Macmillan.CMS.Common.Models;
+using Marklogic.Xcc;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +18,7 @@ namespace Macmillan.CMS.DAL
         /// CreateContent with given details
          /// </summary>
          /// <param name="content"></param>
-        /// <returns>Returns object for CreateContent</returns>
+         /// <returns></returns>
          public object CreateContent(string projXml, string projUri)
          {
              Logger.Debug("Entering CreateContent");
@@ -57,7 +59,7 @@ namespace Macmillan.CMS.DAL
          /// UpdateContent with given details
          /// </summary>
          /// <param name="content"></param>
-         /// <returns>Returns object for UpdateContent</returns>
+         /// <returns></returns>
          public object UpdateContent(string projXml, string projUri)
          {
              Logger.Debug("Entering UpdateProject");
@@ -73,7 +75,7 @@ namespace Macmillan.CMS.DAL
          /// content with given details
          /// </summary>
          /// <param name="content"></param>
-         /// <returns>Returns object for DeleteContent</returns>
+         /// <returns></returns>
          public object DeleteContent(string projXml, string projUri)
          {
              Logger.Debug("Entry DeleteProject");
@@ -89,13 +91,13 @@ namespace Macmillan.CMS.DAL
          /// GetContent with given details
          /// </summary>
          /// <param name="docUri"></param>
-         /// <returns>Returns object for GetContent</returns>
+         /// <returns></returns>
          public object GetContent(string docUri)
          {
              Logger.Debug("Entering GetContent");
              JsonNetSerialization ser = new JsonNetSerialization();
 
-             Content content = new Content();
+             Macmillan.CMS.Common.Models.Content content = new Macmillan.CMS.Common.Models.Content();
 
              content.Title = "Myers 11e EPUB3";
              content.ContentUri = "/mydocuments/conent1.xml";
@@ -152,8 +154,8 @@ namespace Macmillan.CMS.DAL
          /// GetContentMasterData with given details
          /// </summary>
          /// <param name="ContentDetails"></param>
-         /// <returns>Returns object for GetContentMasterData</returns>
-         public object GetContentMasterData(List<Content> ContentDetails)
+         /// <returns></returns>
+         public object GetContentMasterData(List<Macmillan.CMS.Common.Models.Content> ContentDetails)
          {
              Logger.Debug("Entering GetContentMasterData");
              JsonNetSerialization ser = new JsonNetSerialization();
@@ -167,6 +169,49 @@ namespace Macmillan.CMS.DAL
              return results;
          }
 
+         public void UploadFiles(FileInfo[] file)
+         {
+             ContentCreateOptions options = null;
+             Session session = null;
+
+             try
+             {                 
+                 Uri uri = new Uri(ConfigurationManager.AppSettings["XCC_Connection"]);
+                 ContentSource cs = ContentSourceFactory.NewContentSource(uri);
+                 session = cs.NewSession();
+
+                 this.Load(session, file, options);
+             }
+             catch (Exception ex)
+             {
+                 CMSException excption = new CMSException(ex.Message, ex);
+                 throw excption;
+             }
+             finally
+             {
+                 session.Close();
+             }
+         }
+
+         private void Load(Session session, FileInfo[] files, ContentCreateOptions options)
+         {
+             String[] uris = new String[files.Length];
+
+             for (int i = 0; i < files.Length; i++)
+             {
+                 uris[i] = files[i].FullName.Replace("\\", "/");
+             }
+
+             Marklogic.Xcc.Content[] contents = new Marklogic.Xcc.Content[files.Length];
+
+             for (int i = 0; i < files.Length; i++)
+             {
+                 contents[i] = ContentFactory.NewContent("documents/" + files[i].Name, files[i], options);
+             }
+
+             session.InsertContent(contents);
+         }
+
          /// <summary>
          /// SearchContents with given details
          /// </summary>
@@ -174,7 +219,7 @@ namespace Macmillan.CMS.DAL
          /// <param name="pageNumber"></param>
          /// <param name="pageSize"></param>
          /// <param name="orderBy"></param>
-         /// <returns>Returns object for SearchContents</returns>
+         /// <returns></returns>
          public object SearchContents(string searchText, int pageNumber, int pageSize, string orderBy)
          {
              Logger.Debug("Entering GetContentMasterData");

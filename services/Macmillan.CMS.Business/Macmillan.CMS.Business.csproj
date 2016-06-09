@@ -38,6 +38,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,7 +47,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DictionaryBusiness.cs" />
+    <Compile Include="FlowJsBusiness.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="IDictionaryBusiness.cs" />
+    <Compile Include="IFlowJsRepoBusiness.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="IManageContentBusiness.cs" />
     <Compile Include="IManageProjectBusiness.cs" />
     <Compile Include="ISearchDataBusinses.cs" />

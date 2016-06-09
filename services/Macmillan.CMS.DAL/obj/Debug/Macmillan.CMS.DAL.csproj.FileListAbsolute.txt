@@ -34,6 +34,7 @@ D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\obj\Debug\Macmillan.CMS.DAL.pd
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\bin\Debug\Macmillan.CMS.DAL.dll
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\bin\Debug\Macmillan.CMS.DAL.pdb
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\bin\Debug\Macmillan.CMS.Common.dll
+D:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\bin\Debug\MarklogicXcc.dll
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\bin\Debug\Newtonsoft.Json.dll
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\bin\Debug\log4net.dll
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\bin\Debug\Macmillan.CMS.Common.pdb

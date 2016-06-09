@@ -6,27 +6,105 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
+//using Macmillan.CMS.Service.FlowJs;
+using System.IO;
+using System.Threading.Tasks;
+using Macmillan.CMS.Common;
+
 
 namespace Macmillan.CMS.Service.Controllers
 {
     public class ManageContentController : ApiController
     {
         IManageContentBusiness business;
+        IDictionaryBusiness dictionaryBusiness;
+        //private readonly IFileManagerService _fileManager;
+        private readonly IFlowJsRepoBusiness _flowJs;
+        const string Folder = @"D:\Temp";
+
         /// <summary>
         ///  ManageContentsController dependency injection
         /// </summary>
         /// <param name="ManageContentBusiness"></param>
-        public ManageContentController(IManageContentBusiness ManageContentBusiness)
+        public ManageContentController(IManageContentBusiness ManageContentBusiness, IDictionaryBusiness dictBusiness)
         {
             this.business = ManageContentBusiness;
+            this.dictionaryBusiness = dictBusiness;
+            _flowJs = new FlowJsBusiness();
         }
 
+        [HttpGet]
+        [Route("Upload")]
+        public async Task<IHttpActionResult> UploadFile(string flowChunkNumber,
+            string flowChunkSize,
+            string flowCurrentChunkSize,
+            string flowTotalSize,
+            string flowIdentifier,
+            string flowFilename,
+            string flowRelativePath,
+            string flowTotalChunks)
+        {
+            var request = HttpContext.Current.Request;
+
+            var chunkExists = _flowJs.ChunkExists(Folder, request);
+            if (chunkExists) return Ok();
+            return ResponseMessage(new HttpResponseMessage(HttpStatusCode.NoContent));
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("Upload")]
+        public async Task<IHttpActionResult> UploadFile()
+        {
+            try
+            {
+                var request = HttpContext.Current.Request;
+                                
+                var validationRules = new Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules();
+                validationRules.MaxFileSize = 500000000;
+                var status = _flowJs.PostChunk(request, Folder, validationRules);
+
+                if (status.Status == Macmillan.CMS.Common.Models.FlowModels.PostChunkStatus.Done)
+                {                 
+                    // file uploade is complete. Below is an example of further file handling
+                    var filePath = Path.Combine(Folder, status.FileName);
+                    var file = File.ReadAllBytes(filePath);
+                    //var picture = await _fileManager.UploadPictureToS3(User.Identity.GetUserId(), file, status.FileName);
+                    //File.Delete(filePath);
+                    return Ok();
+
+                }
+
+                  if (status.Status == Macmillan.CMS.Common.Models.FlowModels.PostChunkStatus.PartlyDone)
+                {
+                    return Ok();
+                }
+    
+                status.ErrorMessages.ForEach(x => ModelState.AddModelError("file", x));
+                 throw new CMSException("hello");
+            }
+        
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return StatusCode(HttpStatusCode.NotFound);
+            }
+
+            return Ok();
+        }
+  
         /// <summary>
         /// CreateContent with given details
         /// </summary>
         /// <param name="content"></param>
-        /// <returns>Returns object for CreateContent</returns>       
+        /// <returns></returns>       
         [HttpPost]
         public object CreateContent(HttpRequestMessage request,
             [FromBody] Content content)
@@ -41,7 +119,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// UpdateContent with given details
         /// </summary>
         /// <param name="content"></param>
-        /// <returns>Returns object for UpdateContent</returns>
+        /// <returns></returns>
         [HttpPut]
         public object UpdateContent([FromBody] Content content)
         {
@@ -50,12 +128,11 @@ namespace Macmillan.CMS.Service.Controllers
             Logger.Debug("Exiting UpdateContent");
             return results;
         }
-
         /// <summary>
         /// DeleteContent with given details
         /// </summary>
         /// <param name="content"></param>
-        /// <returns>Returns object for DeleteContent</returns>
+        /// <returns></returns>
         [HttpPost]
         public object DeleteContent([FromBody] Content content)
         {
@@ -69,7 +146,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// GetContent with given details
         /// </summary>
         /// <param name="docUri"></param>
-        /// <returns>Returns object for GetContent</returns>
+        /// <returns></returns>
         [HttpGet]
         public object GetContentDetails(string uri)
         {
@@ -83,7 +160,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// GetContentMasterData with given details
         /// </summary>
         /// <param name="ContentDetails"></param>
-        /// <returns>Returns object for GetContentMasterData</returns>
+        /// <returns></returns>
         [HttpGet]
         public object GetContentMasterData(List<Content> ContentDetails)
         {
@@ -100,7 +177,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <param name="orderBy"></param>
-        /// <returns>Returns object for SearchContents</returns>
+        /// <returns></returns>
         [HttpGet]
         public object SearchContents(string searchText, int pageNumber, int pageSize, string orderBy)
         {

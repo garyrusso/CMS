@@ -1,0 +1,289 @@
+INCHCMPC08779 2016-06-09 11:12:33,993 (Macmillan.CMS.Service.Controllers.ManageContentController+<UploadFile>d__5) - System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.Collections.ArrayList.get_Item(Int32 index)
+   at System.Collections.Specialized.NameObjectCollectionBase.BaseGet(Int32 index)
+   at System.Web.HttpFileCollection.Get(Int32 index)
+   at System.Web.HttpFileCollection.get_Item(Int32 index)
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunkBase(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 43
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunk(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 21
+   at Macmillan.CMS.Service.Controllers.ManageContentController.<UploadFile>d__5.MoveNext() in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\ManageContentController.cs:line 101
+INCHCMPC08779 2016-06-09 11:18:31,434 (Macmillan.CMS.Service.Controllers.ManageContentController+<UploadFile>d__5) - System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.Collections.ArrayList.get_Item(Int32 index)
+   at System.Collections.Specialized.NameObjectCollectionBase.BaseGet(Int32 index)
+   at System.Web.HttpFileCollection.Get(Int32 index)
+   at System.Web.HttpFileCollection.get_Item(Int32 index)
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunkBase(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 43
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunk(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 21
+   at Macmillan.CMS.Service.Controllers.ManageContentController.<UploadFile>d__5.MoveNext() in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\ManageContentController.cs:line 101
+INCHCMPC08779 2016-06-09 11:19:28,175 (Macmillan.CMS.Service.Controllers.ManageContentController+<UploadFile>d__5) - System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.Collections.ArrayList.get_Item(Int32 index)
+   at System.Collections.Specialized.NameObjectCollectionBase.BaseGet(Int32 index)
+   at System.Web.HttpFileCollection.Get(Int32 index)
+   at System.Web.HttpFileCollection.get_Item(Int32 index)
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunkBase(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 43
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunk(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 21
+   at Macmillan.CMS.Service.Controllers.ManageContentController.<UploadFile>d__5.MoveNext() in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\ManageContentController.cs:line 101
+INCHCMPC08779 2016-06-09 11:20:27,541 (Macmillan.CMS.Service.Controllers.ManageContentController+<UploadFile>d__5) - System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.Collections.ArrayList.get_Item(Int32 index)
+   at System.Collections.Specialized.NameObjectCollectionBase.BaseGet(Int32 index)
+   at System.Web.HttpFileCollection.Get(Int32 index)
+   at System.Web.HttpFileCollection.get_Item(Int32 index)
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunkBase(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 43
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunk(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 21
+   at Macmillan.CMS.Service.Controllers.ManageContentController.<UploadFile>d__5.MoveNext() in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\ManageContentController.cs:line 101
+INCHCMPC08779 2016-06-09 11:20:53,073 (Macmillan.CMS.Service.Controllers.ManageContentController+<UploadFile>d__5) - System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.Collections.ArrayList.get_Item(Int32 index)
+   at System.Collections.Specialized.NameObjectCollectionBase.BaseGet(Int32 index)
+   at System.Web.HttpFileCollection.Get(Int32 index)
+   at System.Web.HttpFileCollection.get_Item(Int32 index)
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunkBase(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 43
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunk(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 21
+   at Macmillan.CMS.Service.Controllers.ManageContentController.<UploadFile>d__5.MoveNext() in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\ManageContentController.cs:line 101
+INCHCMPC08779 2016-06-09 11:25:23,332 (Macmillan.CMS.Service.Controllers.ManageContentController+<UploadFile>d__5) - System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.Collections.ArrayList.get_Item(Int32 index)
+   at System.Collections.Specialized.NameObjectCollectionBase.BaseGet(Int32 index)
+   at System.Web.HttpFileCollection.Get(Int32 index)
+   at System.Web.HttpFileCollection.get_Item(Int32 index)
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunkBase(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 43
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunk(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 21
+   at Macmillan.CMS.Service.Controllers.ManageContentController.<UploadFile>d__5.MoveNext() in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\ManageContentController.cs:line 101
+INCHCMPC08779 2016-06-09 11:29:06,482 (Macmillan.CMS.Service.Controllers.ManageContentController+<UploadFile>d__5) - System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.Collections.ArrayList.get_Item(Int32 index)
+   at System.Collections.Specialized.NameObjectCollectionBase.BaseGet(Int32 index)
+   at System.Web.HttpFileCollection.Get(Int32 index)
+   at System.Web.HttpFileCollection.get_Item(Int32 index)
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunkBase(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 43
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunk(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 21
+   at Macmillan.CMS.Service.Controllers.ManageContentController.<UploadFile>d__5.MoveNext() in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\ManageContentController.cs:line 101
+INCHCMPC08779 2016-06-09 11:31:03,873 (Macmillan.CMS.Service.Controllers.ManageContentController+<UploadFile>d__5) - System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.Collections.ArrayList.get_Item(Int32 index)
+   at System.Collections.Specialized.NameObjectCollectionBase.BaseGet(Int32 index)
+   at System.Web.HttpFileCollection.Get(Int32 index)
+   at System.Web.HttpFileCollection.get_Item(Int32 index)
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunkBase(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 43
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunk(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 21
+   at Macmillan.CMS.Service.Controllers.ManageContentController.<UploadFile>d__5.MoveNext() in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\ManageContentController.cs:line 101
+INCHCMPC08779 2016-06-09 11:33:11,014 (Macmillan.CMS.Service.Controllers.ManageContentController+<UploadFile>d__5) - System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.Collections.ArrayList.get_Item(Int32 index)
+   at System.Collections.Specialized.NameObjectCollectionBase.BaseGet(Int32 index)
+   at System.Web.HttpFileCollection.Get(Int32 index)
+   at System.Web.HttpFileCollection.get_Item(Int32 index)
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunkBase(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 43
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunk(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 21
+   at Macmillan.CMS.Service.Controllers.ManageContentController.<UploadFile>d__5.MoveNext() in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\ManageContentController.cs:line 101
+INCHCMPC08779 2016-06-09 11:34:42,053 (Macmillan.CMS.Service.Controllers.ManageContentController+<UploadFile>d__5) - System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.Collections.ArrayList.get_Item(Int32 index)
+   at System.Collections.Specialized.NameObjectCollectionBase.BaseGet(Int32 index)
+   at System.Web.HttpFileCollection.Get(Int32 index)
+   at System.Web.HttpFileCollection.get_Item(Int32 index)
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunkBase(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 43
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunk(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 21
+   at Macmillan.CMS.Service.Controllers.ManageContentController.<UploadFile>d__5.MoveNext() in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\ManageContentController.cs:line 101
+INCHCMPC08779 2016-06-09 11:35:02,482 (Macmillan.CMS.Service.Controllers.ManageContentController+<UploadFile>d__5) - System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.Collections.ArrayList.get_Item(Int32 index)
+   at System.Collections.Specialized.NameObjectCollectionBase.BaseGet(Int32 index)
+   at System.Web.HttpFileCollection.Get(Int32 index)
+   at System.Web.HttpFileCollection.get_Item(Int32 index)
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunkBase(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 43
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunk(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 21
+   at Macmillan.CMS.Service.Controllers.ManageContentController.<UploadFile>d__5.MoveNext() in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\ManageContentController.cs:line 101
+INCHCMPC08779 2016-06-09 11:37:10,576 (Macmillan.CMS.Service.Controllers.ManageContentController+<UploadFile>d__5) - System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.Collections.ArrayList.get_Item(Int32 index)
+   at System.Collections.Specialized.NameObjectCollectionBase.BaseGet(Int32 index)
+   at System.Web.HttpFileCollection.Get(Int32 index)
+   at System.Web.HttpFileCollection.get_Item(Int32 index)
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunkBase(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 43
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunk(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 21
+   at Macmillan.CMS.Service.Controllers.ManageContentController.<UploadFile>d__5.MoveNext() in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\ManageContentController.cs:line 101
+INCHCMPC08779 2016-06-09 12:19:43,766 (Macmillan.CMS.Service.Controllers.ManageContentController+<UploadFiles>d__4) - System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.Collections.ArrayList.get_Item(Int32 index)
+   at System.Collections.Specialized.NameObjectCollectionBase.BaseGet(Int32 index)
+   at System.Web.HttpFileCollection.Get(Int32 index)
+   at System.Web.HttpFileCollection.get_Item(Int32 index)
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunkBase(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 42
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunk(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 20
+   at Macmillan.CMS.Service.Controllers.ManageContentController.<UploadFiles>d__4.MoveNext() in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\ManageContentController.cs:line 64
+INCHCMPC08779 2016-06-09 12:28:12,624 (Macmillan.CMS.Service.Controllers.ManageContentController+<UploadFiles>d__4) - System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.Collections.ArrayList.get_Item(Int32 index)
+   at System.Collections.Specialized.NameObjectCollectionBase.BaseGet(Int32 index)
+   at System.Web.HttpFileCollection.Get(Int32 index)
+   at System.Web.HttpFileCollection.get_Item(Int32 index)
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunkBase(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 42
+   at Macmillan.CMS.Business.FlowJsBusiness.PostChunk(HttpRequest request, String folder, FlowValidationRules validationRules) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\FlowJsBusiness.cs:line 20
+   at Macmillan.CMS.Service.Controllers.ManageContentController.<UploadFiles>d__4.MoveNext() in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\ManageContentController.cs:line 64
+INCHCMPC08779 2016-06-09 13:18:09,660 (Macmillan.CMS.Service.Filters.ManageExceptionAttribute) - {"errorResponse":{"statusCode":500, "status":"Internal Server Error", "messageCode":"INTERNAL ERROR", "message":"RESTAPI-INVALIDREQ: (err:FOER0000) Invalid request:  reason: cannot get resource extension without name . See the MarkLogic server error log for further detail."}}
+System.Exception: {"errorResponse":{"statusCode":500, "status":"Internal Server Error", "messageCode":"INTERNAL ERROR", "message":"RESTAPI-INVALIDREQ: (err:FOER0000) Invalid request:  reason: cannot get resource extension without name . See the MarkLogic server error log for further detail."}}
+   at Macmillan.CMS.DAL.MLReader.ProcessErrors(HttpClass httpClass) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\MLReader.cs:line 86
+   at Macmillan.CMS.DAL.MLReader.GetHttpContent[T](String url, String mediaType, Dictionary`2 requestHeaders) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\MLReader.cs:line 73
+   at Macmillan.CMS.DAL.DictionaryDAL.GetDictionary(String dictionaryType, String outputFormat) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\DictionaryDAL.cs:line 26
+   at Macmillan.CMS.Business.DictionaryBusiness.GetDictionary(String dictionaryType, String outputFormat) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\DictionaryBusiness.cs:line 32
+   at Macmillan.CMS.Service.Controllers.DictionaryController.GetDictionary(String dictionaryType, String outputFormat) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\DictionaryController.cs:line 29
+   at lambda_method(Closure , Object , Object[] )
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass10.<GetExecutor>b__9(Object instance, Object[] methodParameters)
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Filters.ActionFilterAttribute.<CallOnActionExecutedAsync>d__5.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Web.Http.Filters.ActionFilterAttribute.<CallOnActionExecutedAsync>d__5.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Filters.ActionFilterAttribute.<ExecuteActionFilterAsyncCore>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()
+INCHCMPC08779 2016-06-09 13:18:09,660 (Macmillan.CMS.Service.Filters.ManageExceptionAttribute) - {"errorResponse":{"statusCode":500, "status":"Internal Server Error", "messageCode":"INTERNAL ERROR", "message":"RESTAPI-INVALIDREQ: (err:FOER0000) Invalid request:  reason: cannot get resource extension without name . See the MarkLogic server error log for further detail."}}
+System.Exception: {"errorResponse":{"statusCode":500, "status":"Internal Server Error", "messageCode":"INTERNAL ERROR", "message":"RESTAPI-INVALIDREQ: (err:FOER0000) Invalid request:  reason: cannot get resource extension without name . See the MarkLogic server error log for further detail."}}
+   at Macmillan.CMS.DAL.MLReader.ProcessErrors(HttpClass httpClass) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\MLReader.cs:line 86
+   at Macmillan.CMS.DAL.MLReader.GetHttpContent[T](String url, String mediaType, Dictionary`2 requestHeaders) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\MLReader.cs:line 73
+   at Macmillan.CMS.DAL.DictionaryDAL.GetDictionary(String dictionaryType, String outputFormat) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\DictionaryDAL.cs:line 26
+   at Macmillan.CMS.Business.DictionaryBusiness.GetDictionary(String dictionaryType, String outputFormat) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\DictionaryBusiness.cs:line 32
+   at Macmillan.CMS.Service.Controllers.DictionaryController.GetDictionary(String dictionaryType, String outputFormat) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\DictionaryController.cs:line 29
+   at lambda_method(Closure , Object , Object[] )
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass10.<GetExecutor>b__9(Object instance, Object[] methodParameters)
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Filters.ActionFilterAttribute.<CallOnActionExecutedAsync>d__5.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Web.Http.Filters.ActionFilterAttribute.<CallOnActionExecutedAsync>d__5.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Filters.ActionFilterAttribute.<ExecuteActionFilterAsyncCore>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()
+INCHCMPC08779 2016-06-09 13:18:09,660 (Macmillan.CMS.Service.Filters.ManageExceptionAttribute) - {"errorResponse":{"statusCode":500, "status":"Internal Server Error", "messageCode":"INTERNAL ERROR", "message":"RESTAPI-INVALIDREQ: (err:FOER0000) Invalid request:  reason: cannot get resource extension without name . See the MarkLogic server error log for further detail."}}
+System.Exception: {"errorResponse":{"statusCode":500, "status":"Internal Server Error", "messageCode":"INTERNAL ERROR", "message":"RESTAPI-INVALIDREQ: (err:FOER0000) Invalid request:  reason: cannot get resource extension without name . See the MarkLogic server error log for further detail."}}
+   at Macmillan.CMS.DAL.MLReader.ProcessErrors(HttpClass httpClass) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\MLReader.cs:line 86
+   at Macmillan.CMS.DAL.MLReader.GetHttpContent[T](String url, String mediaType, Dictionary`2 requestHeaders) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\MLReader.cs:line 73
+   at Macmillan.CMS.DAL.DictionaryDAL.GetDictionary(String dictionaryType, String outputFormat) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\DictionaryDAL.cs:line 26
+   at Macmillan.CMS.Business.DictionaryBusiness.GetDictionary(String dictionaryType, String outputFormat) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\DictionaryBusiness.cs:line 32
+   at Macmillan.CMS.Service.Controllers.DictionaryController.GetDictionary(String dictionaryType, String outputFormat) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\DictionaryController.cs:line 29
+   at lambda_method(Closure , Object , Object[] )
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass10.<GetExecutor>b__9(Object instance, Object[] methodParameters)
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Filters.ActionFilterAttribute.<CallOnActionExecutedAsync>d__5.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Web.Http.Filters.ActionFilterAttribute.<CallOnActionExecutedAsync>d__5.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Filters.ActionFilterAttribute.<ExecuteActionFilterAsyncCore>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()
+INCHCMPC08779 2016-06-09 13:18:09,738 (Macmillan.CMS.Service.Filters.ManageExceptionAttribute) - One or more errors occurred.
+System.AggregateException: One or more errors occurred. ---> System.Threading.Tasks.TaskCanceledException: A task was canceled.
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at Macmillan.CMS.Common.HttpClass.Get() in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\Serialization\HttpClass.cs:line 167
+   at Macmillan.CMS.Common.HttpClass.Invoke() in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Common\Serialization\HttpClass.cs:line 119
+   at Macmillan.CMS.DAL.MLReader.GetHttpContent[T](String url, String mediaType, Dictionary`2 requestHeaders) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\MLReader.cs:line 71
+   at Macmillan.CMS.DAL.DictionaryDAL.GetDictionary(String dictionaryType, String outputFormat) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\DictionaryDAL.cs:line 26
+   at Macmillan.CMS.Business.DictionaryBusiness.GetDictionary(String dictionaryType, String outputFormat) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\DictionaryBusiness.cs:line 32
+   at Macmillan.CMS.Service.Controllers.DictionaryController.GetDictionary(String dictionaryType, String outputFormat) in d:\CMSSourcecode\CMS\services\Macmillan.CMS.Service\Controllers\DictionaryController.cs:line 29
+   at lambda_method(Closure , Object , Object[] )
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.<>c__DisplayClass10.<GetExecutor>b__9(Object instance, Object[] methodParameters)
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ActionExecutor.Execute(Object instance, Object[] arguments)
+   at System.Web.Http.Controllers.ReflectedHttpActionDescriptor.ExecuteAsync(HttpControllerContext controllerContext, IDictionary`2 arguments, CancellationToken cancellationToken)
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Filters.ActionFilterAttribute.<CallOnActionExecutedAsync>d__5.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Web.Http.Filters.ActionFilterAttribute.<CallOnActionExecutedAsync>d__5.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Filters.ActionFilterAttribute.<ExecuteActionFilterAsyncCore>d__0.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- End of stack trace from previous location where exception was thrown ---
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   at System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()
+---> (Inner Exception #0) System.Threading.Tasks.TaskCanceledException: A task was canceled.<---
+

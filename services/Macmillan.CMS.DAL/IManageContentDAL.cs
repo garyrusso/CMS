@@ -10,7 +10,7 @@ namespace Macmillan.CMS.DAL
     /// <summary>
     /// Interface for ManageContentDAL Layer
     /// </summary>
-     public interface IManageContentDAL
+    public interface IManageContentDAL
     {
          object CreateContent(string projXml, string projUri);
          object UpdateContent(string projXml, string projUri);
