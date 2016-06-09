@@ -11,6 +11,7 @@ namespace Macmillan.CMS.Business
     public class FlowJsBusiness : IFlowJsRepoBusiness
     {
         public Macmillan.CMS.Common.Models.FlowModels.FlowJsPostChunkResponse PostChunk(HttpRequest request, string folder)
+        {
             return PostChunkBase(request, folder, null);
         }
 
