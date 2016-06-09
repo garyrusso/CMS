@@ -1,20 +1,18 @@
 <h3>Download Content</h3>
-<form>
-    
-    <form name="downloadContent" novalidate> 
+
+<form name="downloadContentForm" novalidate>
     <div class="form-group">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">                
-                 <textarea class="form-control" ng-model="noteText" name="noteText" rows="3"></textarea>
+            <div class="col-md-8 col-md-offset-2">
+                <textarea class="form-control" ng-model="data.noteText" name="noteTextName" rows="3"></textarea>
             </div>
-            
+
         </div>
     </div>
     <p class="text-center">
-        <button type="submit" ng-click="downloadContent()"  ng-disabled="!(noteText)" class="btn btn-default">
+        <button type="submit" ng-click="downloadContent()"  ng-disabled="!(data.noteText)" class="btn btn-default">
             Download
         </button>
-        
+
     </p>
-    </form>
 </form>

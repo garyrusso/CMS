@@ -15,7 +15,8 @@
   {
     $scope.items=items;  
    
-    
+    $scope.data = {};
+    $scope.data.noteText = '';
    /*Download content*/
  //  $scope.downloadContent=downloadContent;
     
@@ -36,7 +37,7 @@
      
      
      $scope.downloadContent = function() {
-             $uibModalInstance.close(angular.copy($scope.noteText));
+             $uibModalInstance.close(angular.copy($scope.data.noteText));
         };
   }
  

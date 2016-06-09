@@ -41,7 +41,7 @@
                 <table ng-table="content.tableParams" class="table table-condensed table-bordered table-striped">
                     <tr ng-if="content.listView" ng-repeat="issue in $data">
                         <td class="text-capitalize" data-title="'Title'" sortable="content.sortables.Title.sortable">{{issue.Title}}</td>
-                        <td data-title="'Filename'" sortable="content.sortables.filePath.sortable">{{issue.filePath}}</td>
+                        <td data-title="'Filename'" sortable="content.sortables.filePath.sortable">{{issue.fileName}}</td>
                         <td data-title="'Date Modified'" sortable="content.sortables.dateLastModified.sortable">{{issue.dateLastModified}}</td>
                         <td data-title="'View'" class="cms-main-display-center"><a ui-sref="contentview({uri:issue.uri})"><span class="glyphicon glyphicon-eye-open"></span></a></td>
                     </tr>
@@ -60,7 +60,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12 cms-content-tile-title text-capitalize">
-                                        <a href="#/contentview">{{issue.Title}}</a>
+                                        <a ui-sref="contentview({uri:issue.uri})">{{issue.Title}}</a>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12 cms-content-tile-owner">
-                                        {{issue.username}}
+                                        {{issue.fileName}}
                                     </div>
                                 </div>
                             </div>

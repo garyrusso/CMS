@@ -84,7 +84,9 @@ namespace Macmillan.CMS.DAL
             if (authentication.username == "admin@techm.com" && authentication.password == "password")
             {
                 JsonNetSerialization ser = new JsonNetSerialization();
-                string content = @"{'session_token':'ZTQyMjE4YTdhYTE3OTI4NTljdhYTU0ZTAyNjk2Mg',
+                string content = @"{'authToken':'ZTQyMjE4YTdhYTE3OTI4NTljdhYTU0ZTAyNjk2Mg',
+                        'username': 'ghopper',
+                        'fullName': 'Grace Hopper',
                         'expires_in': 3600,
                         'token_type': 'bearer',
                         'scope': 'user'}";

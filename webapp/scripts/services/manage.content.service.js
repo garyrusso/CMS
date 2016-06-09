@@ -20,7 +20,8 @@
             uploadContent : uploadContent,
             updateContent : updateContent,
             deleteContent : deleteContent,            
-            openDownloadContentModal : openDownloadContentModal
+            openDownloadContentModal : openDownloadContentModal,
+            downloadContent : downloadContent
         };
 
         /**
@@ -135,11 +136,12 @@
             });
 
             modalInstance.result.then(function (updatedData) {                
-                self.downloadContent(updatedData).then(function (data) {
+                /*self.downloadContent(updatedData).then(function (data) {
                   //  deffered.resolve(data);
                   //  $rootScope.setLoading(false);
-                    $state.go('success', { type: 'Content', status: 'new', name: data.Title, id: data.uri }, { location: false });
-                });
+                   // $state.go('success', { type: 'Content', status: 'new', name: data.Title, id: data.uri }, { location: false });
+                });*/
+               window.location.href = APP_CONFIG.API[APP_CONFIG.environment].baseUrl + WS.downloadContent;
                 
             }, function () {
 
@@ -203,7 +205,7 @@
         }
         
          function downloadContent(postData) {
-            return $http.post(WS.downloadContent, postData).then(function (response) {
+            return $http.get(WS.downloadContent, {params:postData}).then(function (response) {
                 return response.data;
             });
 

@@ -2,10 +2,12 @@
 using Macmillan.CMS.Common.Models;
 using Macmillan.CMS.DAL;
 using System;
+using System.Web;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace Macmillan.CMS.Business
 {
@@ -101,5 +103,9 @@ namespace Macmillan.CMS.Business
             Logger.Debug("Exiting SearchContents");
             return results;
         }
-    }
+
+
+         
+                    
+     }
 }

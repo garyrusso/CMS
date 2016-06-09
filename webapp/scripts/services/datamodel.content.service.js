@@ -62,6 +62,8 @@
                 this.FileName = contentData.FileName; 
                 this.FileSize = contentData.FileSize; 
                 this.FilePath = contentData.FilePath;
+                this.AuditInfo = contentData.AuditInfo;
+                
                 
                 if((this.Creator && this.Creator.length === 0) || !this.Creator ) {
                     this.Creator = [''];

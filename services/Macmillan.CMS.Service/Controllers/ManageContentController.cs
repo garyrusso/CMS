@@ -10,6 +10,8 @@ using System.Web;
 using System.Web.Http;
 //using Macmillan.CMS.Service.FlowJs;
 using System.IO;
+using POCOLibrary;
+
 using System.Threading.Tasks;
 using Macmillan.CMS.Common;
 
@@ -185,6 +187,43 @@ namespace Macmillan.CMS.Service.Controllers
             var results = this.business.SearchContents(searchText, pageNumber, pageSize, orderBy);
             Logger.Debug("Exiting SearchContents");
             return results;
+        }
+        [Route("download")]
+        [HttpGet]
+        public HttpResponseMessage DownloadContent()
+        {     
+            Logger.Debug("Entering SearchContents");            
+            HttpResponseMessage response = Request.CreateResponse();
+            FileMetaData metaData = new FileMetaData();
+            try
+            {                
+                string filePath = System.Web.Configuration.WebConfigurationManager.AppSettings["DownLoadPath"];
+               // filePath = System.Web.HttpContext.Current.Server.MapPath(filePath);
+                FileInfo fileInfo = new FileInfo(filePath);
+
+                if (!fileInfo.Exists)
+                {
+                    metaData.FileResponseMessage.IsExists = false;
+                    metaData.FileResponseMessage.Content = string.Format("{0} file is not found !", fileInfo.Name);
+                    response = Request.CreateResponse(HttpStatusCode.NotFound, metaData, new System.Net.Http.Headers.MediaTypeHeaderValue("text/json"));
+                }
+                else
+                {
+                    response.Headers.AcceptRanges.Add("bytes");
+                    response.StatusCode = HttpStatusCode.OK;
+                    response.Content = new StreamContent(fileInfo.OpenRead());
+                    response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+                    response.Content.Headers.ContentDisposition.FileName = fileInfo.Name;
+                    response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
+                    response.Content.Headers.ContentLength = fileInfo.Length;
+                }
+            }
+            catch (Exception exception)
+            {
+                Logger.Debug("Exception " + exception);
+            }
+            Logger.Debug("Exiting GetContentMasterData");
+            return response;            
         }
     }
 }

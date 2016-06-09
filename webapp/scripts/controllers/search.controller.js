@@ -69,9 +69,9 @@
         }, {
             field : "content",
             data : {
-                field : "filePath",
+                field : "fileName",
                 title : "File Name",
-                sortable : "filePath",
+                sortable : "fileName",
                 sortDirection : "desc"
             }
         }, {
