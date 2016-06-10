@@ -8,10 +8,10 @@
     angular.module('cmsWebApp').controller('ModalUploadContentController', ModalUploadContentController);
 
     /*Inject angular services to controller*/
-    ModalUploadContentController.$inject = ['$rootScope', '$scope', '$uibModalInstance', 'items', '_', '$filter', 'CommonService', '$log', 'SearchService', '$q', 'getContentSourceResolve', 'getContentPublisherResolve', 'getContentStateResolve', 'getContentSubjectsResolve'];
+    ModalUploadContentController.$inject = ['$rootScope', '$scope', '$uibModalInstance', 'items', '_', '$filter', 'CommonService', '$log', 'SearchService', '$q', 'getContentSourceResolve', 'getContentPublisherResolve', 'getContentStateResolve', 'getContentSubjectsResolve', 'getContentFileTypeResolve'];
 
     /*Function ModalUploadContentController*/
-    function ModalUploadContentController($rootScope, $scope, $uibModalInstance, items, _, $filter, CommonService, $log, SearchService, $q, getContentSourceResolve, getContentPublisherResolve, getContentStateResolve, getContentSubjectsResolve) {
+    function ModalUploadContentController($rootScope, $scope, $uibModalInstance, items, _, $filter, CommonService, $log, SearchService, $q, getContentSourceResolve, getContentPublisherResolve, getContentStateResolve, getContentSubjectsResolve, getContentFileTypeResolve) {
         $scope.items = items;
         $rootScope.setLoading(false);
         $scope.data = {
@@ -63,6 +63,14 @@
         if (getContentSubjectsResolve && getContentSubjectsResolve.results && getContentSubjectsResolve.results.val) {
             $scope.subjectHeadingsData = _.pluck(getContentSubjectsResolve.results.val, 'value');
         }
+        
+        $scope.fileTypeData = [];
+        //["subject1","subject1"];
+        if (getContentFileTypeResolve && getContentFileTypeResolve.results && getContentFileTypeResolve.results.val) {
+            $scope.fileTypeData = _.map(_.pluck(getContentFileTypeResolve.results.val, 'value'), function(value){
+                return value.toLowerCase();
+            });
+        }
 
         $scope.ProjectsData = [];
 
@@ -85,6 +93,8 @@
         $scope.readytoUpload = readytoUpload;
         
         $scope.failedUpload = failedUpload;
+        
+        $scope.checkFileType = checkFileType;
 
         //ng-flow: object to get $files object from flow-name to controller.
         //uploader.flow contains $files object & uploader.flow.upload() can be used to upload files from controller
@@ -232,6 +242,7 @@
             $log.debug('uploadFailed');
             uploadCompletedDefer.reject({});
         }
+        
         /**
          * @ngdoc method
          * @name uploadCompleted
@@ -244,6 +255,17 @@
             readytoUploadDefer.resolve({
                 'asdasd' : 1
             });
+        }
+        
+        /**
+         * @ngdoc method
+         * @name checkFileType
+         * @methodOf cmsWebApp.controller:ModalUploadContentController
+         * @description
+         * ng-flow: flow-file-added directive call this function check the file type before uploading
+         */
+        function checkFileType(fileExt) {
+            return _.contains($scope.fileTypeData, fileExt.toLowerCase());
         }
 
     }

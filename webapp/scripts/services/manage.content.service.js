@@ -95,7 +95,8 @@
                     getContentSourceResolve : CommonService.getDictionary('Source'),
                     getContentPublisherResolve : CommonService.getDictionary('Publisher'),
                     getContentStateResolve : CommonService.getDictionary('version-state'),
-                    getContentSubjectsResolve : CommonService.getDictionary('subject-heading')
+                    getContentSubjectsResolve : CommonService.getDictionary('subject-heading'),
+                    getContentFileTypeResolve : CommonService.getDictionary('file-types')
                 }
             });
             $rootScope.setLoading(true);

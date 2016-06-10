@@ -1,6 +1,6 @@
 ﻿<h3>Upload Content</h3>
 <div >
-<form name="contentForm" ng-submit="submit()" flow-init="{headers:{'Authorization':authToken}}" flow-name="uploader.flow" flow-files-submitted="readytoUpload( $files, $event, $flow )" flow-file-error="failedUpload()" flow-file-success="uploadCompleted( $file, $message, $flow )" novalidate>
+<form name="contentForm" ng-submit="submit()" flow-init="{headers:{'Authorization':authToken}}" flow-file-added="checkFileType($file.getExtension())" flow-name="uploader.flow" flow-files-submitted="readytoUpload( $files, $event, $flow )" flow-file-error="failedUpload()" flow-file-success="uploadCompleted( $file, $message, $flow )" novalidate>
     <div class="form-group">
         <label for="InputContentFile">Select File*</label>
         <span flow-btn class="btn btn-default" flow-attrs="{'id':'InputContentFile','name':'contentFile','required':'', 'validFile':''}" 
