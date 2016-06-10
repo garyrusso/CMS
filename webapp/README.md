@@ -52,7 +52,7 @@ List of Environments added in the application is listed below:
  - qa (QA purpose)
  - production (For Production)
 
-Note: Above listed environments name are final & will be changed as per project requirement
+Note: Above listed environments name are not final & will be changed as per project requirement.
 
 ### Configuring Environment 
 Below are the properties to setup an environment:
