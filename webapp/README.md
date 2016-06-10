@@ -67,23 +67,38 @@ Ui Application can be deployed in any webserver which allow to deploy static htm
 
 ### Pre Deployment
  - Add the relevant environment name to 'environment' property in [configuration.constant.js](https://github.com/macmillanhighered/CMS/blob/master/webapp/scripts/constants/configuration.constant.js). See path of configuration.constant.js [here](#path-of-configuration-file)
+     
      Example:
+     
      ```
      environment : 'qa',
-     ``` 
+     ```
+      
  - Check whether the environment properties set correctly under 'API' -> 'environment name' in configuration.constant.js file. see [Configuring Environment](#configuring-environment)
  - Check whether 'baseUrl' is set correctly under 'API' -> 'environment name' -> 'baseUrl', if not using mock data.
+     
      Example:
+     
      ```
+     
      API: {
+     
         ...,
+     
         qa : {
+     
             useMocks : false,
+     
             fakeDelay : false,
+     
             fakeDelayTime: 0,
+     
             baseUrl : 'http://midlayerhost/api/v1/',//Base url of the webservices
+     
             debug : false
+     
         }
+     
      }
      ```
 
