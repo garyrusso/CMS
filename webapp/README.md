@@ -63,7 +63,7 @@ Below are the properties to setup an environment:
  - debug (true/false debug mode will show all console messages if debug is true)
 
 ## Deployment
-Ui Application can be deployed in any webserver which allow deploying static html sites and deploying it in IIS server. 
+Ui Application can be deployed in any webserver which allow to deploy static html sites and this application is deploying in IIS server. 
 
 ### Pre Deployment
  - Add the relevant environment name to 'environment' property in [configuration.constant.js](https://github.com/macmillanhighered/CMS/blob/master/webapp/scripts/constants/configuration.constant.js). See path of [configuration.constant.js](#path-of-configuration-file)
