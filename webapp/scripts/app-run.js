@@ -230,6 +230,8 @@
                 returnObject = {"results":{"val":[{"name":"projectstatus1","value":"projectstatus1"},{"name":"projectstatus2","value":"projectstatus2"}]}};
             } else if(params.dictionarytype === 'subject-heading'){
                 returnObject = {"results":{"val":[{"name":"subject1","value":"Subject1"},{"name":"subject2","value":"Subject2"}]}};
+            } else if(params.dictionarytype === 'file-types'){
+                returnObject = {"results":{"val":[{"name":"zip","value":"zip"},{"name":"zip","value":"zip"}]}};
             }
             return [200, returnObject];
         });
