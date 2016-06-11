@@ -261,7 +261,7 @@ declare function auth:findSessionByToken($token as xs:string)
   let $doc := fn:doc($uri)
   
   let $current := fn:current-dateTime()
-  
+
   return
     if ($doc) then
     (
@@ -271,7 +271,8 @@ declare function auth:findSessionByToken($token as xs:string)
       return
       (
         if($diff < ($auth:SESSION-TIMEOUT div 2) ) then
-          xdmp:node-replace($doc//expiration/text(), text{fn:current-dateTime()})
+          (: xdmp:node-replace($doc//expiration/text(), text{fn:current-dateTime()}) :)
+          xdmp:log(".................findSessionByToken expiration: '"||$doc//expiration/text()||"'")
         else (),
         $doc/session
       )

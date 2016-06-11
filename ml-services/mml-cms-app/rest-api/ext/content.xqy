@@ -117,9 +117,46 @@ function mml:delete(
     $params  as map:map
 ) as document-node()?
 {
-  map:put($context, "output-types", "application/xml"),
-  map:put($context, "output-status", (200, "OK")),
-  document { "DELETE called on the ext service extension....4" }
+  let $inputUri := map:get($params, "uri")
+  let $ft := map:get($params, "format")
+
+  let $uri    := if (fn:string-length($inputUri) eq 0)  then "" else $inputUri
+  let $format := if ($ft eq "json") then "json" else "xml"
+  
+  let $statusMessage := "Document deleted: "||$uri
+  
+  let $output-types :=
+    if ($format eq "json") then
+    (
+      map:put($context,"output-types","application/json")
+    )
+    else
+    (
+      map:put($context,"output-types","application/xml")
+    )
+    
+  let $errorMessage :=
+    if (fn:string-length($uri) eq 0) then "invalid uri"
+    else
+      try {
+        xdmp:document-delete($uri)
+      }
+      catch ($e) {
+        $e/error:message/text()
+      }
+
+  let $_ := map:put($context, "output-types", "application/xml")
+  let $_ := map:put($context, "output-status", (200, "Deleted"))
+
+  let $doc :=
+    element results {
+      element { "status" } { $statusMessage||"  "||$errorMessage }
+    }
+  
+  return
+    document {
+      $doc
+    }
 };
 
 declare function mml:searchContentDocs($qtext, $start, $pageLength)
