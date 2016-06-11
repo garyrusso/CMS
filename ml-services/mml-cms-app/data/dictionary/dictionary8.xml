@@ -3,7 +3,7 @@
   <mml:uri/>
   <mml:dataCreated>2015-04-12 10:35</mml:dataCreated>
   <mml:dateLastModified>2015-04-12 11:30</mml:dateLastModified>
-  <mml:objectType>DataDictionary</mml:objectType>
+  <mml:objectType>Dictionary</mml:objectType>
   <mml:dictionaryType>action-type</mml:dictionaryType>
   <mml:dictionaryValues>
     <mml:dictionaryValue>Upload</mml:dictionaryValue>

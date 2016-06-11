@@ -4,14 +4,17 @@ module namespace mml = "http://marklogic.com/rest-api/resource/user";
 
 import module namespace search = "http://marklogic.com/appservices/search" at "/MarkLogic/appservices/search/search.xqy";
 
-import module namespace json   = "http://marklogic.com/json" at "/roxy/lib/json.xqy";
-import module namespace jsonl  = "http://marklogic.com/xdmp/json" at "/MarkLogic/json/json.xqy";
-import module namespace usr    = "http://marklogic.com/roxy/models/user" at "/app/models/user-model.xqy";
-import module namespace c      = "http://marklogic.com/roxy/config" at "/app/config/config.xqy";
+import module namespace json    = "http://marklogic.com/xdmp/json" at "/MarkLogic/json/json.xqy";
+import module namespace usr     = "http://marklogic.com/roxy/models/user" at "/app/models/user-model.xqy";
+import module namespace content = "http://marklogic.com/roxy/models/content" at "/app/models/content-model.xqy";
+
+import module namespace c     = "http://marklogic.com/roxy/config" at "/app/config/config.xqy";
 
 declare namespace roxy = "http://marklogic.com/roxy";
 declare namespace rapi = "http://marklogic.com/rest-api";
 declare namespace mmlc = "http://macmillanlearning.com";
+
+declare variable $NS := "http://macmillanlearning.com";
 
 (:
  :)
@@ -43,16 +46,15 @@ function mml:get(
     )
 
   let $retObj := mml:searchUsers($qtext, $start, $pageLength)
-    
-  let $config := jsonl:config("custom")
+
+  let $config := json:config("custom")
   let $_ := map:put($config, "whitespace", "ignore" )
-  let $_ := map:put($config, "array-element-names", "val")
+  let $_ := map:put($config,"array-element-names", xs:QName("mmlc:result") )
 
   let $doc :=
     if ($format eq "json") then
     (
-      (: text { mml:convert-to-json($results, $pageLength) } :)
-      text { jsonl:transform-to-json($retObj, $config) }
+      text { json:transform-to-json($retObj, $config) }
     )
     else
     (
@@ -91,7 +93,7 @@ function mml:put(
   let $jUserDataDoc :=  document { $input }
 
   (: Convert json to xml :)
-  let $userDoc  := jsonl:transform-from-json($jUserDataDoc)
+  let $userDoc  := json:transform-from-json($jUserDataDoc)
   
   let $user :=
       element user-profile
@@ -137,7 +139,7 @@ function mml:post(
   let $jUserDataDoc :=  document { $input }
 
   (: Convert json to xml :)
-  let $userDoc  := jsonl:transform-from-json($jUserDataDoc)
+  let $userDoc  := json:transform-from-json($jUserDataDoc)
   
   let $user :=
       element user-profile
@@ -218,7 +220,7 @@ declare function mml:searchUsers($qtext, $start, $pageLength)
 {
   let $options :=
         <options xmlns="http://marklogic.com/appservices/search">
-          <search-option>unfiltered</search-option>
+          <search-option>filtered</search-option>
           <term>
             <term-option>case-insensitive</term-option>
           </term>
@@ -257,130 +259,31 @@ declare function mml:searchUsers($qtext, $start, $pageLength)
   let $statusMessage := "user document found"
 
   let $results := search:search($qtext, $options, $start, $pageLength)
-
+  
   let $retObj :=
       if (fn:count($results/search:result) ge 1) then
       (
-        element results {
-          element { "status" }    { $statusMessage },
-          element { "count" }     { fn:count($results/search:result) },
+        element { fn:QName($NS,"mml:results") } {
+          element { fn:QName($NS,"mml:status") }    { $statusMessage },
+          element { fn:QName($NS,"mml:count") }     { fn:count($results/search:result) },
           for $result in $results/search:result
           return
-            element { "result" }  {
-              element { "uri" }       { xs:string($result/@uri) },
-              element { "username" }  { $result/search:snippet/mmlc:username/text() },
-              element { "fullName" }  { $result/search:snippet/mmlc:fullName/text() },
-              element { "firstName" } { $result/search:snippet/mmlc:firstName/text() },
-              element { "lastName" }  { $result/search:snippet/mmlc:lastName/text() },
-              element { "email" }     { $result/search:snippet/mmlc:email/text() }
+            element { fn:QName($NS,"mml:result") } {
+              element { fn:QName($NS,"mml:uri") }       { xs:string($result/@uri) },
+              element { fn:QName($NS,"mml:username") }  { $result/search:snippet/mmlc:username/text() },
+              element { fn:QName($NS,"mml:fullName") }  { $result/search:snippet/mmlc:fullName/text() },
+              element { fn:QName($NS,"mml:firstName") } { $result/search:snippet/mmlc:firstName/text() },
+              element { fn:QName($NS,"mml:lastName") }  { $result/search:snippet/mmlc:lastName/text() },
+              element { fn:QName($NS,"mml:email") }     { $result/search:snippet/mmlc:email/text() }
             }
         }
       )
       else
       (
-        element results {
-          element { "status" } { "no users found" }
+        element { fn:QName($NS,"mml:results") } {
+          element { fn:QName($NS,"mml:status") } { "no users found" }
         }
       )
    
   return $retObj
-};
-
-declare function mml:convert-to-json($results, $ps)
-{
-  let $count       := fn:count($results/search:result)
-  let $response    := $results
-  let $total       := fn:string($response/@total)
-
-  let $pagesize    := if ($ps eq 0) then $c:DEFAULT-PAGE-LENGTH else $ps
-  let $page        := (($response/@start - 1) div ($pagesize) + 1)
-  let $end         := fn:string(fn:min(($response/@start + $response/@page-length - 1, $response/@total)))
-  let $total-pages := fn:ceiling($response/@total div ($pagesize))
-
-  let $jdoc        := mml:serialize-to-json($response, $page, $end, $total-pages, $count, $total)
-
-  return $jdoc
-};
-
-declare function mml:serialize-to-json($doc, $page, $end, $total-pages, $count, $total)
-{
-  let $facetInfo :=
-          json:o(("facetInfo",
-            json:a((
-              for $facet in $doc/search:facet
-                return
-                  json:o((
-                    "categoryName", fn:string($facet/@name),
-                    "facets",
-                      json:a((
-                        for $facet-value in $facet/search:facet-value
-                          return
-                            json:o((
-                              "code", fn:string($facet-value/@name),
-                              "count", xs:int($facet-value/@count),
-                              "name", fn:string($facet-value/text())
-                            ))
-                          ))
-                        ))
-                      ))
-                    ))
-
-  let $resultsJson :=
-          json:o(("results",
-            json:a((
-            for $result in $doc/search:result
-              return
-              (
-                json:o((
-                  "index",               xs:int($result/@index),
-                  "relevance",           fn:string($result/@confidence * 100),
-                  (:
-                  "ImportFileId",        $result//glm:ImportFileId/text(),
-                  "ImportedUnitCode",    $result//glm:ImportedUnitCode/text(),
-                  "ImportedAccountCode", $result//glm:ImportedAccountCode/text(),
-                  "BeginningBalance",    $result//glm:BeginningBalance/text(),
-                  "EndingBalance",       $result//glm:EndingBalance/text(),
-                  :)
-                  "snippet",
-                  for $match in $result/search:snippet/search:match
-                    return
-                      json:o((
-                        "highLights",
-                        json:a((
-                          for $highlight in $match/search:highlight
-                            return
-                              $highlight/text()
-                          )),
-                        "snippetText", fn:string(fn:normalize-space(fn:data($match)))
-                      ))
-                ))
-              )
-            ))
-          ))
-
-  let $paginationInfo :=
-          json:o(("paginationInfo",
-            json:o((
-              "start", xs:int($doc/@start),
-              "end", xs:int($end),
-              "page", xs:int($page),
-              "pageLength", xs:int($doc/@page-length),
-              "totalPages", xs:int($total-pages),
-              "total", xs:int($doc/@total),
-              "qtext", fn:string($doc/search:qtext)
-            ))
-          ))
-
-  let $pagination1 := json:serialize($paginationInfo)
-  let $pagination2 := fn:substring($pagination1, 1, fn:string-length($pagination1)-1)
-  
-  let $facets1 := json:serialize($facetInfo)
-  let $facets2 := fn:concat(fn:substring($facets1, 2, fn:string-length($facets1)-2))
-
-  let $results1 := json:serialize($resultsJson)
-  let $results2 := fn:concat(fn:substring($results1, 2, fn:string-length($results1)-2))
-
-  let $jdoc := fn:concat($pagination2, ",", $facets2, ",", $results2, "}")
-
-  return $jdoc
 };
