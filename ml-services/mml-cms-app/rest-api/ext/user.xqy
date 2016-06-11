@@ -4,8 +4,10 @@ module namespace mml = "http://marklogic.com/rest-api/resource/user";
 
 import module namespace search = "http://marklogic.com/appservices/search" at "/MarkLogic/appservices/search/search.xqy";
 
-import module namespace json  = "http://marklogic.com/xdmp/json" at "/MarkLogic/json/json.xqy";
-import module namespace usr   = "http://marklogic.com/roxy/models/user" at "/app/models/user-model.xqy";
+import module namespace json    = "http://marklogic.com/xdmp/json" at "/MarkLogic/json/json.xqy";
+import module namespace usr     = "http://marklogic.com/roxy/models/user" at "/app/models/user-model.xqy";
+import module namespace content = "http://marklogic.com/roxy/models/content" at "/app/models/content-model.xqy";
+
 import module namespace c     = "http://marklogic.com/roxy/config" at "/app/config/config.xqy";
 
 declare namespace roxy = "http://marklogic.com/roxy";

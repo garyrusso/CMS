@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "systemID": "05b8825669ae9dee519349e4a9edafcb",
+    "subjectHeadings": ["Geography"],
+    "subjectKeywords": [
+      "Hyderabad",
+      "Dubai"
+    ],
+    "hasProjects": ["Beechers 21e"]
+  },
+  "feed": {
+    "title": "Beechers 21e EPUB3",
+    "description": "The EPUB3/EDUPUB of Beechers Cheese 21th Edition Geography textbook.",
+    "source": "Book",
+    "creators": ["Harriot Beechers"],
+    "publisher": "Harper Collins",
+    "datePublished": "2014-06-10",
+    "contentResourceTypes": ["image"],
+    "contentState": "Vendor",
+    "technical": {
+      "fileFormat": "EPUB",
+      "fileName": "beechers21e.epub",
+      "filePath": "s3://cms/beechers21e.epub",
+      "fileSize": "35400"
+    }
+  }
+}
