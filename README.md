@@ -21,21 +21,21 @@ Here we load user document data & data dictionary data
 
 [Content Repo Demo Build](http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/)
 
-[MarkLogic Deploy Info](/wiki/MarkLogic-Deploy-Info)
+[MarkLogic Deploy Info](../../wiki/MarkLogic-Deploy-Info)
 
-[MarkLogic Database Tier](/wiki/MarkLogic-Database-Tier)
+[MarkLogic Database Tier](../../wiki/MarkLogic-Database-Tier)
 
 ***
 
 ## API Specs
 
-[Authentication API](/wiki/Authentication-API)
+[Authentication API](../../wiki/Authentication-API)
 
-[User API](/wiki/User-API)
+[User API](../../wiki/User-API)
 
-[Content API](/wiki/Content-API)
+[Content API](../../wiki/Content-API)
 
-[Dictionary API](/wiki/Dictionary-API)
+[Dictionary API](../../wiki/Dictionary-API)
 
-[Project API](/wiki/Project-API)
+[Project API](../../wiki/Project-API)
 
