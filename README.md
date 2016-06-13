@@ -17,86 +17,25 @@ For developers execute below commands
 Here we load user document data & data dictionary data
 * $ ml local deploy content
 
+***
 
-## MarkLogic Database Tier
+[Content Repo Demo Build](http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/)
 
-Will provide the following RESTFul APIs.
+[MarkLogic Deploy Info](../../wiki/MarkLogic-Deploy-Info)
 
-1. Authentication API 
-1. User API - Search and CRUD operations 
-1. Master Data Definition API
-1. Project Document API - Create, View, Edit, Delete (Change State), and Search
-1. Content Upload API – binary document via XCC & create wrapper document & audit document
-1. Content Wrapper API - View, Edit, Delete (Change State), and Search will also include audit information
-1. Listing of contents – MarkLogic search API with facet constraints, project associations
-1. Project List API - will show content associations (related content)
-1. Content Download API (binary document)
+[MarkLogic Database Tier](../../wiki/MarkLogic-Database-Tier)
 
+***
 
-**Content Repository Search Portal:** | [Demo Build](http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/)
+## API Specs
 
+[Authentication API](../../wiki/Authentication-API)
 
-### Database RESTful APIs
+[User API](../../wiki/User-API)
 
-<table>
-    <tr>
-        <td colspan="4" style="font-size:x-large;color:green"><b>Request Mappings</b></td>
-    </tr>
-    <tr>
-        <td width="100" style="background-color:green;color:white"><b>Method</b></td>
-        <td width="180" style="background-color:green;color:white"><b>URL Template</b></td>
-        <td width="420" style="background-color:green;color:white"><b>Parameters</b></td>
-        <td width="720" style="background-color:green;color:white"><b>Description</b></td>
-    </tr>
-    <tr>
-        <td valign="top" colspan="4"><b>Authentication APIs</b></td>
-    </tr>
-    <tr>
-        <td valign="top">GET or POST</td>
-        <td valign="top">/login</td>
-        <td valign="top">
-		<table>
-			<tr><td valign="top">X-Auth-Token</td><td>header<hr/>uses base 64 encoded string</td></tr>
-		</table>
-		</td>
-        <td valign="top" style ="font-family:'Courier New'">Login API looks for valid user.</br></br>If user is found and validated then a session document is generated that has a token.</br></br>The token is then used for all subsequent REST API requests.</br></br>Token will expire after 24 hours.</br></br></br></td>
-    </tr>
-    <tr>
-        <td valign="top">GET</td>
-        <td valign="top">/logout</td>
-        <td valign="top">
-		<table>
-			<tr><td valign="top">X-Auth-Token</td><td>header<hr/>uses base 64 encoded string</td></tr>
-		</table>
-		</td>
-        <td valign="top" style ="font-family:'Courier New'">pending....</td>
-    </tr>
-    <tr>
-        <td valign="top" colspan="4"><b>Project APIs</b></td>
-    </tr>
-    <tr>
-        <td valign="top">GET</td>
-        <td valign="top">/search</td>
-        <td valign="top">
-		<table>
-			<tr><td valign="top">rs:q</td><td>query string<hr/>leading and trailing wildcards<hr/>constraints:<ul><li>author</li><li>name</li><li>user</li><li>book</li></ul></td></tr>
-			<tr><td valign="top">rs:start</td><td>starting record</td></tr>
-			<tr><td valign="top">rs:pageLength</td><td>number of records to return</td></tr>
-		</table>
-		</td>
-        <td valign="top" style ="font-family:'Courier New'">Searches entire content repository.<hr/>Returns search results using custom snippets with highlighting.</td>
-    </tr>
-    <tr>
-        <td valign="top">GET</td>
-        <td valign="top">/project/search</td>
-        <td valign="top">
-		<table>
-			<tr><td valign="top">rs:q</td><td>query string<hr/>leading and trailing wildcards<hr/>constraints:<ul><li>author</li><li>name</li><li>user</li><li>book</li></ul></td></tr>
-			<tr><td valign="top">rs:start</td><td>starting record</td></tr>
-			<tr><td valign="top">rs:pageLength</td><td>number of records to return</td></tr>
-		</table>
-		</td>
-        <td valign="top" style ="font-family:'Courier New'">Search across all project data of all users.<hr/>Returns search results using custom snippets with highlighting.</td>
-    </tr>
-</table>
+[Content API](../../wiki/Content-API)
+
+[Dictionary API](../../wiki/Dictionary-API)
+
+[Project API](../../wiki/Project-API)
 
