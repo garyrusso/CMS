@@ -107,9 +107,9 @@ declare variable $c:SEARCH-OPTIONS :=
     <term>
       <term-option>case-insensitive</term-option>
     </term>
-    <constraint name="Users">
+    <constraint name="Types">
       <range type="xs:string">
-        <element ns="http://macmillanlearning.com" name="username"/>
+        <element ns="http://macmillanlearning.com" name="objectType"/>
         <facet-option>descending</facet-option>
         <facet-option>limit=10</facet-option>
       </range>

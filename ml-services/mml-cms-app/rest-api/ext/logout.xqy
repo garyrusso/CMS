@@ -17,20 +17,26 @@ function mml:get(
   $params  as map:map
 ) as document-node()*
 {
-  let $reqHeader := xdmp:get-request-header("UserInfo")
-  let $userPwd  :=
-    if ($reqHeader) then
-    (
-      try { xdmp:base64-decode($reqHeader) } catch ($e) { "" }
-    )
-    else ""
-  
-  let $username := if ($userPwd) then fn:string((xdmp:get-request-header("username"),fn:tokenize($userPwd, ":")[1])[1]) else ""
-  let $password := if ($userPwd) then fn:string((xdmp:get-request-header("password"),fn:tokenize($userPwd, ":")[2])[1]) else ""
+  let $token := xdmp:get-request-header("X-Auth-Token")
 
-  let $_ := xdmp:log(fn:concat("logout ----------- username/pwd = '", $username, " : ", $password||"'"))
+  let $validSessionDoc :=
+    if ($token) then auth:findSessionByToken($token) else ""
 
-  let $result   := auth:logout($username)
+  let $username :=
+    if ($validSessionDoc) then $validSessionDoc/*:username/text() else ""
+
+  let $_ := xdmp:log("..............logout username = '"||$username||"'")
+
+  let $result :=
+    if (fn:string-length($username) gt 0) then
+      auth:logout($username)
+    else
+      <json:object type="object">
+        <json:responseCode>400</json:responseCode>
+        <json:message>invalid session</json:message>
+        <json:authToken>{$token}</json:authToken>
+        <json:username>unknown</json:username>
+      </json:object>
 
   let $resultCode := $result/json:responseCode/text()
 

@@ -9,6 +9,7 @@
     <mml:state>active</mml:state>
     <mml:systemId>d41d8cd98f00b204e9800998ecf1119e</mml:systemId>
     <mml:uri>www.macmillan.com/workflow/projects/BattleOfBrooklyn</mml:uri>
+    <mml:objectType>Project</mml:objectType>
     <mml:subjectHeadings>
       <mml:subjectHeading>History</mml:subjectHeading>
       <mml:subjectHeading>Revolutionary War</mml:subjectHeading>

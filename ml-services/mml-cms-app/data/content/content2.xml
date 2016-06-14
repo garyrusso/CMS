@@ -1,0 +1,43 @@
+<mml:content xmlns:mml="http://macmillanlearning.com">
+  <mml:metadata>
+    <mml:systemId>05b8815669ae9dee519349e4a9edafcc</mml:systemId>
+    <mml:dateCreated>2015-04-16 11:13</mml:dateCreated>
+    <mml:dateLastModified>2015-04-16 11:13</mml:dateLastModified>
+    <mml:createdBy>bcross</mml:createdBy>
+    <mml:objectType>Content</mml:objectType>
+    <mml:projectState>start</mml:projectState>
+    <mml:subjectHeadings>
+      <mml:subjectHeading>Mechanical Engineering</mml:subjectHeading>
+    </mml:subjectHeadings>
+    <mml:subjectKeywords>
+      <mml:subjectKeyword>Stress Test</mml:subjectKeyword>
+      <mml:subjectKeyword>Materials</mml:subjectKeyword>
+    </mml:subjectKeywords>
+    <mml:projects>
+      <mml:project>Materials 001</mml:project>
+      <mml:project>Materials 002</mml:project>
+    </mml:projects>
+  </mml:metadata>
+  <mml:feed>
+    <mml:title>Materials EPUB3</mml:title>
+    <mml:description>The EPUB3/EDUPUB of Materials 1st Edition Engineering textbook.</mml:description>
+    <mml:source>Book</mml:source>
+    <mml:creators>
+      <mml:creator>Grace Hopper</mml:creator>
+    </mml:creators>
+    <mml:publisher>Worth Publishers</mml:publisher>
+    <mml:datePublished>2014</mml:datePublished>
+    <mml:resources>
+      <mml:resource>/materials001/files/image001.jpg</mml:resource>
+      <mml:resource>/materials001/files/image002.jpg</mml:resource>
+      <mml:resource>/materials001/files/abstract001.pdf</mml:resource>
+    </mml:resources>
+    <mml:contentState>Vendor</mml:contentState>
+    <mml:technical>
+      <mml:fileFormat>EPUB</mml:fileFormat>
+      <mml:fileName>ghopper1e.epub</mml:fileName>
+      <mml:filePath>s3://cms/ghopper1e.epub</mml:filePath>
+      <mml:fileSize>55400</mml:fileSize>
+    </mml:technical>
+  </mml:feed>
+</mml:content>

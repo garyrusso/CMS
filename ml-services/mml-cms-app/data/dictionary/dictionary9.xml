@@ -3,7 +3,7 @@
   <mml:uri/>
   <mml:dataCreated>2016-06-01 10:35</mml:dataCreated>
   <mml:dateLastModified>2016-06-01 11:30</mml:dateLastModified>
-  <mml:objectType>DataDictionary</mml:objectType>
+  <mml:objectType>Dictionary</mml:objectType>
   <mml:dictionaryType>supported-upload-types</mml:dictionaryType>
   <mml:dictionaryValues>
     <mml:dictionaryValue>ePub</mml:dictionaryValue>
