@@ -1,12 +1,11 @@
 <mml:content xmlns:mml="http://macmillanlearning.com">
   <mml:metadata>
-    <mml:systemID>05b8825669ae9dee519349e4a9edafca</mml:systemID>
-    <mml:uri>www.macmillan.com/workflow/content/Myers-11e-EDUPUB-EPUB3</mml:uri>
-    <mml:dataCreated>2015-04-16 11:13</mml:dataCreated>
+    <mml:systemId>05b8825669ae9dee519349e4a9edafca</mml:systemId>
+    <mml:dateCreated>2015-04-16 11:13</mml:dateCreated>
     <mml:dateLastModified>2015-04-16 11:13</mml:dateLastModified>
     <mml:createdBy>bcross</mml:createdBy>
     <mml:objectType>Content</mml:objectType>
-    <mml:projectState/>
+    <mml:projectState>start</mml:projectState>
     <mml:subjectHeadings>
       <mml:subjectHeading>Psychology</mml:subjectHeading>
     </mml:subjectHeadings>
@@ -14,9 +13,9 @@
       <mml:subjectKeyword>Test</mml:subjectKeyword>
       <mml:subjectKeyword>Working</mml:subjectKeyword>
     </mml:subjectKeywords>
-    <mml:hasProjects>
-      <mml:hasProject>Myers 11e</mml:hasProject>
-    </mml:hasProjects>
+    <mml:projects>
+      <mml:project>Myers 11e</mml:project>
+    </mml:projects>
   </mml:metadata>
   <mml:feed>
     <mml:title>Myers 11e EPUB3</mml:title>
@@ -28,13 +27,15 @@
     </mml:creators>
     <mml:publisher>Worth Publishers</mml:publisher>
     <mml:datePublished>2013</mml:datePublished>
-    <mml:contentResourceTypes>
-      <mml:contentResourceType/>
-    </mml:contentResourceTypes>
+    <mml:resources>
+      <mml:resource>/project123/files/image001.jpg</mml:resource>
+      <mml:resource>/project123/files/image002.jpg</mml:resource>
+      <mml:resource>/project123/files/abstract001.pdf</mml:resource>
+    </mml:resources>
     <mml:contentState>Vendor</mml:contentState>
     <mml:technical>
       <mml:fileFormat>EPUB</mml:fileFormat>
-      <mml:filename>myers11e.epub</mml:filename>
+      <mml:fileName>myers11e.epub</mml:fileName>
       <mml:filePath>s3://cms/myers11e.epub</mml:filePath>
       <mml:fileSize>45400</mml:fileSize>
     </mml:technical>

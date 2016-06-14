@@ -35,13 +35,14 @@ declare function content:save($content)
 (:
 {
   "meta": {
-    "systemID": "05b8825669ae9dee519349e4a9edafcb",
+    "systemId": "05b8825669ae9dee519349e4a9edafcb",
+    "projectState": "start",
     "subjectHeadings": ["Geography"],
     "subjectKeywords": [
       "Hyderabad",
       "Dubai"
     ],
-    "hasProjects": ["Beechers 21e"]
+    "projects": ["Beechers 21e", "Jets 2017"]
   },
   "feed": {
     "title": "Beechers 21e EPUB3",
@@ -50,8 +51,8 @@ declare function content:save($content)
     "creators": ["Harriot Beechers"],
     "publisher": "Harper Collins",
     "datePublished": "2014-06-10",
-    "contentResourceTypes": ["image"],
-    "contentState": "Vendor",
+    "resources": ["/resource/image001.jpg", "/resource/image002.jpg"],
+    "contentState": "Initial Review",
     "technical": {
       "fileFormat": "EPUB",
       "fileName": "beechers21e.epub",
@@ -67,24 +68,52 @@ declare function content:save($content)
       {
         element {fn:QName($NS,"metadata")}
         {
-          element {fn:QName($NS,"created")}    { if (fn:empty($content/created/text())) then fn:current-dateTime() else $content/created/text() },
-          element {fn:QName($NS,"createdBy")}  { "webuser" },
-          element {fn:QName($NS,"modified")}   { fn:current-dateTime() },
-          element {fn:QName($NS,"modifiedBy")} { "webuser" },
-          element {fn:QName($NS,"objectType")} { "User" }
+          element {fn:QName($NS,"systemId")}     { $content/meta/systemId/text() },
+          element {fn:QName($NS,"projectState")} { $content/meta/projectState/text() },
+          element {fn:QName($NS,"created")}      { fn:current-dateTime() },
+          element {fn:QName($NS,"createdBy")}    { "webuser" },
+          element {fn:QName($NS,"modified")}     { fn:current-dateTime() },
+          element {fn:QName($NS,"modifiedBy")}   { "webuser" },
+          element {fn:QName($NS,"objectType")}   { "Content" },
+          element {fn:QName($NS,"subjectHeadings")} {
+            for $subjectHeading in $content/meta/subjectHeadings/subjectHeading/text()
+              return
+                element {fn:QName($NS,"subjectHeading")} { $subjectHeading }
+          },
+          element {fn:QName($NS,"subjectKeywords")} {
+            for $subjectKeyword in $content/meta/subjectKeywords/subjectKeyword/text()
+              return
+                element {fn:QName($NS,"subjectKeyword")} { $subjectKeyword }
+          },
+          element {fn:QName($NS,"projects")} {
+            for $project in $content/meta/projects/project/text()
+              return
+                element {fn:QName($NS,"project")} { $project }
+          }
         },
         element {fn:QName($NS,"feed")}
         {
-          (: element {fn:QName($NS,"username")}   { fn:normalize-space(req:get("username", "", "type=xs:string")) }, :)
-          element {fn:QName($NS,"username")}   { $content/username/text() },
-          element {fn:QName($NS,"fullName")}   { $content/firstname/text()||" "||$content/lastname/text() },
-          element {fn:QName($NS,"firstName")}  { $content/firstname/text() },
-          element {fn:QName($NS,"lastName")}   { $content/lastname/text() },
-          element {fn:QName($NS,"email")}      {
-            if (fn:empty($content/email/text())) then
-              fn:lower-case($content/firstname/text())||"."||fn:lower-case($content/lastname/text())||"@macmillan.com"
-            else
-              $content/email/text()
+          element {fn:QName($NS,"title")}         { $content/feed/title/text() },
+          element {fn:QName($NS,"description")}   { $content/feed/description/text() },
+          element {fn:QName($NS,"source")}        { $content/feed/source/text() },
+          element {fn:QName($NS,"publisher")}     { $content/feed/publisher/text() },
+          element {fn:QName($NS,"datePublished")} { $content/feed/datePublished/text() },
+          element {fn:QName($NS,"contentState")}  { $content/feed/contentState/text() },
+          element {fn:QName($NS,"creators")} {
+            for $creator in $content/feed/creators/creator/text()
+              return
+                element {fn:QName($NS,"creator")} { $creator }
+          },
+          element {fn:QName($NS,"resources")} {
+            for $resource in $content/feed/resources/resource/text()
+              return
+                element {fn:QName($NS,"resource")} { $resource }
+          },
+          element {fn:QName($NS,"technical")} {
+            element {fn:QName($NS,"fileFormat")}   { $content/feed/technical/fileFormat/text() },
+            element {fn:QName($NS,"fileName")}   { $content/feed/technical/fileName/text() },
+            element {fn:QName($NS,"filePath")}   { $content/feed/technical/filePath/text() },
+            element {fn:QName($NS,"fileSize")}   { $content/feed/technical/fileSize/text() }
           }
         }
       }
@@ -95,7 +124,10 @@ declare function content:save($content)
 
 declare function content:_save($content)
 {
-  let $uri := "/content/"||xdmp:hash64($content/mml:title/text())
+  let $hashedDir := xdmp:hash64($content/mml:feed/mml:title/text())
+  (: let $log := xdmp:log("......... hash: "||$hashedDir) :)
+
+  let $uri := "/content/"||$hashedDir||".xml"
 
   let $cmd :=
         fn:concat
