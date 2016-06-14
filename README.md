@@ -21,9 +21,7 @@ Here we load user document data & data dictionary data
 
 [Content Repo Demo Build](http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/)
 
-[MarkLogic Deploy Info](../../wiki/MarkLogic-Deploy-Info)
-
-[MarkLogic Database Tier](../../wiki/MarkLogic-Database-Tier)
+[CMS Project Wiki](../../wiki)
 
 ***
 

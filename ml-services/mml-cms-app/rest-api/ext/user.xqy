@@ -25,6 +25,8 @@ function mml:get(
   $params  as map:map
 ) as document-node()*
 {
+  (: Check Auth Token here :)
+
   let $q  := map:get($params, "q")
   let $st := map:get($params, "start")
   let $ps := map:get($params, "pageLength")
@@ -74,6 +76,8 @@ function mml:put(
     $input   as document-node()*
 ) as document-node()?
 {
+  (: Check Auth Token here :)
+  
   let $inputUri := map:get($params, "uri")
   let $ft := map:get($params, "format")
 
@@ -127,9 +131,10 @@ function mml:post(
     $input   as document-node()*
 ) as document-node()*
 {
+  (: Check Auth Token here :)
+  
   let $output-types := map:put($context,"output-types","application/xml")
 
-  (: GR001 - Get user id from token :)
   let $userId :=
     if (fn:not(fn:empty(map:get($params, "userid")))) then
       map:get($params, "userid")
@@ -174,22 +179,22 @@ function mml:delete(
     $params  as map:map
 ) as document-node()?
 {
+  (: Check Auth Token here :)
+
   let $inputUri := map:get($params, "uri")
   let $ft := map:get($params, "format")
 
   let $uri    := if (fn:string-length($inputUri) eq 0)  then "" else $inputUri
-  let $format := if ($ft eq "json") then "json" else "xml"
-  
-  let $statusMessage := "Document deleted: "||$uri
+  let $format := if ($ft eq "xml") then "xml" else "json"
   
   let $output-types :=
-    if ($format eq "json") then
+    if ($format eq "xml") then
     (
-      map:put($context,"output-types","application/json")
+      map:put($context,"output-types","application/xml")
     )
     else
     (
-      map:put($context,"output-types","application/xml")
+      map:put($context,"output-types","application/json")
     )
     
   let $errorMessage :=
@@ -201,15 +206,33 @@ function mml:delete(
       catch ($e) {
         $e/error:message/text()
       }
+      
+  let $statusMessage :=
+    if (fn:string-length($errorMessage) eq 0) then
+      "Document deleted: "||$uri
+    else
+      $errorMessage||" "||$uri
 
-  let $_ := map:put($context, "output-types", "application/xml")
-  let $_ := map:put($context, "output-status", (200, "Deleted"))
+  let $config := json:config("custom")
+  let $_ := map:put($config, "whitespace", "ignore" )
+
+  let $retObj :=
+    element results {
+      element { "status" } { $statusMessage }
+    }
 
   let $doc :=
-    element results {
-      element { "status" } { $statusMessage||"  "||$errorMessage }
-    }
-  
+    if ($format eq "xml") then
+    (
+      $retObj
+    )
+    else
+    (
+      text { json:transform-to-json($retObj, $config) }
+    )
+
+  let $_ := map:put($context, "output-status", (200, "Deleted"))
+
   return
     document {
       $doc
