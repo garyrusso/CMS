@@ -1,10 +1,11 @@
-/*
- * Name: ModalShowAllFacetsItemsController
- * Desc:
- *  Controller to filter & select facet's in modal.
- */
 (function(){
     "use strict";
+    /**
+     * @ngdoc controller
+     * @name cmsWebApp.controller:ModalShowAllFacetsItemsController
+     * @description
+     * ModalShowAllFacetsItemsController is the Controller to filter & select facet's in modal.
+     */
     angular.module('cmsWebApp').controller('ModalShowAllFacetsItemsController', ModalShowAllFacetsItemsController);
     
     /*Inject angular services*/
@@ -28,12 +29,26 @@
             }
         }
         
-        /*Close modal box*/
+        /**
+         * @ngdoc method
+         * @name closeModalProject
+         * @methodOf cmsWebApp.controller:ModalShowAllFacetsItemsController
+         * @description
+         * Close modal box 
+         */
         function closeModalProject () {
              $uibModalInstance.dismiss('cancel');
         }
         
-        //TODO desc
+        /**
+         * @ngdoc method
+         * @name prepareFacetUri
+         * @methodOf cmsWebApp.controller:ModalShowAllFacetsItemsController
+         * @param {String} text key to check & add to stateparams for multiple selection of facet 
+         * @description
+         * Check & add the key to facet object to pass to ui-sref for mutliple selection of facets.
+         * @returns {Object} facetsSelected object of stateparam with new facet key.
+         */
         function prepareFacetUri (text) {
             var facetsSelected = angular.copy($scope.facetSelected);
             

@@ -113,9 +113,9 @@
 
         /**
          * @ngdoc method
-         * @name: toggleView
+         * @name toggleView
          * @methodOf cmsWebApp.controller:SearchController
-         * @param: {Boolean} viewType listView is true or false.
+         * @param {Boolean} viewType listView is true or false.
          * @description
          * Switch view from list to grid. if listView is set true then items will display in table format else in tile view.
          */
@@ -127,7 +127,7 @@
          * @ngdoc method
          * @name changeSearchType
          * @methodOf cmsWebApp.controller:SearchController
-         * @param {Object} searchType
+         * @param {Object} searchType searchType
          * @description
          * change SearchType
          */

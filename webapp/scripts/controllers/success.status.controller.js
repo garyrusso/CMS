@@ -1,10 +1,10 @@
-/**
- * Controller Name: SuccessStatusController
- * Desc: SuccessStatusController 
- *
- **/
-
 (function() {"use strict";
+    /**
+     * @ngdoc controller
+     * @name cmsWebApp.controller:SuccessStatusController
+     * @description 
+     * SuccessStatusController is the controller to manage success page when project/content edited/added/delted  
+     **/
     angular.module('cmsWebApp').controller('SuccessStatusController', SuccessStatusController);
 
     /*Inject angular services to controller*/

@@ -1,8 +1,10 @@
-/**
- * @description
- * Config FlowFactoryProvider 
- */
 (function() {"use strict";
+    /**
+     * @ngdoc overview
+     * @name cmsWebApp.overview:FlowFactoryProvider
+     * @description
+     * Config FlowFactoryProvider with target url & other settings of ngflow
+     */
     angular.module('cmsWebApp').config(FlowFactoryProvider);
 
     FlowFactoryProvider.$inject = ['flowFactoryProvider', 'APP_CONFIG', 'WS'];

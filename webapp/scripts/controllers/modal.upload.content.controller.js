@@ -1,6 +1,6 @@
 (function() {"use strict";
     /**
-     * ngdoc controller
+     * @ngdoc controller
      * @name cmsWebApp.controller:ModalUploadContentController
      * @description
      * ModalUploadContentController to manage upload Content.

@@ -1,11 +1,10 @@
-/**
- * @ngdoc overview
- * @name ViewProjectController
- * @description
- * ViewProjectController
- **/
-
 (function() {"use strict";
+    /**
+     * @ngdoc controller
+     * @name cmsWebApp.controller:ViewProjectController
+     * @description
+     * ViewProjectController is the controller to manage view project page.
+     */
     angular.module('cmsWebApp').controller('ViewProjectController', ViewProjectController);
 
     /*Inject angular services to controller*/
@@ -28,9 +27,12 @@
         project.uploadContent = ManageContentService.openUploadContentModal;
 
         /**
+         * @ngdoc method
          * @name projectsEditProject
+         * @methodOf cmsWebApp.controller:ViewProjectController
          * @description
-         * Edit project function.
+         * Invoke this method when edit project is clicked.
+         * call ManageProjectsService > openProjectModal method to open edit project modal
          */
         function projectsEditProject() {
             ManageProjectsService.openProjectModal(true, project.data).then(function() {
@@ -39,9 +41,12 @@
         }
 
         /**
+         * @ngdoc method
          * @name projectsdeleteProject
+         * @methodOf cmsWebApp.controller:ViewProjectController
          * @description
-         * Delete project function.
+         * Invoke this method when delete project is clicked.
+         * call ManageProjectsService > openDeleteProjectModal method to open delete project modal
          */
         function projectsdeleteProject() {  
             ManageProjectsService.openDeleteProjectModal(project.data).then(function() {

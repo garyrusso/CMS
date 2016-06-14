@@ -1,11 +1,10 @@
-/**
- * @ngdoc service
- * @name cmsWebApp.service:ManageContentService
- * @description
- * ManageContentService purpose to monage all content related functionality
- */
-
 (function() {"use strict";
+    /**
+     * @ngdoc service
+     * @name cmsWebApp.service:ManageContentService
+     * @description
+     * ManageContentService purpose to monage all content related functionality
+     */
     angular.module('cmsWebApp').service('ManageContentService', ManageContentService);
 
     /*Inject angular services*/
@@ -28,10 +27,10 @@
          * @ngdoc method
          * @name getContents
          * @methodOf cmsWebApp.service:ManageContentService
-         * @param {String} searchText
-         * @param {Integer} pageNumber
-         * @param {Integer} pageSize
-         * @param {String} orderBy
+         * @param {String} searchText search text
+         * @param {Integer} pageNumber page number
+         * @param {Integer} pageSize page size
+         * @param {String} orderBy order by 
          * @description
          * Get all getContents based on search criteria
          */
@@ -55,7 +54,7 @@
          * @ngdoc method
          * @name viewContent
          * @methodOf cmsWebApp.service:ManageContentService
-         * @param {String} uri
+         * @param {String} uri uri
          * @description
          * Get Content details based on uri
          */
@@ -185,7 +184,8 @@
             });
             return deffered.promise;
         }
-
+        
+        //TODO add desc
         function uploadContent(postData) {
             return $http.post(WS.createContent, postData).then(function (response) {
                 return response.data;

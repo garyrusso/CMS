@@ -1,9 +1,10 @@
 (function() {'use strict';
     /**
-     * @ngdoc config
-     * @name cmsWebApp.config:RouteConfig
+     * @ngdoc overview
+     * @name cmsWebApp.overview:RouteConfig
      * @description
-     * Configured/setup all routes of application.
+     * Configured/setup all routes of application. Using ui router for routing the application and
+     * $stateProvider with all states are added here.
      */
     angular.module('cmsWebApp').config(RouteConfig);
     RouteConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
@@ -124,7 +125,7 @@
          * @name cmsWebApp.service:dashboardProjectList
          * @description
          * Get list of projects created by user
-         * @return promise with get projects list
+         * @returns {Object} promise with get projects list
          */
         dashboardProjectList.$inject = ['SearchService', 'CommonService'];
         function dashboardProjectList(SearchService, CommonService) {
@@ -137,7 +138,7 @@
          * @name cmsWebApp.service:projectVeiw
          * @description
          * Resolved method to 'projectview' state. It call the viewproject method to get the project details.
-         * @return promise with project details.
+         * @return {Object} promise with project details.
          */
         projectVeiw.$inject = ['$stateParams', 'ManageProjectsService', '$log'];
         function projectVeiw($stateParams, ManageProjectsService, $log) {
@@ -147,10 +148,10 @@
 
          /**
          * @ngdoc service
-         * @name cmsWebApp.service:projectVeiw
+         * @name cmsWebApp.service:contentVeiw
          * @description
          * Resolved method to 'contentVeiw' state. It call the viewcontent method to get the project details.
-         * @return promise with project details.
+         * @return {Object} promise with project details.
          */
        contentVeiw.$inject = ['$stateParams', 'ManageContentService', '$log'];
         function contentVeiw($stateParams, ManageContentService, $log) {

@@ -1,11 +1,10 @@
-/**
- * @ngdoc service
- * @name cmsWebApp.service:DataModelContentService
- * @description
- * DataModelContentService DataModel for content.
- */
-
 (function() {"use strict";
+    /**
+     * @ngdoc service
+     * @name cmsWebApp.service:DataModelContentService
+     * @description
+     * DataModelContentService DataModel for content.
+     */
     angular.module('cmsWebApp').factory('DataModelContentService', DataModelContentService);
 
     /*Inject angular services*/

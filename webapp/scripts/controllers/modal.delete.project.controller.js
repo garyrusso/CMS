@@ -1,11 +1,10 @@
-/**
- * @ngdoc Overview
- * @name: ModalDeleteProjectController
- * @description 
- * ModalDeleteProjectController 
- **/
-
 (function() {"use strict";
+    /**
+     * @ngdoc controller
+     * @name cmsWebApp.controller:ModalDeleteProjectController
+     * @description 
+     * ModalDeleteProjectController manages delete project modal
+     */
     angular.module('cmsWebApp').controller('ModalDeleteProjectController', ModalDeleteProjectController);
 
     /*Inject angular services to controller*/
@@ -19,7 +18,9 @@
         $scope.deleteProject = deleteProject;
         
         /**
+         * @ngdoc method
          * @name closeModalProject
+         * @methodOf cmsWebApp.controller:ModalDeleteProjectController
          * @description 
          * Purpose to close the modal window 
          */
@@ -28,25 +29,17 @@
         }
         
         /**
+         * @ngdoc method
          * @name deleteProject
+         * @methodOf cmsWebApp.controller:ModalDeleteProjectController
          * @description 
          * Purpose to Delete Project 
          */
         function deleteProject () {
             var returnData = angular.copy($scope.items.data);
-            /*returnData.subjectHeadings = _.map(returnData.subjectHeadings, function(eachHeading){
-                    return eachHeading.subjectHeading;
-                });
-            returnData.subjectKeywords = _.map(returnData.subjectKeywords, function(eachKeyword){
-                    return eachKeyword.subjectKeyword;
-                }); */
             
             returnData.ModifiedBy = CommonService.getItems('username');
-            /*returnData = _.chain(returnData)
-                          .omit('username')
-                          .omit('dateLastModified')
-                          .omit('keywords')
-                          .value();   */ 
+ 
             $uibModalInstance.close(returnData);
         }
     }

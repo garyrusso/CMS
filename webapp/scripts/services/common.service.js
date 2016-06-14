@@ -24,7 +24,7 @@
          * @ngdoc method
          * @name showAllFacetsItems
          * @methodOf cmsWebApp.service:CommonService
-         * @param {Object} facetObj 
+         * @param {Object} facetObj facet Object
          * @param {String} type search type
          * @description
          * open modal of all facets
@@ -56,8 +56,8 @@
          * @ngdoc method
          * @name setItems
          * @methodOf cmsWebApp.service:CommonService
-         * @param {String} key
-         * @param {Object} value
+         * @param {String} key key to set 
+         * @param {Object} value value object
          * @description
          * Set/save object to session storage
          */
@@ -85,8 +85,8 @@
          * @ngdoc method
          * @name getDictionary
          * @methodOf cmsWebApp.service:CommonService
-         * @param {String} dictionaryName 
-         * @description
+         * @param {String} dictionaryName dictionary Name
+         * @description 
          * call dictionary service based on dictionaryname
          */
         function getDictionary(dictionaryName){
@@ -105,7 +105,7 @@
          * @ngdoc method
          * @name formatFacets
          * @methodOf cmsWebApp.service:CommonService
-         * @param {Object} facetObject 
+         * @param {Object} facetObject facet Object
          * @description
          * convert facet object to array by omiting query key
          */

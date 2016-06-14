@@ -3,9 +3,8 @@
      * @ngdoc controller
      * @name cmsWebApp.controller:ViewContentController
      * @description
-     * ViewContentController
-     **/
-
+     * ViewContentController is the controller to manage view content page
+     */
     angular.module('cmsWebApp').controller('ViewContentController', ViewContentController);
 
     /*Inject angular services to controller*/
@@ -30,9 +29,12 @@
         content.downloadContent = contentDownloadContent;
         
         /**
+         * @ngdoc method 
          * @name projectsEditProject
+         * @methodOf cmsWebApp.controller:ViewContentController
          * @description
-         * Edit project function.
+         * Invoke this function when edit content is clicked. 
+         * call ManageContentService > openProjectModalopen method to open edit content form in modal. 
          */
         function contentEditContent() {
             ManageContentService.openProjectModal(true, project.data).then(function() {
@@ -41,9 +43,11 @@
         }
 
         /**
+         * @ngdoc method
          * @name contentdeleteContent
+         * @methodOf cmsWebApp.controller:ViewContentController
          * @description
-         * Delete project function.
+         * call ManageContentService > openDeleteContentModal method to open delete content modal.
          */
         function contentdeleteContent() {
             ManageContentService.openDeleteContentModal(content.data).then(function() {
@@ -54,9 +58,10 @@
 
          /**
          * @ngdoc method 
-         * @name cmsWebApp.controller:ViewContentController 
+         * @name contentDownloadContent
+         * @methodOf cmsWebApp.controller:ViewContentController 
          * @description
-         * Delete project function.
+         * call ManageContentService > openDownloadContentModal method to open download content modal.
          */
         function contentDownloadContent() {  
             ManageContentService.openDownloadContentModal(content.data).then(function() {

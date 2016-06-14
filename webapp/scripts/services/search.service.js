@@ -1,11 +1,10 @@
-/**
- * @ngdoc service
- * @name cmsWebApp.service:SearchService
- * @description
- * search service's purpose is to wrap up search functionality
- */
-
 (function() {"use strict";
+    /**
+     * @ngdoc service
+     * @name cmsWebApp.service:SearchService
+     * @description
+     * search service's purpose is to wrap up search functionality
+     */
     angular.module('cmsWebApp').service('SearchService', SearchService);
 
     /*Inject angular services*/
@@ -21,11 +20,11 @@
          * @ngdoc method
          * @name searchData
          * @methodOf cmsWebApp.service:SearchService
-         * @param {String} searchText
-         * @param {String} pageNumber
-         * @param {String} pageSize
-         * @param {String} orderBy
-         * @param {String} username
+         * @param {String} searchText search text
+         * @param {String} pageNumber page number
+         * @param {String} pageSize page size
+         * @param {String} orderBy order by
+         * @param {String} username username
          */
         function searchData(searchType, searchText, pageNumber, pageSize, orderBy, username) {
             $log.debug('SearchService.searchData', searchType, searchText, pageNumber, pageSize, orderBy, username);

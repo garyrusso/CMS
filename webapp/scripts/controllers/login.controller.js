@@ -5,7 +5,6 @@
      * @description 
      * LoginController authenticate the users.
      */
-
     angular.module('cmsWebApp').controller('LoginController', LoginController);
 
     /*Inject angular services to controller*/
@@ -22,7 +21,7 @@
          * @name validateUser
          * @methodOf cmsWebApp.controller:LoginController
          * @description
-         * When login button clicked, check & validate username & password below authenicating
+         * When login button clicked, check & validate username & password before authenicating
          */
         function validateUser() {
             if (auth.username.trim() !== "" || auth.password.trim() !== "") {

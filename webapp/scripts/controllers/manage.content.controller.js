@@ -67,6 +67,7 @@
         /**
          * @ngdoc method
          * @name toggleView
+         * @methodOf cmsWebApp.controller:ManageContentController
          * @param {Boolean} viewType - listView is true or false.
          * @description
          * Switch view from list to grid. if listView is set true then content displayed in table format else in tile view.

@@ -1,8 +1,7 @@
 (function() {'use strict';
-
     /**
      * @ngdoc service
-     * @name myBiApp.service:UserAlertService
+     * @name cmsWebApp.service:UserAlertService
      * @description
      * # userAlertService
      * This service is used to alert any messages in project & modal/popup functionality

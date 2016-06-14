@@ -82,20 +82,6 @@
 
         /**
          * @ngdoc method
-         * @name mySplit
-         * @methodOf cmsWebApp.controller:HeaderController
-         * @param {String} which is required for split
-         * @description
-         * Split the username/email string.
-         */
-        //TODO check & remove
-        $scope.cmsSplit = function (string, nb) {
-            var array = string.split('@');
-            return array[nb];
-        };
-        
-        /**
-         * @ngdoc method
          * @name searchData
          * @methodOf cmsWebApp.controller:HeaderController
          * @description

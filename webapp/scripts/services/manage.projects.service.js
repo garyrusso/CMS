@@ -1,11 +1,10 @@
-/**
- * @ngdoc service
- * @name ManageProjectsService
- * @description
- * ManageProjectsService purpose to monage all project related functionality
- */
-
 (function() {"use strict";
+    /**
+     * @ngdoc service
+     * @name cmsWebApp.service:ManageProjectsService
+     * @description
+     * ManageProjectsService purpose to monage all project related functionality
+     */
     angular.module('cmsWebApp').service('ManageProjectsService', ManageProjectsService);
 
     /*Inject angular services*/

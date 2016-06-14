@@ -1,16 +1,15 @@
-/*
- * @ngdoc object
- * @name APP_CONFIG
- * @description
- *  Site configuration are configured here
- * @example
- * APP_CONFIG is injectable as constant (as a service even to .config())
- * <pre>
- * (...)    .config(function (APP_CONFIG) {
- * </pre>
- */
-
 (function() {"use strict";
+    /**
+     * @ngdoc overview
+     * @name cmsWebApp.overview:APP_CONFIG
+     * @description
+     * Site configuration are configured here
+     * @example
+     * APP_CONFIG is injectable as constant (as a service even to .config())
+     * <pre>
+     * (...)    .config(function (APP_CONFIG) {
+     * </pre>
+     */
     angular.module('cmsWebApp').constant('APP_CONFIG', {
         viewDir : 'views/',
         limit : 20,

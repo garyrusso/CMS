@@ -1,8 +1,10 @@
-/*
- * @description
- *  enable angular-mocks based on environment. 
- */
 (function() {"use strict";
+    /**
+     * @ngdoc overview
+     * @name cmsWebApp.overview:MockConfig
+     * @description
+     * enable angular-mocks based on environment. 
+     */
     angular.module('cmsWebApp').config(MockConfig);
 
     MockConfig.$inject = ['APP_CONFIG', '$provide'];

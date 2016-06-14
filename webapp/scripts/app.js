@@ -4,7 +4,7 @@
      * @name cmsWebApp
      * @description
      * The goal of this project is to build a Content Management System for managing course
-     * content thus enable nearsimultaneous publishing course content in Print and Digital format.
+     * content thus enable near simultaneous publishing course content in Print and Digital format.
      * The project is scoped to build a content repository,
      * ensuring compliance with Macmillan Learning’s technology stack.
      */
