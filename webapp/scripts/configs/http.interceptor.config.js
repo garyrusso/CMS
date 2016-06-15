@@ -69,7 +69,7 @@
              * @description
              * Http response interceptor. Intercept all response before sending response to application
              * check fakeDelay flag and delay response
-             * @returns {Object} promise promise resolves based on fake delay.
+             * @returns {Object} promise resolves based on fake delay.
              */
             function httpResponse(response) {
                 var defer = $q.defer();
@@ -92,7 +92,7 @@
              * @param {Object} rejection http object
              * @description 
              * Http request error interceptor. Intercept all request error made by application.
-             * @returns {Object} rejection rejected http request object
+             * @returns {Object} rejected http request object
              */
             function httpRequestError(rejection) {
                 return rejection;
@@ -106,7 +106,7 @@
              * @description
              * Http response error interceptor. Intercept all response error before sending response error to application.
              * Check the response error status & alert user with resopnse error reasons.
-             * @returns {Object} promise reject the promise.
+             * @returns {Object} promise
              */
             function httpResponseError(rejection) {
                 var defer = $q.defer();

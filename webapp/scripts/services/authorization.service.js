@@ -32,7 +32,7 @@
          * route, the app resolves your identity before it does an authorize check. after that,
          * authorize is called from $stateChangeStart to make sure the AuthenticationService is allowed to change to
          * the desired state
-         * @returns {Object} promise promise from {@link cmsWebApp.service:AuthenticationService#methods_identity AuthenticationService > identity method}
+         * @returns {Object} promise from {@link cmsWebApp.service:AuthenticationService#methods_identity AuthenticationService > identity method}
          */
         function authorize() {
             $log.debug('Authorizing User');

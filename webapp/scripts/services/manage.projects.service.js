@@ -3,7 +3,7 @@
      * @ngdoc service
      * @name cmsWebApp.service:ManageProjectsService
      * @description
-     * ManageProjectsService purpose to monage all project related functionality
+     * ManageProjectsService purpose to manage all project related functionality
      */
     angular.module('cmsWebApp').service('ManageProjectsService', ManageProjectsService);
 
@@ -15,7 +15,6 @@
             getProjects : getProjects,
             viewProject : viewProject,
             openProjectModal: openProjectModal,
-            openUploadContentModal: openUploadContentModal,
             openDeleteProjectModal : openDeleteProjectModal,
             createProject : createProject,
             updateProject : updateProject,
@@ -23,13 +22,16 @@
         };
 
         /**
+         * @ngdoc method
          * @name getProjects
-         * @param {String} searchText
-         * @param {Integer} pageNumber
-         * @param {Integer} pageSize
-         * @param {String} orderBy
-         * @Description
+         * @methodOf cmsWebApp.service:ManageProjectsService
+         * @param {String} searchText searchText
+         * @param {Integer} pageNumber pageNumber
+         * @param {Integer} pageSize pageSize
+         * @param {String} orderBy orderBy
+         * @description
          * Get all projects based on search criteria
+         * @returns {Object} http promise object
          */
         function getProjects(searchText, pageNumber, pageSize, orderBy) {
             $log.debug('getProjects - ManageProjectsService', searchText, pageNumber, pageSize, orderBy);
@@ -48,10 +50,13 @@
         }
         
         /**
+         * @ngdoc method
          * @name viewProject
-         * @param {String} uri
-         * @Description
+         * @methodOf cmsWebApp.service:ManageProjectsService
+         * @param {String} uri project uri
+         * @description
          * Get project details based on uri
+         * @returns {Object} http promise object
          */
         function viewProject(uri) {
             $log.debug('viewProject - ManageProjectsService', uri);
@@ -67,11 +72,14 @@
         }
 
         /**
+         * @ngdoc method
          * @name openProjectModal
+         * @methodOf cmsWebApp.service:ManageProjectsService
          * @param {Boolean} editProject - modal is loaded with edit form or new form.
          * @param {Object} data - get data on for edit project
-         * @Description
+         * @description
          * open modal window with create/Edit project form
+         * @returns {Object} promise object
          */
         function openProjectModal(editProject, data) {
             var self = this, deffered = $q.defer(), modalInstance = $uibModal.open({
@@ -114,58 +122,14 @@
             return deffered.promise;
         }
         
-
         /**
-        * @name openProjectModal
-        * @param {Boolean} editProject - modal is loaded with edit form or new form.
-        * @param {Object} data - get data on for edit project
-        * @Description
-        * open modal window with create/Edit project form
-        */
-       //TODO check & remove
-        function openUploadContentModal(editProject, data) {          
-            var self = this, deffered = $q.defer(), modalInstance = $uibModal.open({
-                templateUrl: 'views/modal-template.html',
-                controller: 'ModalCreateEditProjectController',
-                size: 'lg',
-                resolve: {
-                    items: function () {
-                        return {
-                            templateUrl: 'views/modal-upload-edit-content.html',
-                            edit: editProject,
-                            data: data
-                        };
-                    }
-                }
-            });
-
-            modalInstance.result.then(function (updatedData) {
-                $rootScope.setLoading(true);
-                if (editProject) {
-                    self.updateProject(updatedData).then(function (data) {
-                        deffered.resolve(data);
-                        $rootScope.setLoading(false);
-                        $state.go('success', { type: 'project', status: 'edit', name: data.Title, id: data.uri }, { location: false });
-                    });
-                } else {
-                    self.createProject(updatedData).then(function (data) {
-                        deffered.resolve(data);
-                        $rootScope.setLoading(false);
-                        $state.go('success', { type: 'project', status: 'new', name: data.Title, id: data.uri }, { location: false });
-                    });
-                }
-            }, function () {
-
-            });
-
-            return deffered.promise;
-        }
-
-        /**
+         * @ngdoc method
          * @name openDeleteProjectModal
+         * @methodOf cmsWebApp.service:ManageProjectsService
          * @param {Object} data - get data on for delete project
-         * @Description
+         * @description
          * open modal window with Delete project form
+         * @returns {Object} promise object
          */
         function openDeleteProjectModal (data) {
             var self = this, deffered = $q.defer(), modalInstance = $uibModal.open({
@@ -194,19 +158,46 @@
             return deffered.promise;
         }
 
+        /**
+         * @ngdoc method
+         * @name createProject
+         * @methodOf cmsWebApp.service:ManageProjectsService     
+         * @param {Object} postData data with post parameters
+         * @Description
+         * execute create project webservice.
+         * @returns {Object} http promise object
+         */
         function createProject(postData) {
             return $http.post(WS.createProject, postData).then(function (response) {
                 return response.data;
             });
 
         }
-
+        
+        /**
+         * @ngdoc method
+         * @name updateProject
+         * @methodOf cmsWebApp.service:ManageProjectsService     
+         * @param {Object} postData data with post parameters
+         * @Description
+         * execute update project webservice.
+         * @returns {Object} http promise object
+         */
         function updateProject(postData) {
             return $http.put(WS.updateProject, postData).then(function (response) {
                 return response.data;
             });
         }
         
+        /**
+         * @ngdoc method
+         * @name deleteProject
+         * @methodOf cmsWebApp.service:ManageProjectsService     
+         * @param {Object} postData data with post parameters
+         * @Description
+         * execute delete project webservice.
+         * @returns {Object} http promise object
+         */
         function deleteProject(postData) {
             return $http.post(WS.deleteProject, postData).then(function (response) {
                 return response.data;

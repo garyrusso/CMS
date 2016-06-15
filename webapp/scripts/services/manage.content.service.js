@@ -3,7 +3,7 @@
      * @ngdoc service
      * @name cmsWebApp.service:ManageContentService
      * @description
-     * ManageContentService purpose to monage all content related functionality
+     * ManageContentService purpose to manage all content related functionality
      */
     angular.module('cmsWebApp').service('ManageContentService', ManageContentService);
 
@@ -152,8 +152,10 @@
 
 
         /**
+         * @ngdoc method
          * @name openDeleteContentModal
-         * @param {Object} data - get data on for delete Content
+         * @methodOf cmsWebApp.service:ManageContentService     
+         * @param {Object} data - get data for delete Content
          * @Description
          * open modal window with Delete Content form
          */
@@ -185,27 +187,62 @@
             return deffered.promise;
         }
         
-        //TODO add desc
+        /**
+         * @ngdoc method
+         * @name uploadContent
+         * @methodOf cmsWebApp.service:ManageContentService     
+         * @param {Object} postData data with post parameters
+         * @Description
+         * execute upload content webservice.
+         * @returns {Object} http promise object
+         */
         function uploadContent(postData) {
             return $http.post(WS.createContent, postData).then(function (response) {
                 return response.data;
             });
 
         }
-
+        
+        /**
+         * @ngdoc method
+         * @name updateContent
+         * @methodOf cmsWebApp.service:ManageContentService     
+         * @param {Object} postData data with post parameters
+         * @Description
+         * execute update content webservice.
+         * @returns {Object} http promise object
+         */
         function updateContent(postData) {
             return $http.put(WS.updateContent, postData).then(function (response) {
                 return response.data;
             });
         }
         
+        /**
+         * @ngdoc method
+         * @name deleteContent
+         * @methodOf cmsWebApp.service:ManageContentService     
+         * @param {Object} postData data with post parameters
+         * @Description
+         * execute delete content webservice.
+         * @returns {Object} http promise object
+         */
         function deleteContent(postData) {
             return $http.post(WS.deleteContent, postData).then(function (response) {
                 return response.data;
             });
         }
         
-         function downloadContent(postData) {
+        /**
+         * @ngdoc method
+         * @name downloadContent
+         * @methodOf cmsWebApp.service:ManageContentService     
+         * @param {Object} postData data with post parameters
+         * @Description
+         * execute download content webservice.
+         * @returns {Object} http promise object
+         */
+        function downloadContent(postData) {
             return $http.get(WS.downloadContent, {params:postData}).then(function (response) {
                 return response.data;
             });

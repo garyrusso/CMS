@@ -118,7 +118,7 @@
          * @param {Object} postdata postdata with username & password required for service for authentication
          * @description
          * Execute the service call & based on reponse authenticate user. 
-         * @returns {Object} promise promise is resolved if user authenticated or reject the promise with error message
+         * @returns {Object} promise is resolved if user authenticated or reject the promise with error message
          */
         function authenticateUser(postdata) {
             var deferred = $q.defer(), self = this;
@@ -148,7 +148,7 @@
          * force is not true then  
          * if we have, reuse it by immediately resolving.
          * if force is true then if we have data also check from local storage.
-         * @returns {Object} promise promise is resolve with user details
+         * @returns {Object} promise is resolve with user details
          */
         function identity(force) {
             var deferred = $q.defer();
