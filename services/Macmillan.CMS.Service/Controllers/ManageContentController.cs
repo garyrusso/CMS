@@ -59,10 +59,12 @@ namespace Macmillan.CMS.Service.Controllers
             string flowRelativePath,
             string flowTotalChunks)
         {
+            Logger.Debug("Entering GetUploadFile");
             var request = HttpContext.Current.Request;
 
             var chunkExists = _flowJs.ChunkExists(Folder, request);
             if (chunkExists) return Ok();
+            Logger.Debug("Exiting GetUploadFile");
             return ResponseMessage(new HttpResponseMessage(HttpStatusCode.NoContent));
         }
 
@@ -107,7 +109,6 @@ namespace Macmillan.CMS.Service.Controllers
                 Logger.Error(ex);
                 return StatusCode(HttpStatusCode.NotFound);
             }
-
             return Ok();
         }
   
@@ -205,8 +206,8 @@ namespace Macmillan.CMS.Service.Controllers
         [Route("download")]
         [HttpGet]
         public HttpResponseMessage DownloadContent()
-        {     
-            Logger.Debug("Entering SearchContents");            
+        {
+            Logger.Debug("Entering download");            
             HttpResponseMessage response = Request.CreateResponse();
             FileMetaData metaData = new FileMetaData();
             try
@@ -236,7 +237,7 @@ namespace Macmillan.CMS.Service.Controllers
             {
                 Logger.Debug("Exception " + exception);
             }
-            Logger.Debug("Exiting GetContentMasterData");
+            Logger.Debug("Exiting download");
             return response;            
         }
     }
