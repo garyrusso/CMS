@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
-//using Macmillan.CMS.Service.FlowJs;
 using System.IO;
 using POCOLibrary;
 
@@ -37,6 +36,18 @@ namespace Macmillan.CMS.Service.Controllers
             _flowJs = new FlowJsBusiness();
         }
 
+        /// <summary>
+        /// UploadFile getmethod for given details
+        /// </summary>
+        /// <param name="flowChunkNumber"></param>
+        /// <param name="flowChunkSize"></param>
+        /// <param name="flowCurrentChunkSize"></param>
+        /// <param name="flowTotalSize"></param>
+        /// <param name="flowIdentifier"></param>
+        /// <param name="flowFilename"></param>
+        /// <param name="flowRelativePath"></param>
+        /// <param name="flowTotalChunks"></param>
+        /// <returns>Returns object for UploadFile details </returns>
         [HttpGet]
         [Route("Upload")]
         public async Task<IHttpActionResult> UploadFile(string flowChunkNumber,
@@ -57,10 +68,10 @@ namespace Macmillan.CMS.Service.Controllers
 
 
         /// <summary>
-        /// 
+        /// UploadFile postmethod with given details
         /// </summary>
         /// <param name="content"></param>
-        /// <returns></returns>
+        /// <returns>Returns the status with given details</returns>
         [HttpPost]
         [Route("Upload")]
         public async Task<IHttpActionResult> UploadFile()
@@ -77,9 +88,7 @@ namespace Macmillan.CMS.Service.Controllers
                 {                 
                     // file uploade is complete. Below is an example of further file handling
                     var filePath = Path.Combine(Folder, status.FileName);
-                    var file = File.ReadAllBytes(filePath);
-                    //var picture = await _fileManager.UploadPictureToS3(User.Identity.GetUserId(), file, status.FileName);
-                    //File.Delete(filePath);
+                    var file = File.ReadAllBytes(filePath);                  
                     return Ok();
 
                 }
@@ -121,7 +130,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// UpdateContent with given details
         /// </summary>
         /// <param name="content"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for UpdateContent </returns>
         [HttpPut]
         public object UpdateContent([FromBody] Content content)
         {
@@ -134,7 +143,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// DeleteContent with given details
         /// </summary>
         /// <param name="content"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for DeleteContent</returns>
         [HttpPost]
         public object DeleteContent([FromBody] Content content)
         {
@@ -148,7 +157,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// GetContent with given details
         /// </summary>
         /// <param name="docUri"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for GetContentDetails</returns>
         [HttpGet]
         public object GetContentDetails(string uri)
         {
@@ -162,7 +171,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// GetContentMasterData with given details
         /// </summary>
         /// <param name="ContentDetails"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for GetContentMasterData</returns>
         [HttpGet]
         public object GetContentMasterData(List<Content> ContentDetails)
         {
@@ -179,7 +188,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <param name="orderBy"></param>
-        /// <returns></returns>
+        /// <returns>Returns object for SearchContents</returns>
         [HttpGet]
         public object SearchContents(string searchText, int pageNumber, int pageSize, string orderBy)
         {
@@ -188,6 +197,11 @@ namespace Macmillan.CMS.Service.Controllers
             Logger.Debug("Exiting SearchContents");
             return results;
         }
+
+        /// <summary>
+        /// DownloadContent with given details 
+        /// </summary>
+        /// <returns>Returns object for DownloadContent</returns>
         [Route("download")]
         [HttpGet]
         public HttpResponseMessage DownloadContent()

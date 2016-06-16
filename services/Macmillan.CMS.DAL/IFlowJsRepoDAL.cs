@@ -7,6 +7,9 @@ using System.Web;
 
 namespace Macmillan.CMS.DAL
 {
+    /// <summary>
+    /// Interface for IFlowJsRepoDAL Layer
+    /// </summary>
     public interface IFlowJsRepoDAL
     {
         Macmillan.CMS.Common.Models.FlowModels.FlowJsPostChunkResponse PostChunk(HttpRequest request, string folder); 
