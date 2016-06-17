@@ -30,7 +30,7 @@
                 useMocks : true,
                 fakeDelay : true,
                 fakeDelayTime: 1000,//0.8secs
-                baseUrl: 'http://midlayerhost/api/v1/',
+                baseUrl: 'http://midlayerhost:portNumber/api/',
                 debug : true
 
             },
@@ -40,7 +40,17 @@
                 useMocks : false,
                 fakeDelay : false,
                 fakeDelayTime: 0,//0.8secs
-                baseUrl : 'http://midlayerhost/api/v1/',
+                baseUrl : 'http://midlayerhost:portNumber/api/',
+                debug : false
+
+            },
+            uat : {
+
+                //Set useMocks to true to simulate/mock actual webservice.
+                useMocks : false,
+                fakeDelay : false,
+                fakeDelayTime: 0,//0.8secs
+                baseUrl : 'http://midlayerhost:portNumber/api/',
                 debug : false
 
             },
@@ -50,7 +60,7 @@
                 useMocks : false,
                 fakeDelay : false,
                 fakeDelayTime: 0,//0.8secs
-                baseUrl : 'http://midlayerhost/api/v1/',
+                baseUrl : 'http://midlayerhost:portNumber/api/',
                 debug : false
 
             }
