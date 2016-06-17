@@ -17,6 +17,7 @@
         //Set environment here
         environment : 'development',
         API : {
+            //Configure development 
             development : {
                 useMocks : false,
                 fakeDelay : false,
@@ -24,6 +25,7 @@
                 baseUrl: 'http://localhost:34573/api/',
                 debug : true
             },
+            //Configure developmentLocal 
             developmentLocal : {
 
                 //Set useMocks to true to simulate/mock actual webservice.
@@ -34,6 +36,7 @@
                 debug : true
 
             },
+            //Configure qa 
             qa : {
 
                 //Set useMocks to true to simulate/mock actual webservice.
@@ -44,6 +47,7 @@
                 debug : false
 
             },
+            //Configure uat
             uat : {
 
                 //Set useMocks to true to simulate/mock actual webservice.
@@ -54,6 +58,7 @@
                 debug : false
 
             },
+            //Configure production
             production : {
 
                 //Set useMocks to true to simulate/mock actual webservice.
