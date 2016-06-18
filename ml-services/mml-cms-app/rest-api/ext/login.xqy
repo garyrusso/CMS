@@ -25,8 +25,8 @@ function mml:get(
     )
     else ""
   
-  let $username := if ($userPwd) then fn:string((xdmp:get-request-header("username"),fn:tokenize($userPwd, ":")[1])[1]) else ""
-  let $password := if ($userPwd) then fn:string((xdmp:get-request-header("password"),fn:tokenize($userPwd, ":")[2])[1]) else ""
+  let $username := if ($userPwd) then fn:string((xdmp:get-request-header("username"),fn:substring-before($userPwd, ":"))[1]) else ""
+  let $password := if ($userPwd) then fn:string((xdmp:get-request-header("password"),fn:substring-after($userPwd, ":"))[1]) else ""
 
   let $log := xdmp:log("................. $username: '"||$username||"'")
   let $log := xdmp:log("................. $password: '"||$password||"'")

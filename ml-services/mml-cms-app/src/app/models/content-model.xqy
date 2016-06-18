@@ -118,7 +118,7 @@ declare function content:save($content)
         }
       }
     ),
-    fn:concat("Content Successfully Saved: ", $content/title/text())
+    fn:concat("Content Successfully Saved: '", $content/feed/title/text(), "'")
   )
 };
 
@@ -144,24 +144,136 @@ declare function content:_save($content)
     )
 };
 
-declare function content:_update($content)
+declare function content:update($uri as xs:string, $content)
 {
-  let $uri := content:getContentUri($content/username/fn:string())
+  let $invalidUriMessage := "invalid uri"
+  
+  let $process :=
+    if (fn:string-length($uri) eq 0) then $invalidUriMessage
+    else
+    if (fn:doc-available($uri)) then
+      "process update"
+    else
+      $invalidUriMessage
+  
+  let $newDoc :=
+    document {
+      element {fn:QName($NS,"mml:content")}
+      {
+        element {fn:QName($NS,"metadata")}
+        {
+          element {fn:QName($NS,"systemId")}     { $content/meta/systemId/text() },
+          element {fn:QName($NS,"projectState")} { $content/meta/projectState/text() },
+          element {fn:QName($NS,"created")}      { fn:current-dateTime() },
+          element {fn:QName($NS,"createdBy")}    { "webuser" },
+          element {fn:QName($NS,"modified")}     { fn:current-dateTime() },
+          element {fn:QName($NS,"modifiedBy")}   { "webuser" },
+          element {fn:QName($NS,"objectType")}   { "Content" },
+          element {fn:QName($NS,"subjectHeadings")} {
+            for $subjectHeading in $content/meta/subjectHeadings/subjectHeading/text()
+              return
+                element {fn:QName($NS,"subjectHeading")} { $subjectHeading }
+          },
+          element {fn:QName($NS,"subjectKeywords")} {
+            for $subjectKeyword in $content/meta/subjectKeywords/subjectKeyword/text()
+              return
+                element {fn:QName($NS,"subjectKeyword")} { $subjectKeyword }
+          },
+          element {fn:QName($NS,"projects")} {
+            for $project in $content/meta/projects/project/text()
+              return
+                element {fn:QName($NS,"project")} { $project }
+          }
+        },
+        element {fn:QName($NS,"feed")}
+        {
+          element {fn:QName($NS,"title")}         { $content/feed/title/text() },
+          element {fn:QName($NS,"description")}   { $content/feed/description/text() },
+          element {fn:QName($NS,"source")}        { $content/feed/source/text() },
+          element {fn:QName($NS,"publisher")}     { $content/feed/publisher/text() },
+          element {fn:QName($NS,"datePublished")} { $content/feed/datePublished/text() },
+          element {fn:QName($NS,"contentState")}  { $content/feed/contentState/text() },
+          element {fn:QName($NS,"creators")} {
+            for $creator in $content/feed/creators/creator/text()
+              return
+                element {fn:QName($NS,"creator")} { $creator }
+          },
+          element {fn:QName($NS,"resources")} {
+            for $resource in $content/feed/resources/resource/text()
+              return
+                element {fn:QName($NS,"resource")} { $resource }
+          },
+          element {fn:QName($NS,"technical")} {
+            element {fn:QName($NS,"fileFormat")}   { $content/feed/technical/fileFormat/text() },
+            element {fn:QName($NS,"fileName")}   { $content/feed/technical/fileName/text() },
+            element {fn:QName($NS,"filePath")}   { $content/feed/technical/filePath/text() },
+            element {fn:QName($NS,"fileSize")}   { $content/feed/technical/fileSize/text() }
+          }
+        }
+      }
+    }
+  
+  let $status :=
+    if (fn:starts-with($process, $invalidUriMessage)) then $invalidUriMessage
+    else
+    (
+      content:_update($uri, $newDoc),
+      fn:concat("Content Successfully Updated: '", $newDoc/mml:content/mml:feed/mml:title/text(), "'")
+    )
+    
+    return $status
+};
+
+declare function content:_update1($uri as xs:string, $newDoc)
+{
   let $doc := fn:doc($uri)
+  let $log := xdmp:log(".................. $uri:    "||$uri)
+  let $log := xdmp:log(".................. title 1: "||$doc/mml:content/mml:feed/mml:title/text())
+  let $log := xdmp:log(".................. title 2: "||$newDoc/mml:content/mml:feed/mml:title/text())
+  
+  let $cmd :=
+        fn:concat
+        (
+          'declare namespace mml = "http://macmillanlearning.com";
+           declare variable $uri external;
+           declare variable $doc external;
+           declare variable $newDoc external;
+           xdmp:node-replace($doc/mml:content, $newDoc/mml:content)'
+        )
+  return
+    xdmp:eval
+    (
+      $cmd,
+      (xs:QName("doc"), $doc, xs:QName("newDoc"), $newDoc)
+    )
+};
+
+declare function content:_update($uri as xs:string, $doc)
+{
+  if($doc) then
+    xdmp:spawn("/app/lib/updateContent.xqy", ((xs:QName("uri"), $uri, xs:QName("doc"), $doc)))
+  else ()
+};
+
+declare function content:_update2($uri as xs:string, $doc)
+{
+  let $log := xdmp:log(".................. $uri:    "||$uri)
+  let $log := xdmp:log(".................. title 1: "||$doc/mml:content/mml:feed/mml:title/text())
+  
+  (: spawn :)
 
   let $cmd :=
         fn:concat
         (
           'declare variable $uri external;
            declare variable $doc external;
-           declare variable $content external;
-           xdmp:node-replace(fn:doc()/mml:user/mml:feed/firstname, <firstname>aaa</firstname>)'
+           xdmp:document-insert($uri, $doc, xdmp:default-permissions(), ("content"))'
         )
   return
     xdmp:eval
     (
       $cmd,
-      (xs:QName("doc"), $doc, xs:QName("content"), $content)
+      (xs:QName("uri"), $uri, xs:QName("doc"), $doc)
     )
 };
 
