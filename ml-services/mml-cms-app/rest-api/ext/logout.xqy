@@ -17,6 +17,8 @@ function mml:get(
   $params  as map:map
 ) as document-node()*
 {
+  (: Add Auth Token Check here :)
+
   let $token := xdmp:get-request-header("X-Auth-Token")
 
   let $validSessionDoc :=
