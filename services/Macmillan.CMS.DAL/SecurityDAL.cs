@@ -35,11 +35,15 @@ namespace Macmillan.CMS.DAL
             string mlUrl = "http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/login";
             MLReader mlReader = new MLReader();
 
+            string UserInfo = this.ConvertoBase64(authentication.username.Split(new char[] { '@' })[0] + ":" + authentication.password);
+
             //get base64 representaion of user name and password
-            string credentials = "Basic" + this.ConvertoBase64(authentication.username.Split(new char[] {'@'})[0] + "|" + authentication.password);
+            string credentials = "Basic" + UserInfo;
             
             Dictionary<string, string> requestHeader = new Dictionary<string, string>();
             requestHeader.Add("Authorization", credentials);
+
+            requestHeader.Add("UserInfo", UserInfo);
             object results = null;
             try
             {
