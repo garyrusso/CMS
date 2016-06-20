@@ -38,6 +38,8 @@ function mml:get(
   $params  as map:map
 ) as document-node()*
 {
+  (: Add Auth Token Check here :)
+  
   map:put($context, "output-types", "application/xml"),
   map:put($context, "output-status", (200, "OK")),
   document { "GET called on the ext service extension" }
@@ -53,6 +55,8 @@ function mml:put(
     $input   as document-node()*
 ) as document-node()?
 {
+  (: Add Auth Token Check here :)
+  
   map:put($context, "output-types", "application/xml"),
   map:put($context, "output-status", (201, "Created")),
   document { "PUT called on the ext service extension" }
@@ -69,7 +73,6 @@ function mml:post(
     $input   as document-node()*
 ) as document-node()*
 {
-
   (: Check Auth Token here :)
   
   let $output-types := map:put($context,"output-types","application/json")
@@ -133,6 +136,8 @@ function mml:delete(
     $params  as map:map
 ) as document-node()?
 {
+  (: Add Auth Token Check here :)
+  
   map:put($context, "output-types", "application/xml"),
   map:put($context, "output-status", (200, "OK")),
   document { "DELETE called on the ext service extension" }

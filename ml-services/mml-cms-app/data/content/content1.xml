@@ -28,9 +28,9 @@
     <mml:publisher>Worth Publishers</mml:publisher>
     <mml:datePublished>2013</mml:datePublished>
     <mml:resources>
-      <mml:resource>/project123/files/image001.jpg</mml:resource>
-      <mml:resource>/project123/files/image002.jpg</mml:resource>
-      <mml:resource>/project123/files/abstract001.pdf</mml:resource>
+      <mml:resource>/resource/image001.jpg</mml:resource>
+      <mml:resource>/resource/image002.jpg</mml:resource>
+      <mml:resource>/resource/abstract001.pdf</mml:resource>
     </mml:resources>
     <mml:contentState>Vendor</mml:contentState>
     <mml:technical>

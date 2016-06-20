@@ -36,6 +36,8 @@ function mml-api:get(
   $params  as map:map
 ) as document-node()*
 {
+  (: Add Auth Token Check here :)
+  
   let $dictionaryType := map:get($params, "dictionaryType")
   let $outputFormat   := map:get($params, "outputFormat")
 
