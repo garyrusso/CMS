@@ -29,11 +29,12 @@ Here we load user document data & data dictionary data
 
 [Authentication API](../../wiki/Authentication-API)
 
-[User API](../../wiki/User-API)
-
 [Content API](../../wiki/Content-API)
 
 [Dictionary API](../../wiki/Dictionary-API)
 
 [Project API](../../wiki/Project-API)
 
+[Resource API](../../wiki/Resource-API)
+
+[User API](../../wiki/User-API)
