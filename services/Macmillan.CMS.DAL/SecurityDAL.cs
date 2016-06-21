@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using Macmillan.CMS.Common;
 using Macmillan.CMS.Common.Models;
 using Macmillan.CMS.Common.Logging;
+using System.Configuration;
 
 namespace Macmillan.CMS.DAL
 {
@@ -18,7 +19,7 @@ namespace Macmillan.CMS.DAL
         /// <summary>
         /// get user data with given details
         /// </summary>
-        /// <returns>Returns object for GetUserData</returns>
+        /// <returns></returns>
         public object GetUserData()
         {
             Logger.Debug("Entering GetUserData");
@@ -32,22 +33,26 @@ namespace Macmillan.CMS.DAL
         public object ValidateUser(Authentication authentication)
         {
             //Post it to MarkLogic  
-            string mlUrl = "http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/login";
+            //string mlUrl = "http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/login";
+            //string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "login?name=login";
+            string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "login";
+            //string mlUrl = "http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/v1/resources/login?name=login";
+            //string[] mlCredentials = ConfigurationManager.AppSettings["MarkLogicCredentials"].Split(new char[] { '/' });
             MLReader mlReader = new MLReader();
 
-            string UserInfo = this.ConvertoBase64(authentication.username.Split(new char[] { '@' })[0] + ":" + authentication.password);
-
             //get base64 representaion of user name and password
-            string credentials = "Basic" + UserInfo;
+            //string authorization = "Basic " + this.ConvertoBase64(mlCredentials[0] + ":" + mlCredentials[1]);
+            string userInfo = this.ConvertoBase64(authentication.username.Split(new char[] { '@' })[0] + ":" + authentication.password);
             
             Dictionary<string, string> requestHeader = new Dictionary<string, string>();
-            requestHeader.Add("Authorization", credentials);
 
-            requestHeader.Add("UserInfo", UserInfo);
+            //requestHeader.Add("Authorization", authorization);
+            requestHeader.Add("UserInfo", userInfo);
+
             object results = null;
             try
             {
-                results = mlReader.GetHttpContent<object>(mlUrl, "application/xml", requestHeader);
+                results = mlReader.GetHttpContent<object>(mlUrl, "application/json", requestHeader);
             }
             catch (Exception ex)
             {
@@ -80,7 +85,7 @@ namespace Macmillan.CMS.DAL
         /// ValidateUserCredentials with given details
         /// </summary>
         /// <param name="authentication"></param>
-        /// <returns>Returns object for ValidateUserCredentials</returns>
+        /// <returns></returns>
         public object ValidateUserCredentials(Authentication authentication)
         {
             //Call ML and ValidateUserCredentials
@@ -88,9 +93,7 @@ namespace Macmillan.CMS.DAL
             if (authentication.username == "admin@techm.com" && authentication.password == "password")
             {
                 JsonNetSerialization ser = new JsonNetSerialization();
-                string content = @"{'authToken':'ZTQyMjE4YTdhYTE3OTI4NTljdhYTU0ZTAyNjk2Mg',
-                        'username': 'ghopper',
-                        'fullName': 'Grace Hopper',
+                string content = @"{'session_token':'ZTQyMjE4YTdhYTE3OTI4NTljdhYTU0ZTAyNjk2Mg',
                         'expires_in': 3600,
                         'token_type': 'bearer',
                         'scope': 'user'}";

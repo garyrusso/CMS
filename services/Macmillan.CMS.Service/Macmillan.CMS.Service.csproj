@@ -165,12 +165,12 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Filters\AuthenticationAttribute.cs" />
     <Compile Include="Filters\ManageExceptionAttribute.cs" />
+    <Compile Include="FlowJs\FlowJsRepo.cs" />
+    <Compile Include="FlowJs\FlowModels.cs" />
+    <Compile Include="FlowJs\IFlowJsRepo.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\FileMetaData.cs" />
-    <Compile Include="Models\FileResponseMessage.cs" />
-    <Compile Include="Models\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -186,7 +186,11 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="App_Data\Content.json">
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -203,6 +207,9 @@
       <Project>{c9b32562-ffe7-4ee7-a542-a4904d4cf426}</Project>
       <Name>Macmillan.CMS.DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\PublishToFileSystem.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -238,4 +245,12 @@
   </Target>
   <Target Name="AfterBuild">
   </Target> -->
+  <Target Name="PublishToFileSystem" DependsOnTargets="PipelinePreDeployCopyAllFilesToOneFolder">
+    <Error Condition="'$(PublishDestination)'==''" Text="The PublishDestination property must be set to the intended publishing destination." />
+    <MakeDir Condition="!Exists($(PublishDestination))" Directories="$(PublishDestination)" />
+    <ItemGroup>
+      <PublishFiles Include="$(_PackageTempDir)\**\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(PublishFiles)" DestinationFiles="@(PublishFiles->'$(PublishDestination)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="True" />
+  </Target>
 </Project>

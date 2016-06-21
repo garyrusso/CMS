@@ -19,42 +19,18 @@ namespace Macmillan.CMS.DAL
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object CreateContent(string projXml, string projUri)
+         public object UploadMetadata(string metadata)
          {
-             Logger.Debug("Entering CreateContent");
-//             JsonNetSerialization ser = new JsonNetSerialization();
-//             string con = @"{'Title': 'Myers 11e EPUB3',
-//                          'uri': '/mydocuments/conent1.xml',
-//                          'path': 'fn:doc(\'/mydocuments/conent1.xml\')',
-//                          'href': '/v1/documents?uri=%2Fmydocuments%2Fconent1.xml',
-//                          'mimetype': 'application/xml',
-//                          'format': 'xml',
-//                          'fileName': 'myers113.epub',
-//                          'dateLastModified': '2015-04-15 13:30',
-//                          'username': 'bcross',
-//                          'fullName': 'Brian Cross',
-//                          'audit_info': [
-//                            {
-//                              'actionType': 'Upload',
-//                              'actionCreatedOn': '2015-04-15 13:30',
-//                              'actionCreatedBy': 'Brain Cross'
-//                            },
-//                            {
-//                              'actionType': 'Downloaded',
-//                              'actionCreatedOn': '2015-04-15 13:30',
-//                              'actionCreatedBy': 'Brain Cross'
-//                            }
-//                          ]
-//                        }
-//                        ";
-//             var results = ser.DeSerialize(con);
-             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "?uri=" + projUri;
+             Logger.Debug("Entering UploadMetadata");
+
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "/content";
              MLReader mlReader = new MLReader();
-             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.POST, "application/xml", projXml);
-             Logger.Debug("Exitinging CreateContent");
+             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.POST, "application/json", metadata);
+             
+             Logger.Debug("Exiting UploadMetadata");
              return results;
          }
-
+         
          /// <summary>
          /// UpdateContent with given details
          /// </summary>
@@ -97,72 +73,57 @@ namespace Macmillan.CMS.DAL
              Logger.Debug("Entering GetContent");
              JsonNetSerialization ser = new JsonNetSerialization();
 
-             //Content content = new Content();
+             Macmillan.CMS.Common.Models.Content content = new Macmillan.CMS.Common.Models.Content();
 
-             //content.Title = "Myers 11e EPUB3";
-             //content.ContentUri = "/mydocuments/conent1.xml";
-             //content.Description = "The EPUB3/EDUPUB of David";
-             //content.Source = "Book";
-             //content.Creator = new string[] { "David Myers" };
-             //content.Publisher = "Worth Publishers";
-             //content.ContentState = "Vendor";
-             //content.Projects = null;
-             //content.SubjectHeadings = new string[] { "Psychology" };
-             //content.SubjectKeywords = new string[] { "Test", "Working" };
-             //content.SystemId = "05b8825669ae9dee519349e4a9edafca";
-             //content.DateCreated = DateTime.Now;
-             //content.DateModified = DateTime.Now;
-             //content.DatePublished = DateTime.Now;
-             //content.CreatedBy = "bcross";
-             //content.ModifiedBy = "bcross";
-             //content.ContentResourceType = "";
-             //content.FileFormat = "EPUB";
-             //content.FileName = "myers11e.epub";
-             //content.FilePath = "s3://cms/myers11e.epub";
-             //content.FileSize = "45400";
+             content.Title = "Myers 11e EPUB3";
+             content.ContentUri = "/mydocuments/conent1.xml";
+             content.Description = "The EPUB3/EDUPUB of David";
+             content.Source = "Book";
+             content.Creator = new string[] { "David Myers" }; 
+             content.Publisher = "Worth Publishers";
+             content.ContentState = "Vendor";
+             content.Projects = null;
+             content.SubjectHeadings = new string[]{"Psychology"};
+             content.SubjectKeywords = new string[] { "Test", "Working" };
+             content.SystemId = "05b8825669ae9dee519349e4a9edafca";
+             content.DateCreated = DateTime.Now;
+             content.DateModified = DateTime.Now;
+             content.DatePublished = DateTime.Now;
+             content.CreatedBy = "bcross";
+             content.ModifiedBy = "bcross";
+             content.ContentResourceType = "";
+             content.FileFormat = "EPUB";
+             content.FileName = "myers11e.epub";
+             content.FilePath = "s3://cms/myers11e.epub";
+             content.FileSize = "45400";
 
-             //content.AuditInfo = new string[] { "1", "2" };           
-
-             
-             //content.ActionType = new string[] { "Upload", "Downloaded" };
-           
-             //foreach (string AuditInfo in content.ActionType)
-             //{
-             //    return AuditInfo;
-             //}
-             //content.ActionCreatedOn = new string[] { "2015-04-15 13:30", "2015-04-15 13:30" };
-             //content.ActionCreatedBy = new string[] { "Brian Cross", "Cross" };
-
-
-             string con = @"{'SystemId':'d44d8cd98f00b204e9800998ecf8427e','ContentUri':'/documents/content4.xml','Path':'fn:doc(\'/documents/content4.xml\')','FileName':'Jouve-MyersEPCH10e_Ch03_20160217.zip','FileFormat':'ZIP','FilePath':'s3://cms/Jouve-MyersEPCH10e_Ch03_20160217.zip','FileSize':'8192','DateCreated':'2015-04-15 13:30','DateModified':'2015-04-15 13:30','CreatedBy':'Brian Cross','ModifiedBy':'Brian Cross','Title':'Myers 11e EPUB3','Description':'Content description','ContentState':'Active','Source':'Book','Creator':['David Myers','Brain Cross'],'Publisher':'Worth Publishers','DatePublished':'2015-04-15 13:30','contentResourceTypes':'Section','SubjectHeadings':['Psychology'],'SubjectKeywords':['Test File'],'Projects':[{
-		                            'Title': 'Myers 11e EPUB3',
-		                            'uri': '/mydocuments/conent1.xml',
-		                            'path': 'fn:doc(\'/mydocuments/conent1.xml\')',
-		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent1.xml',
-		                            'mimetype': 'application/xml',
-		                            'format': 'xml',
-		                            'fileName': 'myers113.epub',
-		                            'dateLastModified': '2015-04-15 13:30',
-		                            'username': 'bcross',
-		                            'fullName': 'Brian Cross'
-
-	                            }, {
-		                            'Title': 'Myers 11e EPUB3-2',
-		                            'uri': '/mydocuments/conent2.xml',
-		                            'path': 'fn:doc(\'/mydocuments/conent2.xml\')',
-		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent2.xml',
-		                            'mimetype': 'application/xml',
-		                            'format': 'xml',
-		                            'fileName': 'myers113.epub',
-		                            'dateLastModified': '2015-04-15 13:30',
-		                            'username': 'bcross',
-		                            'fullName': 'Brian Cross'
-
-	                            }],'AuditInfo':[{'ActionType':'Upload','ActionCreatedOn':'2015-04-15 13:30','ActionCreatedBy':'Brain Cross','ActionNote':'Review of zip file'},{'ActionType':'Downloaded','ActionCreatedOn':'2015-04-15 13:30','ActionCreatedBy':'Brain Cross','ActionNote':'Downloaded zip file'}]}";
-             //var results = ser.Serialize<Content>(con);
-             var results = ser.DeSerialize(con);
+//             string con = @"{'Title': 'Myers 11e EPUB3',
+//                          'uri': '/mydocuments/conent1.xml',
+//                          'path': 'fn:doc(\'/mydocuments/conent1.xml\')',
+//                          'href': '/v1/documents?uri=%2Fmydocuments%2Fconent1.xml',
+//                          'mimetype': 'application/xml',
+//                          'format': 'xml',
+//                          'fileName': 'myers113.epub',
+//                          'dateLastModified': '2015-04-15 13:30',
+//                          'username': 'bcross',
+//                          'fullName': 'Brian Cross',
+//                          'audit_info': [
+//                            {
+//                              'actionType': 'Upload',
+//                              'actionCreatedOn': '2015-04-15 13:30',
+//                              'actionCreatedBy': 'Brain Cross'
+//                            },
+//                            {
+//                              'actionType': 'Downloaded',
+//                              'actionCreatedOn': '2015-04-15 13:30',
+//                              'actionCreatedBy': 'Brain Cross'
+//                            }
+//                          ]
+//                        }
+//                       ";
+             //var results = ser.Serialize<Content>(content);
              Logger.Debug("Exitinging CreateContent");
-             return results;
+             return content;
          }
 
          /// <summary>
@@ -184,18 +145,24 @@ namespace Macmillan.CMS.DAL
              return results;
          }
 
-         public void UploadFiles(FileInfo[] file)
+         public void UploadFile(FileInfo file)
          {
              ContentCreateOptions options = null;
              Session session = null;
 
              try
-             {                 
+             {
+                 //Uri uri = new Uri("xcc://admin:admin@localhost:8061/Documents");
+                 //Uri uri = new Uri("xcc://admin:admin@localhost:8061/mml-cms-app-content");
                  Uri uri = new Uri(ConfigurationManager.AppSettings["XCC_Connection"]);
                  ContentSource cs = ContentSourceFactory.NewContentSource(uri);
                  session = cs.NewSession();
 
-                 this.Load(session, file, options);
+                // FileInfo[] file = new FileInfo[2] { 
+                //new FileInfo(@"E:\MacMillan\CMS\working\stubs\UploadFile\UploadFile\app_data\project1.xml"),
+                //new FileInfo(@"E:\MacMillan\CMS\working\stubs\UploadFile\UploadFile\app_data\project2.xml")};
+                 
+                 this.LoadFile(session, file, options);
              }
              catch (Exception ex)
              {
@@ -208,7 +175,7 @@ namespace Macmillan.CMS.DAL
              }
          }
 
-         private void Load(Session session, FileInfo[] files, ContentCreateOptions options)
+         private void LoadFiles(Session session, FileInfo[] files, ContentCreateOptions options)
          {
              String[] uris = new String[files.Length];
 
@@ -221,10 +188,19 @@ namespace Macmillan.CMS.DAL
 
              for (int i = 0; i < files.Length; i++)
              {
-                 contents[i] = ContentFactory.NewContent("documents/" + files[i].Name, files[i], options);
+                 contents[i] = ContentFactory.NewContent("documents/binary/" + files[i].Name, files[i], options);
              }
 
              session.InsertContent(contents);
+         }
+
+         private void LoadFile(Session session, FileInfo file, ContentCreateOptions options)
+         {
+             String uris = file.FullName.Replace("\\", "/");
+
+             Marklogic.Xcc.Content content = ContentFactory.NewContent("documents/binary/" + file.Name, file , options); 
+
+             session.InsertContent(content);
          }
 
          /// <summary>
@@ -244,7 +220,7 @@ namespace Macmillan.CMS.DAL
 	                            'start': 1,
 	                            'page-length': 10,
 	                            'results': [{
-		                            'Title': 'Myers 11e EPUB3-1',
+		                            'Title': 'Myers 11e EPUB3',
 		                            'uri': '/mydocuments/conent1.xml',
 		                            'path': 'fn:doc(\'/mydocuments/conent1.xml\')',
 		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent1.xml',
@@ -281,130 +257,6 @@ namespace Macmillan.CMS.DAL
 
 	                            }, {
 		                            'Title': 'Myers 11e EPUB4-4',
-		                            'uri': '/mydocuments/conent4.xml',
-		                            'path': 'fn:doc(\'/mydocuments/conent4.xml\')',
-		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent4.xml',
-		                            'mimetype': 'application/xml',
-		                            'format': 'xml',
-		                            'fileName': 'myers113.epub',
-		                            'dateLastModified': '2015-04-15 13:30',
-		                            'username': 'bcross',
-		                            'fullName': 'Brian Cross'
-
-	                            },{
-		                            'Title': 'Myers 11e EPUB4-5',
-		                            'uri': '/mydocuments/conent4.xml',
-		                            'path': 'fn:doc(\'/mydocuments/conent4.xml\')',
-		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent4.xml',
-		                            'mimetype': 'application/xml',
-		                            'format': 'xml',
-		                            'fileName': 'myers113.epub',
-		                            'dateLastModified': '2015-04-15 13:30',
-		                            'username': 'bcross',
-		                            'fullName': 'Brian Cross'
-
-	                            },
-{
-		                            'Title': 'Myers 11e EPUB4-6',
-		                            'uri': '/mydocuments/conent4.xml',
-		                            'path': 'fn:doc(\'/mydocuments/conent4.xml\')',
-		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent4.xml',
-		                            'mimetype': 'application/xml',
-		                            'format': 'xml',
-		                            'fileName': 'myers113.epub',
-		                            'dateLastModified': '2015-04-15 13:30',
-		                            'username': 'bcross',
-		                            'fullName': 'Brian Cross'
-
-	                            },
-{
-		                            'Title': 'Myers 11e EPUB4-7',
-		                            'uri': '/mydocuments/conent4.xml',
-		                            'path': 'fn:doc(\'/mydocuments/conent4.xml\')',
-		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent4.xml',
-		                            'mimetype': 'application/xml',
-		                            'format': 'xml',
-		                            'fileName': 'myers113.epub',
-		                            'dateLastModified': '2015-04-15 13:30',
-		                            'username': 'bcross',
-		                            'fullName': 'Brian Cross'
-
-	                            },
-{
-		                            'Title': 'Myers 11e EPUB4-8',
-		                            'uri': '/mydocuments/conent4.xml',
-		                            'path': 'fn:doc(\'/mydocuments/conent4.xml\')',
-		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent4.xml',
-		                            'mimetype': 'application/xml',
-		                            'format': 'xml',
-		                            'fileName': 'myers113.epub',
-		                            'dateLastModified': '2015-04-15 13:30',
-		                            'username': 'bcross',
-		                            'fullName': 'Brian Cross'
-
-	                            },
-{
-		                            'Title': 'Myers 11e EPUB4-9',
-		                            'uri': '/mydocuments/conent4.xml',
-		                            'path': 'fn:doc(\'/mydocuments/conent4.xml\')',
-		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent4.xml',
-		                            'mimetype': 'application/xml',
-		                            'format': 'xml',
-		                            'fileName': 'myers113.epub',
-		                            'dateLastModified': '2015-04-15 13:30',
-		                            'username': 'bcross',
-		                            'fullName': 'Brian Cross'
-
-	                            },{
-		                            'Title': 'Myers 11e EPUB4-10',
-		                            'uri': '/mydocuments/conent4.xml',
-		                            'path': 'fn:doc(\'/mydocuments/conent4.xml\')',
-		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent4.xml',
-		                            'mimetype': 'application/xml',
-		                            'format': 'xml',
-		                            'fileName': 'myers113.epub',
-		                            'dateLastModified': '2015-04-15 13:30',
-		                            'username': 'bcross',
-		                            'fullName': 'Brian Cross'
-
-	                            },{
-		                            'Title': 'Myers 11e EPUB4-11',
-		                            'uri': '/mydocuments/conent4.xml',
-		                            'path': 'fn:doc(\'/mydocuments/conent4.xml\')',
-		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent4.xml',
-		                            'mimetype': 'application/xml',
-		                            'format': 'xml',
-		                            'fileName': 'myers113.epub',
-		                            'dateLastModified': '2015-04-15 13:30',
-		                            'username': 'bcross',
-		                            'fullName': 'Brian Cross'
-
-	                            },{
-		                            'Title': 'Myers 11e EPUB4-12',
-		                            'uri': '/mydocuments/conent4.xml',
-		                            'path': 'fn:doc(\'/mydocuments/conent4.xml\')',
-		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent4.xml',
-		                            'mimetype': 'application/xml',
-		                            'format': 'xml',
-		                            'fileName': 'myers113.epub',
-		                            'dateLastModified': '2015-04-15 13:30',
-		                            'username': 'bcross',
-		                            'fullName': 'Brian Cross'
-
-	                            },{
-		                            'Title': 'Myers 11e EPUB4-13',
-		                            'uri': '/mydocuments/conent4.xml',
-		                            'path': 'fn:doc(\'/mydocuments/conent4.xml\')',
-		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent4.xml',
-		                            'mimetype': 'application/xml',
-		                            'format': 'xml',
-		                            'fileName': 'myers113.epub',
-		                            'dateLastModified': '2015-04-15 13:30',
-		                            'username': 'bcross',
-		                            'fullName': 'Brian Cross'
-
-	                            },{
-		                            'Title': 'Myers 11e EPUB4-14',
 		                            'uri': '/mydocuments/conent4.xml',
 		                            'path': 'fn:doc(\'/mydocuments/conent4.xml\')',
 		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent4.xml',

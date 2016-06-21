@@ -19,7 +19,7 @@ namespace Macmillan.CMS.DAL
         /// Create a Project with given details
         /// </summary>
         /// <param name="project"></param>
-        /// <returns>Returns object for CreateProject</returns>
+        /// <returns></returns>
         public object CreateProject(string projXml, string projUri)
         {
             //Call ML and post the project xml
@@ -51,7 +51,7 @@ namespace Macmillan.CMS.DAL
         /// update the project with given details
         /// </summary>
         /// <param name="project"></param>
-        /// <returns>Returns object for UpdateProject</returns>
+        /// <returns></returns>
         public object UpdateProject(string projXml, string projUri)
         {
             Logger.Debug("Entering UpdateProject");
@@ -71,7 +71,7 @@ namespace Macmillan.CMS.DAL
         /// delete the Project with given details
         /// </summary>
         /// <param name="project"></param>
-        /// <returns>Returns object for DeleteProject</returns>
+        /// <returns></returns>
         public object DeleteProject(string projXml, string projUri)
         {
             Logger.Debug("Entry DeleteProject");
@@ -90,7 +90,7 @@ namespace Macmillan.CMS.DAL
         /// Get project details with given details
         /// </summary>
         /// <param name="uri"></param>
-        /// <returns>Returns object for GetProjectDetails</returns>
+        /// <returns></returns>
         public object GetProjectDetails(string uri)
         {
             Logger.Debug("Entering GetProjectDetails");
@@ -117,7 +117,7 @@ namespace Macmillan.CMS.DAL
         /// get project details with given details
         /// </summary>
         /// <param name="ProjectDetail"></param>
-        /// <returns>Returns object for GetProjectMasterData</returns>
+        /// <returns></returns>
         public object GetProjectMasterData(List<Project> ProjectDetail)
         {
             Logger.Debug("Entering GetProjectMasterData");
@@ -146,7 +146,7 @@ namespace Macmillan.CMS.DAL
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <param name="orderBy"></param>
-        /// <returns>Returns object for SearchProjects</returns>
+        /// <returns></returns>
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {
             //Call ML and SearchProjects

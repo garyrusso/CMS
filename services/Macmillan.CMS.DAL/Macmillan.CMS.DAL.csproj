@@ -31,8 +31,86 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IKVM.AWT.WinForms">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.AWT.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Beans">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.Beans.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Charsets">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.Charsets.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Corba">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.Corba.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Core">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Jdbc">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.Jdbc.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Management">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Media">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.Media.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Misc">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.Misc.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Naming">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.Naming.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Remoting">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.Remoting.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Security">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.SwingAWT">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.SwingAWT.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Text">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Tools">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.Tools.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Util">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.API">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.XML.API.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Bind">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.XML.Bind.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Crypto">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.XML.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Parse">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.XML.Parse.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Transform">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.XML.Transform.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.WebServices">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.XML.WebServices.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.XPath">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.OpenJDK.XML.XPath.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Reflection">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Runtime">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Runtime.JNI">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\IKVM.Runtime.JNI.dll</HintPath>
+    </Reference>
     <Reference Include="MarklogicXcc">
-      <HintPath>C:\Users\hg00461199\Desktop\MarklogicXcc.dll</HintPath>
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\MarklogicXcc.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -41,22 +119,18 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="xcccore">
+      <HintPath>..\..\..\..\..\Downloads\MarkXCC.Net-8.0-5\dll\xcccore.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DictionaryDAL.cs" />
-    <Compile Include="FlowJsRepoDAL.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="IDictionaryDAL.cs" />
-    <Compile Include="IFlowJsRepoDAL.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="IManageContentDAL.cs" />
     <Compile Include="IManageProjectDAL.cs" />
     <Compile Include="ISearchDataDAL.cs" />
@@ -85,4 +159,14 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+
+<Target Name="PublishToFileSystem" DependsOnTargets="PipelinePreDeployCopyAllFilesToOneFolder">
+    <Error Condition="'$(PublishDestination)'==''" Text="The PublishDestination property must be set to the intended publishing destination." />
+    <MakeDir Condition="!Exists($(PublishDestination))" Directories="$(PublishDestination)" />
+    <ItemGroup>
+        <PublishFiles Include="$(_PackageTempDir)\**\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(PublishFiles)" DestinationFiles="@(PublishFiles->'$(PublishDestination)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="True" />
+</Target>
+
 </Project>

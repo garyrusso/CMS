@@ -10,35 +10,16 @@ namespace Macmillan.CMS.Business
 {
     public class FlowJsBusiness : IFlowJsRepoBusiness
     {
-        /// <summary>
-        /// Postchunk with given details
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="folder"></param>
-        /// <returns>Returns object for postchunk</returns>
         public Macmillan.CMS.Common.Models.FlowModels.FlowJsPostChunkResponse PostChunk(HttpRequest request, string folder)
         {
             return PostChunkBase(request, folder, null);
         }
 
-        /// <summary>
-        /// Postchunk with validationrule details
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="folder"></param>
-        /// <param name="validationRules"></param>
-        /// <returns>Returns object for Postchunk validation rules details</returns>
         public Macmillan.CMS.Common.Models.FlowModels.FlowJsPostChunkResponse PostChunk(HttpRequest request, string folder, Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules validationRules)
         {
             return PostChunkBase(request, folder, validationRules);
         }
 
-        /// <summary>
-        /// ChunkExists for given details
-        /// </summary>
-        /// <param name="folder"></param>
-        /// <param name="request"></param>
-        /// <returns>Returns object for chunkexists</returns>
         public bool ChunkExists(string folder, HttpRequest request)
         {
             var identifier = request.QueryString["flowIdentifier"];
@@ -47,13 +28,6 @@ namespace Macmillan.CMS.Business
             return File.Exists(Path.Combine(folder, chunkFullPathName));
         }
 
-        /// <summary>
-        /// PostChunkBase with given details
-        /// </summary>
-        /// <param name="request"></param>
-        /// <param name="folder"></param>
-        /// <param name="validationRules"></param>
-        /// <returns>Returns object for given details</returns>
         private Macmillan.CMS.Common.Models.FlowModels.FlowJsPostChunkResponse PostChunkBase(HttpRequest request, string folder, Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules validationRules)
         {
             var chunk = new Macmillan.CMS.Common.Models.FlowModels.FlowChunk();
@@ -123,12 +97,6 @@ namespace Macmillan.CMS.Business
             return response;
         }
 
-        /// <summary>
-        /// MultipleFilesToSingleFile with given details
-        /// </summary>
-        /// <param name="dirPath"></param>
-        /// <param name="fileAry"></param>
-        /// <param name="destFile"></param>
         private static void MultipleFilesToSingleFile(string dirPath, IEnumerable<string> fileAry, string destFile)
         {
             using (var destStream = File.Create(Path.Combine(dirPath, destFile)))
@@ -141,13 +109,6 @@ namespace Macmillan.CMS.Business
             }
         }
 
-        /// <summary>
-        /// GetChunkFilename with given details
-        /// </summary>
-        /// <param name="chunkNumber"></param>
-        /// <param name="identifier"></param>
-        /// <param name="folder"></param>
-        /// <returns>Returns the chunkfilename</returns>
         private string GetChunkFilename(int chunkNumber, string identifier, string folder)
         {
             return Path.Combine(folder, "flow-" + identifier + "." + chunkNumber);

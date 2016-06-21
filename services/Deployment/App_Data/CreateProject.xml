@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Namespace declaration-->
+<mml:cmsDocument xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:schema="http://schema.org/" xmlns:epub="http://www.idpf.org/2007/ops" xmlns:mml="http://macmillanlearning.com/" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+	<!--Elements specific to metadata markup-->	
+	<mml:metadata>
+		<!--Common elements across projects and content-->
+		<mml:cmsCore>
+			<mml:administrative>
+				<mml:systemID>##systemId##</mml:systemID>
+				<mml:uri>##docUri##</mml:uri>
+				<mml:dateCreated>##dateCreated##</mml:dateCreated>
+				<mml:createdBy>##createdby##</mml:createdBy>
+				<mml:dateLastModified>##dateLastModified##</mml:dateLastModified>
+				<mml:modifiedBy>##modifiedBy##</mml:modifiedBy>
+				<mml:objectType>Project</mml:objectType>
+			</mml:administrative>
+			<mml:descriptive>
+				<dc:title>##title##</dc:title>
+				<dc:description>##description##</dc:description>
+			</mml:descriptive>
+			<mml:semantic>
+				<mml:subjectHeadings>
+					##subjects##
+				</mml:subjectHeadings>
+				<mml:subjectKeywords>
+					##keywords##
+				</mml:subjectKeywords>
+			</mml:semantic>	
+		</mml:cmsCore>
+		<!--Elements specific to projects-->
+		<mml:project>
+			<mml:descriptive>
+				<mml:projectState>##projectState##</mml:projectState>
+			</mml:descriptive>	
+		</mml:project>
+	<!--Elements specific to audit log. No values should exist for Project-->
+	</mml:metadata>
+	<!--Elements specific to content body markup-->	
+	<xhtml:body>
+	</xhtml:body>	
+</mml:cmsDocument>

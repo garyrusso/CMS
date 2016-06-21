@@ -66,7 +66,7 @@ namespace Macmillan.CMS.DAL
             string mediaType = "application/json", 
             Dictionary<string, string> requestHeaders = null)
         {
-            using (var httpClass = new HttpClass(url, SupportedHttpMethods.GET, mediaType, url, requestHeaders))
+            using (var httpClass = new HttpClass(url, SupportedHttpMethods.GET, mediaType, null, requestHeaders))
             {
                 httpClass.Invoke();
 
