@@ -1,12 +1,16 @@
 {
   "meta": {
-    "systemID": "05b8825669ae9dee519349e4a9edafcb",
+    "systemId": "05b8833669ae9dee519349e4a9aaaaaa",
+    "projectState": "start",
     "subjectHeadings": ["Geography"],
     "subjectKeywords": [
       "Hyderabad",
       "Dubai"
     ],
-    "hasProjects": ["Beechers 21e"]
+    "projects": [
+      "Beechers 21e",
+      "Jets 2017"
+    ]
   },
   "feed": {
     "title": "Beechers 21e EPUB3",
@@ -15,8 +19,11 @@
     "creators": ["Harriot Beechers"],
     "publisher": "Harper Collins",
     "datePublished": "2014-06-10",
-    "contentResourceTypes": ["image"],
-    "contentState": "Vendor",
+    "contentResourceTypes": [
+      "Section",
+      "Learning Objective"
+    ],
+    "contentState": "Initial Review",
     "technical": {
       "fileFormat": "EPUB",
       "fileName": "beechers21e.epub",

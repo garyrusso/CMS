@@ -6,8 +6,10 @@ import module namespace search = "http://marklogic.com/appservices/search" at "/
 
 import module namespace json  = "http://marklogic.com/xdmp/json" at "/MarkLogic/json/json.xqy";
 import module namespace usr   = "http://marklogic.com/roxy/models/user" at "/app/models/user-model.xqy";
+import module namespace auth  = "http://marklogic.com/roxy/models/authentication" at "/app/models/authentication.xqy";
 import module namespace cm    = "http://marklogic.com/roxy/models/content" at "/app/models/content-model.xqy";
 import module namespace c     = "http://marklogic.com/roxy/config" at "/app/config/config.xqy";
+import module namespace am    = "http://marklogic.com/roxy/models/audit" at "/app/models/audit-model.xqy";
 
 declare namespace roxy = "http://marklogic.com/roxy";
 declare namespace rapi = "http://marklogic.com/rest-api";
@@ -15,21 +17,6 @@ declare namespace mmlc = "http://macmillanlearning.com";
 declare namespace jn   = "http://marklogic.com/xdmp/json/basic";
 
 declare variable $NS := "http://macmillanlearning.com";
-
-(:
- : To add parameters to the functions, specify them in the params annotations.
- : Example
- :   declare %roxy:params("uri=xs:string", "priority=xs:int") mml:get(...)
- : This means that the get function will take two parameters, a string and an int.
- :
- : To report errors in your extension, use fn:error(). For details, see
- : http://docs.marklogic.com/guide/rest-dev/extensions#id_33892, but here's
- : an example from the docs:
- : fn:error(
- :   (),
- :   "RESTAPI-SRVEXERR",
- :   ("415","Raven","nevermore"))
- :)
 
 (:
  :)
@@ -41,7 +28,7 @@ function mml:get(
 ) as document-node()*
 {
   (: Add Auth Token Check here :)
-  
+
   let $q  := map:get($params, "q")
   let $st := map:get($params, "start")
   let $ps := map:get($params, "pageLength")
@@ -63,12 +50,18 @@ function mml:get(
     (
       map:put($context,"output-types","application/xml")
     )
-
+    
   let $retObj :=
     if (fn:string-length($uri) gt 0) then
       fn:doc($uri)
     else
       mml:searchContentDocs($qtext, $start, $pageLength)
+
+  let $auditAction :=
+    if (fn:string-length($uri) gt 0) then
+      am:save("downloaded", $uri, "content")
+    else
+      ""
 
   let $config := json:config("custom")
   let $_ := map:put($config, "whitespace", "ignore" )
@@ -180,6 +173,12 @@ function mml:put(
     else
       "invalid uri"
 
+  let $auditAction :=
+    if (fn:string-length($uri) gt 0) then
+      am:save("updated", $uri, "content")
+    else
+      ""
+
   let $retObj :=
     element results {
         element { "status" } { $status }
@@ -265,7 +264,15 @@ function mml:post(
         }
       }
 
-  let $doc := cm:save($contentObj)
+  let $uri := "/content/"||xdmp:hash64($contentDoc)||".xml"
+
+  let $doc := cm:save($uri, $contentObj)
+
+  let $auditAction :=
+    if (fn:string-length($uri) gt 0) then
+      am:save("created", $uri, "content")
+    else
+      ""
 
   let $_ := map:put($context,"output-types","application/json")
   let $_ := map:put($context, "output-status", (201, "Created"))
@@ -326,6 +333,12 @@ function mml:delete(
       "Document deleted: "||$uri
     else
       $errorMessage||" "||$uri
+
+  let $auditAction :=
+    if (fn:string-length($uri) gt 0) then
+      am:save("deleted", $uri, "content")
+    else
+      ""
 
   let $config := json:config("custom")
   let $_ := map:put($config, "whitespace", "ignore" )

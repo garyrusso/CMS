@@ -1,0 +1,7 @@
+<mml:auditRecord xmlns:mml="http://macmillanlearning.com">
+  <mml:action>Uploaded</mml:action>
+  <mml:auditTargetUri>/resource/111.pdf</mml:auditTargetUri>
+  <mml:auditTargetType>Content</mml:auditTargetType>
+  <mml:dateCreated>2015-04-16 11:13</mml:dateCreated>
+  <mml:createdBy>ghopper</mml:createdBy>
+</mml:auditRecord>

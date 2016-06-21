@@ -30,7 +30,7 @@ declare function content:getContentUri($hash)
   return $uri
 };
 
-declare function content:save($content)
+declare function content:save($uri as xs:string, $content)
 {
 (:
 {
@@ -51,7 +51,10 @@ declare function content:save($content)
     "creators": ["Harriot Beechers"],
     "publisher": "Harper Collins",
     "datePublished": "2014-06-10",
-    "resources": ["/resource/image001.jpg", "/resource/image002.jpg"],
+    "contentResourceTypes": [
+      {"contentResourceType": "Section"},
+      {"contentResourceType": "Learning Objective"}
+    ],
     "contentState": "Initial Review",
     "technical": {
       "fileFormat": "EPUB",
@@ -64,6 +67,7 @@ declare function content:save($content)
 :)
   (
     content:_save(
+      $uri,
       element {fn:QName($NS,"mml:content")}
       {
         element {fn:QName($NS,"metadata")}
@@ -104,10 +108,10 @@ declare function content:save($content)
               return
                 element {fn:QName($NS,"creator")} { $creator }
           },
-          element {fn:QName($NS,"resources")} {
-            for $resource in $content/feed/resources/resource/text()
+          element {fn:QName($NS,"contentResourceTypes")} {
+            for $resourceType in $content/feed/contentResourceTypes/contentResourceType/text()
               return
-                element {fn:QName($NS,"resource")} { $resource }
+                element {fn:QName($NS,"contentResourceType")} { $resourceType }
           },
           element {fn:QName($NS,"technical")} {
             element {fn:QName($NS,"fileFormat")}   { $content/feed/technical/fileFormat/text() },
@@ -118,17 +122,12 @@ declare function content:save($content)
         }
       }
     ),
-    fn:concat("Content Successfully Saved: '", $content/feed/title/text(), "'")
+    fn:concat("Content Successfully Saved: ", $uri)
   )
 };
 
-declare function content:_save($content)
+declare function content:_save($uri as xs:string, $content)
 {
-  let $hashedDir := xdmp:hash64($content/mml:feed/mml:title/text())
-  (: let $log := xdmp:log("......... hash: "||$hashedDir) :)
-
-  let $uri := "/content/"||$hashedDir||".xml"
-
   let $cmd :=
         fn:concat
         (

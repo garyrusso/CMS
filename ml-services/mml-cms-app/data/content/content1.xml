@@ -27,16 +27,11 @@
     </mml:creators>
     <mml:publisher>Worth Publishers</mml:publisher>
     <mml:datePublished>2013</mml:datePublished>
-    <mml:resources>
-      <mml:resource>/resource/image001.jpg</mml:resource>
-      <mml:resource>/resource/image002.jpg</mml:resource>
-      <mml:resource>/resource/abstract001.pdf</mml:resource>
-    </mml:resources>
     <mml:contentState>Vendor</mml:contentState>
     <mml:technical>
       <mml:fileFormat>EPUB</mml:fileFormat>
       <mml:fileName>myers11e.epub</mml:fileName>
-      <mml:filePath>s3://cms/myers11e.epub</mml:filePath>
+      <mml:filePath>/resource/abstract001.pdf</mml:filePath>
       <mml:fileSize>45400</mml:fileSize>
     </mml:technical>
   </mml:feed>

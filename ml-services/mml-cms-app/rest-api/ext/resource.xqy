@@ -8,6 +8,7 @@ import module namespace json   = "http://marklogic.com/xdmp/json" at "/MarkLogic
 import module namespace usr   = "http://marklogic.com/roxy/models/user" at "/app/models/user-model.xqy";
 import module namespace fm    = "http://marklogic.com/roxy/models/file" at "/app/models/file-model.xqy";
 import module namespace c     = "http://marklogic.com/roxy/config" at "/app/config/config.xqy";
+import module namespace am    = "http://marklogic.com/roxy/models/audit" at "/app/models/audit-model.xqy";
 
 declare namespace roxy = "http://marklogic.com/roxy";
 declare namespace rapi = "http://marklogic.com/rest-api";
@@ -60,6 +61,12 @@ function mml:get(
       fn:doc($uri)
     else
       mml:searchBinaryResourceFiles($qtext, $start, $pageLength)
+
+  let $auditAction :=
+    if (fn:string-length($uri) gt 0) then
+      am:save("downloaded", $uri, "resource")
+    else
+      ""
 
   let $config := json:config("custom")
   let $_ := map:put($config, "whitespace", "ignore" )
@@ -115,6 +122,12 @@ function mml:put(
     else
       fm:saveByUri($uri, $file)
 
+  let $auditAction :=
+    if (fn:string-length($uri) gt 0) then
+      am:save("updated", $uri, "resource")
+    else
+      ""
+
   let $_ := map:put($context,"output-types","application/json")
   let $_ := map:put($context, "output-status", (201, "Created"))
 
@@ -166,6 +179,12 @@ function mml:post(
       "invalid filename"
     else
       fm:save($fileName, $file)
+
+  let $auditAction :=
+    if (fn:string-length($fileName) gt 0) then
+      am:save("created", "/resource/"||$fileName, "resource")
+    else
+      ""
 
   let $_ := map:put($context,"output-types","application/json")
   let $_ := map:put($context, "output-status", (201, "Created"))
@@ -226,6 +245,12 @@ function mml:delete(
       "Document deleted: "||$uri
     else
       $errorMessage||" "||$uri
+
+  let $auditAction :=
+    if (fn:string-length($uri) gt 0) then
+      am:save("deleted", $uri, "resource")
+    else
+      ""
 
   let $config := json:config("custom")
   let $_ := map:put($config, "whitespace", "ignore" )
