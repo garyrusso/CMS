@@ -10,6 +10,7 @@
     using Newtonsoft.Json.Linq;
     using System.Net;
     using System.Collections.Generic;
+    using System.Web;
 
     public enum SupportedHttpMethods
     {
@@ -51,20 +52,34 @@
             if (content != null)
             {
                 this.content = new StringContent(content);
-
                 this.content.Headers.ContentType = new MediaTypeHeaderValue(mediaType);
             }
 
             this.rqstHeaders = requestHeaders;
             this.cntHeaders = contentHeaders;
 
+            if (this.rqstHeaders == null)
+                this.rqstHeaders = new Dictionary<string, string>();
+
+            if (this.cntHeaders == null)
+                this.cntHeaders = new Dictionary<string, string>();
+
+            this.rqstHeaders.Add("Authorization", this.BuildAuthHeader());
+            this.rqstHeaders.Add("X-Auth-Token", this.BuildUserTokenHeader());
+
             HttpClientHandler hch = new HttpClientHandler();
-            string[] useCredentials = ConfigurationManager.AppSettings["MarkLogicUser"].Split(new char[] { '/' });
-            hch.Credentials = new NetworkCredential(useCredentials[0], useCredentials[1]);
+            string[] useCredentials = ConfigurationManager.AppSettings["MarkLogicCredentials"].Split(new char[] { '/' });
+            //hch.Credentials = new NetworkCredential(useCredentials[0], useCredentials[1]);
+            //hch.Credentials = new NetworkCredential("admin", "admin");
+            //hch.UseDefaultCredentials = true;
+            //WebProxy wb = new WebProxy("http://tmbang1.techmahindra.com:8080", false, new string[] { });
+            //wb.Credentials = System.Net.CredentialCache.DefaultCredentials;
+            //hch.Proxy = wb;
+            hch.UseProxy = false;
 
-            this.httpClient = new HttpClient(hch);
-
-            this.uri = new Uri(uri);
+            //this.httpClient = new HttpClient(hch);
+            this.httpClient = new HttpClient();
+            this.uri = new Uri(uri, UriKind.Absolute);
             this.httpMethod = new HttpMethod(httpMethod.ToString());
 
             if (ConfigurationManager.AppSettings["TimeOut"] != null)
@@ -219,6 +234,40 @@
 
             if (!content.Contains("StatusCode: 20"))
                 this.errorOccurred = true;
+        }
+
+        private string ExtractHeader(string header)
+        {
+            IEnumerable<string> headerValues = HttpContext.Current.Request.Headers.GetValues(header);
+
+            if (headerValues != null)
+                return headerValues.FirstOrDefault();
+            else
+                return string.Empty;
+        }
+
+        private string BuildAuthHeader()
+        {
+            string[] mlCredentials = ConfigurationManager.AppSettings["MarkLogicCredentials"].Split(new char[] { '/' });
+
+            string authToken = "Basic " + this.ConvertoBase64(mlCredentials[0] + ":" + mlCredentials[1]);
+
+            return authToken;
+        }
+
+        private string BuildUserTokenHeader()
+        {
+            //string userToken = this.ExtractHeader("X-Auth-Token");
+            
+            //return userToken;
+
+            return "Z3J1c3NvOnBhc3N3b3Jk";
+        }
+
+        private string ConvertoBase64(string text)
+        {
+            var textBytes = System.Text.Encoding.UTF8.GetBytes(text);
+            return System.Convert.ToBase64String(textBytes);
         }
     }
 

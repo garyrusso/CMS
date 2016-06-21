@@ -38,7 +38,6 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,13 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DictionaryBusiness.cs" />
-    <Compile Include="FlowJsBusiness.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="IDictionaryBusiness.cs" />
-    <Compile Include="IFlowJsRepoBusiness.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="IManageContentBusiness.cs" />
     <Compile Include="IManageProjectBusiness.cs" />
     <Compile Include="ISearchDataBusinses.cs" />
@@ -85,4 +78,14 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+
+<Target Name="PublishToFileSystem" DependsOnTargets="PipelinePreDeployCopyAllFilesToOneFolder">
+    <Error Condition="'$(PublishDestination)'==''" Text="The PublishDestination property must be set to the intended publishing destination." />
+    <MakeDir Condition="!Exists($(PublishDestination))" Directories="$(PublishDestination)" />
+    <ItemGroup>
+        <PublishFiles Include="$(_PackageTempDir)\**\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(PublishFiles)" DestinationFiles="@(PublishFiles->'$(PublishDestination)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="True" />
+</Target>
+
 </Project>

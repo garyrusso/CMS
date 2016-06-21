@@ -42,7 +42,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// <summary>
         /// GetProject with given details
         /// </summary>
-        /// <returns>Returns object for GetProject</returns>
+        /// <returns></returns>
         public string GetProject()
         {
             string results = string.Empty;
@@ -67,7 +67,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <param name="project"></param>
-        /// <returns>Returns object for CreateProject</returns>
+        /// <returns></returns>
         [HttpPost]
         public object CreateProject(HttpRequestMessage request,
             [FromBody]Project project)
@@ -82,7 +82,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// UpdateProject with given details
         /// </summary>
         /// <param name="project"></param>
-        /// <returns>Returns object for UpdateProject</returns>
+        /// <returns></returns>
         [HttpPut]
         public object UpdateProject(Project project)
         {
@@ -97,7 +97,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// </summary>
         /// <param name="request"></param>
         /// <param name="project"></param>
-        /// <returns>Returns object for DeleteProject</returns>
+        /// <returns></returns>
         [HttpPost]
         public object DeleteProject(HttpRequestMessage request,
             [FromBody] Project project)
@@ -112,7 +112,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// GetProjectDetails with given details
         /// </summary>
         /// <param name="uri"></param>
-        /// <returns>Returns object for GetProjectDetails</returns>
+        /// <returns></returns>
         [HttpGet]
         public object GetProjectDetails(string uri)
         {
@@ -127,7 +127,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// GetProjectMasterData with given details
         /// </summary>
         /// <param name="ProjectDetail"></param>
-        /// <returns>Returns object for GetProjectMasterData</returns>
+        /// <returns></returns>
         public object GetProjectMasterData(List<Project> ProjectDetail)
         {
             Logger.Debug("Entering GetProjectMasterData");
@@ -143,7 +143,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <param name="orderBy"></param>
-        /// <returns>Returns object for SearchProjects</returns>
+        /// <returns></returns>
         [HttpGet]
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {

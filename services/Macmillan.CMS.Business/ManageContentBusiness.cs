@@ -2,12 +2,12 @@
 using Macmillan.CMS.Common.Models;
 using Macmillan.CMS.DAL;
 using System;
-using System.Web;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 
 namespace Macmillan.CMS.Business
 {
@@ -27,20 +27,24 @@ namespace Macmillan.CMS.Business
          /// CreateContent with given details
          /// </summary>
          /// <param name="content"></param>
-         /// <returns>Returns object for CreateContent</returns>
-         public object CreateContent(string projXml, string projUri)
+         /// <returns></returns>
+         public object UploadMetadata(Content content, FileInfo file)
         {
-            Logger.Debug(" Entering CreateProject");
-            var resutls = this.dal.CreateContent(projXml, projUri);
-            Logger.Debug(" Exiting CreateProject");
-            return resutls;
+            Logger.Debug(" Entering UploadMetadata");
+
+            string metaData = this.BuildContentMetadataJson(content, file);
+
+            this.dal.UploadMetadata(metaData);
+
+            Logger.Debug(" Exiting UploadMetadata");
+            return null;
         }
 
          /// <summary>
          /// UpdateContent with given details
          /// </summary>
          /// <param name="content"></param>
-         /// <returns>Returns object for UpdateContent</returns>
+         /// <returns></returns>
          public object UpdateContent(string projXml, string projUri)
         {
             Logger.Debug(" Entering UpdateContent");
@@ -53,7 +57,7 @@ namespace Macmillan.CMS.Business
          /// DeleteContent with given details
          /// </summary>
          /// <param name="content"></param>
-         /// <returns>Returns object for DeleteContent</returns>
+         /// <returns></returns>
          public object DeleteContent(string projXml, string projUri)
         {
             Logger.Debug(" Entering DeleteProject");
@@ -66,7 +70,7 @@ namespace Macmillan.CMS.Business
          /// GetContent with given details
          /// </summary>
          /// <param name="docUri"></param>
-         /// <returns>Returns object for GetContent</returns>
+         /// <returns></returns>
          public object GetContent(string docUri)
         {
             Logger.Debug("Entering GetContent");
@@ -79,7 +83,7 @@ namespace Macmillan.CMS.Business
          /// GetContentMasterData with given details
          /// </summary>
          /// <param name="ContentDetails"></param>
-         /// <returns>Returns object for GetContentMasterData</returns>
+         /// <returns></returns>
          public object GetContentMasterData(List<Content> ContentDetails)
         {
             Logger.Debug("Entering GetContentMasterData");
@@ -95,7 +99,7 @@ namespace Macmillan.CMS.Business
          /// <param name="pageNumber"></param>
          /// <param name="pageSize"></param>
          /// <param name="orderBy"></param>
-         /// <returns>Returns object for SearchContents</returns>
+         /// <returns></returns>
          public object SearchContents(string searchText, int pageNumber, int pageSize, string orderBy)
         {
             Logger.Debug("Entering SearchContents");
@@ -104,8 +108,56 @@ namespace Macmillan.CMS.Business
             return results;
         }
 
+         public void UploadFile(FileInfo file)
+         {
+             this.dal.UploadFile(file);
+         }
 
-         
-                    
-     }
+         /// <summary>
+         /// BuildProjectXML with given details
+         /// </summary>
+         /// <param name="project"></param>
+         /// <returns></returns>
+         private string BuildContentMetadataJson(Content content, FileInfo fileInfo)
+         {
+             Logger.Debug(" Entering BuildContentMetadataJson");
+
+             StringBuilder text = new StringBuilder(File.ReadAllText(ConfigurationManager.AppSettings["AppDataPath"] + "\\Content.json"));
+
+             text.Replace("##systemId##", Guid.NewGuid().ToString("N").Substring(0, 32));
+             text.Replace("##subjectHeadings##", content.SubjectHeadings.ToArray().ToString());
+             text.Replace("##subjectHeadings##", content.SubjectKeywords.ToArray().ToString());
+
+             text.Replace("##title##", content.Title);
+             text.Replace("##description##", content.Description);
+             text.Replace("##source##", content.Source);
+             text.Replace("##creators##", content.Creator.ToArray().ToString());
+             text.Replace("##publisher##", content.Publisher);
+             text.Replace("##datePublished##", content.DatePublished.ToString());
+             text.Replace("##contentState##", content.ContentState);
+
+             ////if (fileInfo != null) 
+             ////{
+             ////    StringBuilder resources = new StringBuilder();
+
+             ////    foreach (FileInfo file in fileInfo)
+             ////    {
+             ////        if (!string.IsNullOrEmpty(resources.ToString()))
+             ////            resources.Append(",");
+
+             ////        resources.Append(file);
+             ////    }
+
+             ////    text.Replace("##resources##", resources.ToString());
+             ////}
+
+             text.Replace("##fileFormat##", fileInfo.Extension);
+             text.Replace("##fileName##", fileInfo.Name);
+             text.Replace("##filePath##", "documents/binary/" + fileInfo.Name);
+             text.Replace("##fileSize##", fileInfo.Length.ToString());
+
+             Logger.Debug(" Exiting BuildContentMetadataJson");
+             return text.ToString();
+         }
+    }
 }

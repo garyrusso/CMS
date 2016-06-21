@@ -7,9 +7,6 @@ using System.Web;
 
 namespace Macmillan.CMS.Business
 {
-    /// <summary>
-    /// Interface for IFlowJsRepoBusiness layer
-    /// </summary>
     public interface IFlowJsRepoBusiness
     {
         Macmillan.CMS.Common.Models.FlowModels.FlowJsPostChunkResponse PostChunk(HttpRequest request, string folder);

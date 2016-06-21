@@ -1,6 +1,7 @@
 ﻿using Macmillan.CMS.Common.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,10 +13,11 @@ namespace Macmillan.CMS.Business
     /// </summary>
      public interface IManageContentBusiness
     {
-        object CreateContent(string projXml, string projUri);
+        object UploadMetadata(Content content, FileInfo file);
         object UpdateContent(string projXml, string projUri);
         object DeleteContent(string projXml, string projUri);
         object GetContent(string docUri);
+        void UploadFile(FileInfo file);
         object GetContentMasterData(List<Content> ContentDetails);
         object SearchContents(string searchText, int pageNumber, int pageSize, string orderBy);
     }

@@ -29,10 +29,6 @@ namespace Macmillan.CMS.Common.Models
       public string FileName  {get;set;}
       public string FileSize { get; set; }
       public string FilePath { get; set; }
-      public string[] AuditInfo { get; set; }
-      public string[] ActionType { get; set; }
-      public string[] ActionCreatedOn { get; set; }
-      public string[] ActionCreatedBy { get; set; }
     }
 }
 

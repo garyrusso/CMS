@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Web.Http;
 using Macmillan.CMS.Business;
 using Macmillan.CMS.Common.Logging;
+using Macmillan.CMS.Common;
+using System.Web;
 namespace Macmillan.CMS.Service.Controllers
 {
     public class DictionaryController : ApiController
@@ -21,15 +23,28 @@ namespace Macmillan.CMS.Service.Controllers
         /// </summary>
         /// <param name="dictionaryType"></param>
         /// <param name="outputFormat"></param>
-        /// <returns>Returns object for GetDictionary</returns>
+        /// <returns></returns>
         [HttpGet]
         public object GetDictionary(string dictionaryType, string outputFormat)
         {
             Logger.Debug("Entering GetDictionary");
-            var results = this.dictionaryBusiness.GetDictionary(dictionaryType, outputFormat);
+
+            object results = null;
+
+            if (CustomCache.Get(dictionaryType) == null)
+            {
+                results = this.dictionaryBusiness.GetDictionary(dictionaryType, outputFormat);
+                CustomCache.Add(dictionaryType, results);
+            }
+            else
+            {
+                results = CustomCache.Get(dictionaryType);
+            }
+            
             Logger.Debug("Exiting GetDictionary");
             return results;
         }
 
+        
     }
 }

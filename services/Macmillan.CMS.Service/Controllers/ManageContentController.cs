@@ -8,12 +8,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using Macmillan.CMS.Service.FlowJs;
 using System.IO;
-using POCOLibrary;
-
 using System.Threading.Tasks;
 using Macmillan.CMS.Common;
-
+using System.Configuration;
 
 namespace Macmillan.CMS.Service.Controllers
 {
@@ -22,8 +21,8 @@ namespace Macmillan.CMS.Service.Controllers
         IManageContentBusiness business;
         IDictionaryBusiness dictionaryBusiness;
         //private readonly IFileManagerService _fileManager;
-        private readonly IFlowJsRepoBusiness _flowJs;
-        const string Folder = @"D:\Temp";
+        private readonly IFlowJsRepo _flowJs;
+        private string fileRepository = ConfigurationManager.AppSettings["FileRepository"];
 
         /// <summary>
         ///  ManageContentsController dependency injection
@@ -33,85 +32,9 @@ namespace Macmillan.CMS.Service.Controllers
         {
             this.business = ManageContentBusiness;
             this.dictionaryBusiness = dictBusiness;
-            _flowJs = new FlowJsBusiness();
+            _flowJs = new FlowJsRepo();
         }
 
-        /// <summary>
-        /// UploadFile getmethod for given details
-        /// </summary>
-        /// <param name="flowChunkNumber"></param>
-        /// <param name="flowChunkSize"></param>
-        /// <param name="flowCurrentChunkSize"></param>
-        /// <param name="flowTotalSize"></param>
-        /// <param name="flowIdentifier"></param>
-        /// <param name="flowFilename"></param>
-        /// <param name="flowRelativePath"></param>
-        /// <param name="flowTotalChunks"></param>
-        /// <returns>Returns object for UploadFile details </returns>
-        [HttpGet]
-        [Route("Upload")]
-        public async Task<IHttpActionResult> UploadFile(string flowChunkNumber,
-            string flowChunkSize,
-            string flowCurrentChunkSize,
-            string flowTotalSize,
-            string flowIdentifier,
-            string flowFilename,
-            string flowRelativePath,
-            string flowTotalChunks)
-        {
-            Logger.Debug("Entering GetUploadFile");
-            var request = HttpContext.Current.Request;
-
-            var chunkExists = _flowJs.ChunkExists(Folder, request);
-            if (chunkExists) return Ok();
-            Logger.Debug("Exiting GetUploadFile");
-            return ResponseMessage(new HttpResponseMessage(HttpStatusCode.NoContent));
-        }
-
-
-        /// <summary>
-        /// UploadFile postmethod with given details
-        /// </summary>
-        /// <param name="content"></param>
-        /// <returns>Returns the status with given details</returns>
-        [HttpPost]
-        [Route("Upload")]
-        public async Task<IHttpActionResult> UploadFile()
-        {
-            try
-            {
-                var request = HttpContext.Current.Request;
-                                
-                var validationRules = new Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules();
-                validationRules.MaxFileSize = 500000000;
-                var status = _flowJs.PostChunk(request, Folder, validationRules);
-
-                if (status.Status == Macmillan.CMS.Common.Models.FlowModels.PostChunkStatus.Done)
-                {                 
-                    // file uploade is complete. Below is an example of further file handling
-                    var filePath = Path.Combine(Folder, status.FileName);
-                    var file = File.ReadAllBytes(filePath);                  
-                    return Ok();
-
-                }
-
-                  if (status.Status == Macmillan.CMS.Common.Models.FlowModels.PostChunkStatus.PartlyDone)
-                {
-                    return Ok();
-                }
-    
-                status.ErrorMessages.ForEach(x => ModelState.AddModelError("file", x));
-                 throw new CMSException("hello");
-            }
-        
-            catch (Exception ex)
-            {
-                Logger.Error(ex);
-                return StatusCode(HttpStatusCode.NotFound);
-            }
-            return Ok();
-        }
-  
         /// <summary>
         /// CreateContent with given details
         /// </summary>
@@ -121,17 +44,32 @@ namespace Macmillan.CMS.Service.Controllers
         public object CreateContent(HttpRequestMessage request,
             [FromBody] Content content)
         {
-            Logger.Debug("Entering CreateContent");
-            var results = this.business.GetContent("");
-            Logger.Debug("Exiting CreateContent");
-            return results;
+            Logger.Debug("Entering UploadMetadata");
+
+            IEnumerable<string> headerValues = request.Headers.GetValues("Authorization");
+            string token = headerValues.FirstOrDefault();
+
+            string folderPath = this.fileRepository + "\\" + token;
+
+            FileInfo[] filesInfo = new DirectoryInfo(folderPath).GetFiles();
+
+            foreach (FileInfo file in filesInfo)
+            {
+                this.business.UploadMetadata(content, file);
+                file.Delete();
+            }
+
+            Directory.Delete(folderPath);
+
+            Logger.Debug("Exiting UploadMetadata");
+            return null;
         }
 
         /// <summary>
         /// UpdateContent with given details
         /// </summary>
         /// <param name="content"></param>
-        /// <returns>Returns object for UpdateContent </returns>
+        /// <returns></returns>
         [HttpPut]
         public object UpdateContent([FromBody] Content content)
         {
@@ -140,11 +78,95 @@ namespace Macmillan.CMS.Service.Controllers
             Logger.Debug("Exiting UpdateContent");
             return results;
         }
+
+        [HttpGet]
+        public async Task<IHttpActionResult> UploadFile(string flowChunkNumber,
+            string flowChunkSize,
+            string flowCurrentChunkSize,
+            string flowTotalSize,
+            string flowIdentifier,
+            string flowFilename,
+            string flowRelativePath,
+            string flowTotalChunks)
+        {
+            var request = HttpContext.Current.Request;
+
+            var chunkExists = _flowJs.ChunkExists(this.fileRepository, request);
+            if (chunkExists)
+                return Ok();
+            //return NotFound();
+
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IHttpActionResult> UploadFile()
+        {
+            try
+            {
+                var request = HttpContext.Current.Request;
+
+                if (request.Files.Count == 0)
+                    return Ok();
+
+                //get use authentication token from request object
+                string token = this.ExtractHeader("Authorization"); 
+
+                var validationRules = new FlowValidationRules();
+                //validationRules.AcceptedExtensions.AddRange(new List<string> { "jpeg", "jpg", "png", "bmp", "zip" });
+                validationRules.AcceptedExtensions.AddRange(this.GetUploadFileTypes());
+                //validationRules.MaxFileSize = 5000000;
+
+                var status = _flowJs.PostChunk(request, this.fileRepository + "\\" + token, validationRules);
+
+                string errors = string.Empty;
+                status.ErrorMessages.ForEach(x => errors += " " + x);
+
+                if (!string.IsNullOrEmpty(errors))
+                {
+                    Logger.Error(errors);
+
+                    return StatusCode(HttpStatusCode.NotFound);
+                }  
+                else if (status.Status == PostChunkStatus.Done)
+                {
+                    Task.Factory.StartNew(() => { this.UploadFile(new FileInfo(Path.Combine(this.fileRepository + "\\" + token, status.FileName))); });
+                }                    
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex);
+                return StatusCode(HttpStatusCode.NotFound);
+            }
+
+            return Ok();
+        }
+
+        private void UploadFile(FileInfo file)
+        {
+            this.business.UploadFile(file); 
+        }
+
+        private List<string> GetUploadFileTypes()
+        {
+            if (CustomCache.Get("supported-upload-types") == null)
+            {
+                CustomCache.Add("supported-upload-types", this.dictionaryBusiness.GetDictionary("supported-upload-types", "json"));
+            }
+             
+            return (List<string>) CustomCache.Get("supported-upload-types");       
+        }
+
         /// <summary>
         /// DeleteContent with given details
         /// </summary>
         /// <param name="content"></param>
-        /// <returns>Returns object for DeleteContent</returns>
+        /// <returns></returns>
         [HttpPost]
         public object DeleteContent([FromBody] Content content)
         {
@@ -158,7 +180,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// GetContent with given details
         /// </summary>
         /// <param name="docUri"></param>
-        /// <returns>Returns object for GetContentDetails</returns>
+        /// <returns></returns>
         [HttpGet]
         public object GetContentDetails(string uri)
         {
@@ -172,7 +194,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// GetContentMasterData with given details
         /// </summary>
         /// <param name="ContentDetails"></param>
-        /// <returns>Returns object for GetContentMasterData</returns>
+        /// <returns></returns>
         [HttpGet]
         public object GetContentMasterData(List<Content> ContentDetails)
         {
@@ -189,7 +211,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <param name="orderBy"></param>
-        /// <returns>Returns object for SearchContents</returns>
+        /// <returns></returns>
         [HttpGet]
         public object SearchContents(string searchText, int pageNumber, int pageSize, string orderBy)
         {
@@ -199,46 +221,14 @@ namespace Macmillan.CMS.Service.Controllers
             return results;
         }
 
-        /// <summary>
-        /// DownloadContent with given details 
-        /// </summary>
-        /// <returns>Returns object for DownloadContent</returns>
-        [Route("download")]
-        [HttpGet]
-        public HttpResponseMessage DownloadContent()
+        private string ExtractHeader(string header)
         {
-            Logger.Debug("Entering download");            
-            HttpResponseMessage response = Request.CreateResponse();
-            FileMetaData metaData = new FileMetaData();
-            try
-            {                
-                string filePath = System.Web.Configuration.WebConfigurationManager.AppSettings["DownLoadPath"];
-               // filePath = System.Web.HttpContext.Current.Server.MapPath(filePath);
-                FileInfo fileInfo = new FileInfo(filePath);
+            IEnumerable<string> headerValues = HttpContext.Current.Request.Headers.GetValues(header);
 
-                if (!fileInfo.Exists)
-                {
-                    metaData.FileResponseMessage.IsExists = false;
-                    metaData.FileResponseMessage.Content = string.Format("{0} file is not found !", fileInfo.Name);
-                    response = Request.CreateResponse(HttpStatusCode.NotFound, metaData, new System.Net.Http.Headers.MediaTypeHeaderValue("text/json"));
-                }
-                else
-                {
-                    response.Headers.AcceptRanges.Add("bytes");
-                    response.StatusCode = HttpStatusCode.OK;
-                    response.Content = new StreamContent(fileInfo.OpenRead());
-                    response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
-                    response.Content.Headers.ContentDisposition.FileName = fileInfo.Name;
-                    response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/octet-stream");
-                    response.Content.Headers.ContentLength = fileInfo.Length;
-                }
-            }
-            catch (Exception exception)
-            {
-                Logger.Debug("Exception " + exception);
-            }
-            Logger.Debug("Exiting download");
-            return response;            
+            if (headerValues != null)
+                return headerValues.FirstOrDefault();
+            else
+                return string.Empty;
         }
     }
 }
