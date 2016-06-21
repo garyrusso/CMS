@@ -14,22 +14,9 @@ declare namespace jn   = "http://marklogic.com/xdmp/json/basic";
 
 declare variable $NS := "http://macmillanlearning.com";
 
-(:
- : To add parameters to the functions, specify them in the params annotations.
- : Example
- :   declare %roxy:params("uri=xs:string", "priority=xs:int") mml:get(...)
- : This means that the get function will take two parameters, a string and an int.
- :
- : To report errors in your extension, use fn:error(). For details, see
- : http://docs.marklogic.com/guide/rest-dev/extensions#id_33892, but here's
- : an example from the docs:
- : fn:error(
- :   (),
- :   "RESTAPI-SRVEXERR",
- :   ("415","Raven","nevermore"))
- :)
 
 (:
+API to Get Project content
  :)
 declare 
 %roxy:params("")
@@ -46,9 +33,10 @@ function mml:get(
 };
 
 (:
- :)
+  API to update existing Project document by passing URI and project metadata
+:)
 declare 
-%roxy:params("")
+%roxy:params("uri=xs:anyURI")
 function mml:put(
     $context as map:map,
     $params  as map:map,
@@ -56,14 +44,72 @@ function mml:put(
 ) as document-node()?
 {
   (: Add Auth Token Check here :)
+   let $tempUri := map:get($params, "uri")
+   
+   let $uri := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
+   
+   let $output-types := map:put($context,"output-types","application/json")
+   
+   let $inputDoc := document { $input }
+   
+   (: Convert json to xml :)
+  let $contentDoc  := json:transform-from-json($inputDoc)
+
+  let $newContentObj :=
+        element project
+        {
+          element metadata {
+			element administrative {
+				element systemId     { $contentDoc/jn:meta/jn:systemId/text() }, 
+				element createdBy { $contentDoc/jn:meta/jn:createdBy/text() },
+				element modifiedBy { $contentDoc/jn:meta/jn:modifiedBy/text() }
+			},
+			element descriptive {
+				element title { $contentDoc/jn:meta/jn:title/text() }, 
+				element description { $contentDoc/jn:meta/jn:description/text() },
+				element projectState { $contentDoc/jn:meta/jn:projectState/text() },
+				element subjectHeadings {
+				  for $subjectHeading in $contentDoc/jn:meta/jn:subjectHeadings/jn:item/text()
+					return
+					  element subjectHeading { $subjectHeading }
+				},
+				element subjectKeywords {
+				  for $subjectKeyword in $contentDoc/jn:meta/jn:subjectKeywords/jn:item/text()
+					return
+					  element subjectKeyword { $subjectKeyword }
+				}			
+			}
+		  }  
+		}  
   
-  map:put($context, "output-types", "application/xml"),
-  map:put($context, "output-status", (201, "Created")),
-  document { "PUT called on the ext service extension" }
+ 
+	let $status :=
+	if (fn:string-length($uri) gt 0) then
+	  pm:update($uri, $newContentObj)
+	else
+	  "invalid uri"
+
+	let $retObj :=
+	element results {
+		element { "status" } { $status }
+	  }
+
+	let $config := json:config("custom")
+	let $_ := map:put($config, "whitespace", "ignore" )
+
+	let $_ := map:put($context, "output-types", "application/json")
+	let $_ := map:put($context, "output-status", (201, "Updated"))
+
+	return
+		document {
+		  text { json:transform-to-json($retObj, $config) }    
+	}   
+
 };
 
 (:
- :)
+  API to create a new Project document
+:)
 declare 
 %roxy:params("")
 %rapi:transaction-mode("update")
@@ -91,7 +137,7 @@ function mml:post(
   let $contentObj :=
         element project
         {
-          element meta {
+          element metadata {
 			element administrative {
 				element systemId     { $contentDoc/jn:meta/jn:systemId/text() }, 
 				element createdBy { $contentDoc/jn:meta/jn:createdBy/text() },
@@ -120,25 +166,60 @@ function mml:post(
   let $_ := map:put($context, "output-types", "application/xml")
   let $_ := map:put($context, "output-status", (201, "Created"))
   
+  let $returnObj :=
+    element results {
+        element { "status" } { $doc }
+      }
+  
+  let $config := json:config("custom")
+  let $_ := map:put($config, "whitespace", "ignore" )
+  
   return
     document {
-      $contentObj
-    }	  
+      text { json:transform-to-json($returnObj, $config) }    
+    }  
   
 };
 
 (:
- :)
+  API to delete a project document - update project status
+:)
 declare 
-%roxy:params("")
+%roxy:params("uri=xs:anyURI")
 function mml:delete(
     $context as map:map,
     $params  as map:map
 ) as document-node()?
 {
   (: Add Auth Token Check here :)
-  
-  map:put($context, "output-types", "application/xml"),
-  map:put($context, "output-status", (200, "OK")),
-  document { "DELETE called on the ext service extension" }
+
+	let $tempUri := map:get($params, "uri")
+	
+	let $uri := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
+	
+	let $output-types := map:put($context, "output-types", "application-json")
+	
+	let $status := 
+		if (fn:string-length($uri) ne 0) then
+		(
+			pm:delete($uri)
+		)
+		else "Invalid URI"
+	
+	let $returnObject := 
+		element results {
+			element { "status" } { $status }
+		}
+	
+	let $config := json:config("custom")
+	let $_ := map:put($config, "whitespace", "ignore" )
+
+	let $_ := map:put($context, "output-types", "application/json")
+	let $_ := map:put($context, "output-status", (200, "Deleted"))
+
+	return
+		document {
+		  text { json:transform-to-json($returnObject, $config) }    
+	}  	
+
 };
