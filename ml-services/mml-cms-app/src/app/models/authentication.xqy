@@ -38,6 +38,38 @@ declare function auth:userName()
   return if($user) then $user else $auth:DEFAULT-USER
 };
 
+declare function auth:getUserNameFromBase64String()
+{
+  let $authToken := xdmp:get-request-header("X-Auth-Token")
+
+  let $userInfo   := if (fn:string-length($authToken) eq 0)  then "" else $authToken
+  let $loggedInUser := auth:getUserNamePasswordFromBase64String($userInfo)/userName/text()
+  
+  return $loggedInUser
+};
+
+declare function auth:getUserNamePasswordFromBase64String($userInfoBase64 as xs:string)
+{
+  let $userPwd  :=
+    if ($userInfoBase64) then
+    (
+      try { xdmp:base64-decode($userInfoBase64) } catch ($e) { "" }
+    )
+    else ""
+  
+  let $username := if ($userPwd) then fn:string((xdmp:get-request-header("username"),fn:substring-before($userPwd, ":"))[1]) else ""
+  let $password := if ($userPwd) then fn:string((xdmp:get-request-header("password"),fn:substring-after($userPwd, ":"))[1]) else ""
+  
+  let $userInfo :=
+      element userInfo
+      {
+        element userName { $username }, 
+        element password { $password }
+      }
+      
+  return $userInfo
+};
+
 declare function auth:login($username as xs:string*, $password as xs:string*)
 {
   if(auth:is-valid-user($username,$password)) then

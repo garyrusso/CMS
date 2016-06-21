@@ -17,21 +17,12 @@ function mml:get(
   $params  as map:map
 ) as document-node()*
 {
-  let $reqHeader := xdmp:get-request-header("UserInfo")
-  let $userPwd  :=
-    if ($reqHeader) then
-    (
-      try { xdmp:base64-decode($reqHeader) } catch ($e) { "" }
-    )
-    else ""
-  
-  let $username := if ($userPwd) then fn:string((xdmp:get-request-header("username"),fn:substring-before($userPwd, ":"))[1]) else ""
-  let $password := if ($userPwd) then fn:string((xdmp:get-request-header("password"),fn:substring-after($userPwd, ":"))[1]) else ""
+  let $userInfo := auth:getUserNamePasswordFromBase64String(xdmp:get-request-header("UserInfo"))
 
-  let $log := xdmp:log("................. $username: '"||$username||"'")
-  let $log := xdmp:log("................. $password: '"||$password||"'")
+  let $log := xdmp:log("................. $username: '"||$userInfo/userName/text()||"'")
+  let $log := xdmp:log("................. $password: '"||$userInfo/password/text()||"'")
 
-  let $result := auth:login($username, $password)
+  let $result := auth:login($userInfo/userName/text(), $userInfo/password/text())
 
   let $resultCode := $result/json:responseCode/text()
 
