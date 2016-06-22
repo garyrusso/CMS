@@ -18,6 +18,30 @@ declare namespace jn   = "http://marklogic.com/xdmp/json/basic";
 
 declare variable $NS := "http://macmillanlearning.com";
 
+declare function mml:getAuditInfo($uri as xs:string)
+{
+  let $query := cts:element-value-query(fn:QName($NS, "auditTargetUri"), $uri)
+
+  let $results := cts:search(fn:doc(), $query)
+
+  let $doc :=
+    element { fn:QName($NS,"mml:auditInfo") } {
+      element { fn:QName($NS,"mml:count") } { fn:count($results) },
+      for $result in $results
+        order by $result/mmlc:auditRecord/mmlc:dateCreated/text() descending
+          return
+          (
+            element { fn:QName($NS,"mml:auditEntry") } {
+              element { fn:QName($NS,"mml:action") } { $result/mmlc:auditRecord/mmlc:action/text() },
+              element { fn:QName($NS,"mml:dateCreated") } { $result/mmlc:auditRecord/mmlc:dateCreated/text() },
+              element { fn:QName($NS,"mml:createdBy") } { $result/mmlc:auditRecord/mmlc:createdBy/text() }
+            }
+          )
+      }
+
+  return $doc
+};
+
 (:
  :)
 declare 
@@ -53,7 +77,24 @@ function mml:get(
     
   let $retObj :=
     if (fn:string-length($uri) gt 0) then
-      fn:doc($uri)
+    (
+      let $contentDoc := fn:doc($uri)
+      let $projects :=
+        element { fn:QName($NS,"mml:projects") }
+        {
+          element { fn:QName($NS,"mml:project") } { "project 1" },
+          element { fn:QName($NS,"mml:project") } { "project 2" }
+        }
+      let $auditDoc := mml:getAuditInfo($uri)
+      
+      return
+        element { fn:QName($NS,"mml:container") }
+        {
+          $contentDoc,
+          (: $projects, :)
+          $auditDoc
+        }
+    )
     else
       mml:searchContentDocs($qtext, $start, $pageLength)
 
@@ -68,14 +109,15 @@ function mml:get(
   let $_ :=
     if (fn:string-length($uri) eq 0) then
     (
-      map:put($config,"array-element-names", xs:QName("mmlc:result") )
+      map:put($config,"array-element-names", xs:QName("mml:result") )
     )
     else
     (
       map:put($config,"array-element-names", xs:QName("mmlc:subjectHeading") ),
       map:put($config,"array-element-names", xs:QName("mmlc:resource") ),
       map:put($config,"array-element-names", xs:QName("mmlc:subjectKeyword") ),
-      map:put($config,"array-element-names", xs:QName("mmlc:project") )
+      map:put($config,"array-element-names", xs:QName("mmlc:project") ),
+      map:put($config,"array-element-names", xs:QName("mmlc:auditEntry") )
     )
 
   let $doc :=

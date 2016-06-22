@@ -39,31 +39,36 @@ function mml-api:get(
   (: Add Auth Token Check here :)
   
   let $dictionaryType := map:get($params, "dictionaryType")
-  let $outputFormat   := map:get($params, "outputFormat")
+  let $outputFormat   := map:get($params, "format")
 
   let $query :=
-    cts:and-query((
-        cts:directory-query("/dictionary/","infinity"),
-        cts:element-value-query(
-          fn:QName($NS, "dictionaryType"), $dictionaryType, ("case-insensitive")
-      )
-    ))
+    if (fn:string-length($dictionaryType) gt 0) then
+      cts:and-query((
+          cts:directory-query("/dictionary/","infinity"),
+          cts:element-value-query(
+            fn:QName($NS, "dictionaryType"), $dictionaryType, ("case-insensitive")
+        )
+      ))
+    else
+      cts:and-query((
+          cts:directory-query("/dictionary/","infinity")
+        ))
 
-  let $result := cts:search(fn:doc(), $query)[1]
-  let $values := $result/mml:dictionary/mml:dictionaryValues/mml:dictionaryValue/text()
+  let $results := cts:search(fn:doc(), $query)
+  let $values := $results/mml:dictionary/mml:dictionaryValues/mml:dictionaryValue/text()
 
   let $resultXml :=
-        <results>{
-        for $value in $values
-          order by $value
-            return (
-              <val>
-                <name>{fn:lower-case(fn:translate(fn:replace($value, ' ', '_'),'/.','_'))}</name>
-                <value>{$value}</value>
-              </val>
-            )
-      }
-      </results> 
+        element results {
+          element count { fn:count($values) },
+          for $value in $values
+            order by $value
+              return (
+                element val {
+                  element name { fn:lower-case(fn:translate(fn:replace($value, ' ', '_'),'/.','_')) },
+                  element value { $value }
+                }
+              )
+        }
 
   (: Custom JSON configurator to support nested array elements :)
   let $config := json:config("custom")
