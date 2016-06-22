@@ -176,5 +176,69 @@ declare function project:delete($uri as xs:string)
   let $inactive := "Inactive"
   let $new-status :=  element {fn:QName($NS,"mml:projectState")} { $inactive }
   
-  return (xdmp:node-replace($doc/$old-status, $new-status),"Project soft deleted")
+  return (xdmp:node-replace($doc/$old-status, $new-status), fn:concat("Project ", $uri ," soft deleted"))
+};
+
+
+declare function project:get-document($uri as xs:string)
+{
+  let $log := xdmp:log(".................. $uri:    "||$uri)
+  let $projectDocument := fn:doc($uri)
+  let $project-title := $projectDocument/mml:project/mml:metadata/mml:descriptive/mml:title/text()
+
+  (: Query to get associated content :)
+  let $query := 
+		cts:and-query((
+			cts:directory-query("/content/", "infinity"),
+			cts:element-value-query(
+				fn:QName($NS, "project"), $project-title, ("exact")
+			)
+		))
+  
+  let $associated-contents := cts:search(fn:doc(), $query)
+   
+   
+  let $resultDocument := 
+        element project
+        {
+          element metadata {
+			element administrative {
+				element systemId     { $projectDocument/mml:project/mml:metadata/mml:administrative/mml:systemId/text() }, 
+				element createdBy { $projectDocument/mml:project/mml:metadata/mml:administrative/mml:createdBy/text() },
+				element created { $projectDocument/mml:project/mml:metadata/mml:administrative/mml:created/text() },
+				element modifiedBy { $projectDocument/mml:project/mml:metadata/mml:administrative/modifiedBy/text() },
+				element modified { $projectDocument/mml:project/mml:metadata/mml:administrative/mml:modified/text() }
+			},
+			element descriptive {
+				element title { $projectDocument/mml:project/mml:metadata/mml:descriptive/mml:title/text() }, 
+				element description { $projectDocument/mml:project/mml:metadata/mml:descriptive/description/text() },
+				element projectState { $projectDocument/mml:project/mml:metadata/mml:descriptive/mml:projectState/text() },
+				element subjectHeadings {
+				  for $subjectHeading in $projectDocument/mml:project/mml:metadata/mml:descriptive/mml:subjectHeadings/mml:subjectHeading/text()
+					return
+					  element subjectHeading { $subjectHeading }
+				},
+				element subjectKeywords {
+				  for $subjectKeyword in $projectDocument/mml:project/mml:metadata/mml:descriptive/mml:subjectKeywords/mml:subjectKeyword/text()
+					return
+					  element subjectKeyword { $subjectKeyword }
+				}			
+			},
+			element contents {
+				 for $content in $associated-contents 
+				 return 
+				   element content {
+					   element title { $content//mml:title/text() },
+					   element uri { fn:base-uri($content) },
+					   element objectType { $content//mml:objectType/text() },
+					   element modified { $content//mml:modified/text() },
+					   element createdBy { $content//mml:createdBy/text() },
+					   element modifiedBy { $content//mml:modifiedBy/text() }
+				   }
+		    
+		    }
+          }
+        }
+  
+  return $resultDocument
 };

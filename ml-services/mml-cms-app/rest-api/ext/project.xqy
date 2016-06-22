@@ -16,20 +16,60 @@ declare variable $NS := "http://macmillanlearning.com";
 
 
 (:
-API to Get Project content
- :)
+	API to Get Project content by passing URI 
+:)
 declare 
-%roxy:params("")
+%roxy:params("uri=xs:anyURI", "format=xs:string")
 function mml:get(
   $context as map:map,
   $params  as map:map
 ) as document-node()*
 {
   (: Add Auth Token Check here :)
-  
-  map:put($context, "output-types", "application/xml"),
-  map:put($context, "output-status", (200, "OK")),
-  document { "GET called on the ext service extension" }
+ 
+ 	let $tempUri := map:get($params, "uri")
+	let $ft := map:get($params, "format")
+	
+	let $uri := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
+	
+	let $format := if ($ft eq "json") then "json" else "xml"
+
+	let $output-types :=
+		if ($format eq "json") then
+		(
+		  map:put($context,"output-types","application/json")
+		)
+		else
+		(
+		  map:put($context,"output-types","application/xml")
+		)	
+	
+	let $doc := 
+		if (fn:string-length($uri) ne 0) then
+		(
+			pm:get-document($uri)
+		)
+		else "Invalid URI"
+
+	(: Custom JSON configurator to support nested array elements :)
+	let $config := json:config("custom")
+	let $_ := map:put($config, "whitespace", "ignore" )
+	let $_ := map:put($config, "array-element-names", "content")
+
+	let $_ := map:put($context, "output-types", "application/json")
+	let $_ := map:put($context, "output-status", (200, "fetched"))
+
+	let $result := 
+		if ($format eq "json" ) then
+		(
+			text { json:transform-to-json($doc, $config) }
+		)
+		else 
+			$doc
+	let $log := xdmp:log("format....." || $format)
+	return
+		document { $result }  	
+		
 };
 
 (:
