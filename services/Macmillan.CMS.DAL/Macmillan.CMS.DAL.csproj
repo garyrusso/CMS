@@ -119,6 +119,8 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -130,7 +132,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DictionaryDAL.cs" />
+    <Compile Include="FlowJsRepoDAL.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="IDictionaryDAL.cs" />
+    <Compile Include="IFlowJsRepoDAL.cs" />
     <Compile Include="IManageContentDAL.cs" />
     <Compile Include="IManageProjectDAL.cs" />
     <Compile Include="ISearchDataDAL.cs" />
@@ -159,14 +165,12 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-
-<Target Name="PublishToFileSystem" DependsOnTargets="PipelinePreDeployCopyAllFilesToOneFolder">
+  <Target Name="PublishToFileSystem" DependsOnTargets="PipelinePreDeployCopyAllFilesToOneFolder">
     <Error Condition="'$(PublishDestination)'==''" Text="The PublishDestination property must be set to the intended publishing destination." />
     <MakeDir Condition="!Exists($(PublishDestination))" Directories="$(PublishDestination)" />
     <ItemGroup>
-        <PublishFiles Include="$(_PackageTempDir)\**\*.*" />
+      <PublishFiles Include="$(_PackageTempDir)\**\*.*" />
     </ItemGroup>
     <Copy SourceFiles="@(PublishFiles)" DestinationFiles="@(PublishFiles->'$(PublishDestination)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="True" />
-</Target>
-
+  </Target>
 </Project>

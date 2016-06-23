@@ -165,12 +165,12 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Filters\AuthenticationAttribute.cs" />
     <Compile Include="Filters\ManageExceptionAttribute.cs" />
-    <Compile Include="FlowJs\FlowJsRepo.cs" />
-    <Compile Include="FlowJs\FlowModels.cs" />
-    <Compile Include="FlowJs\IFlowJsRepo.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\FileMetaData.cs" />
+    <Compile Include="Models\FileResponseMessage.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -210,6 +210,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\PublishToFileSystem.pubxml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="FlowJs\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
