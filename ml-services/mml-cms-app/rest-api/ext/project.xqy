@@ -56,7 +56,6 @@ function mml:get(
 	let $_ := map:put($config, "whitespace", "ignore" )
 	let $_ := map:put($config, "array-element-names", "content")
 
-	let $_ := map:put($context, "output-types", "application/json")
 	let $_ := map:put($context, "output-status", (200, "fetched"))
 
 	let $result := 
@@ -76,7 +75,7 @@ function mml:get(
   API to update existing Project document by passing URI and project metadata
 :)
 declare 
-%roxy:params("uri=xs:anyURI")
+%roxy:params("uri=xs:anyURI", "format=xs:string")
 function mml:put(
     $context as map:map,
     $params  as map:map,
@@ -84,21 +83,33 @@ function mml:put(
 ) as document-node()?
 {
   (: Add Auth Token Check here :)
-   let $tempUri := map:get($params, "uri")
+    let $tempUri := map:get($params, "uri")
    
-   let $uri := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
+    let $uri := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
    
-   let $output-types := map:put($context,"output-types","application/json")
-   
-   let $inputDoc := document { $input }
-   
-   (: Convert json to xml :)
-  let $contentDoc  := json:transform-from-json($inputDoc)
+	let $ft := map:get($params, "format")
 
-  let $newContentObj :=
-        element project
-        {
-          element metadata {
+	let $format := if ($ft eq "json") then "json" else "xml"
+
+	let $output-types :=
+		if ($format eq "json") then
+		(
+		  map:put($context,"output-types","application/json")
+		)
+		else
+		(
+		  map:put($context,"output-types","application/xml")
+		)   
+   
+	let $inputDoc := document { $input }
+   
+	(: Convert input json to xml for processing :)
+	let $contentDoc  := json:transform-from-json($inputDoc)
+
+	let $newContentObj :=
+		element project
+		{
+		  element metadata {
 			element administrative {
 				element systemId     { $contentDoc/jn:meta/jn:systemId/text() }, 
 				element createdBy { $contentDoc/jn:meta/jn:createdBy/text() },
@@ -121,18 +132,17 @@ function mml:put(
 			}
 		  }  
 		}  
-  
  
 	let $status :=
-	if (fn:string-length($uri) gt 0) then
-	  pm:update($uri, $newContentObj)
-	else
-	  "invalid uri"
+		if (fn:string-length($uri) gt 0) then
+		  pm:update($uri, $newContentObj)
+		else
+		  "invalid uri"
 
 	let $retObj :=
-	element results {
-		element { "status" } { $status }
-	  }
+		element results {
+			element { "status" } { $status }
+		  }
 
 	let $config := json:config("custom")
 	let $_ := map:put($config, "whitespace", "ignore" )
@@ -140,10 +150,17 @@ function mml:put(
 	let $_ := map:put($context, "output-types", "application/json")
 	let $_ := map:put($context, "output-status", (201, "Updated"))
 
+	let $result :=
+		if ($format eq "json") then 
+		(
+			text { json:transform-to-json($retObj, $config) }
+		)
+		else
+			$retObj
+	
+	
 	return
-		document {
-		  text { json:transform-to-json($retObj, $config) }    
-	}   
+		document { $result }   
 
 };
 
@@ -151,7 +168,7 @@ function mml:put(
   API to create a new Project document
 :)
 declare 
-%roxy:params("")
+%roxy:params("format=xs:string")
 %rapi:transaction-mode("update")
 function mml:post(
     $context as map:map,
@@ -161,23 +178,28 @@ function mml:post(
 {
   (: Check Auth Token here :)
   
-  let $output-types := map:put($context,"output-types","application/json")
+	let $ft := map:get($params, "format")
+	let $format := if ($ft eq "json") then "json" else "xml"
 
-  let $userId :=
-    if (fn:not(fn:empty(map:get($params, "userid")))) then
-      map:get($params, "userid")
-    else
-      ""
+	let $output-types :=
+		if ($format eq "json") then
+		(
+		  map:put($context,"output-types","application/json")
+		)
+		else
+		(
+		  map:put($context,"output-types","application/xml")
+		)
 
-  let $jContentDoc :=  document { $input }
+	let $jContentDoc :=  document { $input }
 
-  (: Convert json to xml :)
-  let $contentDoc  := json:transform-from-json($jContentDoc)
+	(: Convert json to xml :)
+	let $contentDoc  := json:transform-from-json($jContentDoc)
 
-  let $contentObj :=
-        element project
-        {
-          element metadata {
+	let $contentObj :=
+		element project
+		{
+		  element metadata {
 			element administrative {
 				element systemId     { $contentDoc/jn:meta/jn:systemId/text() }, 
 				element createdBy { $contentDoc/jn:meta/jn:createdBy/text() },
@@ -201,23 +223,26 @@ function mml:post(
 		  }  
 		}
 
-  let $doc := pm:save($contentObj)
+	let $doc := pm:save($contentObj)
 
-  let $_ := map:put($context, "output-types", "application/xml")
-  let $_ := map:put($context, "output-status", (201, "Created"))
-  
-  let $returnObj :=
-    element results {
-        element { "status" } { $doc }
-      }
-  
-  let $config := json:config("custom")
-  let $_ := map:put($config, "whitespace", "ignore" )
-  
-  return
-    document {
-      text { json:transform-to-json($returnObj, $config) }    
-    }  
+	let $returnObj :=
+		element results {
+			element { "status" } { $doc }
+		  }
+
+	let $config := json:config("custom")
+	let $_ := map:put($config, "whitespace", "ignore" )
+	let $_ := map:put($context, "output-status", (201, "Created"))
+
+	let $result := 
+		if ($format eq "json" ) then
+		(
+			text { json:transform-to-json($returnObj, $config) }
+		)
+		else 
+			$returnObj	
+	return
+		document { $result }    
   
 };
 
@@ -225,7 +250,7 @@ function mml:post(
   API to delete a project document - update project status
 :)
 declare 
-%roxy:params("uri=xs:anyURI")
+%roxy:params("uri=xs:anyURI", "format=xs:string")
 function mml:delete(
     $context as map:map,
     $params  as map:map
@@ -234,10 +259,20 @@ function mml:delete(
   (: Add Auth Token Check here :)
 
 	let $tempUri := map:get($params, "uri")
+	let $ft := map:get($params, "format")
 	
 	let $uri := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
-	
-	let $output-types := map:put($context, "output-types", "application-json")
+	let $format := if ($ft eq "json") then "json" else "xml"
+
+	let $output-types :=
+		if ($format eq "json") then
+		(
+		  map:put($context,"output-types","application/json")
+		)
+		else
+		(
+		  map:put($context,"output-types","application/xml")
+		)	
 	
 	let $status := 
 		if (fn:string-length($uri) ne 0) then
@@ -253,13 +288,17 @@ function mml:delete(
 	
 	let $config := json:config("custom")
 	let $_ := map:put($config, "whitespace", "ignore" )
-
-	let $_ := map:put($context, "output-types", "application/json")
 	let $_ := map:put($context, "output-status", (200, "Deleted"))
 
+	let $result := 
+		if ($format eq "json" ) then
+		(
+			text { json:transform-to-json($returnObject, $config) }
+		)
+		else 
+			$returnObject	
+	
 	return
-		document {
-		  text { json:transform-to-json($returnObject, $config) }    
-	}  	
+		document { $result }  	
 
 };
