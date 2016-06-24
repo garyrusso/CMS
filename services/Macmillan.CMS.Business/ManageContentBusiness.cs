@@ -37,7 +37,10 @@ namespace Macmillan.CMS.Business
             this.dal.UploadMetadata(metaData);
 
             Logger.Debug(" Exiting UploadMetadata");
-            return null;
+
+            var results = new { Title = content.Title, uri = "/content/" + content.Title };
+
+            return results;
         }
 
          /// <summary>
@@ -125,16 +128,73 @@ namespace Macmillan.CMS.Business
              StringBuilder text = new StringBuilder(File.ReadAllText(ConfigurationManager.AppSettings["AppDataPath"] + "\\Content.json"));
 
              text.Replace("##systemId##", Guid.NewGuid().ToString("N").Substring(0, 32));
-             text.Replace("##subjectHeadings##", content.SubjectHeadings.ToArray().ToString());
-             text.Replace("##subjectHeadings##", content.SubjectKeywords.ToArray().ToString());
+
+             if (content.SubjectHeadings != null)
+             {
+                 StringBuilder subjects = new StringBuilder();
+
+                 foreach (string subject in content.SubjectHeadings)
+                 {
+                     if(!string.IsNullOrEmpty(subjects.ToString()))
+                         subjects.Append(",");
+
+                     subjects.Append("\"" + subject + "\"");
+                 }
+                 text.Replace("##subjectHeadings##", subjects.ToString());
+             }
+
+             if (content.SubjectKeywords != null)
+             {
+                 StringBuilder keywords = new StringBuilder();
+
+                 foreach (string keyword in content.SubjectKeywords)
+                 {
+                     if (!string.IsNullOrEmpty(keywords.ToString()))
+                         keywords.Append(",");
+
+                     keywords.Append("\"" + keyword + "\"");
+                 }
+
+                 text.Replace("##subjectKeywords##", keywords.ToString());
+             }
+
+             if (content.Projects != null)
+             {
+                 StringBuilder projects = new StringBuilder();
+
+                 foreach (string project in content.Projects)
+                 {
+                     if (!string.IsNullOrEmpty(projects.ToString()))
+                         projects.Append(",");
+
+                     projects.Append("\"" + project + "\"");
+                 }
+
+                 text.Replace("##projects##", projects.ToString());
+             }
 
              text.Replace("##title##", content.Title);
              text.Replace("##description##", content.Description);
              text.Replace("##source##", content.Source);
-             text.Replace("##creators##", content.Creator.ToArray().ToString());
              text.Replace("##publisher##", content.Publisher);
              text.Replace("##datePublished##", content.DatePublished.ToString());
              text.Replace("##contentState##", content.ContentState);
+             
+             if (content.Creator != null)
+             {
+                 StringBuilder creators = new StringBuilder();
+
+                 foreach (string creator in content.Creator)
+                 {
+                     if (!string.IsNullOrEmpty(creators.ToString()))
+                         creators.Append(",");
+
+                     creators.Append("\"" + creator + "\"");
+                 }
+
+                 text.Replace("##creators##", creators.ToString());
+             }
+
 
              ////if (fileInfo != null) 
              ////{
@@ -153,7 +213,7 @@ namespace Macmillan.CMS.Business
 
              text.Replace("##fileFormat##", fileInfo.Extension);
              text.Replace("##fileName##", fileInfo.Name);
-             text.Replace("##filePath##", "documents/binary/" + fileInfo.Name);
+             text.Replace("##filePath##", "resources/" + fileInfo.Name);
              text.Replace("##fileSize##", fileInfo.Length.ToString());
 
              Logger.Debug(" Exiting BuildContentMetadataJson");

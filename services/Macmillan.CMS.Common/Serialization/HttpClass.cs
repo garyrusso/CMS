@@ -11,6 +11,7 @@
     using System.Net;
     using System.Collections.Generic;
     using System.Web;
+    using System.IO;
 
     public enum SupportedHttpMethods
     {
@@ -39,6 +40,8 @@
         public string responseStatusCode = string.Empty;
         public bool errorOccurred = false;
 
+        public string file;
+
         Dictionary<string, string> rqstHeaders = null;
         Dictionary<string, string> cntHeaders = null;
 
@@ -55,6 +58,8 @@
                 this.content.Headers.ContentType = new MediaTypeHeaderValue(mediaType);
             }
 
+
+
             this.rqstHeaders = requestHeaders;
             this.cntHeaders = contentHeaders;
 
@@ -66,18 +71,7 @@
 
             this.rqstHeaders.Add("Authorization", this.BuildAuthHeader());
             this.rqstHeaders.Add("X-Auth-Token", this.BuildUserTokenHeader());
-
-            HttpClientHandler hch = new HttpClientHandler();
-            string[] useCredentials = ConfigurationManager.AppSettings["MarkLogicCredentials"].Split(new char[] { '/' });
-            //hch.Credentials = new NetworkCredential(useCredentials[0], useCredentials[1]);
-            //hch.Credentials = new NetworkCredential("admin", "admin");
-            //hch.UseDefaultCredentials = true;
-            //WebProxy wb = new WebProxy("http://tmbang1.techmahindra.com:8080", false, new string[] { });
-            //wb.Credentials = System.Net.CredentialCache.DefaultCredentials;
-            //hch.Proxy = wb;
-            hch.UseProxy = false;
-
-            //this.httpClient = new HttpClient(hch);
+            
             this.httpClient = new HttpClient();
             this.uri = new Uri(uri, UriKind.Absolute);
             this.httpMethod = new HttpMethod(httpMethod.ToString());
@@ -185,6 +179,8 @@
 
         private void Post()
         {
+          
+
             if (this.rqstHeaders != null)
             {
                 foreach (var item in this.rqstHeaders)
@@ -201,8 +197,24 @@
                 }
             }
 
-            this.httpResponseMessage = this.httpClient.PostAsync(this.uri, this.content).Result;
+             
+
+            if (!string.IsNullOrEmpty(this.file))
+            {
+                var method = new MultipartFormDataContent();
+                var streamContent = new StreamContent(File.Open(this.file, FileMode.Open));
+                method.Add(streamContent, "filename");
+                method.Headers.ContentType = MediaTypeHeaderValue.Parse("image/jpeg");
+
+                this.content = method;
+            }
+
+            var result = this.httpClient.PostAsync(this.uri, this.content);
+            this.httpResponseMessage = result.Result;
+
             this.IdentifyErrors(this.httpResponseMessage);
+
+              
         }
 
         private void Put()
@@ -256,9 +268,8 @@
         }
 
         private string BuildUserTokenHeader()
-        {
-            //string userToken = this.ExtractHeader("X-Auth-Token");
-            
+        {            
+            //string userToken = this.ExtractHeader("X-Auth-Token");             
             //return userToken;
 
             return "Z3J1c3NvOnBhc3N3b3Jk";

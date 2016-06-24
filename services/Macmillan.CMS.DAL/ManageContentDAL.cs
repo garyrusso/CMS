@@ -23,7 +23,7 @@ namespace Macmillan.CMS.DAL
          {
              Logger.Debug("Entering UploadMetadata");
 
-             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "/content";
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "content?name=content";
              MLReader mlReader = new MLReader();
              string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.POST, "application/json", metadata);
              
@@ -147,6 +147,18 @@ namespace Macmillan.CMS.DAL
 
          public void UploadFile(FileInfo file)
          {
+             this.HTTPUpload(file);
+         }
+
+         private void HTTPUpload(FileInfo file)
+         {
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "resource?name=resource&rs:fileName=" + file.Name;
+             MLReader mlReader = new MLReader();
+             string results = mlReader.UploadFile(mlUrl, "image/jpeg", file.FullName);
+         }
+
+         private void XCCUpload(FileInfo file)
+         {
              ContentCreateOptions options = null;
              Session session = null;
 
@@ -158,10 +170,10 @@ namespace Macmillan.CMS.DAL
                  ContentSource cs = ContentSourceFactory.NewContentSource(uri);
                  session = cs.NewSession();
 
-                // FileInfo[] file = new FileInfo[2] { 
-                //new FileInfo(@"E:\MacMillan\CMS\working\stubs\UploadFile\UploadFile\app_data\project1.xml"),
-                //new FileInfo(@"E:\MacMillan\CMS\working\stubs\UploadFile\UploadFile\app_data\project2.xml")};
-                 
+                 // FileInfo[] file = new FileInfo[2] { 
+                 //new FileInfo(@"E:\MacMillan\CMS\working\stubs\UploadFile\UploadFile\app_data\project1.xml"),
+                 //new FileInfo(@"E:\MacMillan\CMS\working\stubs\UploadFile\UploadFile\app_data\project2.xml")};
+
                  this.LoadFile(session, file, options);
              }
              catch (Exception ex)

@@ -77,6 +77,24 @@ namespace Macmillan.CMS.DAL
             }
         }
 
+        public string UploadFile(string url, 
+       string mediaType,
+       string file = null,
+       Dictionary<string, string> requestHeaders = null,
+       Dictionary<string, string> contentHeaders = null)
+        {
+            using (var httpClass = new HttpClass(url, SupportedHttpMethods.POST, mediaType, null, requestHeaders, contentHeaders))
+            {
+                httpClass.file = file;
+                httpClass.Invoke();
+
+                this.ProcessErrors(httpClass);
+
+                return httpClass.GetResponseContent(); ;
+            }
+        }
+        
+
         public void ProcessErrors(HttpClass httpClass) // string errorContent, bool isCustomError)
         {
             if (httpClass.errorOccurred)

@@ -8,7 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
-//using Macmillan.CMS.Service.FlowJs;
+using Macmillan.CMS.Service.FlowJs;
 using System.IO;
 using System.Threading.Tasks;
 using Macmillan.CMS.Common;
@@ -21,7 +21,7 @@ namespace Macmillan.CMS.Service.Controllers
         IManageContentBusiness business;
         IDictionaryBusiness dictionaryBusiness;
         //private readonly IFileManagerService _fileManager;
-        private readonly IFlowJsRepoBusiness _flowJs;
+        private readonly IFlowJsRepo _flowJs;
         private string fileRepository = ConfigurationManager.AppSettings["FileRepository"];
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Macmillan.CMS.Service.Controllers
         {
             this.business = ManageContentBusiness;
             this.dictionaryBusiness = dictBusiness;
-            _flowJs = new FlowJsBusiness();
+            _flowJs = new FlowJsRepo();
         }
 
         /// <summary>
@@ -46,23 +46,18 @@ namespace Macmillan.CMS.Service.Controllers
         {
             Logger.Debug("Entering UploadMetadata");
 
-            IEnumerable<string> headerValues = request.Headers.GetValues("Authorization");
-            string token = headerValues.FirstOrDefault();
-
-            string folderPath = this.fileRepository + "\\" + token;
+            string folderPath = this.fileRepository ;
 
             FileInfo[] filesInfo = new DirectoryInfo(folderPath).GetFiles();
-
+            object results = null;
             foreach (FileInfo file in filesInfo)
             {
-                this.business.UploadMetadata(content, file);
+                results = this.business.UploadMetadata(content, file);
                 file.Delete();
             }
 
-            Directory.Delete(folderPath);
-
             Logger.Debug("Exiting UploadMetadata");
-            return null;
+            return results;
         }
 
         /// <summary>
@@ -71,7 +66,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="content"></param>
         /// <returns></returns>
         [HttpPut]
-        public object UpdateContent(HttpRequestMessage request, [FromBody] Content content)
+        public object UpdateContent([FromBody] Content content)
         {
             Logger.Debug("Entering UpdateContent");
             var results = this.business.GetContent("");
@@ -114,15 +109,12 @@ namespace Macmillan.CMS.Service.Controllers
                 if (request.Files.Count == 0)
                     return Ok();
 
-                //get use authentication token from request object
-                string token = this.ExtractHeader("Authorization"); 
-
-                var validationRules = new Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules();
+                var validationRules = new FlowValidationRules();
                 //validationRules.AcceptedExtensions.AddRange(new List<string> { "jpeg", "jpg", "png", "bmp", "zip" });
-                validationRules.AcceptedExtensions.AddRange(this.GetUploadFileTypes());
+                //validationRules.AcceptedExtensions.AddRange(this.GetUploadFileTypes());
                 //validationRules.MaxFileSize = 5000000;
 
-                var status = _flowJs.PostChunk(request, this.fileRepository + "\\" + token, validationRules);
+                var status = _flowJs.PostChunk(request, this.fileRepository, validationRules);
 
                 string errors = string.Empty;
                 status.ErrorMessages.ForEach(x => errors += " " + x);
@@ -133,9 +125,9 @@ namespace Macmillan.CMS.Service.Controllers
 
                     return StatusCode(HttpStatusCode.NotFound);
                 }  
-                else if (status.Status == Macmillan.CMS.Common.Models.FlowModels.PostChunkStatus.Done)
+                else if (status.Status == PostChunkStatus.Done)
                 {
-                    Task.Factory.StartNew(() => { this.UploadFile(new FileInfo(Path.Combine(this.fileRepository + "\\" + token, status.FileName))); });
+                    Task.Factory.StartNew(() => { this.UploadFile(new FileInfo(Path.Combine(this.fileRepository, status.FileName))); });
                 }                    
             }
             catch (Exception ex)
@@ -168,7 +160,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="content"></param>
         /// <returns></returns>
         [HttpPost]
-        public object DeleteContent(HttpRequestMessage request, [FromBody] Content content)
+        public object DeleteContent([FromBody] Content content)
         {
             Logger.Debug("Entering DeleteContent");
             var results = this.business.GetContent("");
