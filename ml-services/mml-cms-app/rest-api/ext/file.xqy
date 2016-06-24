@@ -1,6 +1,6 @@
 xquery version "1.0-ml";
 
-module namespace mml = "http://marklogic.com/rest-api/resource/resource";
+module namespace mml = "http://marklogic.com/rest-api/resource/file";
 
 import module namespace search = "http://marklogic.com/appservices/search" at "/MarkLogic/appservices/search/search.xqy";
 import module namespace json   = "http://marklogic.com/xdmp/json" at "/MarkLogic/json/json.xqy";
@@ -60,11 +60,13 @@ function mml:get(
     if (fn:string-length($uri) gt 0) then
       fn:doc($uri)
     else
-      mml:searchBinaryResourceFiles($qtext, $start, $pageLength)
+      mml:searchBinaryFiles($qtext, $start, $pageLength)
 
   let $auditAction :=
-    if (fn:string-length($uri) gt 0) then
-      am:save("downloaded", $uri, "resource")
+    if (fn:string-length($uri) gt 0 and fn:not(fn:empty($retObj))) then
+    (
+      am:save("downloaded", $uri, "file")
+    )
     else
       ""
 
@@ -124,7 +126,7 @@ function mml:put(
 
   let $auditAction :=
     if (fn:string-length($uri) gt 0) then
-      am:save("updated", $uri, "resource")
+      am:save("updated", $uri, "file")
     else
       ""
 
@@ -182,7 +184,7 @@ function mml:post(
 
   let $auditAction :=
     if (fn:string-length($fileName) gt 0) then
-      am:save("created", "/resource/"||$fileName, "resource")
+      am:save("created", "/file/"||$fileName, "file")
     else
       ""
 
@@ -248,7 +250,7 @@ function mml:delete(
 
   let $auditAction :=
     if (fn:string-length($uri) gt 0) then
-      am:save("deleted", $uri, "resource")
+      am:save("deleted", $uri, "file")
     else
       ""
 
@@ -278,15 +280,20 @@ function mml:delete(
     }
 };
 
-declare function mml:searchBinaryResourceFiles($qtext, $start, $pageLength)
+declare function mml:searchBinaryFiles($qtext, $start, $pageLength)
 {
   let $query := cts:and-query((
-                  cts:directory-query("/resource/","infinity")
+                  cts:directory-query("/file/","infinity"),
+                  cts:not-query(
+                    cts:collection-query("binary")
+                  )
                 ))
-  
-  let $uris := cts:uris((),(), $query)
-  
-  let $statusMessage := "resource file(s) found"
+
+  let $results := cts:search(fn:doc(), $query)
+
+  let $uris := $results/mmlc:fileInfo/mmlc:uri/text()
+
+  let $statusMessage := "file(s) found"
 
   let $retObj :=
       if (fn:count($uris) ge 1) then
@@ -305,14 +312,14 @@ declare function mml:searchBinaryResourceFiles($qtext, $start, $pageLength)
       else
       (
         element { fn:QName($NS,"mml:results") } {
-          element { fn:QName($NS,"mml:status") } { "no resource files found" }
+          element { fn:QName($NS,"mml:status") } { "no files found" }
         }
       )
 
   return $retObj
 };
 
-declare function mml:searchBinaryResourceFiles1($qtext, $start, $pageLength)
+declare function mml:searchBinaryFilesOrig($qtext, $start, $pageLength)
 {
   let $options :=
     <options xmlns="http://marklogic.com/appservices/search">
@@ -320,12 +327,12 @@ declare function mml:searchBinaryResourceFiles1($qtext, $start, $pageLength)
       <term>
         <term-option>case-insensitive</term-option>
       </term>
-      <additional-query>{cts:collection-query(("resource"))}</additional-query>
+      <additional-query>{cts:collection-query(("file"))}</additional-query>
       <return-results>true</return-results>
       <return-query>true</return-query>
     </options>
    
-  let $statusMessage := "resource file found"
+  let $statusMessage := "file found"
 
   let $results := search:search($qtext, $options, $start, $pageLength)
 
@@ -345,7 +352,7 @@ declare function mml:searchBinaryResourceFiles1($qtext, $start, $pageLength)
       else
       (
         element { fn:QName($NS,"mml:results") } {
-          element { fn:QName($NS,"mml:status") } { "no resource files found" }
+          element { fn:QName($NS,"mml:status") } { "no files found" }
         }
       )
 

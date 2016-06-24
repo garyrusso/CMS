@@ -28,6 +28,7 @@ declare function am:save($action as xs:string, $targetUri as xs:string, $targetT
   let $doc :=
     element { fn:QName($NS,"mml:auditRecord") }
     {
+      element { fn:QName($NS,"mml:objectType") } { "Audit" },
       element { fn:QName($NS,"mml:action") } { $action },
       element { fn:QName($NS,"mml:auditTargetUri") } { $targetUri },
       element { fn:QName($NS,"mml:auditTargetType") } { $targetType }, (: Content or Resource :)
@@ -47,6 +48,8 @@ declare function am:save($action as xs:string, $targetUri as xs:string, $targetT
 declare function am:_save($uri as xs:string, $doc)
 {
   (: check if file already exists :)
+ 
+  let $log := xdmp:log("................................. audit doc: "||$uri)
 
   let $cmd :=
         fn:concat
