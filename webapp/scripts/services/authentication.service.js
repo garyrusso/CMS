@@ -124,7 +124,7 @@
             var deferred = $q.defer(), self = this;
 
             $http.post(WS.authenticateUser, postdata).then(function (response) {
-                if (response.data.authToken) {
+                if (response.data && response.data.authToken) {
                     response.data.roles = ['User'];
                     self.authenticate(response.data);
                     deferred.resolve(response.data);
