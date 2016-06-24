@@ -18,14 +18,14 @@ a, a:focus, a:hover {
  * */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 /* End of AngularUi*/
-.cms-body {   
+.cms-body { 
     width: 100%;
 }
 .cms-row-fluid {
     word-wrap: break-word;
 }
 main {
-    display: table-row;
+    /*display: table-row;*/
 }
 .cms-main-container {
     height: 100%;
@@ -90,8 +90,8 @@ main {
  ************
  */
 header {
-    display: table-row;
-    height: 0;
+    /*display: table-row;
+    height: 0;*/
 }
 .cms-headerbackground {
     background-color: #363940;

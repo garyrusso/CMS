@@ -32,7 +32,7 @@
                 useMocks : true,
                 fakeDelay : true,
                 fakeDelayTime: 1000,//0.8secs
-                baseUrl: 'http://midlayerhost:portNumber/api/',
+                baseUrl: 'http://midlayerhost/api/',
                 debug : true
 
             },
