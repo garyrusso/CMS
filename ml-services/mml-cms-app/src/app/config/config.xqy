@@ -107,6 +107,13 @@ declare variable $c:SEARCH-OPTIONS :=
     <term>
       <term-option>case-insensitive</term-option>
     </term>
+    <additional-query>
+      <cts:not-query xmlns:cts="http://marklogic.com/cts">
+        <cts:collection-query>
+          <cts:uri>binary</cts:uri>
+        </cts:collection-query>
+      </cts:not-query>
+    </additional-query>
     <constraint name="Types">
       <range type="xs:string">
         <element ns="http://macmillanlearning.com" name="objectType"/>

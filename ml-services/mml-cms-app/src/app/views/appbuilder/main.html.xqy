@@ -112,6 +112,28 @@ declare function local:transform-snippet($nodes as node()*)
                 </table>
               }
             else
+            if ($docType eq "auditRecord") then
+              element div
+              {
+                <table border="1" width="100%">
+                  <tr><td width="145" valign="top">URI</td><td valign="top"><a target="_blank" href="view.xml?uri={$docUri}">{$docUri}</a></td></tr>
+                  <tr><td width="145" valign="top">Type</td><td valign="top">{$docType}</td></tr>
+                  <tr><td width="145" valign="top">Target Uri</td><td valign="top">{$doc//*:auditTargetUri/text()}</td></tr>
+                  <tr><td width="145" valign="top">Action</td><td valign="top">{$doc//*:action/text()}</td></tr>
+                </table>
+              }
+            else
+            if ($docType eq "fileInfo") then
+              element div
+              {
+                <table border="1" width="100%">
+                  <tr><td width="145" valign="top">URI</td><td valign="top"><a target="_blank" href="view.xml?uri={$docUri}">{$docUri}</a></td></tr>
+                  <tr><td width="145" valign="top">Type</td><td valign="top">{$docType}</td></tr>
+                  <tr><td width="145" valign="top">Target Uri</td><td valign="top">{$doc//*:uri/text()}</td></tr>
+                  <tr><td width="145" valign="top">Size (bytes)</td><td valign="top">{fn:format-number($doc//*:size/text(), "#,###")}</td></tr>
+                </table>
+              }
+            else
               element div
               {
                 <table border="1" width="100%">

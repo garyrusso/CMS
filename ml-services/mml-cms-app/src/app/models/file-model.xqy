@@ -30,37 +30,56 @@ declare function fm:getContentUri($hash)
   return $uri
 };
 
-declare function fm:save($fileName as xs:string, $file)
+declare function fm:save($fileName as xs:string, $fileSize as xs:unsignedLong, $file)
 {
   (
-    fm:_save($fileName, $file),
-    "File Successfully Saved: "||"/resource/"||$fileName
+    fm:_save($fileName, $fileSize, $file),
+    "File Successfully Saved: "||"/file/"||$fileName
   )
 };
 
-declare function fm:_save($fileName as xs:string, $doc)
+declare function fm:_save($fileName as xs:string, $fileSize as xs:unsignedLong, $doc)
 {
 (:
   let $hashedDir := xdmp:hash64($content/mml:feed/mml:title/text())
   let $log := xdmp:log("......... hash: "||$hashedDir)
 :)
-
-  let $uri := "/resource/"||$fileName
+  let $uri := "/file/"||$fileName
   
+  let $loggedInUser := auth:getUserNameFromBase64String()
+  let $currentDateTime := fn:current-dateTime()
+
   (: check if file already exists :)
+
+  let $infoDoc :=
+    element { fn:QName($NS,"mml:fileInfo") } {
+      element { fn:QName($NS,"mml:objectType") } { "File" },
+      element { fn:QName($NS,"mml:fileName") }   { $fileName },
+      element { fn:QName($NS,"mml:size") }       { $fileSize },
+      element { fn:QName($NS,"mml:uri") }        { $uri },
+      element { fn:QName($NS,"mml:created")}     { $currentDateTime },
+      element { fn:QName($NS,"mml:createdBy") }  { $loggedInUser },
+      element { fn:QName($NS,"mml:modified") }   { $currentDateTime },
+      element { fn:QName($NS,"mml:modifiedBy") } { $loggedInUser }
+    }
+
+  let $infoUri := "/file/"||xdmp:hash64($infoDoc)||".xml"
 
   let $cmd :=
         fn:concat
         (
           'declare variable $uri external;
            declare variable $doc external;
-           xdmp:document-insert($uri, $doc, xdmp:default-permissions(), ("resource"))'
+           declare variable $infoUri external;
+           declare variable $infoDoc external;
+           xdmp:document-insert($uri, $doc, xdmp:default-permissions(), ("file", "binary")),
+           xdmp:document-insert($infoUri, $infoDoc, xdmp:default-permissions(), ("file"))'
         )
   return
     xdmp:eval
     (
       $cmd,
-      (xs:QName("uri"), $uri, xs:QName("doc"), $doc)
+      (xs:QName("uri"), $uri, xs:QName("doc"), $doc, xs:QName("infoUri"), $infoUri, xs:QName("infoDoc"), $infoDoc)
     )
 };
 
@@ -81,7 +100,7 @@ declare function fm:_saveByUri($uri as xs:string, $doc)
         (
           'declare variable $uri external;
            declare variable $doc external;
-           xdmp:document-insert($uri, $doc, xdmp:default-permissions(), ("resource"))'
+           xdmp:document-insert($uri, $doc, xdmp:default-permissions(), ("file"))'
         )
   return
     xdmp:eval
@@ -106,7 +125,7 @@ declare function fm:delete($uri)
       $cmd,
       (xs:QName("uri"), $uri)
     ),
-    fn:concat("Resource Successfully Deleted: ", $uri)
+    fn:concat("file Successfully Deleted: ", $uri)
   )
 };
 

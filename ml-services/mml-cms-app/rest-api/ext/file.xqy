@@ -1,9 +1,10 @@
 xquery version "1.0-ml";
 
-module namespace mml = "http://marklogic.com/rest-api/resource/resource";
+module namespace mml = "http://marklogic.com/rest-api/resource/file";
 
 import module namespace search = "http://marklogic.com/appservices/search" at "/MarkLogic/appservices/search/search.xqy";
 import module namespace json   = "http://marklogic.com/xdmp/json" at "/MarkLogic/json/json.xqy";
+import module namespace admin  = "http://marklogic.com/xdmp/admin" at "/MarkLogic/admin.xqy";
 
 import module namespace usr   = "http://marklogic.com/roxy/models/user" at "/app/models/user-model.xqy";
 import module namespace fm    = "http://marklogic.com/roxy/models/file" at "/app/models/file-model.xqy";
@@ -14,7 +15,21 @@ declare namespace roxy = "http://marklogic.com/roxy";
 declare namespace rapi = "http://marklogic.com/rest-api";
 declare namespace mmlc = "http://macmillanlearning.com";
 
+declare namespace xdmp = "http://marklogic.com/xdmp";
+declare namespace mt   = "http://marklogic.com/xdmp/mimetypes";
+
+declare namespace http = "http://www.w3.org/1999/xhtml";
+
 declare variable $NS := "http://macmillanlearning.com";
+
+declare function mml:type-from-filename($name as xs:string) as xs:string*
+{
+   let $ext   := fn:tokenize($name, '\.')[fn:last()]
+   let $types := admin:mimetypes-get(admin:get-configuration())
+   
+   return
+      $types[mt:extensions/data() = $ext]/mt:name
+};
 
 (:
  :)
@@ -60,11 +75,13 @@ function mml:get(
     if (fn:string-length($uri) gt 0) then
       fn:doc($uri)
     else
-      mml:searchBinaryResourceFiles($qtext, $start, $pageLength)
+      mml:searchBinaryFiles($qtext, $start, $pageLength)
 
   let $auditAction :=
-    if (fn:string-length($uri) gt 0) then
-      am:save("downloaded", $uri, "resource")
+    if (fn:string-length($uri) gt 0 and fn:not(fn:empty($retObj))) then
+    (
+      am:save("downloaded", $uri, "file")
+    )
     else
       ""
 
@@ -124,7 +141,7 @@ function mml:put(
 
   let $auditAction :=
     if (fn:string-length($uri) gt 0) then
-      am:save("updated", $uri, "resource")
+      am:save("updated", $uri, "file")
     else
       ""
 
@@ -167,9 +184,8 @@ function mml:post(
   let $output-types := map:put($context,"output-types","application/json")
   
   let $file :=  document { $input }
-  let $fileSize := xdmp:binary-size($file/binary())
 
-  let $log := xdmp:log("............... file size: "||$fileSize)
+  let $fileSize := xdmp:binary-size($file/binary())
 
   let $doc :=
     if ($fileSize eq 0) then
@@ -178,11 +194,11 @@ function mml:post(
     if (fn:string-length($fileName) eq 0) then
       "invalid filename"
     else
-      fm:save($fileName, $file)
+      fm:save($fileName, $fileSize, $file)
 
   let $auditAction :=
     if (fn:string-length($fileName) gt 0) then
-      am:save("created", "/resource/"||$fileName, "resource")
+      am:save("created", "/file/"||$fileName, "file")
     else
       ""
 
@@ -248,7 +264,7 @@ function mml:delete(
 
   let $auditAction :=
     if (fn:string-length($uri) gt 0) then
-      am:save("deleted", $uri, "resource")
+      am:save("deleted", $uri, "file")
     else
       ""
 
@@ -278,15 +294,20 @@ function mml:delete(
     }
 };
 
-declare function mml:searchBinaryResourceFiles($qtext, $start, $pageLength)
+declare function mml:searchBinaryFiles($qtext, $start, $pageLength)
 {
   let $query := cts:and-query((
-                  cts:directory-query("/resource/","infinity")
+                  cts:directory-query("/file/","infinity"),
+                  cts:not-query(
+                    cts:collection-query("binary")
+                  )
                 ))
-  
-  let $uris := cts:uris((),(), $query)
-  
-  let $statusMessage := "resource file(s) found"
+
+  let $results := cts:search(fn:doc(), $query)
+
+  let $uris := $results/mmlc:fileInfo/mmlc:uri/text()
+
+  let $statusMessage := "file(s) found"
 
   let $retObj :=
       if (fn:count($uris) ge 1) then
@@ -305,14 +326,14 @@ declare function mml:searchBinaryResourceFiles($qtext, $start, $pageLength)
       else
       (
         element { fn:QName($NS,"mml:results") } {
-          element { fn:QName($NS,"mml:status") } { "no resource files found" }
+          element { fn:QName($NS,"mml:status") } { "no files found" }
         }
       )
 
   return $retObj
 };
 
-declare function mml:searchBinaryResourceFiles1($qtext, $start, $pageLength)
+declare function mml:searchBinaryFilesOrig($qtext, $start, $pageLength)
 {
   let $options :=
     <options xmlns="http://marklogic.com/appservices/search">
@@ -320,12 +341,12 @@ declare function mml:searchBinaryResourceFiles1($qtext, $start, $pageLength)
       <term>
         <term-option>case-insensitive</term-option>
       </term>
-      <additional-query>{cts:collection-query(("resource"))}</additional-query>
+      <additional-query>{cts:collection-query(("file"))}</additional-query>
       <return-results>true</return-results>
       <return-query>true</return-query>
     </options>
    
-  let $statusMessage := "resource file found"
+  let $statusMessage := "file found"
 
   let $results := search:search($qtext, $options, $start, $pageLength)
 
@@ -345,7 +366,7 @@ declare function mml:searchBinaryResourceFiles1($qtext, $start, $pageLength)
       else
       (
         element { fn:QName($NS,"mml:results") } {
-          element { fn:QName($NS,"mml:status") } { "no resource files found" }
+          element { fn:QName($NS,"mml:status") } { "no files found" }
         }
       )
 
