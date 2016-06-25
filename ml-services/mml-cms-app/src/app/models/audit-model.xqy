@@ -23,6 +23,30 @@ declare variable $SEARCH-OPTIONS :=
     <return-query>1</return-query>
   </options>;
 
+declare function am:getAuditInfo($uri as xs:string)
+{
+  let $query := cts:element-value-query(fn:QName($NS, "auditTargetUri"), $uri)
+
+  let $results := cts:search(fn:doc(), $query)
+
+  let $doc :=
+    element { fn:QName($NS,"mml:auditInfo") } {
+      element { fn:QName($NS,"mml:count") } { fn:count($results) },
+      for $result in $results
+        order by $result/mml:auditRecord/mml:dateCreated/text() descending
+          return
+          (
+            element { fn:QName($NS,"mml:auditEntry") } {
+              element { fn:QName($NS,"mml:action") } { $result/mml:auditRecord/mml:action/text() },
+              element { fn:QName($NS,"mml:dateCreated") } { $result/mml:auditRecord/mml:dateCreated/text() },
+              element { fn:QName($NS,"mml:createdBy") } { $result/mml:auditRecord/mml:createdBy/text() }
+            }
+          )
+      }
+
+  return $doc
+};
+
 declare function am:save($action as xs:string, $targetUri as xs:string, $targetType as xs:string)
 {
   let $doc :=
