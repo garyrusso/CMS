@@ -31,6 +31,29 @@ declare function mml:type-from-filename($name as xs:string) as xs:string*
       $types[mt:extensions/data() = $ext]/mt:name
 };
 
+declare function mml:decode-content-type($header as xs:string)
+      as xs:string
+{
+   let $type := normalize-space((substring-before($header, ';'), $header)[. ne ''][1])
+      return
+         if ( starts-with($type, 'multipart/') ) then
+            'MULTIPART'
+         else if ( $type eq 'text/html' ) then
+            'HTML'
+         else if ( ends-with($type, '+xml')
+                      or $type eq 'text/xml'
+                      or $type eq 'application/xml'
+                      or $type eq 'text/xml-external-parsed-entity'
+                      or $type eq 'application/xml-external-parsed-entity' ) then
+            'XML'
+         else if ( starts-with($type, 'text/')
+                      or $type eq 'application/x-www-form-urlencoded'
+                      or $type eq 'application/xml-dtd' ) then
+            'TEXT'
+         else
+            'BINARY'
+};
+
 (:
  :)
 declare 
@@ -49,6 +72,9 @@ function mml:get(
   let $ps := map:get($params, "pageLength")
   let $ft := map:get($params, "format")
   let $tempUri := map:get($params, "uri")
+  
+  let $info := if (fn:not(fn:empty(map:get($params, "info")))) then 1 else 0
+  let $log := xdmp:log(".................... info: "||$info)
 
   let $qtext      := if (fn:string-length($q) eq 0)  then "" else $q
   let $uri        := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
@@ -57,7 +83,7 @@ function mml:get(
   let $format     := if ($ft eq "xml") then "xml" else "json"
 
   let $output-types :=
-    if (fn:string-length($uri) gt 0) then
+    if (fn:string-length($uri) gt 0 and $info eq 0) then
     (
       map:put($context,"output-types","application/pdf")
     )
@@ -72,13 +98,16 @@ function mml:get(
     )
 
   let $retObj :=
-    if (fn:string-length($uri) gt 0) then
+    if (fn:string-length($uri) gt 0 and $info eq 0) then
       fn:doc($uri)
+    else
+    if (fn:string-length($uri) gt 0 and $info eq 1) then
+      mml:getFileInfo($uri)
     else
       mml:searchBinaryFiles($qtext, $start, $pageLength)
 
   let $auditAction :=
-    if (fn:string-length($uri) gt 0 and fn:not(fn:empty($retObj))) then
+    if ((fn:string-length($uri) gt 0) and ($info eq 0) and (fn:not(fn:empty($retObj)))) then
     (
       am:save("downloaded", $uri, "file")
     )
@@ -88,9 +117,10 @@ function mml:get(
   let $config := json:config("custom")
   let $_ := map:put($config, "whitespace", "ignore" )
   let $_ := map:put($config,"array-element-names", xs:QName("mmlc:uri") )
+  let $_ := map:put($config,"array-element-names", xs:QName("mmlc:auditEntry") )
 
   let $doc :=
-    if ($format eq "json" and fn:string-length($uri) eq 0) then
+    if (($format eq "json" and fn:string-length($uri) eq 0) or ($info eq 1)) then
     (
       text { json:transform-to-json($retObj, $config) }
     )
@@ -186,6 +216,12 @@ function mml:post(
   let $file :=  document { $input }
 
   let $fileSize := xdmp:binary-size($file/binary())
+  
+  let $log :=
+    for $header at $n in xdmp:get-request-header-names()
+      order by $header
+        return
+          xdmp:log($n||" ............... header: "||$header||" --- value: "||xdmp:get-request-header($header))
 
   let $doc :=
     if ($fileSize eq 0) then
@@ -329,6 +365,38 @@ declare function mml:searchBinaryFiles($qtext, $start, $pageLength)
           element { fn:QName($NS,"mml:status") } { "no files found" }
         }
       )
+
+  return $retObj
+};
+
+declare function mml:getFileInfo($uri)
+{
+  let $query := cts:and-query((
+                    cts:collection-query("file"),
+                    cts:element-value-query(fn:QName($NS, "uri"), $uri)
+                  ))
+  
+  let $result := cts:search(fn:doc(), $query)[1]
+
+  let $fileInfo :=
+    element { fn:QName($NS,"mml:fileInfo") } {
+      element { fn:QName($NS,"mml:fileName") } { $result/mmlc:fileInfo/mmlc:fileName/text() },
+      element { fn:QName($NS,"mml:size") } { $result/mmlc:fileInfo/mmlc:size/text() },
+      element { fn:QName($NS,"mml:uri") } { $result/mmlc:fileInfo/mmlc:uri/text() },
+      element { fn:QName($NS,"mml:created") } { $result/mmlc:fileInfo/mmlc:created/text() },
+      element { fn:QName($NS,"mml:createdBy") } { $result/mmlc:fileInfo/mmlc:createdBy/text() },
+      element { fn:QName($NS,"mml:modified") } { $result/mmlc:fileInfo/mmlc:modified/text() },
+      element { fn:QName($NS,"mml:modifiedBy") } { $result/mmlc:fileInfo/mmlc:modifiedBy/text() }
+    }
+
+  let $auditDoc := am:getAuditInfo($uri)
+  
+  let $retObj :=
+        element { fn:QName($NS,"mml:container") }
+        {
+          $fileInfo,
+          $auditDoc
+        }
 
   return $retObj
 };

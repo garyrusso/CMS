@@ -18,30 +18,6 @@ declare namespace jn   = "http://marklogic.com/xdmp/json/basic";
 
 declare variable $NS := "http://macmillanlearning.com";
 
-declare function mml:getAuditInfo($uri as xs:string)
-{
-  let $query := cts:element-value-query(fn:QName($NS, "auditTargetUri"), $uri)
-
-  let $results := cts:search(fn:doc(), $query)
-
-  let $doc :=
-    element { fn:QName($NS,"mml:auditInfo") } {
-      element { fn:QName($NS,"mml:count") } { fn:count($results) },
-      for $result in $results
-        order by $result/mmlc:auditRecord/mmlc:dateCreated/text() descending
-          return
-          (
-            element { fn:QName($NS,"mml:auditEntry") } {
-              element { fn:QName($NS,"mml:action") } { $result/mmlc:auditRecord/mmlc:action/text() },
-              element { fn:QName($NS,"mml:dateCreated") } { $result/mmlc:auditRecord/mmlc:dateCreated/text() },
-              element { fn:QName($NS,"mml:createdBy") } { $result/mmlc:auditRecord/mmlc:createdBy/text() }
-            }
-          )
-      }
-
-  return $doc
-};
-
 (:
  :)
 declare 
@@ -85,7 +61,8 @@ function mml:get(
           element { fn:QName($NS,"mml:project") } { "project 1" },
           element { fn:QName($NS,"mml:project") } { "project 2" }
         }
-      let $auditDoc := mml:getAuditInfo($uri)
+
+      let $auditDoc := am:getAuditInfo($uri)
       
       return
         element { fn:QName($NS,"mml:container") }
