@@ -30,15 +30,15 @@ declare function fm:getContentUri($hash)
   return $uri
 };
 
-declare function fm:save($fileName as xs:string, $file)
+declare function fm:save($fileName as xs:string, $fileSize as xs:unsignedLong, $file)
 {
   (
-    fm:_save($fileName, $file),
+    fm:_save($fileName, $fileSize, $file),
     "File Successfully Saved: "||"/file/"||$fileName
   )
 };
 
-declare function fm:_save($fileName as xs:string, $doc)
+declare function fm:_save($fileName as xs:string, $fileSize as xs:unsignedLong, $doc)
 {
 (:
   let $hashedDir := xdmp:hash64($content/mml:feed/mml:title/text())
@@ -55,6 +55,7 @@ declare function fm:_save($fileName as xs:string, $doc)
     element { fn:QName($NS,"mml:fileInfo") } {
       element { fn:QName($NS,"mml:objectType") } { "File" },
       element { fn:QName($NS,"mml:fileName") }   { $fileName },
+      element { fn:QName($NS,"mml:size") }       { $fileSize },
       element { fn:QName($NS,"mml:uri") }        { $uri },
       element { fn:QName($NS,"mml:created")}     { $currentDateTime },
       element { fn:QName($NS,"mml:createdBy") }  { $loggedInUser },

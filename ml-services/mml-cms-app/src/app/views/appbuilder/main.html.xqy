@@ -130,6 +130,7 @@ declare function local:transform-snippet($nodes as node()*)
                   <tr><td width="145" valign="top">URI</td><td valign="top"><a target="_blank" href="view.xml?uri={$docUri}">{$docUri}</a></td></tr>
                   <tr><td width="145" valign="top">Type</td><td valign="top">{$docType}</td></tr>
                   <tr><td width="145" valign="top">Target Uri</td><td valign="top">{$doc//*:uri/text()}</td></tr>
+                  <tr><td width="145" valign="top">Size (bytes)</td><td valign="top">{fn:format-number($doc//*:size/text(), "#,###")}</td></tr>
                 </table>
               }
             else
