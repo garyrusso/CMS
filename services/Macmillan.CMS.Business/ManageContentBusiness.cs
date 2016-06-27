@@ -48,11 +48,18 @@ namespace Macmillan.CMS.Business
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object UpdateContent(string projXml, string projUri)
+         public object UpdateMetadata(Content content, FileInfo file)
         {
-            Logger.Debug(" Entering UpdateContent");
-            var results = this.dal.UpdateContent(projXml, projUri);
-            Logger.Debug(" Exiting UpdateContent");
+            Logger.Debug(" Entering UpdateMetadata");
+
+            string metaData = this.BuildContentMetadataJson(content, file);
+
+            this.dal.UpdateMetadata(metaData);
+
+            Logger.Debug(" Exiting UpdateMetadata");
+
+            var results = new { Title = content.Title, uri = "/content/" + content.Title };
+
             return results;
         }
 
@@ -61,11 +68,18 @@ namespace Macmillan.CMS.Business
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object DeleteContent(string projXml, string projUri)
+         public object DeleteMetadata(Content content, FileInfo file)
         {
-            Logger.Debug(" Entering DeleteProject");
-            var results = this.dal.DeleteContent(projXml, projUri);
-            Logger.Debug(" Exiting DeleteProject");
+            Logger.Debug(" Entering DeleteMetadata");
+
+            string metaData = this.BuildContentMetadataJson(content, file);
+
+            this.dal.DeleteMetadata(metaData);
+
+            Logger.Debug(" Exiting DeleteMetadata");
+
+            var results = new { Title = content.Title, uri = "/content/" + content.Title };
+
             return results;
         }
 

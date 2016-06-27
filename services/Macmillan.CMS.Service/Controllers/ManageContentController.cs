@@ -8,7 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
-using Macmillan.CMS.Service.FlowJs;
+//using Macmillan.CMS.Service.FlowJs;
 using System.IO;
 using System.Threading.Tasks;
 using Macmillan.CMS.Common;
@@ -21,7 +21,7 @@ namespace Macmillan.CMS.Service.Controllers
         IManageContentBusiness business;
         IDictionaryBusiness dictionaryBusiness;
         //private readonly IFileManagerService _fileManager;
-        private readonly IFlowJsRepo _flowJs;
+        private readonly IFlowJsRepoBusiness _flowJs;
         private string fileRepository = ConfigurationManager.AppSettings["FileRepository"];
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Macmillan.CMS.Service.Controllers
         {
             this.business = ManageContentBusiness;
             this.dictionaryBusiness = dictBusiness;
-            _flowJs = new FlowJsRepo();
+            _flowJs = new FlowJsBusiness();
         }
 
         /// <summary>
@@ -66,11 +66,21 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="content"></param>
         /// <returns></returns>
         [HttpPut]
-        public object UpdateContent([FromBody] Content content)
+        public object UpdateContent(HttpRequestMessage request, [FromBody] Content content)
         {
-            Logger.Debug("Entering UpdateContent");
-            var results = this.business.GetContent("");
-            Logger.Debug("Exiting UpdateContent");
+            Logger.Debug("Entering UploadMetadata");
+
+            string folderPath = this.fileRepository;
+
+            FileInfo[] filesInfo = new DirectoryInfo(folderPath).GetFiles();
+            object results = null;
+            foreach (FileInfo file in filesInfo)
+            {
+                results = this.business.UpdateMetadata(content, file);
+                file.Delete();
+            }
+
+            Logger.Debug("Exiting UploadMetadata");
             return results;
         }
 
@@ -109,7 +119,7 @@ namespace Macmillan.CMS.Service.Controllers
                 if (request.Files.Count == 0)
                     return Ok();
 
-                var validationRules = new FlowValidationRules();
+                var validationRules = new Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules();
                 //validationRules.AcceptedExtensions.AddRange(new List<string> { "jpeg", "jpg", "png", "bmp", "zip" });
                 //validationRules.AcceptedExtensions.AddRange(this.GetUploadFileTypes());
                 //validationRules.MaxFileSize = 5000000;
@@ -125,7 +135,7 @@ namespace Macmillan.CMS.Service.Controllers
 
                     return StatusCode(HttpStatusCode.NotFound);
                 }  
-                else if (status.Status == PostChunkStatus.Done)
+                else if (status.Status == Macmillan.CMS.Common.Models.FlowModels.PostChunkStatus.Done)
                 {
                     Task.Factory.StartNew(() => { this.UploadFile(new FileInfo(Path.Combine(this.fileRepository, status.FileName))); });
                 }                    
@@ -160,11 +170,21 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="content"></param>
         /// <returns></returns>
         [HttpPost]
-        public object DeleteContent([FromBody] Content content)
+        public object DeleteContent(HttpRequestMessage request, [FromBody] Content content)
         {
-            Logger.Debug("Entering DeleteContent");
-            var results = this.business.GetContent("");
-            Logger.Debug("Exiting DeleteContent");
+            Logger.Debug("Entering UploadMetadata");
+
+            string folderPath = this.fileRepository;
+
+            FileInfo[] filesInfo = new DirectoryInfo(folderPath).GetFiles();
+            object results = null;
+            foreach (FileInfo file in filesInfo)
+            {
+                results = this.business.DeleteMetadata(content, file);
+                file.Delete();
+            }
+
+            Logger.Debug("Exiting UploadMetadata");
             return results;
         }
 

@@ -36,15 +36,15 @@ namespace Macmillan.CMS.DAL
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object UpdateContent(string projXml, string projUri)
+         public object UpdateMetadata(string metadata)
          {
-             Logger.Debug("Entering UpdateProject");
-             //Call ML and Put the project xml
-             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "?uri=" + projUri;
+             Logger.Debug("Entering UpdateMetadata");
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "content?name=content";
              MLReader mlReader = new MLReader();
-             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.PUT, "application/xml", projXml);
-             Logger.Debug("Exitinging UpdateProject");
-             return results;
+             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.PUT, "application/json", metadata);
+
+             Logger.Debug("Exiting UpdateMetadata");
+             return results;        
          }
 
          /// <summary>
@@ -52,15 +52,15 @@ namespace Macmillan.CMS.DAL
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object DeleteContent(string projXml, string projUri)
+         public object DeleteMetadata(string metadata)
          {
-             Logger.Debug("Entry DeleteProject");
-             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "?uri=" + projUri;
+             Logger.Debug("Entering DeleteMetadata");
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "content?name=content";
              MLReader mlReader = new MLReader();
-             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.DELETE, "application/xml", projXml);
-             //Call ML and Delete the project xml
-             Logger.Debug("Exiting DeleteProject");
-             return results;
+             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.DELETE, "application/json", metadata);
+
+             Logger.Debug("Exiting DeleteMetadata");
+             return results;     
          }
 
          /// <summary>
