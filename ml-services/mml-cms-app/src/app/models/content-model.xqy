@@ -65,6 +65,10 @@ declare function content:save($uri as xs:string, $content)
   }
 }
 :)
+  let $loggedInUser    := auth:getFullName(auth:getLoggedInUserFromHeader())
+  let $currentDateTime := fn:current-dateTime()
+  
+  return
   (
     content:_save(
       $uri,
@@ -74,10 +78,10 @@ declare function content:save($uri as xs:string, $content)
         {
           element {fn:QName($NS,"systemId")}     { $content/meta/systemId/text() },
           element {fn:QName($NS,"projectState")} { $content/meta/projectState/text() },
-          element {fn:QName($NS,"created")}      { fn:current-dateTime() },
-          element {fn:QName($NS,"createdBy")}    { "webuser" },
-          element {fn:QName($NS,"modified")}     { fn:current-dateTime() },
-          element {fn:QName($NS,"modifiedBy")}   { "webuser" },
+          element {fn:QName($NS,"created")}      { $currentDateTime },
+          element {fn:QName($NS,"createdBy")}    { $loggedInUser },
+          element {fn:QName($NS,"modified")}     { $currentDateTime },
+          element {fn:QName($NS,"modifiedBy")}   { $loggedInUser },
           element {fn:QName($NS,"objectType")}   { "Content" },
           element {fn:QName($NS,"subjectHeadings")} {
             for $subjectHeading in $content/meta/subjectHeadings/subjectHeading/text()
@@ -154,6 +158,10 @@ declare function content:update($uri as xs:string, $content)
       "process update"
     else
       $invalidUriMessage
+
+  let $loggedInUser    := auth:getFullName(auth:getLoggedInUserFromHeader())
+  let $currentDateTime := fn:current-dateTime()
+  let $origDoc         := fn:doc($uri)
   
   let $newDoc :=
     document {
@@ -164,9 +172,9 @@ declare function content:update($uri as xs:string, $content)
           element {fn:QName($NS,"systemId")}     { $content/meta/systemId/text() },
           element {fn:QName($NS,"projectState")} { $content/meta/projectState/text() },
           element {fn:QName($NS,"created")}      { fn:current-dateTime() },
-          element {fn:QName($NS,"createdBy")}    { "webuser" },
+          element {fn:QName($NS,"createdBy")}    { $origDoc/mml:content/mml:metadata/mml:createdBy/text() },
           element {fn:QName($NS,"modified")}     { fn:current-dateTime() },
-          element {fn:QName($NS,"modifiedBy")}   { "webuser" },
+          element {fn:QName($NS,"modifiedBy")}   { $loggedInUser },
           element {fn:QName($NS,"objectType")}   { "Content" },
           element {fn:QName($NS,"subjectHeadings")} {
             for $subjectHeading in $content/meta/subjectHeadings/subjectHeading/text()
