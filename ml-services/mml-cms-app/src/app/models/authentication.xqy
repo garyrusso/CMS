@@ -32,13 +32,24 @@ declare function auth:getCurrentDateTimeUTC()
   fn:current-dateTime() + $auth:UTC-TIME-OFFSET
 };
 
+declare function auth:getFullName($username as xs:string)
+{
+  let $query := cts:and-query((
+                    cts:element-value-query(fn:QName($NS, "username"), "grusso")
+                  ))
+  
+  let $result := cts:search(fn:doc(), $query)[1]
+  
+  return $result/mml:user/mml:feed/mml:fullName/text()
+};
+
 declare function auth:userName()
 {
   let $user := map:get($cfg:SESSION, "sessionUser")
   return if($user) then $user else $auth:DEFAULT-USER
 };
 
-declare function auth:getUserNameFromBase64String()
+declare function auth:getLoggedInUserFromHeader()
 {
   let $authToken := xdmp:get-request-header("X-Auth-Token")
 

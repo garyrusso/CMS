@@ -46,7 +46,7 @@ declare function fm:_save($fileName as xs:string, $fileSize as xs:unsignedLong, 
 :)
   let $uri := "/file/"||$fileName
   
-  let $loggedInUser := auth:getUserNameFromBase64String()
+  let $loggedInUser := auth:getLoggedInUserFromHeader()
   let $currentDateTime := fn:current-dateTime()
 
   (: check if file already exists :)
