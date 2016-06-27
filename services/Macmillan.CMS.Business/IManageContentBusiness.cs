@@ -14,8 +14,8 @@ namespace Macmillan.CMS.Business
      public interface IManageContentBusiness
     {
         object UploadMetadata(Content content, FileInfo file);
-        object UpdateMetadata(Content content, FileInfo file);
-        object DeleteMetadata(Content content, FileInfo file);
+        object UpdateContent(string projXml, string projUri);
+        object DeleteContent(string projXml, string projUri);
         object GetContent(string docUri);
         void UploadFile(FileInfo file);
         object GetContentMasterData(List<Content> ContentDetails);

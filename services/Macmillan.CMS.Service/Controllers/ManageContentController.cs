@@ -66,21 +66,11 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="content"></param>
         /// <returns></returns>
         [HttpPut]
-        public object UpdateContent(HttpRequestMessage request, [FromBody] Content content)
+        public object UpdateContent([FromBody] Content content)
         {
-            Logger.Debug("Entering UploadMetadata");
-
-            string folderPath = this.fileRepository;
-
-            FileInfo[] filesInfo = new DirectoryInfo(folderPath).GetFiles();
-            object results = null;
-            foreach (FileInfo file in filesInfo)
-            {
-                results = this.business.UpdateMetadata(content, file);
-                file.Delete();
-            }
-
-            Logger.Debug("Exiting UploadMetadata");
+            Logger.Debug("Entering UpdateContent");
+            var results = this.business.GetContent("");
+            Logger.Debug("Exiting UpdateContent");
             return results;
         }
 
@@ -172,19 +162,9 @@ namespace Macmillan.CMS.Service.Controllers
         [HttpPost]
         public object DeleteContent(HttpRequestMessage request, [FromBody] Content content)
         {
-            Logger.Debug("Entering UploadMetadata");
-
-            string folderPath = this.fileRepository;
-
-            FileInfo[] filesInfo = new DirectoryInfo(folderPath).GetFiles();
-            object results = null;
-            foreach (FileInfo file in filesInfo)
-            {
-                results = this.business.DeleteMetadata(content, file);
-                file.Delete();
-            }
-
-            Logger.Debug("Exiting UploadMetadata");
+            Logger.Debug("Entering DeleteContent");
+            var results = this.business.GetContent("");
+            Logger.Debug("Exiting DeleteContent");
             return results;
         }
 
