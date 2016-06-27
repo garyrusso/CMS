@@ -21,7 +21,7 @@ namespace Macmillan.CMS.DAL
         {
             Logger.Debug("Entering GetDictionary");
             //string mlUrl = ConfigurationManager.AppSettings["MarkLogic_DICTIONARY_URL"] + "?rs:dictionaryType=" + dictionaryType + "&rs:output-format=" + outputFormat;
-            string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "dictionary?rs:dictionaryType=" + dictionaryType + "&rs:output-format=" + outputFormat + "&name=dictionary";
+            string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "dictionary?rs:dictionaryType=" + dictionaryType + "&rs:format=" + outputFormat + "&name=dictionary";
         
             MLReader mlReader = new MLReader();
             var results = mlReader.GetHttpContent<object>(mlUrl);
