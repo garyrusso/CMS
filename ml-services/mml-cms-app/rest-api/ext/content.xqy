@@ -62,15 +62,92 @@ function mml:get(
           element { fn:QName($NS,"mml:project") } { "project 2" }
         }
 
-      let $auditDoc := am:getAuditInfo($uri)
-      
-      return
-        element { fn:QName($NS,"mml:container") }
+      let $doc1 :=
+        element { fn:QName($NS,"mmlc:container") }
         {
-          $contentDoc,
-          (: $projects, :)
-          $auditDoc
+          $contentDoc/mmlc:content/mmlc:metadata/mmlc:systemId,
+          $contentDoc/mmlc:content/mmlc:feed/mmlc:technical/mmlc:fileSize,
+          $contentDoc/mmlc:content/mmlc:metadata/mmlc:created,
+          $contentDoc/mmlc:content/mmlc:metadata/mmlc:modified,
+          $contentDoc/mmlc:content/mmlc:metadata/mmlc:createdBy,
+          $contentDoc/mmlc:content/mmlc:metadata/mmlc:modifiedBy,
+          $contentDoc/mmlc:content/mmlc:feed/mmlc:title,
+          $contentDoc/mmlc:content/mmlc:feed/mmlc:description,
+          $contentDoc/mmlc:content/mmlc:feed/mmlc:contentState,
+          $contentDoc/mmlc:content/mmlc:feed/mmlc:source,
+          $contentDoc/mmlc:content/mmlc:feed/mmlc:publisher,
+          $contentDoc/mmlc:content/mmlc:feed/mmlc:datePublished,
+          $contentDoc/mmlc:content/mmlc:feed/mmlc:contentResourceTypes/mmlc:contentResourceType
         }
+
+        let $config1 := json:config("custom")
+        let $_ := map:put($config1, "whitespace", "ignore")
+        let $_ := map:put($config1, "array-element-names", xs:QName("mmlc:contentResourceType") ) 
+
+        let $config2 := json:config("custom")
+        let $_ := map:put($config2, "whitespace", "ignore")
+        let $_ := map:put($config2,"array-element-names", xs:QName("mmlc:creator") ) 
+        let $doc2 := 
+          element { fn:QName($NS,"mmlc:container") }
+          {
+            $contentDoc/mmlc:content/mmlc:feed/mmlc:creators/mmlc:creator
+          }
+        
+        let $config3 := json:config("custom")
+        let $_ := map:put($config3, "whitespace", "ignore")
+        let $_ := map:put($config3,"array-element-names", xs:QName("mmlc:subjectHeading") ) 
+        let $doc3 := 
+          element { fn:QName($NS,"mmlc:container") }
+          {
+            $contentDoc/mmlc:content/mmlc:metadata/mmlc:subjectHeadings/mmlc:subjectHeading
+          }
+        
+        let $config4 := json:config("custom")
+        let $_ := map:put($config4, "whitespace", "ignore")
+        let $_ := map:put($config4,"array-element-names", xs:QName("mmlc:subjectKeyword") ) 
+        let $doc4 := 
+          element { fn:QName($NS,"mmlc:container") }
+          {
+            $contentDoc/mmlc:content/mmlc:metadata/mmlc:subjectKeywords/mmlc:subjectKeyword
+          }
+        
+        let $auditDoc := am:getAuditInfo($uri)
+        
+        let $config5 := json:config("custom")
+        let $_ := map:put($config5, "whitespace", "ignore")
+        let $_ := map:put($config5, "array-element-names", xs:QName("mmlc:auditEntry"))
+        
+        let $node1 := 
+            text { json:transform-to-json($doc1, $config1)/container }||
+            text { json:transform-to-json($doc2, $config2)/container }||
+            text { json:transform-to-json($doc3, $config3)/container }||
+            text { json:transform-to-json($doc4, $config4)/container }||
+            text { json:transform-to-json($auditDoc, $config5) }
+        
+        let $temp :=
+          (
+            json:transform-to-json($doc1, $config1)/container,
+            json:transform-to-json($doc2, $config2)/container,
+            json:transform-to-json($doc3, $config3)/container,
+            json:transform-to-json($doc4, $config4)/container,
+            json:transform-to-json($auditDoc, $config5)
+          )
+        
+        let $object := json:object()
+        
+        let $_ := map:put($object,"container",$temp)
+
+      return
+        xdmp:to-json($object)
+          (:
+        document {
+          json:transform-to-json($doc1, $config1)/container,
+          json:transform-to-json($doc2, $config2)/container,
+          json:transform-to-json($doc3, $config3)/container,
+          json:transform-to-json($doc4, $config4)/container
+          json:transform-to-json($auditDoc, $config5)
+        }
+          :)
     )
     else
       mml:searchContentDocs($qtext, $start, $pageLength)
@@ -81,26 +158,11 @@ function mml:get(
     else
       ""
 
-  let $config := json:config("custom")
-  let $_ := map:put($config, "whitespace", "ignore" )
-  let $_ :=
-    if (fn:string-length($uri) eq 0) then
-    (
-      map:put($config,"array-element-names", xs:QName("mml:result") )
-    )
-    else
-    (
-      map:put($config,"array-element-names", xs:QName("mmlc:subjectHeading") ),
-      map:put($config,"array-element-names", xs:QName("mmlc:resource") ),
-      map:put($config,"array-element-names", xs:QName("mmlc:subjectKeyword") ),
-      map:put($config,"array-element-names", xs:QName("mmlc:project") ),
-      map:put($config,"array-element-names", xs:QName("mmlc:auditEntry") )
-    )
-
   let $doc :=
     if ($format eq "json") then
     (
-      text { json:transform-to-json($retObj, $config) }
+      (: text { json:transform-to-json($retObj, $config) } :)
+      $retObj
     )
     else
     (
@@ -108,9 +170,12 @@ function mml:get(
     )
 
   return
+    $doc
+  (:
     document {
       $doc
     }
+  :)
 };
 
 (:
