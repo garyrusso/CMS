@@ -69,7 +69,7 @@ namespace Macmillan.CMS.Service.Controllers
         public object UpdateContent([FromBody] Content content)
         {
             Logger.Debug("Entering UpdateContent");
-            var results = this.business.GetContent("");
+            var results = this.business.UpdateContent(content);
             Logger.Debug("Exiting UpdateContent");
             return results;
         }
@@ -160,10 +160,10 @@ namespace Macmillan.CMS.Service.Controllers
         /// <param name="content"></param>
         /// <returns></returns>
         [HttpPost]
-        public object DeleteContent(HttpRequestMessage request, [FromBody] Content content)
+        public object DeleteContent([FromBody] Content content)
         {
             Logger.Debug("Entering DeleteContent");
-            var results = this.business.GetContent("");
+            var results = this.business.DeleteContent(content);
             Logger.Debug("Exiting DeleteContent");
             return results;
         }

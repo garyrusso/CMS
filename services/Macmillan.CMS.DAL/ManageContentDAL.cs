@@ -35,15 +35,16 @@ namespace Macmillan.CMS.DAL
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object UpdateContent(string projXml, string projUri)
+         public object UpdateContent(string projJson, string projUri)
          {
              Logger.Debug("Entering UpdateProject");
              //Call ML and Put the project xml
-             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "?uri=" + projUri;
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "content?name=content&rs:format=json&rs:uri=" + projUri;
              MLReader mlReader = new MLReader();
-             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.PUT, "application/xml", projXml);
+             string  results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.PUT, "application/json", projJson);
+
              Logger.Debug("Exitinging UpdateProject");
-             return results;
+             return mlReader.ConverttoJson<object>(results);
          }
 
          /// <summary>
@@ -51,15 +52,15 @@ namespace Macmillan.CMS.DAL
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object DeleteContent(string projXml, string projUri)
+         public object DeleteContent(string projUri)
          {
               Logger.Debug("Entry DeleteProject");
-             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "?uri=" + projUri;
-             MLReader mlReader = new MLReader();
-             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.DELETE, "application/xml", projXml);
-             //Call ML and Delete the project xml
+              //Call ML and Put the project xml
+              string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "content?name=content&rs:uri=" + projUri;
+              MLReader mlReader = new MLReader();
+              string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.DELETE, "application/json");
              Logger.Debug("Exiting DeleteProject");
-             return results;
+             return mlReader.ConverttoJson<object>(results);
          }
 
          /// <summary>
@@ -67,24 +68,44 @@ namespace Macmillan.CMS.DAL
          /// </summary>
          /// <param name="docUri"></param>
          /// <returns></returns>
-         public object GetContent(string docUri)
+         public object GetContent(string uri)
          {
              Logger.Debug("Entering GetContent");
+             //MLReader mlReader = new MLReader();
+             //string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "content?name=content&rs:format=json&rs:uri=" + uri;
+             //object results = null;
+             //try
+             //{
+             //    results = mlReader.GetHttpContent<object>(mlUrl, "application/json");
+             //}
+             //catch (Exception ex)
+             //{
+             //    //{"responseCode":"401","message":"User/Pass incorrect"}
+
+             //    if (ex.Message.Contains("401"))
+             //    {
+             //        var error = new { responseCode = "401", message = "401 Unauthorized" };
+
+             //        results = error;
+             //    }
+             //}
+
+             //Logger.Debug("Exitinging CreateContent");
+             //return results;
+
              JsonNetSerialization ser = new JsonNetSerialization();
-
              Macmillan.CMS.Common.Models.Content content = new Macmillan.CMS.Common.Models.Content();
-
              content.Title = "Myers 11e EPUB3";
-             content.ContentUri = "/mydocuments/conent1.xml";
+             content.ContentUri = "/content/6856399037435776046.xml";
              content.Description = "The EPUB3/EDUPUB of David";
              content.Source = "Book";
-             content.Creator = new string[] { "David Myers" }; 
-             content.Publisher = "Worth Publishers";
-             content.ContentState = "Vendor";
+             content.Creator = new string[] { "David Myers" };
+             content.Publisher = "Hayden-McNeil";
+             content.ContentState = "Enhanced";
              content.Projects = null;
-             content.SubjectHeadings = new string[]{"Psychology"};
-             content.SubjectKeywords = new string[] { "Test", "Working" };
-             content.SystemId = "05b8825669ae9dee519349e4a9edafca";
+             content.SubjectHeadings = new string[] { "Psychology" };
+             content.SubjectKeywords = new string[] { "Psychology" };
+             content.SystemId = "ce80de420db4464f879dfbd47dc27fb2";
              content.DateCreated = DateTime.Now;
              content.DateModified = DateTime.Now;
              content.DatePublished = DateTime.Now;
@@ -95,32 +116,6 @@ namespace Macmillan.CMS.DAL
              content.FileName = "myers11e.epub";
              content.FilePath = "s3://cms/myers11e.epub";
              content.FileSize = "45400";
-
-//             string con = @"{'Title': 'Myers 11e EPUB3',
-//                          'uri': '/mydocuments/conent1.xml',
-//                          'path': 'fn:doc(\'/mydocuments/conent1.xml\')',
-//                          'href': '/v1/documents?uri=%2Fmydocuments%2Fconent1.xml',
-//                          'mimetype': 'application/xml',
-//                          'format': 'xml',
-//                          'fileName': 'myers113.epub',
-//                          'dateLastModified': '2015-04-15 13:30',
-//                          'username': 'bcross',
-//                          'fullName': 'Brian Cross',
-//                          'audit_info': [
-//                            {
-//                              'actionType': 'Upload',
-//                              'actionCreatedOn': '2015-04-15 13:30',
-//                              'actionCreatedBy': 'Brain Cross'
-//                            },
-//                            {
-//                              'actionType': 'Downloaded',
-//                              'actionCreatedOn': '2015-04-15 13:30',
-//                              'actionCreatedBy': 'Brain Cross'
-//                            }
-//                          ]
-//                        }
-//                       ";
-             //var results = ser.Serialize<Content>(content);
              Logger.Debug("Exitinging CreateContent");
              return content;
          }

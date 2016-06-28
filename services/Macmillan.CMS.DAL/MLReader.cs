@@ -77,6 +77,30 @@ namespace Macmillan.CMS.DAL
             }
         }
 
+        public T ConverttoJson<T>(string Data)
+        {
+            object results = null;
+            try
+            {
+                results = (T)this.serializer.DeSerialize<T>(Data);
+            }
+            catch (Exception ex)
+            {
+                //{"responseCode":"401","message":"User/Pass incorrect"}
+                var error = new { responseCode = "401", message = "Please contact Administrator" };
+                if (ex.Message.Contains("401"))
+                {
+                    error = new { responseCode = "401", message = "401 Unauthorized" };
+
+                    
+                }
+                
+                results = error;
+            }
+
+            return (T)results;
+        }
+
         public string UploadFile(string url, 
        string mediaType,
        string file = null,

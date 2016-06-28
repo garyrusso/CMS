@@ -49,10 +49,11 @@ namespace Macmillan.CMS.Business
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object UpdateContent(string projXml, string projUri)
+         public object UpdateContent(Content content)
         {
             Logger.Debug(" Entering UpdateContent");
-            var results = this.dal.UpdateContent(projXml, projUri);
+             string metadata = this.BuildContentMetadataJsonforUpdate(content);
+             var results = this.dal.UpdateContent(metadata, content.ContentUri);
             Logger.Debug(" Exiting UpdateContent");
             return results;
         }
@@ -62,10 +63,10 @@ namespace Macmillan.CMS.Business
          /// </summary>
          /// <param name="content"></param>
          /// <returns></returns>
-         public object DeleteContent(string projXml, string projUri)
+         public object DeleteContent(Content content)
         {
             Logger.Debug(" Entering UpdateContent");
-            var results = this.dal.DeleteContent(projXml, projUri);
+            var results = this.dal.DeleteContent(content.ContentUri );
             Logger.Debug(" Exiting UpdateContent");
             return results;
         }
@@ -218,10 +219,110 @@ namespace Macmillan.CMS.Business
              text.Replace("##filePath##", "resources/" + fileInfo.Name);
              text.Replace("##fileSize##", fileInfo.Length.ToString());
 
-
-             
              Logger.Debug(" Exiting BuildContentMetadataJson");
              return text.ToString();
          }
+
+         private string BuildContentMetadataJsonforUpdate(Content content)
+         {
+             Logger.Debug(" Entering BuildContentMetadataJson");
+
+             StringBuilder text = new StringBuilder(File.ReadAllText(ConfigurationManager.AppSettings["AppDataPath"] + "\\Content.json"));
+
+             text.Replace("##systemId##", Guid.NewGuid().ToString("N").Substring(0, 32));
+
+             if (content.SubjectHeadings != null)
+             {
+                 StringBuilder subjects = new StringBuilder();
+
+                 foreach (string subject in content.SubjectHeadings)
+                 {
+                     if (!string.IsNullOrEmpty(subjects.ToString()))
+                         subjects.Append(",");
+
+                     subjects.Append("\"" + subject + "\"");
+                 }
+                 text.Replace("##subjectHeadings##", subjects.ToString());
+             }
+
+             if (content.SubjectKeywords != null)
+             {
+                 StringBuilder keywords = new StringBuilder();
+
+                 foreach (string keyword in content.SubjectKeywords)
+                 {
+                     if (!string.IsNullOrEmpty(keywords.ToString()))
+                         keywords.Append(",");
+
+                     keywords.Append("\"" + keyword + "\"");
+                 }
+
+                 text.Replace("##subjectKeywords##", keywords.ToString());
+             }
+
+             if (content.Projects != null)
+             {
+                 StringBuilder projects = new StringBuilder();
+
+                 foreach (string project in content.Projects)
+                 {
+                     if (!string.IsNullOrEmpty(projects.ToString()))
+                         projects.Append(",");
+
+                     projects.Append("\"" + project + "\"");
+                 }
+
+                 text.Replace("##projects##", projects.ToString());
+             }
+
+             
+
+             text.Replace("##title##", content.Title);
+             text.Replace("##description##", content.Description);
+             text.Replace("##source##", content.Source);
+             text.Replace("##publisher##", content.Publisher);
+             text.Replace("##datePublished##", content.DatePublished.ToString());
+             text.Replace("##contentState##", content.ContentState);
+             text.Replace("##resources##", content.ContentResourceType);
+
+             if (content.Creator != null)
+             {
+                 StringBuilder creators = new StringBuilder();
+
+                 foreach (string creator in content.Creator)
+                 {
+                     if (!string.IsNullOrEmpty(creators.ToString()))
+                         creators.Append(",");
+
+                     creators.Append("\"" + creator + "\"");
+                 }
+
+                 text.Replace("##creators##", creators.ToString());
+             }
+
+
+             ////if (fileInfo != null) 
+             ////{
+             ////    StringBuilder resources = new StringBuilder();
+
+             ////    foreach (FileInfo file in fileInfo)
+             ////    {
+             ////        if (!string.IsNullOrEmpty(resources.ToString()))
+             ////            resources.Append(",");
+
+             ////        resources.Append(file);
+             ////    }
+
+             ////    text.Replace("##resources##", resources.ToString());
+             ////}
+
+             text.Replace("##fileFormat##", content.FileFormat);
+             text.Replace("##fileName##", content.FileName );
+             text.Replace("##filePath##", content.FilePath );
+             text.Replace("##fileSize##", content.FileSize );
+
+             Logger.Debug(" Exiting BuildContentMetadataJson");
+             return text.ToString();
+         }      
     }
 }

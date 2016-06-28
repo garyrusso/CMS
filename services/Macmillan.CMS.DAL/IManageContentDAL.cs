@@ -14,8 +14,8 @@ namespace Macmillan.CMS.DAL
      public interface IManageContentDAL
     {
          object UploadMetadata(string metaData);
-         object UpdateContent(string projXml, string projUri);
-         object DeleteContent(string projXml, string projUri);
+         object UpdateContent(string projJson, string projUri);
+         object DeleteContent(string projUri);
          void UploadFile(FileInfo file);
          object GetContent(string docUri);
          object GetContentMasterData(List<Content> ContentDetails);
