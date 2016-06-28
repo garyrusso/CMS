@@ -127,12 +127,9 @@ function mml:put(
 		element project
 		{
 		  element metadata {
-			element administrative {
 				element systemId     { $contentDoc/jn:meta/jn:systemId/text() }, 
 				element createdBy { $contentDoc/jn:meta/jn:createdBy/text() },
-				element modifiedBy { $contentDoc/jn:meta/jn:modifiedBy/text() }
-			},
-			element descriptive {
+				element modifiedBy { $contentDoc/jn:meta/jn:modifiedBy/text() },
 				element title { $contentDoc/jn:meta/jn:title/text() }, 
 				element description { $contentDoc/jn:meta/jn:description/text() },
 				element projectState { $contentDoc/jn:meta/jn:projectState/text() },
@@ -146,7 +143,6 @@ function mml:put(
 					return
 					  element subjectKeyword { $subjectKeyword }
 				}			
-			}
 		  }  
 		}  
  
@@ -217,12 +213,9 @@ function mml:post(
 		element project
 		{
 		  element metadata {
-			element administrative {
 				element systemId     { $contentDoc/jn:meta/jn:systemId/text() }, 
 				element createdBy { $contentDoc/jn:meta/jn:createdBy/text() },
-				element modifiedBy { $contentDoc/jn:meta/jn:createdBy/text() }
-			},
-			element descriptive {
+				element modifiedBy { $contentDoc/jn:meta/jn:createdBy/text() },
 				element title { $contentDoc/jn:meta/jn:title/text() }, 
 				element description { $contentDoc/jn:meta/jn:description/text() },
 				element projectState { $contentDoc/jn:meta/jn:projectState/text() },
@@ -236,7 +229,6 @@ function mml:post(
 					return
 					  element subjectKeyword { $subjectKeyword }
 				}			
-			}
 		  }  
 		}
 
@@ -329,25 +321,25 @@ declare function mml:searchProjectDocs($start, $pageLength)
 		<term-option>case-insensitive</term-option>
 	  </term>
 	  <additional-query>{cts:and-query((cts:directory-query("/project/", "infinity")))}</additional-query>
-	  <constraint name="facet-sub-keyword">
+	  <constraint name="Keywords">
 		  <range collation="http://marklogic.com/collation/" facet="true">
 			 <element ns="http://macmillanlearning.com" name="subjectKeyword" />
 			 <facet-option>limit=5</facet-option>
 		  </range>
 	   </constraint>
-	   <constraint name="facet-sub-heading">
+	   <constraint name="Subjects">
 		  <range collation="http://marklogic.com/collation/" facet="true">
 			 <element ns="http://macmillanlearning.com" name="subjectHeading" />
 			 <facet-option>limit=5</facet-option>
 		  </range>          
 	  </constraint>
-	   <constraint name="facet-title">
+	   <constraint name="Title">
 		  <range collation="http://marklogic.com/collation/" facet="true">
 			 <element ns="http://macmillanlearning.com" name="title" />
 			 <facet-option>limit=5</facet-option>
 		  </range>          
 	  </constraint>
-	   <constraint name="facet-project-state">
+	   <constraint name="Project State">
 		  <range collation="http://marklogic.com/collation/" facet="true">
 			 <element ns="http://macmillanlearning.com" name="projectState" />
 			 <facet-option>limit=5</facet-option>
@@ -417,8 +409,8 @@ declare function mml:searchProjectDocs($start, $pageLength)
 					for $facet-value in $facet/search:facet-value
 					return 
 					  element { fn:QName($NS, "mml:facet-values") }  {
-						  element { fn:QName($NS,"mml:facet-value") } { $facet-value/text() },
-						  element { fn:QName($NS,"mml:facet-count") } { xs:string($facet-value/@count) }
+						  element { fn:QName($NS,"mml:name") } { $facet-value/text() },
+						  element { fn:QName($NS,"mml:count") } { xs:string($facet-value/@count) }
 					   }
 				 } 
 		}

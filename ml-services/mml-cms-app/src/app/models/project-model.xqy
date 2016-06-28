@@ -38,42 +38,35 @@ declare function project:save($content)
       {
         element {fn:QName($NS,"metadata")}
         {
-			element {fn:QName($NS, "administrative")}
-			{
-			  element {fn:QName($NS,"systemId")}     { $content/metadata/administrative/systemId/text() },
+			  element {fn:QName($NS,"systemId")}     { $content/metadata/systemId/text() },
 			  element {fn:QName($NS,"created")}      { fn:current-dateTime() },
-			  element {fn:QName($NS,"createdBy")}    { $content/metadata/administrative/createdBy/text() },
+			  element {fn:QName($NS,"createdBy")}    { $content/metadata/createdBy/text() },
 			  element {fn:QName($NS,"modified")}     { fn:current-dateTime() },
-			  element {fn:QName($NS,"modifiedBy")}   { $content/metadata/administrative/modifiedBy/text() },
-			  element {fn:QName($NS,"objectType")}   { "Project" }
-        }
-,
-			element {fn:QName($NS,"descriptive")}
-			{
-			  element {fn:QName($NS,"title")}         { $content/metadata/descriptive/title/text() },
-			  element {fn:QName($NS,"description")}   { $content/metadata/descriptive/description/text() },
+			  element {fn:QName($NS,"modifiedBy")}   { $content/metadata/modifiedBy/text() },
+			  element {fn:QName($NS,"objectType")}   { "Project" },
+			  element {fn:QName($NS,"title")}         { $content/metadata/title/text() },
+			  element {fn:QName($NS,"description")}   { $content/metadata/description/text() },
 			  element {fn:QName($NS,"subjectHeadings")} {
-				for $subjectHeading in $content/metadata/descriptive/subjectHeadings/subjectHeading/text()
+				for $subjectHeading in $content/metadata/subjectHeadings/subjectHeading/text()
 				  return
 					element {fn:QName($NS,"subjectHeading")} { $subjectHeading }
 			  },
 			  element {fn:QName($NS,"subjectKeywords")} {
-				for $subjectKeyword in $content/metadata/descriptive/subjectKeywords/subjectKeyword/text()
+				for $subjectKeyword in $content/metadata/subjectKeywords/subjectKeyword/text()
 				  return
 					element {fn:QName($NS,"subjectKeyword")} { $subjectKeyword }
 			  },			  
-			  element {fn:QName($NS,"projectState")} { $content/metadata/descriptive/projectState/text() }
-			}
-			}
+			  element {fn:QName($NS,"projectState")} { $content/metadata/projectState/text() }
+		}
 	   }
     ),
-    fn:concat("Project Successfully Saved: ", $content/metadata/descriptive/title/text())
+    fn:concat("Project Successfully Saved: ", $content/metadata/title/text())
   )
 };
 
 declare function project:_save($content)
 {
-  let $hashedDir := xdmp:hash64($content/mml:metadata/mml:descriptive/mml:title/text())
+  let $hashedDir := xdmp:hash64($content/mml:metadata/mml:title/text())
   (: let $log := xdmp:log("......... hash: "||$hashedDir) :)
 
   let $uri := "/project/"||$hashedDir||".xml"
@@ -102,7 +95,7 @@ declare function project:update($uri as xs:string, $content)
 	(: Don't change created by value -  :)
 	let $createdBy := 
 		if ($isDocExists) then ( 
-			 fn:doc($uri)/mml:project/mml:metadata/mml:administrative/mml:createdBy/text()
+			 fn:doc($uri)/mml:project/mml:metadata/mml:createdBy/text()
 		)
 		else "webuser"
 			
@@ -113,31 +106,25 @@ declare function project:update($uri as xs:string, $content)
 			  {
 				element {fn:QName($NS,"metadata")}
 				{
-					element {fn:QName($NS, "administrative")}
-					{
-					  element {fn:QName($NS,"systemId")}     { $content/metadata/administrative/systemId/text() },
-					  element {fn:QName($NS,"created")}      { fn:current-dateTime() },
-					  element {fn:QName($NS,"createdBy")}    { $createdBy },
-					  element {fn:QName($NS,"modified")}     { fn:current-dateTime() },
-					  element {fn:QName($NS,"modifiedBy")}   { $content/metadata/administrative/modifiedBy/text() },
-					  element {fn:QName($NS,"objectType")}   { "Project" }
-					},
-					element {fn:QName($NS,"descriptive")}
-					{
-					  element {fn:QName($NS,"title")}         { $content/metadata/descriptive/title/text() },
-					  element {fn:QName($NS,"description")}   { $content/metadata/descriptive/description/text() },
-					  element {fn:QName($NS,"subjectHeadings")} {
-						for $subjectHeading in $content/metadata/descriptive/subjectHeadings/subjectHeading/text()
-						  return
-							element {fn:QName($NS,"subjectHeading")} { $subjectHeading }
-					  },
-					  element {fn:QName($NS,"subjectKeywords")} {
-						for $subjectKeyword in $content/metadata/descriptive/subjectKeywords/subjectKeyword/text()
-						  return
-							element {fn:QName($NS,"subjectKeyword")} { $subjectKeyword }
-					  },			  
-					  element {fn:QName($NS,"projectState")} { $content/metadata/descriptive/projectState/text() }
-					}
+				  element {fn:QName($NS,"systemId")}     { $content/metadata/systemId/text() },
+				  element {fn:QName($NS,"created")}      { fn:current-dateTime() },
+				  element {fn:QName($NS,"createdBy")}    { $createdBy },
+				  element {fn:QName($NS,"modified")}     { fn:current-dateTime() },
+				  element {fn:QName($NS,"modifiedBy")}   { $content/metadata/modifiedBy/text() },
+				  element {fn:QName($NS,"objectType")}   { "Project" },
+				  element {fn:QName($NS,"title")}         { $content/metadata/title/text() },
+				  element {fn:QName($NS,"description")}   { $content/metadata/description/text() },
+				  element {fn:QName($NS,"subjectHeadings")} {
+					for $subjectHeading in $content/metadata/subjectHeadings/subjectHeading/text()
+					  return
+						element {fn:QName($NS,"subjectHeading")} { $subjectHeading }
+				  },
+				  element {fn:QName($NS,"subjectKeywords")} {
+					for $subjectKeyword in $content/metadata/subjectKeywords/subjectKeyword/text()
+					  return
+						element {fn:QName($NS,"subjectKeyword")} { $subjectKeyword }
+				  },			  
+				  element {fn:QName($NS,"projectState")} { $content/metadata/projectState/text() }
 				}
 			   }
 		   }
@@ -158,8 +145,8 @@ declare function project:_update($uri as xs:string, $newDoc)
 {
   let $doc := fn:doc($uri)
   let $log := xdmp:log(".................. $uri:    "||$uri)
-  let $log := xdmp:log(".................. $title old doc....:    "||$doc/mml:project/mml:metadata/mml:descriptive/mml:title/text())
-  let $log := xdmp:log(".................. $title new doc....:    "||$newDoc/mml:project/mml:metadata/mml:descriptive/mml:title/text())
+  let $log := xdmp:log(".................. $title old doc....:    "||$doc/mml:project/mml:metadata/mml:title/text())
+  let $log := xdmp:log(".................. $title new doc....:    "||$newDoc/mml:project/mml:metadata/mml:title/text())
   
   return xdmp:node-replace($doc/mml:project, $newDoc/mml:project)
 };
@@ -168,7 +155,7 @@ declare function project:_update($uri as xs:string, $newDoc)
 declare function project:delete($uri as xs:string)
 {
   let $doc := fn:doc($uri)
-  let $old-status := $doc/mml:project/mml:metadata/mml:descriptive/mml:projectState
+  let $old-status := $doc/mml:project/mml:metadata/mml:projectState
   
   let $log := xdmp:log(".................. $uri:    "||$uri)
   let $log := xdmp:log(".................. $status old doc....:    "|| $old-status/text())
@@ -184,7 +171,7 @@ declare function project:get-document($uri as xs:string)
 {
   let $log := xdmp:log(".................. $uri:    "||$uri)
   let $projectDocument := fn:doc($uri)
-  let $project-title := $projectDocument/mml:project/mml:metadata/mml:descriptive/mml:title/text()
+  let $project-title := $projectDocument/mml:project/mml:metadata/mml:title/text()
 
   (: Query to get associated content :)
   let $query := 
@@ -202,28 +189,25 @@ declare function project:get-document($uri as xs:string)
         element project
         {
           element metadata {
-			element administrative {
-				element systemId     { $projectDocument/mml:project/mml:metadata/mml:administrative/mml:systemId/text() }, 
-				element createdBy { $projectDocument/mml:project/mml:metadata/mml:administrative/mml:createdBy/text() },
-				element created { $projectDocument/mml:project/mml:metadata/mml:administrative/mml:created/text() },
-				element modifiedBy { $projectDocument/mml:project/mml:metadata/mml:administrative/modifiedBy/text() },
-				element modified { $projectDocument/mml:project/mml:metadata/mml:administrative/mml:modified/text() }
-			},
-			element descriptive {
-				element title { $projectDocument/mml:project/mml:metadata/mml:descriptive/mml:title/text() }, 
-				element description { $projectDocument/mml:project/mml:metadata/mml:descriptive/description/text() },
-				element projectState { $projectDocument/mml:project/mml:metadata/mml:descriptive/mml:projectState/text() },
+				element systemId     { $projectDocument/mml:project/mml:metadata/mml:systemId/text() }, 
+				element createdBy { $projectDocument/mml:project/mml:metadata/mml:createdBy/text() },
+				element created { $projectDocument/mml:project/mml:metadata/mml:created/text() },
+				element modifiedBy { $projectDocument/mml:project/mml:metadata/modifiedBy/text() },
+				element modified { $projectDocument/mml:project/mml:metadata/mml:modified/text() },
+				element title { $projectDocument/mml:project/mml:metadata/mml:title/text() }, 
+				element description { $projectDocument/mml:project/mml:metadata/description/text() },
+				element projectState { $projectDocument/mml:project/mml:metadata/mml:projectState/text() },
 				element subjectHeadings {
-				  for $subjectHeading in $projectDocument/mml:project/mml:metadata/mml:descriptive/mml:subjectHeadings/mml:subjectHeading/text()
+				  for $subjectHeading in $projectDocument/mml:project/mml:metadata/mml:subjectHeadings/mml:subjectHeading/text()
 					return
 					  element subjectHeading { $subjectHeading }
 				},
 				element subjectKeywords {
-				  for $subjectKeyword in $projectDocument/mml:project/mml:metadata/mml:descriptive/mml:subjectKeywords/mml:subjectKeyword/text()
+				  for $subjectKeyword in $projectDocument/mml:project/mml:metadata/mml:subjectKeywords/mml:subjectKeyword/text()
 					return
 					  element subjectKeyword { $subjectKeyword }
-				}			
-			},
+				}
+			},				
 			element contents {
 				 for $content in $associated-contents 
 				 return 
@@ -237,8 +221,7 @@ declare function project:get-document($uri as xs:string)
 				   }
 		    
 		    }
-          }
-        }
+         }
   
   return $resultDocument
 };
