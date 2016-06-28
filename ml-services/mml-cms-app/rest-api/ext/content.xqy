@@ -80,62 +80,67 @@ function mml:get(
           $contentDoc/mmlc:content/mmlc:feed/mmlc:contentResourceTypes/mmlc:contentResourceType
         }
 
-        let $config1 := json:config("custom")
-        let $_ := map:put($config1, "whitespace", "ignore")
-        let $_ := map:put($config1, "array-element-names", xs:QName("mmlc:contentResourceType") ) 
+      let $config1 := json:config("custom")
+      let $_ := map:put($config1, "whitespace", "ignore")
+      let $_ := map:put($config1, "array-element-names", xs:QName("mmlc:contentResourceType") ) 
 
-        let $config2 := json:config("custom")
-        let $_ := map:put($config2, "whitespace", "ignore")
-        let $_ := map:put($config2,"array-element-names", xs:QName("mmlc:creator") ) 
-        let $doc2 := 
-          element { fn:QName($NS,"mmlc:container") }
-          {
-            $contentDoc/mmlc:content/mmlc:feed/mmlc:creators/mmlc:creator
-          }
+      let $config2 := json:config("custom")
+      let $_ := map:put($config2, "whitespace", "ignore")
+      let $_ := map:put($config2,"array-element-names", xs:QName("mmlc:creator") ) 
+      let $doc2 := 
+        element { fn:QName($NS,"mmlc:container") }
+        {
+          $contentDoc/mmlc:content/mmlc:feed/mmlc:creators/mmlc:creator
+        }
+      
+      let $config3 := json:config("custom")
+      let $_ := map:put($config3, "whitespace", "ignore")
+      let $_ := map:put($config3,"array-element-names", xs:QName("mmlc:subjectHeading") ) 
+      let $doc3 := 
+        element { fn:QName($NS,"mmlc:container") }
+        {
+          $contentDoc/mmlc:content/mmlc:metadata/mmlc:subjectHeadings/mmlc:subjectHeading
+        }
+      
+      let $config4 := json:config("custom")
+      let $_ := map:put($config4, "whitespace", "ignore")
+      let $_ := map:put($config4,"array-element-names", xs:QName("mmlc:subjectKeyword") ) 
+      let $doc4 := 
+        element { fn:QName($NS,"mmlc:container") }
+        {
+          $contentDoc/mmlc:content/mmlc:metadata/mmlc:subjectKeywords/mmlc:subjectKeyword
+        }
         
-        let $config3 := json:config("custom")
-        let $_ := map:put($config3, "whitespace", "ignore")
-        let $_ := map:put($config3,"array-element-names", xs:QName("mmlc:subjectHeading") ) 
-        let $doc3 := 
-          element { fn:QName($NS,"mmlc:container") }
-          {
-            $contentDoc/mmlc:content/mmlc:metadata/mmlc:subjectHeadings/mmlc:subjectHeading
-          }
+      let $auditDoc := am:getAuditInfo($uri)
+      
+      let $config5 := json:config("custom")
+      let $_ := map:put($config5, "whitespace", "ignore")
+      let $_ := map:put($config5, "array-element-names", xs:QName("mmlc:auditEntry"))
         
-        let $config4 := json:config("custom")
-        let $_ := map:put($config4, "whitespace", "ignore")
-        let $_ := map:put($config4,"array-element-names", xs:QName("mmlc:subjectKeyword") ) 
-        let $doc4 := 
-          element { fn:QName($NS,"mmlc:container") }
-          {
-            $contentDoc/mmlc:content/mmlc:metadata/mmlc:subjectKeywords/mmlc:subjectKeyword
-          }
-        
-        let $auditDoc := am:getAuditInfo($uri)
-        
-        let $config5 := json:config("custom")
-        let $_ := map:put($config5, "whitespace", "ignore")
-        let $_ := map:put($config5, "array-element-names", xs:QName("mmlc:auditEntry"))
-        
-        let $node1 := 
-            text { json:transform-to-json($doc1, $config1)/container }||
-            text { json:transform-to-json($doc2, $config2)/container }||
-            text { json:transform-to-json($doc3, $config3)/container }||
-            text { json:transform-to-json($doc4, $config4)/container }||
-            text { json:transform-to-json($auditDoc, $config5) }
-        
-        let $temp :=
-          (
-            json:transform-to-json($doc1, $config1)/container,
-            json:transform-to-json($doc2, $config2)/container,
-            json:transform-to-json($doc3, $config3)/container,
-            json:transform-to-json($doc4, $config4)/container,
-            json:transform-to-json($auditDoc, $config5)
+      let $node1 := 
+          text { json:transform-to-json($doc1, $config1)/container }||
+          text { json:transform-to-json($doc2, $config2)/container }||
+          text { json:transform-to-json($doc3, $config3)/container }||
+          text { json:transform-to-json($doc4, $config4)/container }||
+          text { json:transform-to-json($auditDoc, $config5) }
+      
+      let $temp :=
+        if (fn:doc-available($uri)) then
+        (
+          json:transform-to-json($doc1, $config1)/container,
+          json:transform-to-json($doc2, $config2)/container,
+          json:transform-to-json($doc3, $config3)/container,
+          json:transform-to-json($doc4, $config4)/container,
+          json:transform-to-json($auditDoc, $config5)
+        )
+        else
+          json:transform-to-json(
+            element { fn:QName($NS,"mmlc:status") } { "no document found having uri: "||$uri }, $config1
           )
-        
-        let $object := json:object()
-        
-        let $_ := map:put($object,"container",$temp)
+
+      let $object := json:object()
+      
+      let $_ := map:put($object,"container",$temp)
 
       return
         xdmp:to-json($object)
@@ -159,23 +164,26 @@ function mml:get(
       ""
 
   let $doc :=
-    if ($format eq "json") then
+    if ($format eq "json" and fn:string-length($uri) eq 0) then
     (
-      (: text { json:transform-to-json($retObj, $config) } :)
-      $retObj
+      let $config := json:config("custom")
+      let $_ := map:put($config, "whitespace", "ignore")
+      let $_ := map:put($config, "array-element-names", xs:QName("mmlc:result") ) 
+
+      return
+        document {
+          text { json:transform-to-json($retObj, $config) }
+        }
     )
     else
     (
-      $retObj
+      document {
+        $retObj
+      }
     )
 
   return
     $doc
-  (:
-    document {
-      $doc
-    }
-  :)
 };
 
 (:
