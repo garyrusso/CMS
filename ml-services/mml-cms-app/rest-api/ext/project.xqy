@@ -65,7 +65,7 @@ function mml:get(
 	let $_ :=
 		if (fn:string-length($uri) ne 0) then
 		(
-			map:put($config, "array-element-names", "content")
+			map:put($config, "array-element-names", ("content","subjectHeading","subjectKeyword"))
 		)
 		else
 		(
