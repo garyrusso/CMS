@@ -53,7 +53,7 @@ namespace Macmillan.CMS.Service.Controllers
             foreach (FileInfo file in filesInfo)
             {
                 results = this.business.UploadMetadata(content, file);
-                file.Delete();
+               // file.Delete();
             }
 
             Logger.Debug("Exiting UploadMetadata");

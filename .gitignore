@@ -1,3 +1,8 @@
 local.properties
+.metadata
+.gitignore 
 
 
+*.dll
+*.pdb
++\ No newline at end of file

@@ -24,9 +24,8 @@ namespace Macmillan.CMS.DAL
              Logger.Debug("Entering UploadMetadata");
 
              string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "content?name=content";
-             MLReader mlReader = new MLReader();
-             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.POST, "application/json", metadata);
-             
+             MLReader mlReader = new MLReader();            
+             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.POST, "application/json", metadata);            
              Logger.Debug("Exiting UploadMetadata");
              return results;
          }
@@ -152,7 +151,7 @@ namespace Macmillan.CMS.DAL
 
          private void HTTPUpload(FileInfo file)
          {
-             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "resource?name=resource&rs:fileName=" + file.Name;
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "file?name=file&rs:fileName=" + file.Name;
              MLReader mlReader = new MLReader();
              string results = mlReader.UploadFile(mlUrl, "image/jpeg", file.FullName);
          }

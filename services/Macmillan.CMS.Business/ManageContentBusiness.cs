@@ -1,6 +1,7 @@
 ﻿using Macmillan.CMS.Common.Logging;
 using Macmillan.CMS.Common.Models;
 using Macmillan.CMS.DAL;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -32,8 +33,8 @@ namespace Macmillan.CMS.Business
         {
             Logger.Debug(" Entering UploadMetadata");
 
-            string metaData = this.BuildContentMetadataJson(content, file);
-
+            string metaData = this.BuildContentMetadataJson(content, file);            
+           
             this.dal.UploadMetadata(metaData);
 
             Logger.Debug(" Exiting UploadMetadata");
@@ -196,26 +197,29 @@ namespace Macmillan.CMS.Business
              }
 
 
-             ////if (fileInfo != null) 
-             ////{
-             ////    StringBuilder resources = new StringBuilder();
+             //if (fileInfo != null)
+             //{
+             //    StringBuilder resources = new StringBuilder();
 
-             ////    foreach (FileInfo file in fileInfo)
-             ////    {
-             ////        if (!string.IsNullOrEmpty(resources.ToString()))
-             ////            resources.Append(",");
+             //    foreach (FileInfo file in fileInfo)
+             //    {
+             //        if (!string.IsNullOrEmpty(resources.ToString()))
+             //            resources.Append(",");
 
-             ////        resources.Append(file);
-             ////    }
+             //        resources.Append(file);
+             //    }
 
-             ////    text.Replace("##resources##", resources.ToString());
-             ////}
+             //    text.Replace("##resources##", resources.ToString());
+             //}
 
+             text.Replace("##resources##", "\"" + fileInfo.Name + "\"");
              text.Replace("##fileFormat##", fileInfo.Extension);
              text.Replace("##fileName##", fileInfo.Name);
              text.Replace("##filePath##", "resources/" + fileInfo.Name);
              text.Replace("##fileSize##", fileInfo.Length.ToString());
 
+
+             
              Logger.Debug(" Exiting BuildContentMetadataJson");
              return text.ToString();
          }

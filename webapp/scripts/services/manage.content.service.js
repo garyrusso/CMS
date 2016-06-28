@@ -95,7 +95,7 @@
                     getContentPublisherResolve : CommonService.getDictionary('Publisher'),
                     getContentStateResolve : CommonService.getDictionary('version-state'),
                     getContentSubjectsResolve : CommonService.getDictionary('subject-heading'),
-                    getContentFileTypeResolve : CommonService.getDictionary('file-types')
+                    getContentFileTypeResolve: CommonService.getDictionary('supported-upload-types')
                 }
             });
             $rootScope.setLoading(true);
