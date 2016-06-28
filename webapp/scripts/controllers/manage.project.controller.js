@@ -28,19 +28,19 @@
 
         //ng-table col configuration
         projects.cols = [{
-            field : "Title",
+            field : "title",
             title : "Title",
-            sortable : "Title",
+            sortable : "title",
             sortDirection : "desc"
         }, {
-            field : "username",
+            field : "createdBy",
             title : "Owner",
-            sortable : "username",
+            sortable: "createdBy",
             sortDirection : "desc"
         }, {
-            field : "dateLastModified",
+            field: "modified",
             title : "Date Modified",
-            sortable : "dateLastModified",
+            sortable: "modified",
             sortDirection : "asc"
         }];
         projects.sortables = _.indexBy(projects.cols, "field");
@@ -54,11 +54,12 @@
                 var defer = $q.defer();
                 $scope.setLoading(true);
                 var pageDetails = params.url(), orderBy = params.orderBy()?params.orderBy()[0]:'';
-                SearchService.searchData('project', '', pageDetails.page, pageDetails.count, orderBy).then(function(response){
+                //SearchService.searchData('project', '', pageDetails.page, pageDetails.count, orderBy).then(function(response){
+                ManageProjectsService.getProjects().then(function (response) {
                     $scope.setLoading(false);
-                    params.total(response.total);
+                    params.total(response.count);
                     projects.facets = CommonService.formatFacets(response.facets);
-                    defer.resolve(response.results);
+                    defer.resolve(response.result);
                 }, function(){
                     defer.resolve([]);
                 });

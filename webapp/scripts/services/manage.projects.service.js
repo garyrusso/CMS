@@ -45,7 +45,7 @@
             return $http.get(WS.searchProjects, {
                 params: params
             }).then(function(response) {
-                return response.data;
+                return (response.data && response.data.results)? response.data.results : {};
             });
         }
         
@@ -67,7 +67,7 @@
             return $http.get(WS.getProjectDetails, {
                 params: params
             }).then(function(response) {
-                return response.data;
+                return (response.data && response.data.project && response.data.project.metadata) ? response.data.project.metadata : {};
             });
         }
 

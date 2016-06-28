@@ -110,10 +110,10 @@
          * convert facet object to array by omiting query key
          */
         function formatFacets(facetObject){
-            return _.chain(angular.copy(facetObject)).omit('query').map(function(value, key) {
+            return _.chain(angular.copy(facetObject)).map(function(value, key) {
                         return {
-                            facetTitle : key,
-                            facetArray : value.facetValues
+                            facetTitle: value.facetName,
+                            facetArray: value['facet-values']
                         };
                     }).value();
         }
