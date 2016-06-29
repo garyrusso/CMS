@@ -582,19 +582,19 @@ declare function mml:searchContentDocs($qtext, $start, $pageLength)
               for $resource in $result/search:snippet/mmlc:resources/mmlc:resource/text()
                 return
                   element { fn:QName($NS,"mml:resource") } { $resource }
-            },
-			for $facet in $results/search:facet
-			return
-				 element { fn:QName($NS,"mml:facets") } {
-					element { fn:QName($NS, "mml:facetName") } { xs:string($facet/@name) }, 
-					for $facet-value in $facet/search:facet-value
-					return 
-					  element { fn:QName($NS, "mml:facet-values") }  {
-						  element { fn:QName($NS,"mml:name") } { $facet-value/text() },
-						  element { fn:QName($NS,"mml:count") } { xs:string($facet-value/@count) }
-					   }
-				 }			
-          }
+            }
+          },
+		for $facet in $results/search:facet
+		return
+			 element { fn:QName($NS,"mml:facets") } {
+				element { fn:QName($NS, "mml:facetName") } { xs:string($facet/@name) }, 
+				for $facet-value in $facet/search:facet-value
+				return 
+				  element { fn:QName($NS, "mml:facet-values") }  {
+					  element { fn:QName($NS,"mml:name") } { $facet-value/text() },
+					  element { fn:QName($NS,"mml:count") } { xs:string($facet-value/@count) }
+				   }
+			 }			  
         }
       )
       else
