@@ -220,112 +220,168 @@ namespace Macmillan.CMS.DAL
          public object SearchContents(string searchText, int pageNumber, int pageSize, string orderBy)
          {
              Logger.Debug("Entering GetContentMasterData");
-             JsonNetSerialization ser = new JsonNetSerialization();
-             string con = @"{
-	                            'total': 27,
-	                            'start': 1,
-	                            'page-length': 10,
-	                            'results': [{
-		                            'Title': 'Myers 11e EPUB3',
-		                            'uri': '/mydocuments/conent1.xml',
-		                            'path': 'fn:doc(\'/mydocuments/conent1.xml\')',
-		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent1.xml',
-		                            'mimetype': 'application/xml',
-		                            'format': 'xml',
-		                            'fileName': 'myers113.epub',
-		                            'dateLastModified': '2015-04-15 13:30',
-		                            'username': 'bcross',
-		                            'fullName': 'Brian Cross'
+             MLReader mlReader = new MLReader();
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "content?name=content&rs:format=json" ;
+             object results = null;
+             try
+             {
+                 results = mlReader.GetHttpContent<object>(mlUrl, "application/json");
+             }
+             catch (Exception ex)
+             {
+                 //{"responseCode":"401","message":"User/Pass incorrect"}
 
-	                            }, {
-		                            'Title': 'Myers 11e EPUB3-2',
-		                            'uri': '/mydocuments/conent2.xml',
-		                            'path': 'fn:doc(\'/mydocuments/conent2.xml\')',
-		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent2.xml',
-		                            'mimetype': 'application/xml',
-		                            'format': 'xml',
-		                            'fileName': 'myers113.epub',
-		                            'dateLastModified': '2015-04-15 13:30',
-		                            'username': 'bcross',
-		                            'fullName': 'Brian Cross'
+                 if (ex.Message.Contains("401"))
+                 {
+                     var error = new { responseCode = "401", message = "401 Unauthorized" };
 
-	                            }, {
-		                            'Title': 'Myers 11e EPUB3-3',
-		                            'uri': '/mydocuments/conent3.xml',
-		                            'path': 'fn:doc(\'/mydocuments/conent3.xml\')',
-		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent3.xml',
-		                            'mimetype': 'application/xml',
-		                            'format': 'xml',
-		                            'fileName': 'myers113.epub',
-		                            'dateLastModified': '2015-04-15 13:30',
-		                            'username': 'bcross',
-		                            'fullName': 'Brian Cross'
+                     results = error;
+                 }
+             }
 
-	                            }, {
-		                            'Title': 'Myers 11e EPUB4-4',
-		                            'uri': '/mydocuments/conent4.xml',
-		                            'path': 'fn:doc(\'/mydocuments/conent4.xml\')',
-		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent4.xml',
-		                            'mimetype': 'application/xml',
-		                            'format': 'xml',
-		                            'fileName': 'myers113.epub',
-		                            'dateLastModified': '2015-04-15 13:30',
-		                            'username': 'bcross',
-		                            'fullName': 'Brian Cross'
-
-	                            }],
-	                            'facets': {
-		                            'projectState': {
-			                            'type': 'xs:string',
-			                            'facetValues': [{
-				                            'name': 'Active',
-				                            'count': 12,
-				                            'value': 'Active'
-			                            }, {
-				                            'name': '',
-				                            'count': 1,
-				                            'value': ''
-			                            }]
-		                            },
-		                            'Projects': {
-			                            'type': 'xs:string',
-			                            'facetValues': [{
-				                            'name': 'Hockenbury 5e',
-				                            'count': 4,
-				                            'value': 'Hockenbury 5e'
-			                            }]
-		                            },
-		                            'Subjects': {
-			                            'type': 'xs:string',
-			                            'facetValues': [{
-				                            'name': 'Psychology',
-				                            'count': 13,
-				                            'value': 'Psychology'
-			                            }]
-		                            }
-	                            },
-	                            'query': {
-		                            'and-query': [{
-			                            'element-range-query': [{
-				                            'operator': '=',
-				                            'element': '_1:subjectHeading',
-				                            'value': [{
-					                            'type': 'xs:string',
-					                            '_value': 'Psychology'
-				                            }],
-				                            'option': 'collation=http://marklogic.com/collation/'
-			                            }],
-			                            'annotation': [{
-				                            'operator-ref': 'sort',
-				                            'state-ref': 'relevance'
-			                            }]
-		                            }]
-	                            }
-                            }
-                            ";
-             var results = ser.DeSerialize(con);
-             Logger.Debug("Exitinging GetContentMasterData");
+             Logger.Debug("Exitinging CreateContent");
              return results;
+//             JsonNetSerialization ser = new JsonNetSerialization();
+//             string con = @"{
+//	                            'total': 27,
+//	                            'start': 1,
+//	                            'page-length': 10,
+//	                            'results': [{
+//		                            'Title': 'Myers 11e EPUB3',
+//		                            'uri': '/mydocuments/conent1.xml',
+//		                            'path': 'fn:doc(\'/mydocuments/conent1.xml\')',
+//		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent1.xml',
+//		                            'mimetype': 'application/xml',
+//		                            'format': 'xml',
+//		                            'fileName': 'myers113.epub',
+//		                            'dateLastModified': '2015-04-15 13:30',
+//		                            'username': 'bcross',
+//		                            'fullName': 'Brian Cross'
+//
+//	                            }, {
+//		                            'Title': 'Myers 11e EPUB3-2',
+//		                            'uri': '/mydocuments/conent2.xml',
+//		                            'path': 'fn:doc(\'/mydocuments/conent2.xml\')',
+//		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent2.xml',
+//		                            'mimetype': 'application/xml',
+//		                            'format': 'xml',
+//		                            'fileName': 'myers113.epub',
+//		                            'dateLastModified': '2015-04-15 13:30',
+//		                            'username': 'bcross',
+//		                            'fullName': 'Brian Cross'
+//
+//	                            }, {
+//		                            'Title': 'Myers 11e EPUB3-3',
+//		                            'uri': '/mydocuments/conent3.xml',
+//		                            'path': 'fn:doc(\'/mydocuments/conent3.xml\')',
+//		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent3.xml',
+//		                            'mimetype': 'application/xml',
+//		                            'format': 'xml',
+//		                            'fileName': 'myers113.epub',
+//		                            'dateLastModified': '2015-04-15 13:30',
+//		                            'username': 'bcross',
+//		                            'fullName': 'Brian Cross'
+//
+//	                            }, {
+//		                            'Title': 'Myers 11e EPUB4-4',
+//		                            'uri': '/mydocuments/conent4.xml',
+//		                            'path': 'fn:doc(\'/mydocuments/conent4.xml\')',
+//		                            'href': '/v1/documents?uri=%2Fmydocuments%2Fconent4.xml',
+//		                            'mimetype': 'application/xml',
+//		                            'format': 'xml',
+//		                            'fileName': 'myers113.epub',
+//		                            'dateLastModified': '2015-04-15 13:30',
+//		                            'username': 'bcross',
+//		                            'fullName': 'Brian Cross'
+//
+//	                            }],
+//	                            'facets': {
+//		                            'projectState': {
+//			                            'type': 'xs:string',
+//			                            'facetValues': [{
+//				                            'name': 'Active',
+//				                            'count': 12,
+//				                            'value': 'Active'
+//			                            }, {
+//				                            'name': '',
+//				                            'count': 1,
+//				                            'value': ''
+//			                            }]
+//		                            },
+//		                            'Projects': {
+//			                            'type': 'xs:string',
+//			                            'facetValues': [{
+//				                            'name': 'Hockenbury 5e',
+//				                            'count': 4,
+//				                            'value': 'Hockenbury 5e'
+//			                            }]
+//		                            },
+//		                            'Subjects': {
+//			                            'type': 'xs:string',
+//			                            'facetValues': [{
+//				                            'name': 'Psychology',
+//				                            'count': 13,
+//				                            'value': 'Psychology'
+//			                            }]
+//		                            }
+//	                            },
+//	                            'query': {
+//		                            'and-query': [{
+//			                            'element-range-query': [{
+//				                            'operator': '=',
+//				                            'element': '_1:subjectHeading',
+//				                            'value': [{
+//					                            'type': 'xs:string',
+//					                            '_value': 'Psychology'
+//				                            }],
+//				                            'option': 'collation=http://marklogic.com/collation/'
+//			                            }],
+//			                            'annotation': [{
+//				                            'operator-ref': 'sort',
+//				                            'state-ref': 'relevance'
+//			                            }]
+//		                            }]
+//	                            }
+//                            }
+//                            ";
+//             var results = ser.DeSerialize(con);
+             //Logger.Debug("Exitinging GetContentMasterData");
+             //return results;
+         }
+
+
+         /// <summary>
+         /// DownloadContent with given details
+         /// </summary>
+         /// <param name="filePath"></param>
+         /// <returns></returns>
+         public object DownloadContent(string filePath)
+         {
+             Logger.Debug("Entering DownloadContent");
+             MLReader mlReader = new MLReader();
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "file?name=file&rs:uri=/file/demo.epub";
+             object results = null;
+             try
+             {
+                 results = mlReader.GetHttpContent<object>(mlUrl, "application/json");
+             }
+             catch (Exception ex)
+             {
+                 //{"responseCode":"401","message":"User/Pass incorrect"}
+
+                 if (ex.Message.Contains("401"))
+                 {
+                     var error = new { responseCode = "401", message = "401 Unauthorized" };
+
+                     results = error;
+                 }
+             }
+
+             Logger.Debug("Exitinging DownloadContent");
+             return results;
+
+             
+             
          }
     }
 }

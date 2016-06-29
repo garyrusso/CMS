@@ -13,7 +13,7 @@
     angular.module('cmsWebApp').constant('WS', {
         'authenticateUser' : 'Security/ValidateUserCredentials',
         'getDictionary' : 'dictionary/GetDictionary',
-        'getContents' : 'ManageContent/getContents',
+        'getContents' : 'ManageContent/SearchContents',
         'getContentDetails' : 'ManageContent/GetContentDetails',
         'createContent' : 'ManageContent/CreateContent',
         'updateContent' : 'ManageContent/UpdateContent',
