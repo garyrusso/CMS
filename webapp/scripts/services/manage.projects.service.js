@@ -66,8 +66,15 @@
 
             return $http.get(WS.getProjectDetails, {
                 params: params
-            }).then(function(response) {
-                return (response.data && response.data.project && response.data.project.metadata) ? response.data.project.metadata : {};
+            }).then(function (response) {
+                var returnData = {};
+                if (response.data && response.data.project && response.data.project.metadata) {
+                    returnData = response.data.project.metadata;
+                    if (response.data.project.contents && response.data.project.contents.content) {
+                        returnData.content = response.data.project.contents.content;
+                    }
+                }
+                return returnData;
             });
         }
 
@@ -184,6 +191,7 @@
          * @returns {Object} http promise object
          */
         function updateProject(postData) {
+            postData = _.omit(postData, 'content');
             return $http.put(WS.updateProject, postData).then(function (response) {
                 return response.data;
             });
@@ -199,6 +207,7 @@
          * @returns {Object} http promise object
          */
         function deleteProject(postData) {
+            postData = _.omit(postData, 'content');
             return $http.post(WS.deleteProject, postData).then(function (response) {
                 return response.data;
             });

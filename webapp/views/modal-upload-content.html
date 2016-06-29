@@ -104,10 +104,10 @@
                         <div class="col-md-8">
                             <ui-select ng-model="data.Projects[$index]" theme="bootstrap">
                                 <ui-select-match placeholder="Select or search a project in the list...">
-                                    {{$select.selected.Title}}
+                                    {{$select.selected.title}}
                                 </ui-select-match>
-                                <ui-select-choices repeat="item.Title as item in ProjectsData | filter: $select.search" refresh-delay="0" refresh="searchProject($select.search)">
-                                    <div ng-bind-html="item.Title | highlight: $select.search"></div>
+                                <ui-select-choices repeat="item.title as item in ProjectsData | filter: $select.search" refresh-delay="0" refresh="searchProject($select.search)">
+                                    <div ng-bind-html="item.title | highlight: $select.search"></div>
                                 </ui-select-choices>
                             </ui-select>
                         </div>

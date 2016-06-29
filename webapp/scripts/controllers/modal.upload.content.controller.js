@@ -8,10 +8,10 @@
     angular.module('cmsWebApp').controller('ModalUploadContentController', ModalUploadContentController);
 
     /*Inject angular services to controller*/
-    ModalUploadContentController.$inject = ['$rootScope', '$scope', '$uibModalInstance', 'items', '_', '$filter', 'CommonService', '$log', 'SearchService', '$q', 'getContentSourceResolve', 'getContentPublisherResolve', 'getContentStateResolve', 'getContentSubjectsResolve', 'getContentFileTypeResolve'];
+    ModalUploadContentController.$inject = ['$rootScope', '$scope', '$uibModalInstance', 'items', '_', '$filter', 'CommonService', '$log', 'ManageProjectsService', '$q', 'getContentSourceResolve', 'getContentPublisherResolve', 'getContentStateResolve', 'getContentSubjectsResolve', 'getContentFileTypeResolve'];
 
     /*Function ModalUploadContentController*/
-    function ModalUploadContentController($rootScope, $scope, $uibModalInstance, items, _, $filter, CommonService, $log, SearchService, $q, getContentSourceResolve, getContentPublisherResolve, getContentStateResolve, getContentSubjectsResolve, getContentFileTypeResolve) {
+    function ModalUploadContentController($rootScope, $scope, $uibModalInstance, items, _, $filter, CommonService, $log, ManageProjectsService, $q, getContentSourceResolve, getContentPublisherResolve, getContentStateResolve, getContentSubjectsResolve, getContentFileTypeResolve) {
         $scope.items = items;
         $rootScope.setLoading(false);
         $scope.data = {
@@ -205,11 +205,11 @@
          */
         function searchProject(text) {
 
-            SearchService.searchData('project', text).then(function(response) {
-                _.map(response.results, function(project) {
-                    var existingTitles = _.pluck($scope.ProjectsData, 'Title');
+            ManageProjectsService.getProjects(text).then(function (response) {
+                _.map(response.result, function(project) {
+                    var existingTitles = _.pluck($scope.ProjectsData, 'title');
                     //checks whether project title is already added to list.
-                    if (!_.contains(existingTitles, project.Title)) {
+                    if (!_.contains(existingTitles, project.title)) {
                         $scope.ProjectsData.push(project);
                     }
                 });

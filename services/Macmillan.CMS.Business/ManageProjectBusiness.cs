@@ -39,9 +39,9 @@ namespace Macmillan.CMS.Business
 
             string projectXML = this.BuildCreateProjectXML(project);
 
-            this.dal.CreateProject(projectXML, "/projects/" + project.Title);
+            var results = this.dal.CreateProject(projectXML, "/projects/" + project.Title);
             
-            var results = new { Title = project.Title, uri = "/projects/" + project.Title };
+            //var results = new { Title = project.Title, uri = "/projects/" + project.Title };
 
             Logger.Debug(" Exiting CreateProject");
             return results;
@@ -57,7 +57,8 @@ namespace Macmillan.CMS.Business
         {
             Logger.Debug(" Entering BuildProjectXML");
 
-            StringBuilder text = new StringBuilder(File.ReadAllText(ConfigurationManager.AppSettings["AppDataPath"] + "\\CreateProject.xml"));
+            //StringBuilder text = new StringBuilder(File.ReadAllText(ConfigurationManager.AppSettings["AppDataPath"] + "\\CreateProject.xml"));
+            StringBuilder text = new StringBuilder(File.ReadAllText(ConfigurationManager.AppSettings["AppDataPath"] + "\\CreateProject.json"));
             
             text.Replace("##systemId##", Guid.NewGuid().ToString("N").Substring(0, 32));
             text.Replace("##docUri##", "/projects/" + project.Title);            
@@ -66,7 +67,7 @@ namespace Macmillan.CMS.Business
             text.Replace("##projectState##", project.ProjectState);
 
             text.Replace("##dateCreated##", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-            text.Replace("##createdby##", project.CreatedBy);
+            text.Replace("##createdBy##", project.CreatedBy);
             text.Replace("##dateLastModified##", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             text.Replace("##modifiedBy##", project.CreatedBy);
 
@@ -76,9 +77,12 @@ namespace Macmillan.CMS.Business
 
                 foreach (string subject in project.SubjectHeadings)
                 {
-                    subjects.Append("<mml:subjectHeading>" + subject + "</mml:subjectHeading>");
+                    if (!string.IsNullOrEmpty(subjects.ToString()))
+                        subjects.Append(",");
+
+                    subjects.Append("\"" + subject + "\"");                 
                 }
-                text.Replace("##subjects##", subjects.ToString());
+                text.Replace("##subjectHeadings##", subjects.ToString());
             }
 
 
@@ -88,10 +92,13 @@ namespace Macmillan.CMS.Business
 
                 foreach (string keyword in project.SubjectKeywords)
                 {
-                    keywords.Append("<mml:subjectKeyword>" + keyword + "</mml:subjectKeyword>");
+                    if (!string.IsNullOrEmpty(keywords.ToString()))
+                        keywords.Append(",");
+
+                    keywords.Append("\"" + keyword + "\"");
                 }
 
-                text.Replace("##keywords##", keywords.ToString());
+                text.Replace("##subjectKeywords##", keywords.ToString());
             }
 
             
@@ -107,8 +114,8 @@ namespace Macmillan.CMS.Business
         private string BuildEditProjectXML(Project project)
         {
             Logger.Debug(" Entering BuildProjectXML");
-
-            StringBuilder text = new StringBuilder(File.ReadAllText(ConfigurationManager.AppSettings["CreateProjectXMLPath"]));
+                       
+            StringBuilder text = new StringBuilder(File.ReadAllText(ConfigurationManager.AppSettings["AppDataPath"] + "\\CreateProject.json"));
 
             text.Replace("##systemId##", project.SystemId);
             text.Replace("##docUri##",  project.ProjectURL);
@@ -117,7 +124,7 @@ namespace Macmillan.CMS.Business
             text.Replace("##projectState##", project.ProjectState);
 
             text.Replace("##dateCreated##", project.DateCreated.ToString());
-            text.Replace("##createdby##", project.CreatedBy);
+            text.Replace("##createdBy##", project.CreatedBy);
             text.Replace("##dateLastModified##", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             text.Replace("##modifiedBy##", project.ModifiedBy);
 
@@ -127,9 +134,12 @@ namespace Macmillan.CMS.Business
 
                 foreach (string subject in project.SubjectHeadings)
                 {
-                    subjects.Append("<mml:subjectHeading>" + subject + "</mml:subjectHeading>");
+                    if (!string.IsNullOrEmpty(subjects.ToString()))
+                        subjects.Append(",");
+
+                    subjects.Append("\"" + subject + "\"");
                 }
-                text.Replace("##subjects##", subjects.ToString());
+                text.Replace("##subjectHeadings##", subjects.ToString());
             }
 
 
@@ -139,10 +149,13 @@ namespace Macmillan.CMS.Business
 
                 foreach (string keyword in project.SubjectKeywords)
                 {
-                    keywords.Append("<mml:subjectKeyword>" + keyword + "</mml:subjectKeyword>");
+                    if (!string.IsNullOrEmpty(keywords.ToString()))
+                        keywords.Append(",");
+
+                    keywords.Append("\"" + keyword + "\"");
                 }
 
-                text.Replace("##keywords##", keywords.ToString());
+                text.Replace("##subjectKeywords##", keywords.ToString());
             }
             
             Logger.Debug(" Exiting BuildProjectXML");
@@ -160,9 +173,9 @@ namespace Macmillan.CMS.Business
 
             string projectXML = this.BuildEditProjectXML(project);
 
-            this.dal.UpdateProject(projectXML, "/projects/" + project.Title);
+            var results = this.dal.UpdateProject(projectXML, project.ProjectURL);
 
-            var results = new { Title = project.Title, uri = "/projects/" + project.Title };
+             //= new { Title = project.Title, uri = "/projects/" + project.Title };
 
             Logger.Debug(" Exiting UpdateProject");
             return results;
@@ -177,12 +190,12 @@ namespace Macmillan.CMS.Business
         {
             Logger.Debug(" Entering DeleteProject");
 
-            project.ProjectState = "Inactive";
-            string projectXML = this.BuildEditProjectXML(project);
+            //project.ProjectState = "Inactive";
+            //string projectXML = this.BuildEditProjectXML(project);
 
-            this.dal.DeleteProject(projectXML, "/projects/" + project.Title);
+            var results = this.dal.DeleteProject(project.ProjectURL);
 
-            var results = new { Title = project.Title, uri = "/projects/" + project.Title };
+             //new { Title = project.Title, uri = "/projects/" + project.Title };
 
             Logger.Debug(" Exiting DeleteProject");
             return results;
@@ -198,10 +211,10 @@ namespace Macmillan.CMS.Business
             Logger.Debug("Entering GetProjectDetails"); 
             var results= this.dal.GetProjectDetails(uri);
 
-            Project proj = this.GetProjectObject(results.ToString());
+           // Project proj = this.GetProjectObject(results.ToString());
 
             Logger.Debug("Exiting GetProjectDetails");
-            return proj;
+            return results;
         }
 
         private Project GetProjectObject(string projXml)

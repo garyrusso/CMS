@@ -283,7 +283,7 @@ namespace Macmillan.CMS.Business
              text.Replace("##publisher##", content.Publisher);
              text.Replace("##datePublished##", content.DatePublished.ToString());
              text.Replace("##contentState##", content.ContentState);
-             text.Replace("##resources##", content.ContentResourceType);
+             text.Replace("##resources##", "\"" + content.ContentResourceType + "\"" );
 
              if (content.Creator != null)
              {

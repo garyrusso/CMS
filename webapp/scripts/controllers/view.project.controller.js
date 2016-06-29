@@ -8,13 +8,14 @@
     angular.module('cmsWebApp').controller('ViewProjectController', ViewProjectController);
 
     /*Inject angular services to controller*/
-    ViewProjectController.$inject = ['$state', 'routeResolvedProjectView', '$log', 'ManageProjectsService', 'ManageContentService'];
+    ViewProjectController.$inject = ['$state', '$stateParams', 'routeResolvedProjectView', '$log', 'ManageProjectsService', 'ManageContentService'];
 
     /*Function ViewProjectController*/
-    function ViewProjectController($state, routeResolvedProjectView, $log, ManageProjectsService, ManageContentService) {
+    function ViewProjectController($state, $stateParams, routeResolvedProjectView, $log, ManageProjectsService, ManageContentService) {
         $log.debug('ViewProjectController', routeResolvedProjectView);
         var project = this;
         project.data = routeResolvedProjectView;
+        project.data.uri = $stateParams['uri'];
         /*project.data.subjects = _.chain(routeResolvedProjectView.SubjectHeadings).indexBy('subjectHeading').keys().value();
         project.data.keywords = _.chain(routeResolvedProjectView.SubjectKeywords).indexBy('subjectKeyword').keys().value();*/
 
@@ -35,6 +36,7 @@
          * call ManageProjectsService > openProjectModal method to open edit project modal
          */
         function projectsEditProject() {
+            project.data.projectURL = project.data.uri;
             ManageProjectsService.openProjectModal(true, project.data).then(function() {
                 $log.debug('project updated');
             });
@@ -48,7 +50,8 @@
          * Invoke this method when delete project is clicked.
          * call ManageProjectsService > openDeleteProjectModal method to open delete project modal
          */
-        function projectsdeleteProject() {  
+        function projectsdeleteProject() {
+            project.data.projectURL = project.data.uri;
             ManageProjectsService.openDeleteProjectModal(project.data).then(function() {
                 $log.debug('project deleted');
             });        

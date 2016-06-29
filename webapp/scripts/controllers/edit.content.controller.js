@@ -8,11 +8,12 @@
     angular.module('cmsWebApp').controller('EditContentController', EditContentController);
 
     /*Inject angular services to controller*/
-    EditContentController.$inject = ['$log', '$scope', '$rootScope', '$state', '$stateParams', 'routeResolvedContentEdit', 'ManageContentService', 'SearchService', 'DataModelContentService', 'getContentSourceResolve', 'getContentPublisherResolve', 'getContentStateResolve', 'getContentSubjectsResolve'];
+    EditContentController.$inject = ['$log', '$scope', '$rootScope', '$state', '$stateParams', 'routeResolvedContentEdit', 'ManageContentService', 'ManageProjectsService', 'DataModelContentService', 'getContentSourceResolve', 'getContentPublisherResolve', 'getContentStateResolve', 'getContentSubjectsResolve'];
 
     /*Function EditContentController*/
-    function EditContentController($log, $scope, $rootScope, $state, $stateParams, routeResolvedContentEdit, ManageContentService, SearchService, DataModelContentService, getContentSourceResolve, getContentPublisherResolve, getContentStateResolve, getContentSubjectsResolve) {
+    function EditContentController($log, $scope, $rootScope, $state, $stateParams, routeResolvedContentEdit, ManageContentService, ManageProjectsService, DataModelContentService, getContentSourceResolve, getContentPublisherResolve, getContentStateResolve, getContentSubjectsResolve) {
         $log.debug('EditContentController - $stateParams', $stateParams);
+        routeResolvedContentEdit.contentUri = $stateParams['uri'];
         var content = this, dataModelContent = new DataModelContentService(routeResolvedContentEdit);
         content.data = angular.copy(dataModelContent.getContent());
 
@@ -131,11 +132,11 @@
          * search project based on text entered by used in form to select project.
          */
         function searchProject(text) {
-            SearchService.searchData('project', text).then(function(response) {
-                _.map(response.results, function(project) {
-                    var existingTitles = _.pluck(content.ProjectsData, 'Title');
+            ManageProjectsService.getProjects(text).then(function (response) {
+                _.map(response.result, function(project) {
+                    var existingTitles = _.pluck(content.ProjectsData, 'title');
                     //checks whether project title is already added to list.
-                    if (!_.contains(existingTitles, project.Title)) {
+                    if (!_.contains(existingTitles, project.title)) {
                         content.ProjectsData.push(project);
                     }
                 });

@@ -46,7 +46,7 @@
             return $http.get(WS.getContents, {
                 params: params
             }).then(function(response) {
-                return response.data;
+                return (response.data && response.data.results) ? response.data.results : {};
             });
         }
         
@@ -66,8 +66,17 @@
 
             return $http.get(WS.getContentDetails, {
                 params: params
-            }).then(function(response) {
-                return response.data;
+            }).then(function (response) {
+                var returnData = {};
+                if (response.data && response.data.container) {
+                    returnData = _.chain(response.data.container)
+                        .reduce(function (present, start) {
+                            return _.extend(present, start)
+                        }, {})
+                        .value();
+                }
+
+                return returnData;
             });
         }
         

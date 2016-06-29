@@ -197,11 +197,11 @@
                         <th>Created By</th>
                         <th>Note</th>
                         </thead>
-                        <tr ng-repeat="page in content.data.AuditInfo">
-                            <td>{{page.ActionType}}</td>
-                            <td>{{page.ActionCreatedOn}}</td>
-                            <td>{{page.ActionCreatedBy}}</td>
-                            <td>{{page.ActionNote}}</td>
+                        <tr ng-repeat="page in content.data.AuditInfo.auditEntry">
+                            <td>{{page.action}}</td>
+                            <td>{{page.dateCreated}}</td>
+                            <td>{{page.createdBy}}</td>
+                            <td>{{page.note}}</td>
                         </tr>                                            
                     </table>
                 </div>

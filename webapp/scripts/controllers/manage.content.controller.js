@@ -28,9 +28,9 @@
         
         //ng-table col configuration
         content.cols = [{
-            field : "Title",
+            field : "title",
             title : "Title",
-            sortable : "Title",
+            sortable : "title",
             sortDirection : "desc"
         }, {
             field : "filePath",
@@ -56,9 +56,9 @@
                 //SearchService.searchData('content', '', pageDetails.page, pageDetails.count, orderBy).then(function(response){
                 ManageContentService.getContents('', pageDetails.page, pageDetails.count, orderBy).then(function (response) {
                     $scope.setLoading(false);
-                    params.total(response.total);
+                    params.total(response.count);
                     content.facets = CommonService.formatFacets(response.facets);
-                    defer.resolve(response.results);
+                    defer.resolve((response.result)?response.result:[]);
                 }, function(){
                     defer.resolve([]);
                 });

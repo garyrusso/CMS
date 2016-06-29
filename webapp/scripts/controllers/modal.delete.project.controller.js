@@ -16,6 +16,17 @@
         $scope.items = items;
         $scope.cancel = closeModalProject;
         $scope.deleteProject = deleteProject;
+
+        if ($scope.items.data && $scope.items.data.subjectHeadings && $scope.items.data.subjectHeadings.subjectHeading) {
+            $scope.items.data.subjectHeadings = $scope.items.data.subjectHeadings.subjectHeading;
+        } else {
+            $scope.items.data.subjectHeadings = [];
+        }
+        if ($scope.items.data && $scope.items.data.subjectKeywords && $scope.items.data.subjectKeywords.subjectKeyword) {
+            $scope.items.data.subjectKeywords = $scope.items.data.subjectKeywords.subjectKeyword;
+        } else {
+            $scope.items.data.subjectKeywords = [""];
+        }
         
         /**
          * @ngdoc method
@@ -38,7 +49,7 @@
         function deleteProject () {
             var returnData = angular.copy($scope.items.data);
             
-            returnData.ModifiedBy = CommonService.getItems('username');
+            returnData.modifiedBy = CommonService.getItems('username');
  
             $uibModalInstance.close(returnData);
         }

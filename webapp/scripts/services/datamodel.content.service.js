@@ -53,28 +53,28 @@
          * set the content data.
          */
         function setContent (contentData) {
-            this.ContentUri = contentData.ContentUri;
-            this.Title = contentData.Title;
-            this.Description = contentData.Description;
-            this.Source = contentData.Source;
-            this.Creator = contentData.Creator;
-            this.Publisher = contentData.Publisher; 
-            this.ContentState = contentData.ContentState; 
-            this.Projects = contentData.Projects; 
-            this.SubjectHeadings = contentData.SubjectHeadings; 
-            this.SubjectKeywords = contentData.SubjectKeywords; 
-            this.SystemId = contentData.SystemId; 
-            this.DateCreated = contentData.DateCreated; 
-            this.DateModified = contentData.DateModified; 
-            this.CreatedBy = contentData.CreatedBy; 
-            this.ModifiedBy = contentData.ModifiedBy; 
-            this.DatePublished = contentData.DatePublished; 
-            this.ContentResourceType = contentData.ContentResourceType; 
+            this.ContentUri = contentData.contentUri;
+            this.Title = contentData.title;
+            this.Description = contentData.description;
+            this.Source = contentData.source;
+            this.Creator = contentData.creator;
+            this.Publisher = contentData.publisher; 
+            this.ContentState = contentData.contentState; 
+            this.Projects = contentData.projects; 
+            this.SubjectHeadings = contentData.subjectHeading; 
+            this.SubjectKeywords = contentData.subjectKeyword; 
+            this.SystemId = contentData.systemId; 
+            this.DateCreated = contentData.created;
+            this.DateModified = contentData.modified;
+            this.CreatedBy = contentData.createdBy; 
+            this.ModifiedBy = contentData.modifiedBy; 
+            this.DatePublished = contentData.datePublished; 
+            this.ContentResourceType = contentData.contentResourceType; 
             this.FileFormat = contentData.FileFormat; 
             this.FileName = contentData.FileName; 
-            this.FileSize = contentData.FileSize; 
+            this.FileSize = contentData.fileSize; 
             this.FilePath = contentData.FilePath;
-            this.AuditInfo = contentData.AuditInfo;
+            this.AuditInfo = contentData.auditInfo;
                         
             if((this.Creator && this.Creator.length === 0) || !this.Creator ) {
                 this.Creator = [''];

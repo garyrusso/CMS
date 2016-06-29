@@ -15,15 +15,31 @@
         $scope.items = items;
         $rootScope.setLoading(false);
         if (items.edit) {
-            $scope.data = items.data;
-
+            $scope.data = angular.copy(items.data);
+            if ($scope.data && $scope.data.subjectHeadings && $scope.data.subjectHeadings.subjectHeading) {
+                $scope.data.subjectHeadings = $scope.data.subjectHeadings.subjectHeading;
+            } else {
+                $scope.data.subjectHeadings = [];
+            }
+            if ($scope.data && $scope.data.subjectKeywords && $scope.data.subjectKeywords.subjectKeyword) {
+                $scope.data.subjectKeywords = $scope.data.subjectKeywords.subjectKeyword;
+            } else {
+                $scope.data.subjectKeywords = [""];
+            }
+            /*$scope.data = {
+                "Title": items.data.title,
+                "Description": items.data.description,
+                "ProjectState": items.data.projectState,
+                "SubjectHeadings": (items.data.subjectHeadings && items.data.subjectHeadings.subjectHeading)?items.data.subjectHeadings.subjectHeading:[],
+                "SubjectKeywords": (items.data.subjectKeywords && items.data.subjectKeywords.subjectKeyword)?items.data.subjectKeywords.subjectKeyword:[]
+            };*/
         } else {
             $scope.data = {
-                "Title" : "",
-                "Description" : "",
-                "ProjectState" : "",
-                "SubjectHeadings" : [],
-                "SubjectKeywords" : [""]
+                "title" : "",
+                "description" : "",
+                "projectState" : "",
+                "subjectHeadings" : [],
+                "subjectKeywords": [""]
             };
         }
 
@@ -71,11 +87,14 @@
         function submitProject () {
             if (!items.edit) {
                 /*$scope.data.dateCreated = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");*/
-                $scope.data.CreatedBy = CommonService.getItems('username');
+                $scope.data.createdBy = CommonService.getItems('username');
                 /*returnData.CreatedBy = CommonService.getItems('username');*/
             } else {
-                $scope.data.ModifiedBy = CommonService.getItems('username');
+                $scope.data.modifiedBy = CommonService.getItems('username');
             }
+            /*if ($scope.data && $scope.data.uri) {
+                $scope.data.projectURL = $scope.data.uri;
+            }*/
 
             $uibModalInstance.close(angular.copy($scope.data));
         }

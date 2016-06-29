@@ -8,11 +8,12 @@
     angular.module('cmsWebApp').controller('ViewContentController', ViewContentController);
 
     /*Inject angular services to controller*/
-    ViewContentController.$inject = ['$state', 'routeResolvedContentView', '$log', 'ManageContentService', 'DataModelContentService'];
+    ViewContentController.$inject = ['$state', '$stateParams', 'routeResolvedContentView', '$log', 'ManageContentService', 'DataModelContentService'];
 
     /*Function ViewContentController*/
-    function ViewContentController($state, routeResolvedContentView, $log, ManageContentService, DataModelContentService) {
+    function ViewContentController($state, $stateParams, routeResolvedContentView, $log, ManageContentService, DataModelContentService) {
         $log.debug('ViewContentController', routeResolvedContentView);
+        routeResolvedContentView.contentUri = $stateParams['uri'];
         var content = this, dataModelContent = new DataModelContentService(routeResolvedContentView);
         content.data = angular.copy(dataModelContent.getContent());
 
