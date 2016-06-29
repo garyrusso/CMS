@@ -195,7 +195,7 @@ declare function project:get-document($uri as xs:string)
 				element modifiedBy { $projectDocument/mml:project/mml:metadata/modifiedBy/text() },
 				element modified { $projectDocument/mml:project/mml:metadata/mml:modified/text() },
 				element title { $projectDocument/mml:project/mml:metadata/mml:title/text() }, 
-				element description { $projectDocument/mml:project/mml:metadata/description/text() },
+				element description { $projectDocument/mml:project/mml:metadata/mml:description/text() },
 				element projectState { $projectDocument/mml:project/mml:metadata/mml:projectState/text() },
 				element subjectHeadings {
 				  for $subjectHeading in $projectDocument/mml:project/mml:metadata/mml:subjectHeadings/mml:subjectHeading/text()
