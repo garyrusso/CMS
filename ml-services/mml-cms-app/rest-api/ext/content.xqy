@@ -482,6 +482,30 @@ declare function mml:searchContentDocs($qtext, $start, $pageLength)
           <element ns="http://macmillanlearning.com" name="systemId"/>
         </word>
       </constraint>
+	  <constraint name="Keywords">
+		  <range collation="http://marklogic.com/collation/" facet="true">
+			 <element ns="http://macmillanlearning.com" name="subjectKeyword" />
+			 <facet-option>limit=5</facet-option>
+		  </range>
+	   </constraint>
+	   <constraint name="Subjects">
+		  <range collation="http://marklogic.com/collation/" facet="true">
+			 <element ns="http://macmillanlearning.com" name="subjectHeading" />
+			 <facet-option>limit=5</facet-option>
+		  </range>          
+	  </constraint>
+	   <constraint name="Title">
+		  <range collation="http://marklogic.com/collation/" facet="true">
+			 <element ns="http://macmillanlearning.com" name="title" />
+			 <facet-option>limit=5</facet-option>
+		  </range>          
+	  </constraint>
+	   <constraint name="Project State">
+		  <range collation="http://marklogic.com/collation/" facet="true">
+			 <element ns="http://macmillanlearning.com" name="projectState" />
+			 <facet-option>limit=5</facet-option>
+		  </range>          
+	  </constraint>  	  
       <transform-results apply="metadata-snippet">
         <preferred-elements>
           <element ns="http://macmillanlearning.com" name="systemId"/>
@@ -490,6 +514,7 @@ declare function mml:searchContentDocs($qtext, $start, $pageLength)
           <element ns="http://macmillanlearning.com" name="description"/>
           <element ns="http://macmillanlearning.com" name="publisher"/>
           <element ns="http://macmillanlearning.com" name="contentState"/>
+          <element ns="http://macmillanlearning.com" name="modified"/>		  
           <element ns="http://macmillanlearning.com" name="fileFormat"/>
           <element ns="http://macmillanlearning.com" name="fileName"/>
           <element ns="http://macmillanlearning.com" name="filePath"/>
@@ -526,6 +551,7 @@ declare function mml:searchContentDocs($qtext, $start, $pageLength)
             element { fn:QName($NS,"mml:title") } { $result/search:snippet/mmlc:title/text() },
             element { fn:QName($NS,"mml:description") }  { $result/search:snippet/mmlc:description/text() },
             element { fn:QName($NS,"mml:projectState") }  { $result/search:snippet/mmlc:projectState/text() },
+			element { fn:QName($NS,"mml:modified") }  { $result/search:snippet/mmlc:modified/text() },
             element { fn:QName($NS,"mml:publisher") }     { $result/search:snippet/mmlc:publisher/text() },
             element { fn:QName($NS,"mml:contentState") }     { $result/search:snippet/mmlc:contentState/text() },
             element { fn:QName($NS,"mml:fileFormat") }     { $result/search:snippet/mmlc:fileFormat/text() },
@@ -556,7 +582,18 @@ declare function mml:searchContentDocs($qtext, $start, $pageLength)
               for $resource in $result/search:snippet/mmlc:resources/mmlc:resource/text()
                 return
                   element { fn:QName($NS,"mml:resource") } { $resource }
-            }
+            },
+			for $facet in $results/search:facet
+			return
+				 element { fn:QName($NS,"mml:facets") } {
+					element { fn:QName($NS, "mml:facetName") } { xs:string($facet/@name) }, 
+					for $facet-value in $facet/search:facet-value
+					return 
+					  element { fn:QName($NS, "mml:facet-values") }  {
+						  element { fn:QName($NS,"mml:name") } { $facet-value/text() },
+						  element { fn:QName($NS,"mml:count") } { xs:string($facet-value/@count) }
+					   }
+				 }			
           }
         }
       )
