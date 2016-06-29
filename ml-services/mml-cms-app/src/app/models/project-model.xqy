@@ -192,7 +192,7 @@ declare function project:get-document($uri as xs:string)
 				element systemId     { $projectDocument/mml:project/mml:metadata/mml:systemId/text() }, 
 				element createdBy { $projectDocument/mml:project/mml:metadata/mml:createdBy/text() },
 				element created { $projectDocument/mml:project/mml:metadata/mml:created/text() },
-				element modifiedBy { $projectDocument/mml:project/mml:metadata/modifiedBy/text() },
+				element modifiedBy { $projectDocument/mml:project/mml:metadata/mml:modifiedBy/text() },
 				element modified { $projectDocument/mml:project/mml:metadata/mml:modified/text() },
 				element title { $projectDocument/mml:project/mml:metadata/mml:title/text() }, 
 				element description { $projectDocument/mml:project/mml:metadata/mml:description/text() },
