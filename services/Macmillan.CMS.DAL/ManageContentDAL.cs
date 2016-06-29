@@ -71,53 +71,53 @@ namespace Macmillan.CMS.DAL
          public object GetContent(string uri)
          {
              Logger.Debug("Entering GetContent");
-             //MLReader mlReader = new MLReader();
-             //string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "content?name=content&rs:format=json&rs:uri=" + uri;
-             //object results = null;
-             //try
-             //{
-             //    results = mlReader.GetHttpContent<object>(mlUrl, "application/json");
-             //}
-             //catch (Exception ex)
-             //{
-             //    //{"responseCode":"401","message":"User/Pass incorrect"}
+             MLReader mlReader = new MLReader();
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "content?name=content&rs:format=json&rs:uri=" + uri;
+             object results = null;
+             try
+             {
+                 results = mlReader.GetHttpContent<object>(mlUrl, "application/json");
+             }
+             catch (Exception ex)
+             {
+                 //{"responseCode":"401","message":"User/Pass incorrect"}
 
-             //    if (ex.Message.Contains("401"))
-             //    {
-             //        var error = new { responseCode = "401", message = "401 Unauthorized" };
+                 if (ex.Message.Contains("401"))
+                 {
+                     var error = new { responseCode = "401", message = "401 Unauthorized" };
 
-             //        results = error;
-             //    }
-             //}
+                     results = error;
+                 }
+             }
 
-             //Logger.Debug("Exitinging CreateContent");
-             //return results;
-
-             JsonNetSerialization ser = new JsonNetSerialization();
-             Macmillan.CMS.Common.Models.Content content = new Macmillan.CMS.Common.Models.Content();
-             content.Title = "Myers 11e EPUB3";
-             content.ContentUri = "/content/6856399037435776046.xml";
-             content.Description = "The EPUB3/EDUPUB of David";
-             content.Source = "Book";
-             content.Creator = new string[] { "David Myers" };
-             content.Publisher = "Hayden-McNeil";
-             content.ContentState = "Enhanced";
-             content.Projects = null;
-             content.SubjectHeadings = new string[] { "Psychology" };
-             content.SubjectKeywords = new string[] { "Psychology" };
-             content.SystemId = "ce80de420db4464f879dfbd47dc27fb2";
-             content.DateCreated = DateTime.Now;
-             content.DateModified = DateTime.Now;
-             content.DatePublished = DateTime.Now;
-             content.CreatedBy = "bcross";
-             content.ModifiedBy = "bcross";
-             content.ContentResourceType = "";
-             content.FileFormat = "EPUB";
-             content.FileName = "myers11e.epub";
-             content.FilePath = "s3://cms/myers11e.epub";
-             content.FileSize = "45400";
              Logger.Debug("Exitinging CreateContent");
-             return content;
+             return results;
+
+             //JsonNetSerialization ser = new JsonNetSerialization();
+             //Macmillan.CMS.Common.Models.Content content = new Macmillan.CMS.Common.Models.Content();
+             //content.Title = "Myers 11e EPUB3";
+             //content.ContentUri = "/content/6856399037435776046.xml";
+             //content.Description = "The EPUB3/EDUPUB of David";
+             //content.Source = "Book";
+             //content.Creator = new string[] { "David Myers" };
+             //content.Publisher = "Hayden-McNeil";
+             //content.ContentState = "Enhanced";
+             //content.Projects = null;
+             //content.SubjectHeadings = new string[] { "Psychology" };
+             //content.SubjectKeywords = new string[] { "Psychology" };
+             //content.SystemId = "ce80de420db4464f879dfbd47dc27fb2";
+             //content.DateCreated = DateTime.Now;
+             //content.DateModified = DateTime.Now;
+             //content.DatePublished = DateTime.Now;
+             //content.CreatedBy = "bcross";
+             //content.ModifiedBy = "bcross";
+             //content.ContentResourceType = "";
+             //content.FileFormat = "EPUB";
+             //content.FileName = "myers11e.epub";
+             //content.FilePath = "s3://cms/myers11e.epub";
+             //content.FileSize = "45400";
+             //Logger.Debug("Exitinging CreateContent");
+             //return content;
          }
 
          /// <summary>
