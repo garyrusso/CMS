@@ -69,11 +69,11 @@
             this.CreatedBy = contentData.createdBy; 
             this.ModifiedBy = contentData.modifiedBy; 
             this.DatePublished = contentData.datePublished; 
-            this.ContentResourceType = contentData.contentResourceType; 
-            this.FileFormat = contentData.FileFormat; 
-            this.FileName = contentData.FileName; 
+            this.ContentResourceType = (contentData.contentResourceType)?contentData.contentResourceType.toString():'';
+            this.FileFormat = contentData.fileFormat;
+            this.FileName = contentData.fileName; 
             this.FileSize = contentData.fileSize; 
-            this.FilePath = contentData.FilePath;
+            this.FilePath = contentData.filePath;
             this.AuditInfo = contentData.auditInfo;
                         
             if((this.Creator && this.Creator.length === 0) || !this.Creator ) {

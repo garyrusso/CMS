@@ -21,6 +21,10 @@
             content.data.Creator = [''];
         }
 
+        if (content.data.DatePublished) {
+            content.data.DatePublished = new Date(content.data.DatePublished);
+        }
+
         if (!content.data.SubjectKeywords) {
             content.data.SubjectKeywords = [''];
         }
@@ -78,7 +82,8 @@
 
         var formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
         content.format = formats[0];
-        content.altInputFormats = ['M!/d!/yyyy'];
+        content.altInputFormats = ['d!-MMMM-yyyy'];
+
 
         content.popup = {
             opened : false

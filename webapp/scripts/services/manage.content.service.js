@@ -130,7 +130,7 @@
          * @description
          * open modal window with Download Content form
          */
-        function openDownloadContentModal() {          
+        function openDownloadContentModal(data) {          
             var self = this, deffered = $q.defer(), modalInstance = $uibModal.open({
                 templateUrl: 'views/modal-template.html',
                 controller: 'ModalDownloadContentController',
@@ -138,7 +138,8 @@
                 resolve: {
                     items: function () {
                         return {
-                            templateUrl: 'views/modal-download-content.html'
+                            templateUrl: 'views/modal-download-content.html',
+                            data: data
                         };
                     }
                 }
@@ -150,7 +151,7 @@
                   //  $rootScope.setLoading(false);
                    // $state.go('success', { type: 'Content', status: 'new', name: data.Title, id: data.uri }, { location: false });
                 });*/
-               window.location.href = APP_CONFIG.API[APP_CONFIG.environment].baseUrl + WS.downloadContent;
+                window.location.href = APP_CONFIG.API[APP_CONFIG.environment].baseUrl + WS.downloadContent + '?uri=' + updatedData.filePath;
                 
             }, function () {
 

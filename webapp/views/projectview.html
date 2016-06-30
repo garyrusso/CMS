@@ -44,13 +44,13 @@
             <strong>Project URI: </strong><span ng-bind="project.data.uri"></span>
         </li>
         <li>
-            <strong>Date Created: </strong><span ng-bind="project.data.created"></span>
+            <strong>Date Created: </strong><span ng-bind="project.data.created  | date:'yyyy-MM-dd HH:mm'"></span>
         </li>
         <li>
             <strong>Created By: </strong><span ng-bind="project.data.createdBy"></span>
         </li>
         <li>
-            <strong>Date Modified: </strong><span ng-bind="project.data.modified"></span>
+            <strong>Date Modified: </strong><span ng-bind="project.data.modified  | date:'yyyy-MM-dd HH:mm'"></span>
         </li>
         <li>
             <strong>Modified By: </strong><span ng-bind="project.data.modifiedBy"></span>
@@ -102,7 +102,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 cms-content-tile-date">
-                    <span ng-bind="content.dateModified"></span>
+                    <span ng-bind="content.dateModified  | date:'yyyy-MM-dd HH:mm'"></span>
                 </div>
             </div>
             <div class="row">

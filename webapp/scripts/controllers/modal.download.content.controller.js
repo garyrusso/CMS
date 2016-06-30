@@ -16,6 +16,7 @@
 
         $scope.data = {};
         $scope.data.noteText = '';
+        $scope.data.filePath = $scope.items.data.FileName;
         /*Download content*/
         //  $scope.downloadContent=downloadContent;
 
@@ -43,7 +44,7 @@
          * Close dialog/modal and pass the text enter by user to parent.
          */
         function downloadContent () {
-            $uibModalInstance.close(angular.copy($scope.data.noteText));
+            $uibModalInstance.close(angular.copy($scope.data));
         }
     }
 

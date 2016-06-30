@@ -38,7 +38,7 @@
             sortable : false,//"filePath"
             sortDirection : "desc"
         }, {
-            field : "dateLastModified",
+            field: "modified",
             title : "Date Modified",
             sortable : false,//"dateLastModified"
             sortDirection : "asc"

@@ -44,13 +44,13 @@
             <strong>Project URI: </strong><span ng-bind="content.data.ContentUri"></span>
         </li>
         <li>
-            <strong>Date Created: </strong><span ng-bind="content.data.DateCreated"></span>
+            <strong>Date Created: </strong><span ng-bind="content.data.DateCreated  | date:'yyyy-MM-dd HH:mm'"></span>
         </li>
         <li>
             <strong>Created By: </strong><span ng-bind="content.data.CreatedBy"></span>
         </li>
         <li>
-            <strong>Date Modified: </strong><span ng-bind="content.data.DateModified"></span>
+            <strong>Date Modified: </strong><span ng-bind="content.data.DateModified  | date:'yyyy-MM-dd HH:mm'"></span>
         </li>
         <li>
             <strong>Modified By: </strong><span ng-bind="content.data.ModifiedBy"></span>
@@ -77,7 +77,7 @@
             <strong>Publisher: </strong><span ng-bind="content.data.Publisher"></span>
         </li>
         <li>
-            <strong>Date Published: </strong><span ng-bind="content.data.DatePublished"></span>
+            <strong>Date Published: </strong><span ng-bind="content.data.DatePublished  | date:'yyyy-MM-dd HH:mm'"></span>
         </li>
         <li>
             <strong>Content Resource Type: </strong><span ng-bind="content.data.ContentResourceType"></span>
@@ -134,7 +134,7 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 cms-content-tile-date">
-                    <span ng-bind="content.dateLastModified"></span>
+                    <span ng-bind="content.dateLastModified  | date:'yyyy-MM-dd HH:mm'"></span>
                 </div>
             </div>
             <div class="row">
@@ -199,7 +199,7 @@
                         </thead>
                         <tr ng-repeat="page in content.data.AuditInfo.auditEntry">
                             <td>{{page.action}}</td>
-                            <td>{{page.dateCreated}}</td>
+                            <td>{{page.dateCreated  | date:'yyyy-MM-dd HH:mm'}}</td>
                             <td>{{page.createdBy}}</td>
                             <td>{{page.note}}</td>
                         </tr>                                            
