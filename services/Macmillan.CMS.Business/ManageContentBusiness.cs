@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -197,6 +198,21 @@ namespace Macmillan.CMS.Business
                  text.Replace("##creators##", creators.ToString());
              }
 
+             if (content.ContentResourceType != null)
+             {
+                 string resources = content.ContentResourceType;
+                 StringBuilder ContentResources = new StringBuilder();              
+                 string[] resourcelist = resources.Split(',');
+                 foreach (string ContentResource in resourcelist)
+                 {
+                     if (!string.IsNullOrEmpty(ContentResources.ToString()))
+                         ContentResources.Append(",");
+
+                     ContentResources.Append("\"" + ContentResource + "\"");
+                 }
+
+                 text.Replace("##contentResourceTypes##", ContentResources.ToString());
+             }
 
              //if (fileInfo != null)
              //{
@@ -204,7 +220,7 @@ namespace Macmillan.CMS.Business
 
              //    foreach (FileInfo file in fileInfo)
              //    {
-             //        if (!string.IsNullOrEmpty(resources.ToString()))
+             //        if (!string.IsNullOrEmpty(resources.ToString()));
              //            resources.Append(",");
 
              //        resources.Append(file);
@@ -213,7 +229,7 @@ namespace Macmillan.CMS.Business
              //    text.Replace("##resources##", resources.ToString());
              //}
 
-             text.Replace("##resources##", "\"" + fileInfo.Name + "\"");
+             //text.Replace("##contentResourceTypes##", "\"" + fileInfo.Name + "\"");
              text.Replace("##fileFormat##", fileInfo.Extension);
              text.Replace("##fileName##", fileInfo.Name);
              text.Replace("##filePath##", "resources/" + fileInfo.Name);
@@ -244,6 +260,10 @@ namespace Macmillan.CMS.Business
                  }
                  text.Replace("##subjectHeadings##", subjects.ToString());
              }
+             else
+             {
+                 text.Replace("##subjectHeadings##", " ");
+             }
 
              if (content.SubjectKeywords != null)
              {
@@ -258,6 +278,10 @@ namespace Macmillan.CMS.Business
                  }
 
                  text.Replace("##subjectKeywords##", keywords.ToString());
+             }
+             else
+             {
+                 text.Replace("##subjectKeywords##", " ");
              }
 
              if (content.Projects != null)
@@ -275,7 +299,25 @@ namespace Macmillan.CMS.Business
                  text.Replace("##projects##", projects.ToString());
              }
 
-             
+             if (content.ContentResourceType != null)
+             {
+                 string resources = content.ContentResourceType;
+                 StringBuilder ContentResources = new StringBuilder();
+                 string[] resourcelist = resources.Split(',');
+                 foreach (string ContentResource in resourcelist)
+                 {
+                     if (!string.IsNullOrEmpty(ContentResources.ToString()))
+                         ContentResources.Append(",");
+
+                     ContentResources.Append("\"" + ContentResource + "\"");
+                 }
+
+                 text.Replace("##contentResourceTypes##", ContentResources.ToString());
+             }
+             else
+             {
+                 text.Replace("##contentResourceTypes##", " ");
+             }
 
              text.Replace("##title##", content.Title);
              text.Replace("##description##", content.Description);
@@ -283,7 +325,7 @@ namespace Macmillan.CMS.Business
              text.Replace("##publisher##", content.Publisher);
              text.Replace("##datePublished##", content.DatePublished.ToString());
              text.Replace("##contentState##", content.ContentState);
-             text.Replace("##resources##", "\"" + content.ContentResourceType + "\"" );
+            
 
              if (content.Creator != null)
              {
@@ -323,6 +365,20 @@ namespace Macmillan.CMS.Business
 
              Logger.Debug(" Exiting BuildContentMetadataJson");
              return text.ToString();
-         }      
+         }
+
+
+         /// <summary>
+         /// Download Content
+         /// </summary>
+         /// <param name="content"></param>
+         /// <returns></returns>
+         public HttpResponseMessage DownloadContent(string uri)
+         {
+             Logger.Debug(" Entering DownloadContent");
+             var results = this.dal.DownloadContent(uri);
+             Logger.Debug(" Exiting DownloadContent");
+             return results;
+         }
     }
 }

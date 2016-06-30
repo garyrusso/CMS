@@ -6,7 +6,10 @@ namespace Macmillan.CMS.DAL
     using System.Collections;
     using System.Collections.Generic;
     using System.Configuration;
+    using System.IO;
     using System.Linq;
+    using System.Net;
+    using System.Net.Http;
 
     public class MLReader
     {
@@ -73,6 +76,7 @@ namespace Macmillan.CMS.DAL
                 this.ProcessErrors(httpClass);
 
                 string content = httpClass.GetResponseContent();
+              //  return (T)this.serializer.ToString(content);
                 return (T)this.serializer.DeSerialize<T>(content);
             }
         }
@@ -117,7 +121,28 @@ namespace Macmillan.CMS.DAL
                 return httpClass.GetResponseContent(); ;
             }
         }
-        
+
+        /* download code started*/
+        public HttpResponseMessage DownloadFile(string url,
+       string mediaType,
+       string file = null,
+       Dictionary<string, string> requestHeaders = null,
+       Dictionary<string, string> contentHeaders = null)
+        {
+            using (var httpClass = new HttpClass(url, SupportedHttpMethods.POST, mediaType, file, requestHeaders, contentHeaders))
+            {
+              //  httpClass.file = file;
+              //  httpClass.Invoke();
+
+              //  this.ProcessErrors(httpClass);
+
+                return httpClass.GetWebFileResponse(url, file); ;
+            }
+        }
+
+      
+
+        /* download code*/
 
         public void ProcessErrors(HttpClass httpClass) // string errorContent, bool isCustomError)
         {

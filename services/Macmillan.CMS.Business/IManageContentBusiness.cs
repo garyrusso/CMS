@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,5 +21,6 @@ namespace Macmillan.CMS.Business
         void UploadFile(FileInfo file);
         object GetContentMasterData(List<Content> ContentDetails);
         object SearchContents(string searchText, int pageNumber, int pageSize, string orderBy);
+        HttpResponseMessage DownloadContent(string uri);
     }
 }

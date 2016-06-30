@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -355,33 +358,39 @@ namespace Macmillan.CMS.DAL
          /// </summary>
          /// <param name="filePath"></param>
          /// <returns></returns>
-         public object DownloadContent(string filePath)
+         public HttpResponseMessage DownloadContent(string uri)
          {
-             Logger.Debug("Entering DownloadContent");
+
+             Logger.Debug("Entering GetContent");
              MLReader mlReader = new MLReader();
-             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "file?name=file&rs:uri=/file/demo.epub";
-             object results = null;
+             string fileName = "Jouve-MyersEPCH1.epub";
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "file?name=file&rs:format=json&rs:uri=/file/"+uri;
+             HttpResponseMessage results = null;
              try
              {
-                 results = mlReader.GetHttpContent<object>(mlUrl, "application/json");
+                 results = mlReader.DownloadFile(mlUrl, "application/json", uri);
              }
              catch (Exception ex)
              {
-                 //{"responseCode":"401","message":"User/Pass incorrect"}
-
-                 if (ex.Message.Contains("401"))
-                 {
-                     var error = new { responseCode = "401", message = "401 Unauthorized" };
-
-                     results = error;
-                 }
+                 Logger.Debug("Exception",ex);                 
              }
 
-             Logger.Debug("Exitinging DownloadContent");
-             return results;
+             Logger.Debug("Exitinging CreateContent");
+             return results;                  
+       }
 
-             
-             
+         private static byte[] ReadFully(Stream input)
+         {
+             byte[] buffer = new byte[16 * 1024];
+             using (MemoryStream ms = new MemoryStream())
+             {
+                 int read;
+                 while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                 {
+                     ms.Write(buffer, 0, read);
+                 }
+                 return ms.ToArray();
+             }
          }
     }
 }

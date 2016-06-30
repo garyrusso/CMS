@@ -5,7 +5,7 @@
 ##subjectHeadings##
 ],
 "subjectKeywords":[
-##subjectHeadings##
+##subjectKeywords##
 ],
 "projects":[
 ##projects##
@@ -20,8 +20,8 @@
 ],
 "publisher":"##publisher##",
 "datePublished":"##datePublished##",
-"resources":[
-##resources##
+"contentResourceTypes":[
+##contentResourceTypes##
 ],
 "contentState":"##contentState##",
 "technical":{

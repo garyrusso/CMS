@@ -13,6 +13,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Macmillan.CMS.Common;
 using System.Configuration;
+using System.Net.Http.Headers;
 
 namespace Macmillan.CMS.Service.Controllers
 {
@@ -222,5 +223,17 @@ namespace Macmillan.CMS.Service.Controllers
             else
                 return string.Empty;
         }
+
+       
+        [Route("download")]
+        [HttpGet]
+        public HttpResponseMessage DownloadContent(string uri)
+        {
+            HttpResponseMessage result = null;
+            Logger.Debug("Entering SearchContents");
+            result = this.business.DownloadContent(uri);
+            Logger.Debug("Exiting SearchContents");
+            return result;       
+        }   
     }
 }

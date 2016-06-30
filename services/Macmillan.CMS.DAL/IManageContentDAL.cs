@@ -20,5 +20,6 @@ namespace Macmillan.CMS.DAL
          object GetContent(string docUri);
          object GetContentMasterData(List<Content> ContentDetails);
          object SearchContents(string searchText, int pageNumber, int pageSize, string orderBy);
+         System.Net.Http.HttpResponseMessage DownloadContent(string uri);
     }
 }

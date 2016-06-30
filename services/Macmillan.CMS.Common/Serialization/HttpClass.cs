@@ -45,6 +45,10 @@
         Dictionary<string, string> rqstHeaders = null;
         Dictionary<string, string> cntHeaders = null;
 
+
+        private HttpWebResponse httpWebMethod;
+
+
         public HttpClass(string uri, 
             SupportedHttpMethods httpMethod, 
             string mediaType = "text/json", 
@@ -279,6 +283,63 @@
         {
             var textBytes = System.Text.Encoding.UTF8.GetBytes(text);
             return System.Convert.ToBase64String(textBytes);
+        }
+
+        public HttpResponseMessage GetWebFileResponse(string uri, string file)
+        {
+            HttpResponseMessage result = null;
+            string url = uri;
+            string fileName = file;       
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.Timeout = 5000;
+
+            request.Headers.Add("UserInfo", this.BuildUserTokenHeader());
+            request.Headers.Add("Authorization", this.BuildAuthHeader());
+    
+
+            try
+            {
+                using (WebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+
+                    using (FileStream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+                    {
+                        byte[] bytes = ReadFully(response.GetResponseStream());                      
+                        HttpResponseMessage fileContent = new HttpResponseMessage(HttpStatusCode.OK);                        
+                        fileContent.Content = new ByteArrayContent(bytes);                      
+                        fileContent.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                        {
+                            FileName = fileName
+                        };
+                        fileContent.Content.Headers.ContentDisposition.FileName = fileName;
+                        fileContent.Content.Headers.ContentType =
+                            new MediaTypeHeaderValue("application/octet-stream");
+                        result = fileContent;
+
+                    }
+                }
+            }
+            catch (WebException)
+            {
+                Console.WriteLine("Error Occured");
+            }
+
+            return result;
+        }
+
+        public static byte[] ReadFully(Stream input)
+        {
+            byte[] buffer = new byte[16 * 1024];
+            using (MemoryStream ms = new MemoryStream())
+            {
+                int read;
+                while ((read = input.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, read);
+                }
+                return ms.ToArray();
+            }
         }
     }
 
