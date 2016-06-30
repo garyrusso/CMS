@@ -30,17 +30,17 @@
         projects.cols = [{
             field : "title",
             title : "Title",
-            sortable : "title",
+            sortable : false,//"title"
             sortDirection : "desc"
         }, {
             field : "createdBy",
             title : "Owner",
-            sortable: "createdBy",
+            sortable: false,//"createdBy"
             sortDirection : "desc"
         }, {
             field: "modified",
             title : "Date Modified",
-            sortable: "modified",
+            sortable: false,//"modified"
             sortDirection : "asc"
         }];
         projects.sortables = _.indexBy(projects.cols, "field");

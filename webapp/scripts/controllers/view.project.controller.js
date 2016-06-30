@@ -25,7 +25,7 @@
         //TODO: move to Commonservice
         project.deleteProject = projectsdeleteProject;
         
-        project.uploadContent = ManageContentService.openUploadContentModal;
+        project.uploadContent = projectUploadContent;
 
         /**
          * @ngdoc method
@@ -55,6 +55,20 @@
             ManageProjectsService.openDeleteProjectModal(project.data).then(function() {
                 $log.debug('project deleted');
             });        
+        }
+
+        /**
+         * @ngdoc method
+         * @name projectUploadContent
+         * @methodOf cmsWebApp.controller:ViewProjectController
+         * @description
+         * Invoke this method Upload content from project
+         * call ManageContentService > openUploadContentModal method to open upload content modal
+         */
+        function projectUploadContent() {
+            ManageContentService.openUploadContentModal().then(function () {
+                $log.debug('Content Added from Project');
+            });
         }
 
     }

@@ -30,17 +30,17 @@
         content.cols = [{
             field : "title",
             title : "Title",
-            sortable : "title",
+            sortable : false,//"title"
             sortDirection : "desc"
         }, {
             field : "filePath",
             title : "File Name",
-            sortable : "filePath",
+            sortable : false,//"filePath"
             sortDirection : "desc"
         }, {
             field : "dateLastModified",
             title : "Date Modified",
-            sortable : "dateLastModified",
+            sortable : false,//"dateLastModified"
             sortDirection : "asc"
         }];
         content.sortables = _.indexBy(content.cols, "field");
