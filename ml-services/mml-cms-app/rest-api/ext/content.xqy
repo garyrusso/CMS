@@ -77,7 +77,11 @@ function mml:get(
           $contentDoc/mmlc:content/mmlc:feed/mmlc:source,
           $contentDoc/mmlc:content/mmlc:feed/mmlc:publisher,
           $contentDoc/mmlc:content/mmlc:feed/mmlc:datePublished,
-          $contentDoc/mmlc:content/mmlc:feed/mmlc:contentResourceTypes/mmlc:contentResourceType
+          $contentDoc/mmlc:content/mmlc:feed/mmlc:contentResourceTypes/mmlc:contentResourceType,
+          $contentDoc/mmlc:content/mmlc:feed/mmlc:technical/mmlc:fileFormat,
+          $contentDoc/mmlc:content/mmlc:feed/mmlc:technical/mmlc:fileName,
+          $contentDoc/mmlc:content/mmlc:feed/mmlc:technical/mmlc:filePath,
+          $contentDoc/mmlc:content/mmlc:feed/mmlc:technical/mmlc:fileSize
         }
 
       let $config1 := json:config("custom")
@@ -342,10 +346,10 @@ function mml:post(
                 return
                   element creator { $creator }
             },
-            element resources {
-              for $resource in $contentDoc/jn:feed/jn:resources/jn:item/text()
+            element contentResourceTypes {
+              for $resource in $contentDoc/jn:feed/jn:contentResourceTypes/jn:item/text()
                 return
-                  element resource { $resource }
+                  element contentResourceType { $resource }
             },
             element technical {
               element fileFormat { $contentDoc/jn:feed/jn:technical/jn:fileFormat/text() },
@@ -546,15 +550,15 @@ declare function mml:searchContentDocs($qtext, $start, $pageLength)
         for $result in $results/search:result
           return
             element { fn:QName($NS,"mml:result") } {
-            element { fn:QName($NS,"mml:uri") }       { xs:string($result/@uri) },
-            element { fn:QName($NS,"mml:systemId") }  { $result/search:snippet/mmlc:systemId/text() },
-            element { fn:QName($NS,"mml:title") } { $result/search:snippet/mmlc:title/text() },
+            element { fn:QName($NS,"mml:uri") }          { xs:string($result/@uri) },
+            element { fn:QName($NS,"mml:systemId") }     { $result/search:snippet/mmlc:systemId/text() },
+            element { fn:QName($NS,"mml:title") }        { $result/search:snippet/mmlc:title/text() },
             element { fn:QName($NS,"mml:description") }  { $result/search:snippet/mmlc:description/text() },
-            element { fn:QName($NS,"mml:projectState") }  { $result/search:snippet/mmlc:projectState/text() },
-			element { fn:QName($NS,"mml:modified") }  { $result/search:snippet/mmlc:modified/text() },
-            element { fn:QName($NS,"mml:publisher") }     { $result/search:snippet/mmlc:publisher/text() },
-            element { fn:QName($NS,"mml:contentState") }     { $result/search:snippet/mmlc:contentState/text() },
-            element { fn:QName($NS,"mml:fileFormat") }     { $result/search:snippet/mmlc:fileFormat/text() },
+            element { fn:QName($NS,"mml:projectState") } { $result/search:snippet/mmlc:projectState/text() },
+      			element { fn:QName($NS,"mml:modified") }     { $result/search:snippet/mmlc:modified/text() },
+            element { fn:QName($NS,"mml:publisher") }    { $result/search:snippet/mmlc:publisher/text() },
+            element { fn:QName($NS,"mml:contentState") } { $result/search:snippet/mmlc:contentState/text() },
+            element { fn:QName($NS,"mml:fileFormat") }   { $result/search:snippet/mmlc:fileFormat/text() },
             element { fn:QName($NS,"mml:fileName") }     { $result/search:snippet/mmlc:fileName/text() },
             element { fn:QName($NS,"mml:filePath") }     { $result/search:snippet/mmlc:filePath/text() },
             element { fn:QName($NS,"mml:fileSize") }     { $result/search:snippet/mmlc:fileSize/text() },
@@ -584,25 +588,27 @@ declare function mml:searchContentDocs($qtext, $start, $pageLength)
                   element { fn:QName($NS,"mml:resource") } { $resource }
             }
           },
-		for $facet in $results/search:facet
-		return
-			 element { fn:QName($NS,"mml:facets") } {
-				element { fn:QName($NS, "mml:facetName") } { xs:string($facet/@name) }, 
-				for $facet-value in $facet/search:facet-value
-				return 
-				  element { fn:QName($NS, "mml:facet-values") }  {
-					  element { fn:QName($NS,"mml:name") } { $facet-value/text() },
-					  element { fn:QName($NS,"mml:count") } { xs:string($facet-value/@count) }
-				   }
-			 }			  
-        }
-      )
-      else
-      (
-        element { fn:QName($NS,"mml:results") } {
-          element { fn:QName($NS,"mml:status") } { "no content docs found" }
-        }
-      )
+          for $facet in $results/search:facet
+            return
+              element { fn:QName($NS,"mml:facets") }
+              {
+                element { fn:QName($NS, "mml:facetName") } { xs:string($facet/@name) }, 
+                for $facet-value in $facet/search:facet-value
+                  return 
+                    element { fn:QName($NS, "mml:facet-values") }
+                    {
+                      element { fn:QName($NS,"mml:name") } { $facet-value/text() },
+                      element { fn:QName($NS,"mml:count") } { xs:string($facet-value/@count) }
+                    }
+              }
+            }
+          )
+          else
+          (
+            element { fn:QName($NS,"mml:results") } {
+              element { fn:QName($NS,"mml:status") } { "no content docs found" }
+            }
+          )
 
   return $retObj
 };
