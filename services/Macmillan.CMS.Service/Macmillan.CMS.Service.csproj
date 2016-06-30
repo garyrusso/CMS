@@ -209,6 +209,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\CreateProject.json" />
+    <None Include="Properties\PublishProfiles\cmsnew.pubxml" />
     <None Include="Properties\PublishProfiles\PublishToFileSystem.pubxml" />
   </ItemGroup>
   <ItemGroup>
