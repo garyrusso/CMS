@@ -268,6 +268,15 @@
           <range-value-positions>false</range-value-positions>
           <invalid-values>ignore</invalid-values>
         </range-element-index>		
+	
+        <range-element-index>
+          <scalar-type>string</scalar-type>
+          <namespace-uri>http://macmillanlearning.com</namespace-uri>
+          <localname>contentState</localname>
+          <collation>http://marklogic.com/collation/</collation>
+          <range-value-positions>false</range-value-positions>
+          <invalid-values>ignore</invalid-values>
+        </range-element-index>
 		
         <range-element-index>
           <scalar-type>string</scalar-type>

@@ -172,7 +172,8 @@ function mml:get(
     (
       let $config := json:config("custom")
       let $_ := map:put($config, "whitespace", "ignore")
-      let $_ := map:put($config, "array-element-names", xs:QName("mmlc:result") ) 
+	  let $_ := map:put($config, "element-namespace", "http://macmillanlearning.com")
+	  let $_ := map:put($config, "array-element-names", ("result", "facets","facet-values","subjectHeading","subjectKeyword") )
 
       return
         document {
@@ -504,9 +505,9 @@ declare function mml:searchContentDocs($qtext, $start, $pageLength)
 			 <facet-option>limit=5</facet-option>
 		  </range>          
 	  </constraint>
-	   <constraint name="Project State">
+	   <constraint name="Content State">
 		  <range collation="http://marklogic.com/collation/" facet="true">
-			 <element ns="http://macmillanlearning.com" name="projectState" />
+			 <element ns="http://macmillanlearning.com" name="contentState" />
 			 <facet-option>limit=5</facet-option>
 		  </range>          
 	  </constraint>  	  
@@ -555,7 +556,7 @@ declare function mml:searchContentDocs($qtext, $start, $pageLength)
             element { fn:QName($NS,"mml:title") }        { $result/search:snippet/mmlc:title/text() },
             element { fn:QName($NS,"mml:description") }  { $result/search:snippet/mmlc:description/text() },
             element { fn:QName($NS,"mml:projectState") } { $result/search:snippet/mmlc:projectState/text() },
-      			element { fn:QName($NS,"mml:modified") }     { $result/search:snippet/mmlc:modified/text() },
+      		element { fn:QName($NS,"mml:modified") }     { $result/search:snippet/mmlc:modified/text() },
             element { fn:QName($NS,"mml:publisher") }    { $result/search:snippet/mmlc:publisher/text() },
             element { fn:QName($NS,"mml:contentState") } { $result/search:snippet/mmlc:contentState/text() },
             element { fn:QName($NS,"mml:fileFormat") }   { $result/search:snippet/mmlc:fileFormat/text() },
