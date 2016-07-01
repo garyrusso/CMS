@@ -302,9 +302,6 @@
             {
                 using (WebResponse response = (HttpWebResponse)request.GetResponse())
                 {
-
-                    using (FileStream stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-                    {
                         byte[] bytes = ReadFully(response.GetResponseStream());                      
                         HttpResponseMessage fileContent = new HttpResponseMessage(HttpStatusCode.OK);                        
                         fileContent.Content = new ByteArrayContent(bytes);                      
@@ -317,7 +314,7 @@
                             new MediaTypeHeaderValue("application/octet-stream");
                         result = fileContent;
 
-                    }
+                   // }
                 }
             }
             catch (WebException)
