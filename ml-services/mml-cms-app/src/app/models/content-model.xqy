@@ -205,11 +205,11 @@ declare function content:update($uri as xs:string, $content)
               return
                 element {fn:QName($NS,"creator")} { $creator }
           },
-          element {fn:QName($NS,"resources")} {
-            for $resource in $content/feed/resources/resource/text()
+          element {fn:QName($NS,"contentResourceTypes")} {
+            for $resourceType in $content/feed/contentResourceTypes/contentResourceType/text()
               return
-                element {fn:QName($NS,"resource")} { $resource }
-          },
+                element {fn:QName($NS,"contentResourceType")} { $resourceType }
+          },		  
           element {fn:QName($NS,"technical")} {
             element {fn:QName($NS,"fileFormat")}   { $content/feed/technical/fileFormat/text() },
             element {fn:QName($NS,"fileName")}   { $content/feed/technical/fileName/text() },

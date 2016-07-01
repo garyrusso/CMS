@@ -250,11 +250,11 @@ function mml:put(
                 return
                   element creator { $creator }
             },
-            element resources {
-              for $resource in $contentDoc/jn:feed/jn:resources/jn:item/text()
+            element contentResourceTypes {
+              for $resource in $contentDoc/jn:feed/jn:contentResourceTypes/jn:item/text()
                 return
-                  element resource { $resource }
-            },
+                  element contentResourceType { $resource }
+            },			
             element technical {
               element fileFormat { $contentDoc/jn:feed/jn:technical/jn:fileFormat/text() },
               element fileName   { $contentDoc/jn:feed/jn:technical/jn:fileName/text() },
