@@ -26,7 +26,7 @@
             count : 5
         }, {
             counts : [],
-            data : dashboard.data.results.slice(0, 5)
+            data : (dashboard.data && dashboard.data.result)?dashboard.data.result.slice(0, 5):[]
         });
 
         /**

@@ -24,8 +24,8 @@
             <div>
             <table ng-table="dashboard.tableParams" class="table table-condensed table-bordered table-striped">                
                 <tr ng-repeat="issue in $data">
-                    <td data-title="'Title'">{{issue.Title}}</td>
-                    <td data-title="'Date Modified'">{{issue.dateLastModified}}</td>
+                    <td data-title="'Title'">{{issue.title}}</td>
+                    <td data-title="'Date Modified'">{{issue.modified | date:'yyyy-MM-dd HH:mm'}}</td>
                     <td data-title="'View'" class="cms-main-display-center"><a ui-sref="projectview({uri:issue.uri})"><span class="glyphicon glyphicon-eye-open"></span></a></td>
                 </tr>
             </table>
