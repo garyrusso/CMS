@@ -127,10 +127,11 @@
          * Get list of projects created by user
          * @returns {Object} promise with get projects list
          */
-        dashboardProjectList.$inject = ['SearchService', 'CommonService'];
-        function dashboardProjectList(SearchService, CommonService) {
+        dashboardProjectList.$inject = ['ManageProjectsService', 'CommonService'];
+        function dashboardProjectList(ManageProjectsService, CommonService) {
             var username = CommonService.getItems('username');
-            return SearchService.searchData('project', '', '', '', '', username);
+            //return SearchService.searchData('project', '', '', '', '', username);
+            return ManageProjectsService.getProjects();
         }
 
         /**
