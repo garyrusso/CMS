@@ -1,0 +1,3 @@
+﻿{ "meta":{ "systemId":"##systemId##", "createdBy":"##createdBy##", "modifiedBy":"##modifiedBy##",
+ "title":"##title##" ,"description":"##description##", "projectState":"##projectState##","subjectHeadings":[ ##subjectHeadings## ], 
+ "subjectKeywords":[##subjectKeywords##] } }
