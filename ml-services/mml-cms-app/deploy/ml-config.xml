@@ -171,11 +171,42 @@
       </forests>
 
       <!-- See sample/default-docs-config.sample.xml for default settings and indexes of Documents database -->
-
+      
+      <enabled>true</enabled>
+      <retired-forest-count>0</retired-forest-count>
+      <language>en</language>
+      <stemmed-searches>basic</stemmed-searches>
+      <word-searches>false</word-searches>
+      <word-positions>false</word-positions>
+      <fast-phrase-searches>true</fast-phrase-searches>
+      <fast-reverse-searches>false</fast-reverse-searches>
+      <triple-index>false</triple-index>
+      <triple-positions>false</triple-positions>
+      <fast-case-sensitive-searches>true</fast-case-sensitive-searches>
+      <fast-diacritic-sensitive-searches>true</fast-diacritic-sensitive-searches>
+      <fast-element-word-searches>true</fast-element-word-searches>
+      <element-word-positions>false</element-word-positions>
+      <fast-element-phrase-searches>true</fast-element-phrase-searches>
+      <element-value-positions>false</element-value-positions>
+      <attribute-value-positions>false</attribute-value-positions>
+      <field-value-searches>false</field-value-searches>
+      <field-value-positions>false</field-value-positions>
+      <three-character-searches>true</three-character-searches>
+      <three-character-word-positions>false</three-character-word-positions>
+      <fast-element-character-searches>false</fast-element-character-searches>
+      <trailing-wildcard-searches>false</trailing-wildcard-searches>
+      <trailing-wildcard-word-positions>false</trailing-wildcard-word-positions>
+      <fast-element-trailing-wildcard-searches>false</fast-element-trailing-wildcard-searches>
+      <word-lexicons>
+        <word-lexicon>http://marklogic.com/collation/codepoint</word-lexicon>
+      </word-lexicons>
+      <two-character-searches>false</two-character-searches>
+      <one-character-searches>false</one-character-searches>
       <uri-lexicon>true</uri-lexicon>
       <collection-lexicon>true</collection-lexicon>
       <directory-creation>manual</directory-creation>
       <maintain-last-modified>false</maintain-last-modified>
+      
 <!--
       <fragment-roots>
         <fragment-root>
