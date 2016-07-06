@@ -24,8 +24,8 @@ a, a:focus, a:hover {
 .cms-row-fluid {
     word-wrap: break-word;
 }
-main {
-    /*display: table-row;*/
+.cms-login-page main {
+    display: table-row;
 }
 .cms-main-container {
     height: 100%;

@@ -39,7 +39,26 @@ function mml:get(
   let $uri        := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
   let $start      := if (fn:string-length($st) eq 0) then  1 else xs:integer($st)
   let $pageLength := if (fn:string-length($ps) eq 0) then 10 else xs:integer($ps)
-  let $format     := if ($ft eq "json") then "json" else "xml"
+  let $format     := if ($ft eq "xml") then "xml" else "json"
+
+  let $config := json:config("custom")
+  let $_ := map:put($config, "whitespace", "ignore")
+  let $_ :=
+    map:put(
+      $config, "array-element-names",
+      (
+        xs:QName("mmlc:creator"),
+        xs:QName("mmlc:subjectHeading"),
+        xs:QName("mmlc:subjectKeyword"),
+        xs:QName("mmlc:contentResourceType"),
+        xs:QName("mmlc:project"),
+        xs:QName("mmlc:auditEntry"),
+        xs:QName("mmlc:result"),
+        xs:QName("mmlc:facet"),
+        xs:QName("mmlc:facetValues"),
+        xs:QName("mmlc:value")
+      )
+    )
 
   let $output-types :=
     if ($format eq "json") then
@@ -55,18 +74,20 @@ function mml:get(
     if (fn:string-length($uri) gt 0) then
     (
       let $contentDoc := fn:doc($uri)
+
       let $projects :=
         element { fn:QName($NS,"mml:projects") }
         {
           element { fn:QName($NS,"mml:project") } { "project 1" },
           element { fn:QName($NS,"mml:project") } { "project 2" }
         }
-
-      let $doc1 :=
+      
+      let $auditDoc := am:getAuditInfo($uri)
+      
+      let $preDoc :=
         element { fn:QName($NS,"mmlc:container") }
         {
           $contentDoc/mmlc:content/mmlc:metadata/mmlc:systemId,
-          $contentDoc/mmlc:content/mmlc:feed/mmlc:technical/mmlc:fileSize,
           $contentDoc/mmlc:content/mmlc:metadata/mmlc:created,
           $contentDoc/mmlc:content/mmlc:metadata/mmlc:modified,
           $contentDoc/mmlc:content/mmlc:metadata/mmlc:createdBy,
@@ -81,114 +102,48 @@ function mml:get(
           $contentDoc/mmlc:content/mmlc:feed/mmlc:technical/mmlc:fileFormat,
           $contentDoc/mmlc:content/mmlc:feed/mmlc:technical/mmlc:fileName,
           $contentDoc/mmlc:content/mmlc:feed/mmlc:technical/mmlc:filePath,
-          $contentDoc/mmlc:content/mmlc:feed/mmlc:technical/mmlc:fileSize
+          $contentDoc/mmlc:content/mmlc:feed/mmlc:technical/mmlc:fileSize,
+          $contentDoc/mmlc:content/mmlc:feed/mmlc:creators/mmlc:creator,
+          $contentDoc/mmlc:content/mmlc:metadata/mmlc:subjectHeadings/mmlc:subjectHeading,
+          $contentDoc/mmlc:content/mmlc:metadata/mmlc:subjectKeywords/mmlc:subjectKeyword,
+          $projects/mmlc:project,
+          $auditDoc
         }
 
-      let $config1 := json:config("custom")
-      let $_ := map:put($config1, "whitespace", "ignore")
-      let $_ := map:put($config1, "array-element-names", xs:QName("mmlc:contentResourceType") ) 
-
-      let $config2 := json:config("custom")
-      let $_ := map:put($config2, "whitespace", "ignore")
-      let $_ := map:put($config2,"array-element-names", xs:QName("mmlc:creator") ) 
-      let $doc2 := 
-        element { fn:QName($NS,"mmlc:container") }
-        {
-          $contentDoc/mmlc:content/mmlc:feed/mmlc:creators/mmlc:creator
-        }
-      
-      let $config3 := json:config("custom")
-      let $_ := map:put($config3, "whitespace", "ignore")
-      let $_ := map:put($config3,"array-element-names", xs:QName("mmlc:subjectHeading") ) 
-      let $doc3 := 
-        element { fn:QName($NS,"mmlc:container") }
-        {
-          $contentDoc/mmlc:content/mmlc:metadata/mmlc:subjectHeadings/mmlc:subjectHeading
-        }
-      
-      let $config4 := json:config("custom")
-      let $_ := map:put($config4, "whitespace", "ignore")
-      let $_ := map:put($config4,"array-element-names", xs:QName("mmlc:subjectKeyword") ) 
-      let $doc4 := 
-        element { fn:QName($NS,"mmlc:container") }
-        {
-          $contentDoc/mmlc:content/mmlc:metadata/mmlc:subjectKeywords/mmlc:subjectKeyword
-        }
-        
-      let $auditDoc := am:getAuditInfo($uri)
-      
-      let $config5 := json:config("custom")
-      let $_ := map:put($config5, "whitespace", "ignore")
-      let $_ := map:put($config5, "array-element-names", xs:QName("mmlc:auditEntry"))
-        
-      let $node1 := 
-          text { json:transform-to-json($doc1, $config1)/container }||
-          text { json:transform-to-json($doc2, $config2)/container }||
-          text { json:transform-to-json($doc3, $config3)/container }||
-          text { json:transform-to-json($doc4, $config4)/container }||
-          text { json:transform-to-json($auditDoc, $config5) }
-      
-      let $temp :=
+      let $doc :=
         if (fn:doc-available($uri)) then
         (
-          json:transform-to-json($doc1, $config1)/container,
-          json:transform-to-json($doc2, $config2)/container,
-          json:transform-to-json($doc3, $config3)/container,
-          json:transform-to-json($doc4, $config4)/container,
-          json:transform-to-json($auditDoc, $config5)
+          json:transform-to-json($preDoc, $config)/container
         )
         else
           json:transform-to-json(
-            element { fn:QName($NS,"mmlc:status") } { "no document found having uri: "||$uri }, $config1
+            element { fn:QName($NS,"mmlc:status") } { "no document found having uri: "||$uri }, $config
           )
 
-      let $object := json:object()
-      
-      let $_ := map:put($object,"container",$temp)
-
-      return
-        xdmp:to-json($object)
-          (:
-        document {
-          json:transform-to-json($doc1, $config1)/container,
-          json:transform-to-json($doc2, $config2)/container,
-          json:transform-to-json($doc3, $config3)/container,
-          json:transform-to-json($doc4, $config4)/container
-          json:transform-to-json($auditDoc, $config5)
-        }
-          :)
+      return $doc
     )
     else
       mml:searchContentDocs($qtext, $start, $pageLength)
 
+(:
   let $auditAction :=
     if (fn:string-length($uri) gt 0) then
       am:save("downloaded", $uri, "content")
     else
       ""
-
-  let $doc :=
-    if ($format eq "json" and fn:string-length($uri) eq 0) then
-    (
-      let $config := json:config("custom")
-      let $_ := map:put($config, "whitespace", "ignore")
-	  let $_ := map:put($config, "element-namespace", "http://macmillanlearning.com")
-	  let $_ := map:put($config, "array-element-names", ("result", "facets","facet-values","subjectHeading","subjectKeyword") )
-
-      return
-        document {
-          text { json:transform-to-json($retObj, $config) }
-        }
-    )
-    else
-    (
-      document {
-        $retObj
-      }
-    )
+:)
 
   return
-    $doc
+    document {
+      if ($format eq "json" and fn:string-length($uri) eq 0) then
+      (
+        text { json:transform-to-json($retObj, $config) }
+      )
+      else
+      (
+        $retObj
+      )
+    }
 };
 
 (:
@@ -514,12 +469,18 @@ declare function mml:searchContentDocs($qtext, $start, $pageLength)
       <transform-results apply="metadata-snippet">
         <preferred-elements>
           <element ns="http://macmillanlearning.com" name="systemId"/>
-          <element ns="http://macmillanlearning.com" name="projectState"/>
+          <element ns="http://macmillanlearning.com" name="created"/>
+          <element ns="http://macmillanlearning.com" name="modified"/>		  
+          <element ns="http://macmillanlearning.com" name="createdBy"/>
+          <element ns="http://macmillanlearning.com" name="modifiedBy"/>
           <element ns="http://macmillanlearning.com" name="title"/>
           <element ns="http://macmillanlearning.com" name="description"/>
-          <element ns="http://macmillanlearning.com" name="publisher"/>
           <element ns="http://macmillanlearning.com" name="contentState"/>
-          <element ns="http://macmillanlearning.com" name="modified"/>		  
+          <element ns="http://macmillanlearning.com" name="projectState"/>
+          <element ns="http://macmillanlearning.com" name="source"/>
+          <element ns="http://macmillanlearning.com" name="publisher"/>
+          <element ns="http://macmillanlearning.com" name="datePublished"/>
+          <element ns="http://macmillanlearning.com" name="contentResourceTypes"/>
           <element ns="http://macmillanlearning.com" name="fileFormat"/>
           <element ns="http://macmillanlearning.com" name="fileName"/>
           <element ns="http://macmillanlearning.com" name="filePath"/>
@@ -528,7 +489,6 @@ declare function mml:searchContentDocs($qtext, $start, $pageLength)
           <element ns="http://macmillanlearning.com" name="subjectHeadings"/>
           <element ns="http://macmillanlearning.com" name="subjectKeywords"/>
           <element ns="http://macmillanlearning.com" name="projects"/>
-          <element ns="http://macmillanlearning.com" name="resources"/>
         </preferred-elements>
         <max-matches>2</max-matches>
         <max-snippet-chars>150</max-snippet-chars>
@@ -537,79 +497,103 @@ declare function mml:searchContentDocs($qtext, $start, $pageLength)
       <return-results>true</return-results>
       <return-query>true</return-query>
     </options>
-   
+
   let $statusMessage := "content document found"
 
   let $results := search:search($qtext, $options, $start, $pageLength)
 
   let $retObj :=
-      if (fn:count($results/search:result) ge 1) then
-      (
-        element { fn:QName($NS,"mml:results") } {
-        element { fn:QName($NS,"mml:status") }    { $statusMessage },
-        element { fn:QName($NS,"mml:count") }     { fn:count($results/search:result) },
-        for $result in $results/search:result
-          return
-            element { fn:QName($NS,"mml:result") } {
-            element { fn:QName($NS,"mml:uri") }          { xs:string($result/@uri) },
-            element { fn:QName($NS,"mml:systemId") }     { $result/search:snippet/mmlc:systemId/text() },
-            element { fn:QName($NS,"mml:title") }        { $result/search:snippet/mmlc:title/text() },
-            element { fn:QName($NS,"mml:description") }  { $result/search:snippet/mmlc:description/text() },
-            element { fn:QName($NS,"mml:projectState") } { $result/search:snippet/mmlc:projectState/text() },
-      		element { fn:QName($NS,"mml:modified") }     { $result/search:snippet/mmlc:modified/text() },
-            element { fn:QName($NS,"mml:publisher") }    { $result/search:snippet/mmlc:publisher/text() },
-            element { fn:QName($NS,"mml:contentState") } { $result/search:snippet/mmlc:contentState/text() },
-            element { fn:QName($NS,"mml:fileFormat") }   { $result/search:snippet/mmlc:fileFormat/text() },
-            element { fn:QName($NS,"mml:fileName") }     { $result/search:snippet/mmlc:fileName/text() },
-            element { fn:QName($NS,"mml:filePath") }     { $result/search:snippet/mmlc:filePath/text() },
-            element { fn:QName($NS,"mml:fileSize") }     { $result/search:snippet/mmlc:fileSize/text() },
-            element { fn:QName($NS,"mml:creators") }     {
-              for $creator in $result/search:snippet/mmlc:creators/mmlc:creator/text()
-                return
-                  element { fn:QName($NS,"mml:creator") } { $creator }
-            },
-            element { fn:QName($NS,"mml:subjectHeadings") }     {
-              for $subjectHeading in $result/search:snippet/mmlc:subjectHeadings/mmlc:subjectHeading/text()
-                return
-                  element { fn:QName($NS,"mml:subjectHeading") } { $subjectHeading }
-            },
-            element { fn:QName($NS,"mml:subjectKeywords") }     {
-              for $subjectKeyword in $result/search:snippet/mmlc:subjectKeywords/mmlc:subjectKeyword/text()
-                return
-                  element { fn:QName($NS,"mml:subjectKeyword") } { $subjectKeyword }
-            },
-            element { fn:QName($NS,"mml:projects") }     {
-              for $project in $result/search:snippet/mmlc:hasProjects/mmlc:project/text()
-                return
-                  element { fn:QName($NS,"mml:project") } { $project }
-            },
-            element { fn:QName($NS,"mml:resources") }     {
-              for $resource in $result/search:snippet/mmlc:resources/mmlc:resource/text()
-                return
-                  element { fn:QName($NS,"mml:resource") } { $resource }
-            }
+    if (fn:count($results/search:result) ge 1) then
+    (
+      element { fn:QName($NS,"mml:results") } {
+      element { fn:QName($NS,"mml:status") }    { $statusMessage },
+      element { fn:QName($NS,"mml:count") }     { fn:count($results/search:result) },
+      for $result in $results/search:result
+        return
+          element { fn:QName($NS,"mml:result") } {
+          element { fn:QName($NS,"mml:uri") }           { xs:string($result/@uri) },
+          element { fn:QName($NS,"mml:systemId") }      { $result/search:snippet/mmlc:systemId/text() },
+          element { fn:QName($NS,"mml:created") }       { $result/search:snippet/mmlc:created/text() },
+          element { fn:QName($NS,"mml:modified") }      { $result/search:snippet/mmlc:modified/text() },
+          element { fn:QName($NS,"mml:createdBy") }     { $result/search:snippet/mmlc:createdBy/text() },
+          element { fn:QName($NS,"mml:modifiedBy") }    { $result/search:snippet/mmlc:modifiedBy/text() },
+          element { fn:QName($NS,"mml:title") }         { $result/search:snippet/mmlc:title/text() },
+          element { fn:QName($NS,"mml:description") }   { $result/search:snippet/mmlc:description/text() },
+          element { fn:QName($NS,"mml:contentState") }  { $result/search:snippet/mmlc:contentState/text() },
+          element { fn:QName($NS,"mml:projectState") }  { $result/search:snippet/mmlc:projectState/text() },
+          element { fn:QName($NS,"mml:source") }        { $result/search:snippet/mmlc:source/text() },
+          element { fn:QName($NS,"mml:publisher") }     { $result/search:snippet/mmlc:publisher/text() },
+          element { fn:QName($NS,"mml:datePublished") } { $result/search:snippet/mmlc:datePublished/text() },
+          element { fn:QName($NS,"mml:fileFormat") }   { $result/search:snippet/mmlc:fileFormat/text() },
+          element { fn:QName($NS,"mml:fileName") }     { $result/search:snippet/mmlc:fileName/text() },
+          element { fn:QName($NS,"mml:filePath") }     { $result/search:snippet/mmlc:filePath/text() },
+          element { fn:QName($NS,"mml:fileSize") }     { $result/search:snippet/mmlc:fileSize/text() },
+          for $creator in $result/search:snippet/mmlc:creators/mmlc:creator/text()
+            return
+              element { fn:QName($NS,"mml:creator") } { $creator },
+          for $contentResourceType in $result/search:snippet/mmlc:contentResourceTypes/mmlc:contentResourceType/text()
+            return
+              element { fn:QName($NS,"mml:contentResourceType") } { $contentResourceType },
+          for $subjectHeading in $result/search:snippet/mmlc:subjectHeadings/mmlc:subjectHeading/text()
+            return
+              element { fn:QName($NS,"mml:subjectHeading") } { $subjectHeading },
+          for $subjectKeyword in $result/search:snippet/mmlc:subjectKeywords/mmlc:subjectKeyword/text()
+            return
+              element { fn:QName($NS,"mml:subjectKeyword") } { $subjectKeyword },
+          for $project in $result/search:snippet/mmlc:hasProjects/mmlc:project/text()
+            return
+              element { fn:QName($NS,"mml:project") } { $project }
+          (:
+          element { fn:QName($NS,"mml:creators") }     {
+            for $creator in $result/search:snippet/mmlc:creators/mmlc:creator/text()
+              return
+                element { fn:QName($NS,"mml:creator") } { $creator }
           },
+          element { fn:QName($NS,"mml:contentResourceTypes") }     {
+            for $contentResourceType in $result/search:snippet/mmlc:contentResourceTypes/mmlc:contentResourceType/text()
+              return
+                element { fn:QName($NS,"mml:contentResourceType") } { $contentResourceType }
+          },
+          element { fn:QName($NS,"mml:subjectHeadings") }     {
+            for $subjectHeading in $result/search:snippet/mmlc:subjectHeadings/mmlc:subjectHeading/text()
+              return
+                element { fn:QName($NS,"mml:subjectHeading") } { $subjectHeading }
+          },
+          element { fn:QName($NS,"mml:subjectKeywords") }     {
+            for $subjectKeyword in $result/search:snippet/mmlc:subjectKeywords/mmlc:subjectKeyword/text()
+              return
+                element { fn:QName($NS,"mml:subjectKeyword") } { $subjectKeyword }
+          },
+          element { fn:QName($NS,"mml:projects") }     {
+            for $project in $result/search:snippet/mmlc:hasProjects/mmlc:project/text()
+              return
+                element { fn:QName($NS,"mml:project") } { $project }
+          }
+          :)
+        },
+        element { fn:QName($NS,"mml:facets") }
+        {
           for $facet in $results/search:facet
             return
-              element { fn:QName($NS,"mml:facets") }
-              {
-                element { fn:QName($NS, "mml:facetName") } { xs:string($facet/@name) }, 
-                for $facet-value in $facet/search:facet-value
+              element { fn:QName($NS, "mml:facet") } {
+                element { fn:QName($NS, "mml:facetName") } { $facet/@name/fn:string() },
+                for $value in $facet/search:facet-value
                   return 
-                    element { fn:QName($NS, "mml:facet-values") }
+                    element { fn:QName($NS, "mml:facetValues") }
                     {
-                      element { fn:QName($NS,"mml:name") } { $facet-value/text() },
-                      element { fn:QName($NS,"mml:count") } { xs:string($facet-value/@count) }
+                      element { fn:QName($NS,"mml:name") } { $value/text() },
+                      element { fn:QName($NS,"mml:count") } { xs:string($value/@count) }
                     }
               }
-            }
-          )
-          else
-          (
-            element { fn:QName($NS,"mml:results") } {
-              element { fn:QName($NS,"mml:status") } { "no content docs found" }
-            }
-          )
+        }
+      }
+    )
+    else
+    (
+      element { fn:QName($NS,"mml:results") } {
+        element { fn:QName($NS,"mml:status") } { "no content docs found" }
+      }
+    )
 
   return $retObj
 };
