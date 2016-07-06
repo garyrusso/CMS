@@ -16,7 +16,7 @@ namespace Macmillan.CMS.DAL
             return null;
         }
 
-        public Macmillan.CMS.Common.Models.FlowModels.FlowJsPostChunkResponse PostChunk(HttpRequest request, string folder, Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules validationRules)
+        public Macmillan.CMS.Common.Models.FlowModels.FlowJsPostChunkResponse PostChunk(HttpRequest request, string folder,string chunkfolder, Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules validationRules)
         {
             return null;
         }

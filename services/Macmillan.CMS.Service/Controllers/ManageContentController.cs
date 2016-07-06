@@ -17,20 +17,22 @@ using System.Net.Http.Headers;
 
 namespace Macmillan.CMS.Service.Controllers
 {
-    public class ManageContentController : ApiController
+    public class ManageContentController : ApiController 
     {
         IManageContentBusiness business;
         IDictionaryBusiness dictionaryBusiness;
         //private readonly IFileManagerService _fileManager;
-        private readonly IFlowJsRepoBusiness _flowJs;
+        private readonly IFlowJsRepoBusiness _flowJs;      
         private string fileRepository = ConfigurationManager.AppSettings["FileRepository"];
-
+        private string chunkRepository = ConfigurationManager.AppSettings["ChunkFileRepository"];
+        
         /// <summary>
         ///  ManageContentsController dependency injection
         /// </summary>
         /// <param name="ManageContentBusiness"></param>
         public ManageContentController(IManageContentBusiness ManageContentBusiness, IDictionaryBusiness dictBusiness)
         {
+            
             this.business = ManageContentBusiness;
             this.dictionaryBusiness = dictBusiness;
             _flowJs = new FlowJsBusiness();
@@ -45,18 +47,23 @@ namespace Macmillan.CMS.Service.Controllers
         public object CreateContent(HttpRequestMessage request,
             [FromBody] Content content)
         {
-            Logger.Debug("Entering UploadMetadata");
+            Logger.Debug("Entering UploadMetadata");            
 
-            string folderPath = this.fileRepository ;
+            string folderPath = this.fileRepository ;                     
+            
+            FileInfo[] filesInfo = new DirectoryInfo(folderPath).GetFiles().OrderByDescending(p => p.CreationTime).ToArray();
+            
 
-            FileInfo[] filesInfo = new DirectoryInfo(folderPath).GetFiles();
-            object results = null;
+            object results = null;            
             foreach (FileInfo file in filesInfo)
-            {
-                results = this.business.UploadMetadata(content, file);
-               // file.Delete();
+            {                                   
+               results = this.business.UploadMetadata(content, file);                   
+               file.Delete();              
             }
+            
 
+            //Force clean up
+            Directory.Delete(folderPath, true);
             Logger.Debug("Exiting UploadMetadata");
             return results;
         }
@@ -87,7 +94,7 @@ namespace Macmillan.CMS.Service.Controllers
         {
             var request = HttpContext.Current.Request;
 
-            var chunkExists = _flowJs.ChunkExists(this.fileRepository, request);
+            var chunkExists = _flowJs.ChunkExists(this.chunkRepository, request);
             if (chunkExists)
                 return Ok();
             //return NotFound();
@@ -105,32 +112,35 @@ namespace Macmillan.CMS.Service.Controllers
         {
             try
             {
-                var request = HttpContext.Current.Request;
+              
+                    var request = HttpContext.Current.Request;
 
-                if (request.Files.Count == 0)
-                    return Ok();
+                    if (request.Files.Count == 0)
+                        return Ok();
 
-                var validationRules = new Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules();
-                //validationRules.AcceptedExtensions.AddRange(new List<string> { "jpeg", "jpg", "png", "bmp", "zip" });
-                //validationRules.AcceptedExtensions.AddRange(this.GetUploadFileTypes());
-                //validationRules.MaxFileSize = 5000000;
+                    var validationRules = new Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules();
+                    //validationRules.AcceptedExtensions.AddRange(new List<string> { "jpeg", "jpg", "png", "bmp", "zip" });
+                    //validationRules.AcceptedExtensions.AddRange(this.GetUploadFileTypes());
+                    //validationRules.MaxFileSize = 5000000;
 
-                var status = _flowJs.PostChunk(request, this.fileRepository, validationRules);
+                    //var status = _flowJs.PostChunk(request, this.fileRepository, validationRules);
+                    var status = _flowJs.PostChunk(request,this.fileRepository,this.chunkRepository,validationRules);
 
-                string errors = string.Empty;
-                status.ErrorMessages.ForEach(x => errors += " " + x);
+                    string errors = string.Empty;
+                    status.ErrorMessages.ForEach(x => errors += " " + x);
 
-                if (!string.IsNullOrEmpty(errors))
-                {
-                    Logger.Error(errors);
+                    if (!string.IsNullOrEmpty(errors))
+                    {
+                        Logger.Error(errors);
 
-                    return StatusCode(HttpStatusCode.NotFound);
-                }  
-                else if (status.Status == Macmillan.CMS.Common.Models.FlowModels.PostChunkStatus.Done)
-                {
-                    Task.Factory.StartNew(() => { this.UploadFile(new FileInfo(Path.Combine(this.fileRepository, status.FileName))); });
-                }                    
-            }
+                        return StatusCode(HttpStatusCode.NotFound);
+                    }
+                    else if (status.Status == Macmillan.CMS.Common.Models.FlowModels.PostChunkStatus.Done)
+                    {                       
+                        await Task.Factory.StartNew(() => { this.UploadFile(new FileInfo(Path.Combine(this.fileRepository, status.FileName))); });                       
+                    }
+                }
+            
             catch (Exception ex)
             {
                 Logger.Error(ex);

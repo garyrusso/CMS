@@ -54,7 +54,7 @@
             function httpRequest(httpConfig) {
                 if (!checkIsTemplateUrl(httpConfig.url)) {
                     if(httpConfig.url !== 'Security/ValidateUserCredentials') {
-                        httpConfig.headers['Authorization'] = (localStorage && localStorage.getItem('cms.user_details')) ? angular.fromJson(localStorage.getItem('cms.user_details')).authToken : '';
+                        httpConfig.headers['X-Auth-Token'] = (localStorage && localStorage.getItem('cms.user_details')) ? angular.fromJson(localStorage.getItem('cms.user_details')).authToken : '';
                     }
                     httpConfig.url = APP_CONFIG.API[APP_CONFIG.environment].baseUrl + httpConfig.url;
                 }

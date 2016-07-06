@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Macmillan.CMS.Common.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,12 +13,12 @@ namespace Macmillan.CMS.Business
     {
         public Macmillan.CMS.Common.Models.FlowModels.FlowJsPostChunkResponse PostChunk(HttpRequest request, string folder)
         {
-            return PostChunkBase(request, folder, null);
+            return PostChunkBase(request, folder, null,null);
         }
 
-        public Macmillan.CMS.Common.Models.FlowModels.FlowJsPostChunkResponse PostChunk(HttpRequest request, string folder, Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules validationRules)
+        public Macmillan.CMS.Common.Models.FlowModels.FlowJsPostChunkResponse PostChunk(HttpRequest request, string folder, string chunkfolder, Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules validationRules)
         {
-            return PostChunkBase(request, folder, validationRules);
+            return PostChunkBase(request, folder, chunkfolder,validationRules);
         }
 
         public bool ChunkExists(string folder, HttpRequest request)
@@ -28,7 +29,7 @@ namespace Macmillan.CMS.Business
             return File.Exists(Path.Combine(folder, chunkFullPathName));
         }
 
-        private Macmillan.CMS.Common.Models.FlowModels.FlowJsPostChunkResponse PostChunkBase(HttpRequest request, string folder, Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules validationRules)
+        private Macmillan.CMS.Common.Models.FlowModels.FlowJsPostChunkResponse PostChunkBase(HttpRequest request, string folder, string chunkfolder,Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules validationRules)
         {
             var chunk = new Macmillan.CMS.Common.Models.FlowModels.FlowChunk();
             var requestIsSane = chunk.ParseForm(request.Form);
@@ -51,23 +52,28 @@ namespace Macmillan.CMS.Business
                 return response;
             }
 
-            var chunkFullPathName = GetChunkFilename(chunk.Number, chunk.Identifier, folder);
+            var chunkFullPathName = GetChunkFilename(chunk.Number, chunk.Identifier, chunkfolder);
             try
             {
-                // create folder if it does not exist 
+                Logger.Info("Entered more chunks upload");
+                // create chunkfolder if it does not exist 
                 if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+                if (!Directory.Exists(chunkfolder)) Directory.CreateDirectory(chunkfolder);
                 // save file 
                 file.SaveAs(chunkFullPathName);
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Logger.Error("Save Chunk Method", ex);
                 throw;
             }
 
             // see if we have more chunks to upload. If so, return here 
             for (int i = 1, l = chunk.TotalChunks; i <= l; i++)
             {
-                var chunkNameToTest = GetChunkFilename(i, chunk.Identifier, folder);
+                Logger.Info("Entered more chunks upload");
+                var chunkNameToTest = GetChunkFilename(i, chunk.Identifier, chunkfolder);
                 var exists = File.Exists(chunkNameToTest);
                 if (!exists)
                 {
@@ -82,30 +88,36 @@ namespace Macmillan.CMS.Business
             {
                 fileAry.Add("flow-" + chunk.Identifier + "." + i);
             }
-            MultipleFilesToSingleFile(folder, fileAry, chunk.FileName);
+            
+            MultipleFilesToSingleFile(folder, fileAry, chunk.FileName, chunkfolder);
             for (int i = 0, l = fileAry.Count; i < l; i++)
             {
                 try
                 {
-                    File.Delete(Path.Combine(folder, fileAry[i]));
+                    File.Delete(Path.Combine(chunkfolder, fileAry[i]));
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
+                    Logger.Error("File Delete ", ex);
                 }
             }
             response.Status = Macmillan.CMS.Common.Models.FlowModels.PostChunkStatus.Done;
             return response;
         }
 
-        private static void MultipleFilesToSingleFile(string dirPath, IEnumerable<string> fileAry, string destFile)
+        private static void MultipleFilesToSingleFile(string dirPath, IEnumerable<string> fileAry, string destFile, string chunkfolder)
         {
             using (var destStream = File.Create(Path.Combine(dirPath, destFile)))
             {
                 foreach (string filePath in fileAry)
                 {
-                    using (var sourceStream = File.OpenRead(Path.Combine(dirPath, filePath)))
+                    using (var sourceStream = File.OpenRead(Path.Combine(chunkfolder, filePath)))
+                    {
                         sourceStream.CopyTo(destStream); // You can pass the buffer size as second argument. 
+                        sourceStream.Close();
+                    }
                 }
+                destStream.Close();
             }
         }
 

@@ -13,9 +13,9 @@
         flowFactoryProvider.defaults = {
             target : APP_CONFIG.API[APP_CONFIG.environment].baseUrl+WS.uploadFile,//http://localhost:8888/upload.php
             permanentErrors : [404, 500, 501],
-            maxChunkRetries : 1,
+            maxChunkRetries : 4,
             chunkRetryInterval : 5000,
-            simultaneousUploads : 4
+            simultaneousUploads : 1
         };
         
         flowFactoryProvider.on('catchAll', function(event) {

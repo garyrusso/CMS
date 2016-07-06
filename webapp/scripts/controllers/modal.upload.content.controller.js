@@ -225,8 +225,8 @@
          * ng-flow: flow-file-success directive from template call this function once all files are uploaded.
          * resolve the uploadCompletedDefer object.
          */
-        function uploadCompleted($file, $message, $flow) {
-            $log.debug('uploadCompleted', $file, $message, $flow);
+        function uploadCompleted() {
+            $log.debug('uploadCompleted');
             uploadCompletedDefer.resolve({});
         }
         

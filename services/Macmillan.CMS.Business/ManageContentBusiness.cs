@@ -180,7 +180,7 @@ namespace Macmillan.CMS.Business
              text.Replace("##description##", content.Description);
              text.Replace("##source##", content.Source);
              text.Replace("##publisher##", content.Publisher);
-             text.Replace("##datePublished##", content.DatePublished.ToString());
+             text.Replace("##datePublished##", content.DatePublished != null ? Convert.ToString(content.DatePublished) : null);//content.DatePublished.ToString());
              text.Replace("##contentState##", content.ContentState);
              
              if (content.Creator != null)
@@ -230,10 +230,12 @@ namespace Macmillan.CMS.Business
              //}
 
              //text.Replace("##contentResourceTypes##", "\"" + fileInfo.Name + "\"");
-             text.Replace("##fileFormat##", fileInfo.Extension);
-             text.Replace("##fileName##", fileInfo.Name);
-             text.Replace("##filePath##", "resources/" + fileInfo.Name);
-             text.Replace("##fileSize##", fileInfo.Length.ToString());
+           
+                 text.Replace("##fileFormat##", fileInfo.Extension);
+                 text.Replace("##fileName##", fileInfo.Name);
+                 text.Replace("##filePath##", "resources/" + fileInfo.Name);
+                 text.Replace("##fileSize##", fileInfo.Length.ToString());
+             
 
              Logger.Debug(" Exiting BuildContentMetadataJson");
              return text.ToString();

@@ -11,7 +11,7 @@ namespace Macmillan.CMS.Business
     {
         Macmillan.CMS.Common.Models.FlowModels.FlowJsPostChunkResponse PostChunk(HttpRequest request, string folder);
 
-        Macmillan.CMS.Common.Models.FlowModels.FlowJsPostChunkResponse PostChunk(HttpRequest request, string folder, Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules validationRules);
+        Macmillan.CMS.Common.Models.FlowModels.FlowJsPostChunkResponse PostChunk(HttpRequest request, string folder, string chunkfolder, Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules validationRules);
 
         bool ChunkExists(string folder, HttpRequest request); 
     }
