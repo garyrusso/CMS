@@ -35,12 +35,16 @@ declare function auth:getCurrentDateTimeUTC()
 declare function auth:getFullName($username as xs:string)
 {
   let $query := cts:and-query((
-                    cts:element-value-query(fn:QName($NS, "username"), "grusso")
+                    cts:element-value-query(fn:QName($NS, "username"), $username)
                   ))
   
   let $result := cts:search(fn:doc(), $query)[1]
   
-  return $result/mml:user/mml:feed/mml:fullName/text()
+  return
+    if (fn:starts-with($username, "invalid")) then
+      $username
+    else
+      $result/mml:user/mml:feed/mml:fullName/text()
 };
 
 declare function auth:userName()
@@ -54,9 +58,15 @@ declare function auth:getLoggedInUserFromHeader()
   let $authToken := xdmp:get-request-header("X-Auth-Token")
 
   let $userInfo   := if (fn:string-length($authToken) eq 0)  then "" else $authToken
-  let $loggedInUser := auth:getUserNamePasswordFromBase64String($userInfo)/userName/text()
+  (: let $loggedInUser := auth:getUserNamePasswordFromBase64String($userInfo)/userName/text() :)
   
-  return $loggedInUser
+  let $loggedInUser := auth:findSessionByToken($authToken)/username/text()
+  
+  return
+    if (fn:string-length($loggedInUser) gt 0) then
+      $loggedInUser
+    else
+      "invalid user"
 };
 
 declare function auth:getUserNamePasswordFromBase64String($userInfoBase64 as xs:string)
