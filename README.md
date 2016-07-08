@@ -35,6 +35,6 @@ Here we load user document data & data dictionary data
 
 [Project API](../../wiki/Project-API)
 
-[Resource API](../../wiki/Resource-API)
+[File API](../../wiki/File-API)
 
 [User API](../../wiki/User-API)

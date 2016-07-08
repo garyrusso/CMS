@@ -122,7 +122,7 @@ function mml:get(
   let $doc :=
     if (($format eq "json" and fn:string-length($uri) eq 0) or ($info eq 1)) then
     (
-      text { json:transform-to-json($retObj, $config) }
+      text { json:transform-to-json($retObj, $config)/container }
     )
     else
     (
@@ -379,18 +379,26 @@ declare function mml:getFileInfo($uri)
   let $result := cts:search(fn:doc(), $query)[1]
 
   let $fileInfo :=
-    element { fn:QName($NS,"mml:fileInfo") } {
-      element { fn:QName($NS,"mml:fileName") } { $result/mmlc:fileInfo/mmlc:fileName/text() },
-      element { fn:QName($NS,"mml:size") } { $result/mmlc:fileInfo/mmlc:size/text() },
-      element { fn:QName($NS,"mml:uri") } { $result/mmlc:fileInfo/mmlc:uri/text() },
-      element { fn:QName($NS,"mml:created") } { $result/mmlc:fileInfo/mmlc:created/text() },
-      element { fn:QName($NS,"mml:createdBy") } { $result/mmlc:fileInfo/mmlc:createdBy/text() },
-      element { fn:QName($NS,"mml:modified") } { $result/mmlc:fileInfo/mmlc:modified/text() },
-      element { fn:QName($NS,"mml:modifiedBy") } { $result/mmlc:fileInfo/mmlc:modifiedBy/text() }
-    }
+    if (fn:not(fn:empty($result))) then
+      element { fn:QName($NS,"mml:fileInfo") } {
+        element { fn:QName($NS,"mml:fileName") }   { $result/mmlc:fileInfo/mmlc:fileName/text() },
+        element { fn:QName($NS,"mml:size") }       { $result/mmlc:fileInfo/mmlc:size/text() },
+        element { fn:QName($NS,"mml:uri") }        { $result/mmlc:fileInfo/mmlc:uri/text() },
+        element { fn:QName($NS,"mml:created") }    { $result/mmlc:fileInfo/mmlc:created/text() },
+        element { fn:QName($NS,"mml:createdBy") }  { $result/mmlc:fileInfo/mmlc:createdBy/text() },
+        element { fn:QName($NS,"mml:modified") }   { $result/mmlc:fileInfo/mmlc:modified/text() },
+        element { fn:QName($NS,"mml:modifiedBy") } { $result/mmlc:fileInfo/mmlc:modifiedBy/text() }
+      }
+      else
+      (
+        element { fn:QName($NS,"mml:results") } {
+          element { fn:QName($NS,"mml:status") } { "no files found" }
+        }
+      )
 
-  let $auditDoc := am:getAuditInfo($uri)
-  
+  let $auditDoc := 
+    if (fn:not(fn:empty($result))) then am:getAuditInfo($uri) else ()
+
   let $retObj :=
         element { fn:QName($NS,"mml:container") }
         {
