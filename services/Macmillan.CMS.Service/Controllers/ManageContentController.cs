@@ -137,7 +137,8 @@ namespace Macmillan.CMS.Service.Controllers
                     }
                     else if (status.Status == Macmillan.CMS.Common.Models.FlowModels.PostChunkStatus.Done)
                     {                       
-                        await Task.Factory.StartNew(() => { this.UploadFile(new FileInfo(Path.Combine(this.fileRepository, status.FileName))); });                       
+                        //await Task.Factory.StartNew(() => { this.UploadFile(new FileInfo(Path.Combine(this.fileRepository, status.FileName))); });
+                        this.UploadFile(new FileInfo(Path.Combine(this.fileRepository, status.FileName)));
                     }
                 }
             

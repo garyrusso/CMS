@@ -272,11 +272,11 @@
         }
 
         private string BuildUserTokenHeader()
-        {            
-            //string userToken = this.ExtractHeader("X-Auth-Token");             
-            //return userToken;
+        {
+            string userToken = this.ExtractHeader("X-Auth-Token");
+            return userToken;
 
-            return "Z3J1c3NvOnBhc3N3b3Jk";
+          //  return "Z3J1c3NvOnBhc3N3b3Jk";
         }
 
         private string ConvertoBase64(string text)
@@ -294,9 +294,10 @@
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Timeout = 5000;
 
-            request.Headers.Add("UserInfo", this.BuildUserTokenHeader());
+            //request.Headers.Add("UserInfo", this.BuildUserTokenHeader());
+            //request.Headers.Add("Authorization", this.BuildAuthHeader());
             request.Headers.Add("Authorization", this.BuildAuthHeader());
-    
+            request.Headers.Add("X-Auth-Token", this.BuildUserTokenHeader());
 
             try
             {
