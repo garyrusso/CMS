@@ -1,0 +1,25 @@
+<mml:project xmlns:mml="http://macmillanlearning.com">
+  <mml:metadata>
+    <mml:created>2016-07-08T21:10:24-04:00</mml:created>
+    <mml:createdBy>Gary Russo</mml:createdBy>
+    <mml:modified>2016-07-08T21:10:24-04:00</mml:modified>
+    <mml:modifiedBy>Gary Russo</mml:modifiedBy>
+    <mml:objectType>Project</mml:objectType>
+    <mml:subjectHeadings>
+      <mml:subjectHeading>Geography</mml:subjectHeading>
+      <mml:subjectHeading>Merchant Marine</mml:subjectHeading>
+      <mml:subjectHeading>Tesla</mml:subjectHeading>
+    </mml:subjectHeadings>
+    <mml:subjectKeywords>
+      <mml:subjectKeyword>Hyderabad</mml:subjectKeyword>
+      <mml:subjectKeyword>Dubai</mml:subjectKeyword>
+      <mml:subjectKeyword>Range Rover</mml:subjectKeyword>
+    </mml:subjectKeywords>
+    <mml:projectState>Active</mml:projectState>
+  </mml:metadata>
+  <mml:feed>
+    <mml:title>Hockenbury -1.0</mml:title>
+    <mml:description>The EPUB3/EDUPUB of Beechers Cheese 21th Edition Geography
+      textbook.</mml:description>
+  </mml:feed>
+</mml:project>

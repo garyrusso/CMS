@@ -171,9 +171,9 @@ declare function content:update($uri as xs:string, $content)
         {
           element {fn:QName($NS,"systemId")}     { $content/meta/systemId/text() },
           element {fn:QName($NS,"projectState")} { $content/meta/projectState/text() },
-          element {fn:QName($NS,"created")}      { fn:current-dateTime() },
+          element {fn:QName($NS,"created")}      { $origDoc/mml:content/mml:metadata/mml:created/text() },
           element {fn:QName($NS,"createdBy")}    { $origDoc/mml:content/mml:metadata/mml:createdBy/text() },
-          element {fn:QName($NS,"modified")}     { fn:current-dateTime() },
+          element {fn:QName($NS,"modified")}     { $currentDateTime },
           element {fn:QName($NS,"modifiedBy")}   { $loggedInUser },
           element {fn:QName($NS,"objectType")}   { "Content" },
           element {fn:QName($NS,"subjectHeadings")} {

@@ -125,13 +125,7 @@ function mml:get(
     else
       mml:searchContentDocs($qtext, $start, $pageLength)
 
-(:
-  let $auditAction :=
-    if (fn:string-length($uri) gt 0) then
-      am:save("downloaded", $uri, "content")
-    else
-      ""
-:)
+	let $_ := map:put($context, "output-status", (200, "fetched"))
 
   return
     document {
@@ -353,7 +347,7 @@ function mml:delete(
 ) as document-node()?
 {
   (: Add Auth Token Check here :)
-  
+
   let $inputUri := map:get($params, "uri")
   let $ft := map:get($params, "format")
 
@@ -418,7 +412,7 @@ function mml:delete(
     }
 };
 
-declare function mml:searchContentDocs($qtext, $start, $pageLength)
+declare function mml:searchContentDocs($qtext as xs:string, $start, $pageLength)
 {
   let $options :=
     <options xmlns="http://marklogic.com/appservices/search">
@@ -454,17 +448,17 @@ declare function mml:searchContentDocs($qtext, $start, $pageLength)
 			 <facet-option>limit=5</facet-option>
 		  </range>          
 	  </constraint>
-	   <constraint name="Title">
+    <constraint name="Title">
 		  <range collation="http://marklogic.com/collation/" facet="true">
 			 <element ns="http://macmillanlearning.com" name="title" />
 			 <facet-option>limit=5</facet-option>
 		  </range>          
 	  </constraint>
-	   <constraint name="Content State">
+	  <constraint name="Content State">
 		  <range collation="http://marklogic.com/collation/" facet="true">
 			 <element ns="http://macmillanlearning.com" name="contentState" />
 			 <facet-option>limit=5</facet-option>
-		  </range>          
+		  </range>
 	  </constraint>  	  
       <transform-results apply="metadata-snippet">
         <preferred-elements>
@@ -543,33 +537,6 @@ declare function mml:searchContentDocs($qtext, $start, $pageLength)
           for $project in $result/search:snippet/mmlc:hasProjects/mmlc:project/text()
             return
               element { fn:QName($NS,"mml:project") } { $project }
-          (:
-          element { fn:QName($NS,"mml:creators") }     {
-            for $creator in $result/search:snippet/mmlc:creators/mmlc:creator/text()
-              return
-                element { fn:QName($NS,"mml:creator") } { $creator }
-          },
-          element { fn:QName($NS,"mml:contentResourceTypes") }     {
-            for $contentResourceType in $result/search:snippet/mmlc:contentResourceTypes/mmlc:contentResourceType/text()
-              return
-                element { fn:QName($NS,"mml:contentResourceType") } { $contentResourceType }
-          },
-          element { fn:QName($NS,"mml:subjectHeadings") }     {
-            for $subjectHeading in $result/search:snippet/mmlc:subjectHeadings/mmlc:subjectHeading/text()
-              return
-                element { fn:QName($NS,"mml:subjectHeading") } { $subjectHeading }
-          },
-          element { fn:QName($NS,"mml:subjectKeywords") }     {
-            for $subjectKeyword in $result/search:snippet/mmlc:subjectKeywords/mmlc:subjectKeyword/text()
-              return
-                element { fn:QName($NS,"mml:subjectKeyword") } { $subjectKeyword }
-          },
-          element { fn:QName($NS,"mml:projects") }     {
-            for $project in $result/search:snippet/mmlc:hasProjects/mmlc:project/text()
-              return
-                element { fn:QName($NS,"mml:project") } { $project }
-          }
-          :)
         },
         element { fn:QName($NS,"mml:facets") }
         {

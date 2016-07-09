@@ -57,7 +57,7 @@ declare function am:save($action as xs:string, $targetUri as xs:string, $targetT
       element { fn:QName($NS,"mml:auditTargetUri") } { $targetUri },
       element { fn:QName($NS,"mml:auditTargetType") } { $targetType }, (: Content or Resource :)
       element { fn:QName($NS,"mml:dateCreated") } { fn:current-dateTime() },
-      element { fn:QName($NS,"mml:createdBy") } { auth:getLoggedInUserFromHeader() }
+      element { fn:QName($NS,"mml:createdBy") } { auth:getFullName(auth:getLoggedInUserFromHeader()) }
     }
   
   let $uri := "/audit/"||xdmp:hash64($doc)||".xml"
