@@ -27,65 +27,106 @@ function mml:get(
 {
   (: Add Auth Token Check here :)
   
-	let $st := map:get($params, "start")
-	let $pl := map:get($params, "pageLength")
- 	let $tempUri := map:get($params, "uri")
-	let $ft := map:get($params, "format")
-	
-	let $uri := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
-	let $start := if ($st eq "")  then 1 else $st
-	let $pageLength := if ($pl eq "") then xs:int(20) else $pl
-	
-	let $format := if ($ft eq "json") then "json" else "xml"
+  let $q  := map:get($params, "q")
+  let $st := map:get($params, "start")
+  let $ps := map:get($params, "pageLength")
+  let $ft := map:get($params, "format")
+  let $tempUri := map:get($params, "uri")
 
-	let $output-types :=
-		if ($format eq "json") then
+  let $qtext      := if (fn:string-length($q) eq 0)  then "" else $q
+  let $uri        := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
+  let $start      := if (fn:string-length($st) eq 0) then  1 else xs:integer($st)
+  let $pageLength := if (fn:string-length($ps) eq 0) then 10 else xs:integer($ps)
+  let $format     := if ($ft eq "xml") then "xml" else "json"
+
+  let $config := json:config("custom")
+  let $_ := map:put($config, "whitespace", "ignore")
+  let $_ :=
+    map:put(
+      $config, "array-element-names",
+      (
+        xs:QName("mmlc:creator"),
+        xs:QName("mmlc:subjectHeading"),
+        xs:QName("mmlc:subjectKeyword"),
+        xs:QName("mmlc:contentResourceType"),
+        xs:QName("mmlc:project"),
+        xs:QName("mmlc:auditEntry"),
+        xs:QName("mmlc:result"),
+        xs:QName("mmlc:facet"),
+        xs:QName("mmlc:facetValues"),
+        xs:QName("mmlc:value")
+      )
+    )
+
+  let $output-types :=
+    if ($format eq "json") then
+    (
+      map:put($context,"output-types","application/json")
+    )
+    else
+    (
+      map:put($context,"output-types","application/xml")
+    )
+
+	let $retObj := 
+		if (fn:string-length($uri) gt 0) then
 		(
-		  map:put($context,"output-types","application/json")
+      let $projectDoc := fn:doc($uri)
+		
+      let $preDoc :=
+        element { fn:QName($NS,"mmlc:container") }
+        {
+          $projectDoc/mmlc:project/mmlc:feed/mmlc:title,
+          $projectDoc/mmlc:project/mmlc:feed/mmlc:description,
+          $projectDoc/mmlc:project/mmlc:metadata/mmlc:created,
+          $projectDoc/mmlc:project/mmlc:metadata/mmlc:modified,
+          $projectDoc/mmlc:project/mmlc:metadata/mmlc:createdBy,
+          $projectDoc/mmlc:project/mmlc:metadata/mmlc:modifiedBy,
+          $projectDoc/mmlc:project/mmlc:metadata/mmlc:projectState,
+          $projectDoc/mmlc:project/mmlc:metadata/mmlc:subjectHeadings/mmlc:subjectHeading,
+          $projectDoc/mmlc:project/mmlc:metadata/mmlc:subjectKeywords/mmlc:subjectKeyword
+        }
+        
+      let $doc :=
+        if (fn:doc-available($uri)) then
+        (
+          if ($format eq "json") then $preDoc else fn:doc($uri)
+        )
+        else
+        element { fn:QName($NS,"mml:container") }
+        {
+          element { fn:QName($NS,"mml:results") }
+          {
+            element { fn:QName($NS,"mml:status") } { "no document found having uri: "||$uri }
+          }
+        }
+
+      return $doc
 		)
 		else
 		(
-		  map:put($context,"output-types","application/xml")
-		)	
-	
-	let $doc := 
-		if (fn:string-length($uri) ne 0) then
-		(
-			pm:get-document($uri)
-		)
-		else 
-		(
-			mml:searchProjectDocs($start, $pageLength)
-		)
-
-	(: Custom JSON configurator to support nested array elements :)
-	let $config := json:config("custom")
-	let $_ := map:put($config, "whitespace", "ignore" )
-
-	let $_ :=
-		if (fn:string-length($uri) ne 0) then
-		(
-			map:put($config, "array-element-names", ("content","subjectHeading","subjectKeyword"))
-		)
-		else
-		(
-			map:put($config, "element-namespace", "http://macmillanlearning.com"),
-			map:put($config, "array-element-names", ("result", "facets","facet-values","subjectHeading","subjectKeyword") )
+      mml:searchProjectDocs($qtext, $start, $pageLength)
 		)
 
 	let $_ := map:put($context, "output-status", (200, "fetched"))
 
-	let $result := 
-		if ($format eq "json" ) then
-		(
-			text { json:transform-to-json($doc, $config) }
-		)
-		else 
-			$doc
-
-	return
-		document { $result }  	
-		
+ 	return
+    document {
+      if ($format eq "json") then
+      (
+        if (fn:string-length($uri) gt 0) then
+          json:transform-to-json($retObj, $config)/container
+        else
+          json:transform-to-json($retObj, $config)
+      )
+      else  (: xml :)
+      (
+        if (fn:starts-with($retObj/mmlc:results/mmlc:status/text(), "no document")) then
+          $retObj/mmlc:results
+        else
+          $retObj
+      )
+    }
 };
 
 (:
@@ -100,81 +141,59 @@ function mml:put(
 ) as document-node()?
 {
   (: Add Auth Token Check here :)
-    let $tempUri := map:get($params, "uri")
-   
-    let $uri := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
-   
-	let $ft := map:get($params, "format")
+  
+  let $ft := map:get($params, "format")
+  let $tempUri := map:get($params, "uri")
 
-	let $format := if ($ft eq "json") then "json" else "xml"
+  let $uri        := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
+  let $format     := if ($ft eq "json") then "json" else "xml"
+  
+  let $output-types := map:put($context,"output-types","application/json")
 
-	let $output-types :=
-		if ($format eq "json") then
-		(
-		  map:put($context,"output-types","application/json")
-		)
-		else
-		(
-		  map:put($context,"output-types","application/xml")
-		)   
-   
-	let $inputDoc := document { $input }
-   
-	(: Convert input json to xml for processing :)
-	let $contentDoc  := json:transform-from-json($inputDoc)
+  let $jProjectDoc :=  document { $input }
+  
+	(: Convert json to xml :)
+	let $projectDoc  := json:transform-from-json($jProjectDoc)
 
-	let $newContentObj :=
+	let $projectObj :=
 		element project
 		{
-		  element metadata {
-				element systemId     { $contentDoc/jn:meta/jn:systemId/text() }, 
-				element createdBy { $contentDoc/jn:meta/jn:createdBy/text() },
-				element modifiedBy { $contentDoc/jn:meta/jn:modifiedBy/text() },
-				element title { $contentDoc/jn:meta/jn:title/text() }, 
-				element description { $contentDoc/jn:meta/jn:description/text() },
-				element projectState { $contentDoc/jn:meta/jn:projectState/text() },
-				element subjectHeadings {
-				  for $subjectHeading in $contentDoc/jn:meta/jn:subjectHeadings/jn:item/text()
-					return
-					  element subjectHeading { $subjectHeading }
-				},
-				element subjectKeywords {
-				  for $subjectKeyword in $contentDoc/jn:meta/jn:subjectKeywords/jn:item/text()
-					return
-					  element subjectKeyword { $subjectKeyword }
-				}			
-		  }  
-		}  
- 
-	let $status :=
-		if (fn:string-length($uri) gt 0) then
-		  pm:update($uri, $newContentObj)
-		else
-		  "invalid uri"
+			element title           { $projectDoc/jn:title/text() }, 
+			element description     { $projectDoc/jn:description/text() },
+			element projectState    { $projectDoc/jn:projectState/text() },
+			element subjectHeadings {
+			  for $subjectHeading in $projectDoc/jn:subjectHeadings/jn:item/text()
+				return
+				  element subjectHeading { $subjectHeading }
+			},
+			element subjectKeywords {
+			  for $subjectKeyword in $projectDoc/jn:subjectKeywords/jn:item/text()
+				return
+				  element subjectKeyword { $subjectKeyword }
+			}
+		}
 
-	let $retObj :=
-		element results {
-			element { "status" } { $status }
-		  }
+  let $status :=
+    if (fn:string-length($uri) gt 0) then
+      pm:update($uri, $projectObj)
+    else
+      "invalid uri"
 
-	let $config := json:config("custom")
-	let $_ := map:put($config, "whitespace", "ignore" )
+  let $retObj :=
+    element results {
+        element { "status" } { $status }
+      }
+  
+  let $config := json:config("custom")
+  let $_ := map:put($config, "whitespace", "ignore" )
 
-	let $_ := map:put($context, "output-types", "application/json")
-	let $_ := map:put($context, "output-status", (201, "Updated"))
+  let $_ := map:put($context, "output-types", "application/json")
+  let $_ := map:put($context, "output-status", (201, "Updated"))
 
-	let $result :=
-		if ($format eq "json") then 
-		(
-			text { json:transform-to-json($retObj, $config) }
-		)
-		else
-			$retObj
-	
-	
-	return
-		document { $result }   
-
+  return
+    document {
+      text { json:transform-to-json($retObj, $config) }    
+    }
 };
 
 (:
@@ -191,8 +210,41 @@ function mml:post(
 {
   (: Check Auth Token here :)
   
+  let $output-types := map:put($context,"output-types","application/json")
+
+  let $jProjectDoc :=  document { $input }
+  
+	(: Convert json to xml :)
+	let $projectDoc  := json:transform-from-json($jProjectDoc)
+
+	let $projectObj :=
+		element project
+		{
+			element title           { $projectDoc/jn:title/text() }, 
+			element description     { $projectDoc/jn:description/text() },
+			element projectState    { $projectDoc/jn:projectState/text() },
+			element subjectHeadings {
+			  for $subjectHeading in $projectDoc/jn:subjectHeadings/jn:item/text()
+				return
+				  element subjectHeading { $subjectHeading }
+			},
+			element subjectKeywords {
+			  for $subjectKeyword in $projectDoc/jn:subjectKeywords/jn:item/text()
+				return
+				  element subjectKeyword { $subjectKeyword }
+			}
+		}
+
+  let $uri := "/project/"||xdmp:hash64($projectObj)||".xml"
+  let $doc := pm:save($uri, $projectObj)
+
+	let $returnObj :=
+		element results {
+			element { "status" } { $doc }
+		  }
+
 	let $ft := map:get($params, "format")
-	let $format := if ($ft eq "json") then "json" else "xml"
+	let $format := if ($ft eq "xml") then "xml" else "json"
 
 	let $output-types :=
 		if ($format eq "json") then
@@ -204,40 +256,6 @@ function mml:post(
 		  map:put($context,"output-types","application/xml")
 		)
 
-	let $jContentDoc :=  document { $input }
-
-	(: Convert json to xml :)
-	let $contentDoc  := json:transform-from-json($jContentDoc)
-
-	let $contentObj :=
-		element project
-		{
-		  element metadata {
-				element systemId     { $contentDoc/jn:meta/jn:systemId/text() }, 
-				element createdBy { $contentDoc/jn:meta/jn:createdBy/text() },
-				element modifiedBy { $contentDoc/jn:meta/jn:createdBy/text() },
-				element title { $contentDoc/jn:meta/jn:title/text() }, 
-				element description { $contentDoc/jn:meta/jn:description/text() },
-				element projectState { $contentDoc/jn:meta/jn:projectState/text() },
-				element subjectHeadings {
-				  for $subjectHeading in $contentDoc/jn:meta/jn:subjectHeadings/jn:item/text()
-					return
-					  element subjectHeading { $subjectHeading }
-				},
-				element subjectKeywords {
-				  for $subjectKeyword in $contentDoc/jn:meta/jn:subjectKeywords/jn:item/text()
-					return
-					  element subjectKeyword { $subjectKeyword }
-				}			
-		  }  
-		}
-
-	let $doc := pm:save($contentObj)
-
-	let $returnObj :=
-		element results {
-			element { "status" } { $doc }
-		  }
 
 	let $config := json:config("custom")
 	let $_ := map:put($config, "whitespace", "ignore" )
@@ -267,52 +285,65 @@ function mml:delete(
 {
   (: Add Auth Token Check here :)
 
-	let $tempUri := map:get($params, "uri")
-	let $ft := map:get($params, "format")
-	
-	let $uri := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
-	let $format := if ($ft eq "json") then "json" else "xml"
+  let $inputUri := map:get($params, "uri")
+  let $ft := map:get($params, "format")
 
-	let $output-types :=
-		if ($format eq "json") then
-		(
-		  map:put($context,"output-types","application/json")
-		)
-		else
-		(
-		  map:put($context,"output-types","application/xml")
-		)	
-	
-	let $status := 
-		if (fn:string-length($uri) ne 0) then
-		(
-			pm:delete($uri)
-		)
-		else "Invalid URI"
-	
-	let $returnObject := 
-		element results {
-			element { "status" } { $status }
-		}
-	
-	let $config := json:config("custom")
-	let $_ := map:put($config, "whitespace", "ignore" )
-	let $_ := map:put($context, "output-status", (200, "Deleted"))
+  let $uri    := if (fn:string-length($inputUri) eq 0)  then "" else $inputUri
+  let $format := if ($ft eq "xml") then "xml" else "json"
+  
+  let $output-types :=
+    if ($format eq "xml") then
+    (
+      map:put($context,"output-types","application/xml")
+    )
+    else
+    (
+      map:put($context,"output-types","application/json")
+    )
+    
+  let $errorMessage :=
+    if (fn:string-length($uri) eq 0) then "invalid uri"
+    else
+      try {
+        xdmp:document-delete($uri)
+      }
+      catch ($e) {
+        $e/error:message/text()
+      }
+      
+  let $statusMessage :=
+    if (fn:string-length($errorMessage) eq 0) then
+      "Document deleted: "||$uri
+    else
+      $errorMessage||" "||$uri
 
-	let $result := 
-		if ($format eq "json" ) then
-		(
-			text { json:transform-to-json($returnObject, $config) }
-		)
-		else 
-			$returnObject	
-	
-	return
-		document { $result }  	
+  let $config := json:config("custom")
+  let $_ := map:put($config, "whitespace", "ignore" )
 
+  let $retObj :=
+    element results {
+      element { "status" } { $statusMessage }
+    }
+
+  let $doc :=
+    if ($format eq "xml") then
+    (
+      $retObj
+    )
+    else
+    (
+      text { json:transform-to-json($retObj, $config) }
+    )
+
+  let $_ := map:put($context, "output-status", (200, "Deleted"))
+
+  return
+    document {
+      $doc
+    }
 };
 
-declare function mml:searchProjectDocs($start, $pageLength)
+declare function mml:searchProjectDocs($qtext as xs:string, $start, $pageLength)
 {
 	let $options :=
 	<options xmlns="http://marklogic.com/appservices/search">
@@ -320,7 +351,22 @@ declare function mml:searchProjectDocs($start, $pageLength)
 	  <term>
 		<term-option>case-insensitive</term-option>
 	  </term>
-	  <additional-query>{cts:and-query((cts:directory-query("/project/", "infinity")))}</additional-query>
+    <additional-query>{cts:collection-query(("project"))}</additional-query>
+    <constraint name="title">
+      <word>
+        <element ns="http://macmillanlearning.com" name="title"/>
+      </word>
+    </constraint>
+    <constraint name="keyword">
+      <word>
+        <element ns="http://macmillanlearning.com" name="subjectKeyword"/>
+      </word>
+    </constraint>
+    <constraint name="heading">
+      <word>
+        <element ns="http://macmillanlearning.com" name="subjectHeading"/>
+      </word>
+    </constraint>
 	  <constraint name="Keywords">
 		  <range collation="http://marklogic.com/collation/" facet="true">
 			 <element ns="http://macmillanlearning.com" name="subjectKeyword" />
@@ -347,7 +393,6 @@ declare function mml:searchProjectDocs($start, $pageLength)
 	  </constraint>      
 	  <transform-results apply="metadata-snippet">
 		<preferred-elements>
-		  <element ns="http://macmillanlearning.com" name="systemId"/>
 		  <element ns="http://macmillanlearning.com" name="projectState"/>
 		  <element ns="http://macmillanlearning.com" name="title"/>
 		  <element ns="http://macmillanlearning.com" name="description"/>
@@ -369,51 +414,51 @@ declare function mml:searchProjectDocs($start, $pageLength)
 
 	let $statusMessage := "Project document found"
 
-	let $results := search:search("", $options, $start, $pageLength)
+	let $results := search:search($qtext, $options, $start, $pageLength)
 
 	let $retObj :=
 	  if (fn:count($results/search:result) ge 1) then
 	  (
-		element { fn:QName($NS,"mml:results") } {
-		element { fn:QName($NS,"mml:status") }    { $statusMessage },
-		element { fn:QName($NS,"mml:count") }     { xs:string($results/@total) },
-		element { fn:QName($NS,"mml:start") } { xs:string($results/@start) },
-		element { fn:QName($NS,"mml:pageLength") } { xs:string($results/@page-length) },
-		for $result in $results/search:result
-		  return
-			element { fn:QName($NS,"mml:result") } {
-			element { fn:QName($NS,"mml:uri") }       { xs:string($result/@uri) },
-			element { fn:QName($NS,"mml:systemId") }  { $result/search:snippet/mmlc:systemId/text() },
-			element { fn:QName($NS,"mml:title") } { $result/search:snippet/mmlc:title/text() },
-			element { fn:QName($NS,"mml:description") }  { $result/search:snippet/mmlc:description/text() },
-			element { fn:QName($NS,"mml:projectState") }  { $result/search:snippet/mmlc:projectState/text() },
-			element { fn:QName($NS,"mml:created") }  { $result/search:snippet/mmlc:created/text() },
-			element { fn:QName($NS,"mml:createdBy") }  { $result/search:snippet/mmlc:createdBy/text() },
-			element { fn:QName($NS,"mml:modified") }  { $result/search:snippet/mmlc:modified/text() },
-			element { fn:QName($NS,"mml:modifiedBy") }  { $result/search:snippet/mmlc:modifiedBy/text() },
-			element { fn:QName($NS,"mml:subjectHeadings") }     {
-			  for $subjectHeading in $result/search:snippet/mmlc:subjectHeadings/mmlc:subjectHeading/text()
-				return
-				  element { fn:QName($NS,"mml:subjectHeading") } { $subjectHeading }
-			},
-			element { fn:QName($NS,"mml:subjectKeywords") }     {
-			  for $subjectKeyword in $result/search:snippet/mmlc:subjectKeywords/mmlc:subjectKeyword/text()
-				return
-				  element { fn:QName($NS,"mml:subjectKeyword") } { $subjectKeyword }
-			}
-		  },
-		  for $facet in $results/search:facet
-			return
-				 element { fn:QName($NS,"mml:facets") } {
-					element { fn:QName($NS, "mml:facetName") } { xs:string($facet/@name) }, 
-					for $facet-value in $facet/search:facet-value
-					return 
-					  element { fn:QName($NS, "mml:facet-values") }  {
-						  element { fn:QName($NS,"mml:name") } { $facet-value/text() },
-						  element { fn:QName($NS,"mml:count") } { xs:string($facet-value/@count) }
-					   }
-				 } 
-		}
+  		element { fn:QName($NS,"mml:results") } {
+  		element { fn:QName($NS,"mml:status") }    { $statusMessage },
+  		element { fn:QName($NS,"mml:count") }     { xs:string($results/@total) },
+  		element { fn:QName($NS,"mml:start") } { xs:string($results/@start) },
+  		element { fn:QName($NS,"mml:pageLength") } { xs:string($results/@page-length) },
+  		for $result in $results/search:result
+  		  return
+    			element { fn:QName($NS,"mml:result") } {
+    			element { fn:QName($NS,"mml:uri") }       { xs:string($result/@uri) },
+    			element { fn:QName($NS,"mml:systemId") }  { $result/search:snippet/mmlc:systemId/text() },
+    			element { fn:QName($NS,"mml:title") } { $result/search:snippet/mmlc:title/text() },
+    			element { fn:QName($NS,"mml:description") }  { $result/search:snippet/mmlc:description/text() },
+    			element { fn:QName($NS,"mml:projectState") }  { $result/search:snippet/mmlc:projectState/text() },
+    			element { fn:QName($NS,"mml:created") }  { $result/search:snippet/mmlc:created/text() },
+    			element { fn:QName($NS,"mml:createdBy") }  { $result/search:snippet/mmlc:createdBy/text() },
+    			element { fn:QName($NS,"mml:modified") }  { $result/search:snippet/mmlc:modified/text() },
+    			element { fn:QName($NS,"mml:modifiedBy") }  { $result/search:snippet/mmlc:modifiedBy/text() },
+      	  for $subjectHeading in $result/search:snippet/mmlc:subjectHeadings/mmlc:subjectHeading/text()
+    				return
+    				  element { fn:QName($NS,"mml:subjectHeading") } { $subjectHeading },
+          for $subjectKeyword in $result/search:snippet/mmlc:subjectKeywords/mmlc:subjectKeyword/text()
+            return
+              element { fn:QName($NS,"mml:subjectKeyword") } { $subjectKeyword }
+  		  },
+        element { fn:QName($NS,"mml:facets") }
+        {
+          for $facet in $results/search:facet
+            return
+              element { fn:QName($NS, "mml:facet") } {
+                element { fn:QName($NS, "mml:facetName") } { $facet/@name/fn:string() },
+                for $value in $facet/search:facet-value
+                  return 
+                    element { fn:QName($NS, "mml:facetValues") }
+                    {
+                      element { fn:QName($NS,"mml:name") } { $value/text() },
+                      element { fn:QName($NS,"mml:count") } { xs:string($value/@count) }
+                    }
+              }
+        }
+  		}
 	  )
 	  else
 	  (

@@ -30,114 +30,122 @@ declare function project:getContentUri($hash)
   return $uri
 };
 
-declare function project:save($content)
+declare function project:save($uri as xs:string, $project)
 {
+  let $loggedInUser    := auth:getFullName(auth:getLoggedInUserFromHeader())
+  let $currentDateTime := fn:current-dateTime()
+  
+  return
   (
     project:_save(
+      $uri,
       element {fn:QName($NS,"mml:project")}
       {
         element {fn:QName($NS,"metadata")}
         {
-			  element {fn:QName($NS,"systemId")}     { $content/metadata/systemId/text() },
-			  element {fn:QName($NS,"created")}      { fn:current-dateTime() },
-			  element {fn:QName($NS,"createdBy")}    { $content/metadata/createdBy/text() },
-			  element {fn:QName($NS,"modified")}     { fn:current-dateTime() },
-			  element {fn:QName($NS,"modifiedBy")}   { $content/metadata/modifiedBy/text() },
-			  element {fn:QName($NS,"objectType")}   { "Project" },
-			  element {fn:QName($NS,"title")}         { $content/metadata/title/text() },
-			  element {fn:QName($NS,"description")}   { $content/metadata/description/text() },
-			  element {fn:QName($NS,"subjectHeadings")} {
-				for $subjectHeading in $content/metadata/subjectHeadings/subjectHeading/text()
-				  return
-					element {fn:QName($NS,"subjectHeading")} { $subjectHeading }
-			  },
-			  element {fn:QName($NS,"subjectKeywords")} {
-				for $subjectKeyword in $content/metadata/subjectKeywords/subjectKeyword/text()
-				  return
-					element {fn:QName($NS,"subjectKeyword")} { $subjectKeyword }
-			  },			  
-			  element {fn:QName($NS,"projectState")} { $content/metadata/projectState/text() }
-		}
-	   }
+          element {fn:QName($NS,"created")}      { $currentDateTime },
+          element {fn:QName($NS,"createdBy")}    { $loggedInUser },
+          element {fn:QName($NS,"modified")}     { $currentDateTime },
+          element {fn:QName($NS,"modifiedBy")}   { $loggedInUser },
+          element {fn:QName($NS,"objectType")}   { "Project" },
+          element {fn:QName($NS,"subjectHeadings")} {
+            for $subjectHeading in $project/subjectHeadings/subjectHeading/text()
+              return
+                element {fn:QName($NS,"subjectHeading")} { $subjectHeading }
+          },
+          element {fn:QName($NS,"subjectKeywords")} {
+            for $subjectKeyword in $project/subjectKeywords/subjectKeyword/text()
+              return
+                element {fn:QName($NS,"subjectKeyword")} { $subjectKeyword }
+          },			  
+          element {fn:QName($NS,"projectState")} { $project/projectState/text() }
+        },
+        element {fn:QName($NS,"feed")} {
+          element {fn:QName($NS,"title")}         { $project/title/text() },
+          element {fn:QName($NS,"description")}   { $project/description/text() }
+        }
+      }
+	   
     ),
-    fn:concat("Project Successfully Saved: ", $content/metadata/title/text())
+    fn:concat("Project Successfully Saved: ", $uri)
   )
 };
 
-declare function project:_save($content)
+declare function project:_save($uri as xs:string, $project)
 {
-  let $hashedDir := xdmp:hash64($content/mml:metadata/mml:title/text())
-  (: let $log := xdmp:log("......... hash: "||$hashedDir) :)
-
-  let $uri := "/project/"||$hashedDir||".xml"
-
   let $cmd :=
         fn:concat
         (
           'declare variable $uri external;
-           declare variable $content external;
-           xdmp:document-insert($uri, $content, xdmp:default-permissions(), ("project"))'
+           declare variable $project external;
+           xdmp:document-insert($uri, $project, xdmp:default-permissions(), ("project"))'
         )
   return
     xdmp:eval
     (
       $cmd,
-      (xs:QName("uri"), $uri, xs:QName("content"), $content)
+      (xs:QName("uri"), $uri, xs:QName("project"), $project)
     )
 };
 
-declare function project:update($uri as xs:string, $content)
+declare function project:update($uri as xs:string, $project)
 {
-	let $log := xdmp:log( "URI of existing document...." || $uri)
+	let $log := xdmp:log( "......................update uri: " ||$uri)
+
+  let $invalidUriMessage := "invalid uri"
+
+  let $process :=
+    if (fn:string-length($uri) eq 0) then $invalidUriMessage
+    else
+    if (fn:doc-available($uri)) then
+      "process update"
+    else
+      $invalidUriMessage
+
+  let $loggedInUser    := auth:getFullName(auth:getLoggedInUserFromHeader())
+  let $currentDateTime := fn:current-dateTime()
+  let $origDoc         := fn:doc($uri)
 	
-	let $isDocExists := fn:doc-available($uri)
-	
-	(: Don't change created by value -  :)
-	let $createdBy := 
-		if ($isDocExists) then ( 
-			 fn:doc($uri)/mml:project/mml:metadata/mml:createdBy/text()
-		)
-		else "webuser"
-			
-		(: Construct new document from input payload :)
-		let $newDoc :=
-		  document {
-			  element {fn:QName($NS,"mml:project")}
-			  {
+  (: Construct new document from input payload :)
+  let $newDoc :=
+    document {
+  	  element {fn:QName($NS,"mml:project")}
+  	  {
 				element {fn:QName($NS,"metadata")}
 				{
-				  element {fn:QName($NS,"systemId")}     { $content/metadata/systemId/text() },
-				  element {fn:QName($NS,"created")}      { fn:current-dateTime() },
-				  element {fn:QName($NS,"createdBy")}    { $createdBy },
-				  element {fn:QName($NS,"modified")}     { fn:current-dateTime() },
-				  element {fn:QName($NS,"modifiedBy")}   { $content/metadata/modifiedBy/text() },
+          element {fn:QName($NS,"created")}      { $origDoc/mml:project/mml:metadata/mml:created/text() },
+          element {fn:QName($NS,"createdBy")}    { $origDoc/mml:project/mml:metadata/mml:createdBy/text() },
+				  element {fn:QName($NS,"modified")}     { $currentDateTime },
+				  element {fn:QName($NS,"modifiedBy")}   { $loggedInUser },
 				  element {fn:QName($NS,"objectType")}   { "Project" },
-				  element {fn:QName($NS,"title")}         { $content/metadata/title/text() },
-				  element {fn:QName($NS,"description")}   { $content/metadata/description/text() },
 				  element {fn:QName($NS,"subjectHeadings")} {
-					for $subjectHeading in $content/metadata/subjectHeadings/subjectHeading/text()
+					for $subjectHeading in $project/subjectHeadings/subjectHeading/text()
 					  return
 						element {fn:QName($NS,"subjectHeading")} { $subjectHeading }
 				  },
 				  element {fn:QName($NS,"subjectKeywords")} {
-					for $subjectKeyword in $content/metadata/subjectKeywords/subjectKeyword/text()
+					for $subjectKeyword in $project/subjectKeywords/subjectKeyword/text()
 					  return
 						element {fn:QName($NS,"subjectKeyword")} { $subjectKeyword }
 				  },			  
-				  element {fn:QName($NS,"projectState")} { $content/metadata/projectState/text() }
-				}
-			   }
-		   }
-	let $status := 
-		if ($isDocExists) then
-		(
-			project:_update($uri, $newDoc), 
-			fn:concat("Project document updated successfully")
-		)
-		else "Invalid URI"
+				  element {fn:QName($NS,"projectState")} { $project/projectState/text() }
+				},
+        element {fn:QName($NS,"feed")} {
+          element {fn:QName($NS,"title")}         { $project/title/text() },
+          element {fn:QName($NS,"description")}   { $project/description/text() }
+        }
+      }
+    }
 
-	return $status
-
+  let $status :=
+    if (fn:starts-with($process, $invalidUriMessage)) then $invalidUriMessage
+    else
+    (
+      project:_update($uri, $newDoc),
+      fn:concat("Project Successfully Updated: '", $newDoc/mml:project/mml:feed/mml:title/text(), "'")
+    )
+    
+  return $status
 };
 
 

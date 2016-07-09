@@ -1,12 +1,11 @@
 <mml:project xmlns:mml="http://macmillanlearning.com">
   <mml:metadata>
-    <mml:type>project</mml:type>
+    <mml:objectType>Project</mml:objectType>
     <mml:created>2015-04-15 13:30</mml:created>
     <mml:lastModified>2015-04-15 13:30</mml:lastModified>
-    <mml:createdBy>bcross</mml:createdBy>
-    <mml:modifiedBy>bcross</mml:modifiedBy>
+    <mml:createdBy>Brian Cross</mml:createdBy>
+    <mml:modifiedBy>Brian Cross</mml:modifiedBy>
     <mml:state>active</mml:state>
-    <mml:systemId>d41d8cd98f00b204e9800998ecf1117e</mml:systemId>
     <mml:uri>www.macmillan.com/workflow/projects/Hockenbury5e</mml:uri>
     <mml:objectType>Project</mml:objectType>
     <mml:subjectHeadings>
@@ -18,7 +17,6 @@
     </mml:subjectKeywords>
   </mml:metadata>
   <mml:feed>
-    <mml:uri>/projects/Hockenbury5e</mml:uri>
     <mml:title>Hockenbury 5e</mml:title>
     <mml:description>Hockenbury 5 edition of Test Bank for Discovering Psychology</mml:description>
     <mml:body/>
