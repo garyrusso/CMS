@@ -429,30 +429,40 @@ declare function mml:searchContentDocs($qtext as xs:string, $start, $pageLength)
           <element ns="http://macmillanlearning.com" name="systemId"/>
         </word>
       </constraint>
-	  <constraint name="Keywords">
-		  <range collation="http://marklogic.com/collation/" facet="true">
-			 <element ns="http://macmillanlearning.com" name="subjectKeyword" />
-			 <facet-option>limit=5</facet-option>
-		  </range>
-	   </constraint>
-	   <constraint name="Subjects">
-		  <range collation="http://marklogic.com/collation/" facet="true">
-			 <element ns="http://macmillanlearning.com" name="subjectHeading" />
-			 <facet-option>limit=5</facet-option>
-		  </range>          
-	  </constraint>
-    <constraint name="Title">
-		  <range collation="http://marklogic.com/collation/" facet="true">
-			 <element ns="http://macmillanlearning.com" name="title" />
-			 <facet-option>limit=5</facet-option>
-		  </range>          
-	  </constraint>
-	  <constraint name="Content State">
-		  <range collation="http://marklogic.com/collation/" facet="true">
-			 <element ns="http://macmillanlearning.com" name="contentState" />
-			 <facet-option>limit=5</facet-option>
-		  </range>
-	  </constraint>  	  
+      <constraint name="keyword">
+        <word>
+          <element ns="http://macmillanlearning.com" name="subjectKeyword"/>
+        </word>
+      </constraint>
+      <constraint name="heading">
+        <word>
+          <element ns="http://macmillanlearning.com" name="subjectHeading"/>
+        </word>
+      </constraint>
+  	  <constraint name="Keywords">
+  		  <range collation="http://marklogic.com/collation/" facet="true">
+  			 <element ns="http://macmillanlearning.com" name="subjectKeyword" />
+  			 <facet-option>limit=5</facet-option>
+  		  </range>
+  	   </constraint>
+  	   <constraint name="Subjects">
+  		  <range collation="http://marklogic.com/collation/" facet="true">
+  			 <element ns="http://macmillanlearning.com" name="subjectHeading" />
+  			 <facet-option>limit=5</facet-option>
+  		  </range>          
+  	  </constraint>
+      <constraint name="Title">
+  		  <range collation="http://marklogic.com/collation/" facet="true">
+  			 <element ns="http://macmillanlearning.com" name="title" />
+  			 <facet-option>limit=5</facet-option>
+  		  </range>          
+  	  </constraint>
+  	  <constraint name="Content State">
+  		  <range collation="http://marklogic.com/collation/" facet="true">
+  			 <element ns="http://macmillanlearning.com" name="contentState" />
+  			 <facet-option>limit=5</facet-option>
+  		  </range>
+  	  </constraint>  	  
       <transform-results apply="metadata-snippet">
         <preferred-elements>
           <element ns="http://macmillanlearning.com" name="systemId"/>
