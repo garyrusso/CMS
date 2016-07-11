@@ -126,6 +126,7 @@
             $http.post(WS.authenticateUser, postdata).then(function (response) {
                 if (response.data && response.data.authToken) {
                     response.data.roles = ['User'];
+                    response.data.userSession = response.data.authToken.substring(1, 4) + Math.floor((Math.random() * 1000) + 1);
                     self.authenticate(response.data);
                     deferred.resolve(response.data);
                 } else {

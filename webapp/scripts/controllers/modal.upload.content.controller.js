@@ -39,6 +39,8 @@
         };
 
         $scope.authToken = CommonService.getItems().authToken;
+        
+        $scope.userSession = CommonService.getItems().userSession;
 
         $scope.sourceData = [];
         //["Book", "Internet"];

@@ -77,9 +77,10 @@
                     $timeout(function() {
                         defer.resolve(response);
                     }, APP_CONFIG.API[APP_CONFIG.environment].fakeDelayTime);
-
-                } else {
+                } else if (response && response.data && response.data !== 'null'){
                     defer.resolve(response);
+                } else {
+                    defer.reject(response);
                 }
 
                 return defer.promise;
