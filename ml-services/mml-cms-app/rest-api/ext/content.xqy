@@ -75,13 +75,6 @@ function mml:get(
     (
       let $contentDoc := fn:doc($uri)
 
-      let $projects :=
-        element { fn:QName($NS,"mml:projects") }
-        {
-          element { fn:QName($NS,"mml:project") } { "project 1" },
-          element { fn:QName($NS,"mml:project") } { "project 2" }
-        }
-      
       let $auditDoc := am:getAuditInfo($uri)
       
       let $preDoc :=
@@ -104,9 +97,9 @@ function mml:get(
           $contentDoc/mmlc:content/mmlc:feed/mmlc:technical/mmlc:filePath,
           $contentDoc/mmlc:content/mmlc:feed/mmlc:technical/mmlc:fileSize,
           $contentDoc/mmlc:content/mmlc:feed/mmlc:creators/mmlc:creator,
+          $contentDoc/mmlc:content/mmlc:metadata/mmlc:projects/mmlc:project,
           $contentDoc/mmlc:content/mmlc:metadata/mmlc:subjectHeadings/mmlc:subjectHeading,
           $contentDoc/mmlc:content/mmlc:metadata/mmlc:subjectKeywords/mmlc:subjectKeyword,
-          $projects/mmlc:project,
           $auditDoc
         }
 
