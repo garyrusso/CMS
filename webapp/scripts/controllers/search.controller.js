@@ -54,16 +54,16 @@
         
         //ng-table col configuration
         search.cols = [{
-            field : "Title",
+            field : "title",
             title : "Title",
-            sortable : "Title",
+            sortable : "title",
             sortDirection : "desc"
         }, {
             field : "project",
             data : {
-                field : "username",
+                field: "createdBy",
                 title : "Owner",
-                sortable : "username",
+                sortable: "createdBy",
                 sortDirection : "desc"
             }
         }, {
@@ -83,9 +83,9 @@
                 sortDirection : "desc"
             }
         }, {
-            field : "dateLastModified",
+            field: "modified",
             title : "Date Modified",
-            sortable : "dateLastModified",
+            sortable: "modified",
             sortDirection : "asc"
         }];
         search.sortables = _.indexBy(search.cols, "field");
@@ -99,11 +99,16 @@
                 var defer = $q.defer();
                 $scope.setLoading(true);
                 var pageDetails = params.url(), orderBy = params.orderBy() ? params.orderBy()[0] : '';
-                SearchService.searchData(search.searchType, search.searchText, pageDetails.page, pageDetails.count, orderBy, search.sortBy).then(function(response) {
+                //TODO: search.sortBy ? yet tobe implemented
+                SearchService.searchData(search.searchType, search.searchText, pageDetails.page, pageDetails.count, orderBy, '', search.facetsSelected).then(function (response) {
                     $scope.setLoading(false);
-                    params.total(response.total);
-                    search.facets = CommonService.formatFacets(response.facets);
-                    defer.resolve(response.results);
+                    if (response.results) {
+                        params.total(response.results.count);
+                        search.facets = CommonService.formatFacets(response.results.facets);
+                        defer.resolve(response.results.result);
+                    } else {
+                        defer.resolve([]);
+                    }
                 }, function() {
                     defer.resolve([]);
                 });

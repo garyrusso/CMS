@@ -36,7 +36,8 @@ namespace Macmillan.CMS.Service.Controllers
         public object Get(string orderBy, int pageNumber, int pageSize, string searchText, string searchType, string userName)
         {
             Logger.Debug("Entering Get");
-            var results= this.searchDataBusiness.GetData(orderBy, pageNumber, pageSize, searchText, searchType, userName);
+            string[] facets = System.Web.HttpContext.Current.Request.QueryString.GetValues("facets");
+            var results= this.searchDataBusiness.GetData(orderBy, pageNumber, pageSize, searchText, searchType, userName,facets);
             Logger.Debug("Exiting Get");
             return results;
         }

@@ -29,10 +29,10 @@ namespace Macmillan.CMS.Business
         /// <param name="searchType"></param>
         /// <param name="userName"></param>
         /// <returns></returns>
-        public object GetData(string orderBy, int pageNumber, int pageSize, string searchText, string searchType, string userName)
+        public object GetData(string orderBy, int pageNumber, int pageSize, string searchText, string searchType, string userName, string[] facets)
         {
             Logger.Debug("Entering GetData");
-            var results = this.searchDataDAL.GetData(orderBy, pageNumber, pageSize, searchText, searchType, userName);
+            var results = this.searchDataDAL.GetData(orderBy, pageNumber, pageSize, searchText, searchType, userName,facets);
             Logger.Debug("Exiting GetData");
             return results;
         }

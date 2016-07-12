@@ -109,13 +109,16 @@
          * @description
          * convert facet object to array by omiting query key
          */
-        function formatFacets(facetObject){
+        function formatFacets(facetObject) {
+            facetObject = (facetObject && facetObject.facet)?facetObject.facet:[];
             return _.chain(angular.copy(facetObject)).map(function(value, key) {
-                        return {
+                return (value && value.facetValues)?{
                             facetTitle: value.facetName,
-                            facetArray: value['facet-values']
-                        };
-                    }).value();
+                            facetArray: value.facetValues
+                        } : '';
+                })
+                .compact()
+                .value();
         }
 
     }

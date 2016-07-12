@@ -67,7 +67,7 @@
             return $http.get(WS.getContentDetails, {
                 params: params
             }).then(function (response) {
-                var returnData = {};
+                /*var returnData = {};
                 if (response.data && response.data.container) {
                     returnData = _.chain(response.data.container)
                         .reduce(function (present, start) {
@@ -76,7 +76,8 @@
                         .value();
                 }
 
-                return returnData;
+                return returnData;*/
+                return response.data;
             });
         }
         
