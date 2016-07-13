@@ -68,9 +68,9 @@
                 params: params
             }).then(function (response) {
                 var returnData = {};
-                if (response.data && response.data.project && response.data.project.metadata) {
-                    returnData = response.data.project.metadata;
-                    if (response.data.project.contents && response.data.project.contents.content) {
+                if (response.data) {
+                    returnData = response.data;
+                    if (response.data.contents && response.data.contents.content) {
                         returnData.content = response.data.project.contents.content;
                     }
                 }

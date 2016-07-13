@@ -30,6 +30,8 @@
         /* function to toggle list, grid views */
         search.toggleView = toggleView;
 
+        search.viewStateLink = viewStateLink; 
+
         /* function to change SearchType */
         search.changeSearchType = changeSearchType;
         
@@ -177,6 +179,17 @@
                 facetsSelected.push(text);
             }
             return facetsSelected;
+        }
+
+        //TODO desc
+        function viewStateLink(type) {
+            type = (type)?type:(search.searchType === 'project')?'project':'content';
+            if (type === 'project') {
+                type = 'projectview'
+            } else {
+                type = 'contentview'
+            }
+            return type;
         }
 
     }

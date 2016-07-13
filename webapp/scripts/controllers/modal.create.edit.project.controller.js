@@ -16,13 +16,13 @@
         $rootScope.setLoading(false);
         if (items.edit) {
             $scope.data = angular.copy(items.data);
-            if ($scope.data && $scope.data.subjectHeadings && $scope.data.subjectHeadings.subjectHeading) {
-                $scope.data.subjectHeadings = $scope.data.subjectHeadings.subjectHeading;
+            if ($scope.data && $scope.data.subjectHeading ) {
+                $scope.data.subjectHeadings = $scope.data.subjectHeading;
             } else {
                 $scope.data.subjectHeadings = [];
             }
-            if ($scope.data && $scope.data.subjectKeywords && $scope.data.subjectKeywords.subjectKeyword) {
-                $scope.data.subjectKeywords = $scope.data.subjectKeywords.subjectKeyword;
+            if ($scope.data && $scope.data.subjectKeyword) {
+                $scope.data.subjectKeywords = $scope.data.subjectKeyword;
             } else {
                 $scope.data.subjectKeywords = [""];
             }
