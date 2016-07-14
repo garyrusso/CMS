@@ -1,5 +1,4 @@
 ﻿{
-"meta":{
 "systemId":"##systemId##",
 "subjectHeadings":[
 ##subjectHeadings##
@@ -31,4 +30,4 @@
 "fileSize":"##fileSize##"
 }
 }
-}
+
