@@ -20,6 +20,8 @@
     </mml:subjectKeywords>
   </mml:metadata>
   <mml:feed>
+    <mml:systemId>d41d8cd98f00b204e980099427e222</mml:systemId>
+    <mml:projectUri>www.macmillan.com/workflow/projects/project2</mml:projectUri>
     <mml:uri>/projects/BattleOfYorktown</mml:uri>
     <mml:title>1776 Battle of Yorktown</mml:title>
     <mml:description>The British surrendered atthe Battle of Yorktown</mml:description>
