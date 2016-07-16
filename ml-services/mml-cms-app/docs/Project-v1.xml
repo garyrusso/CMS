@@ -1,0 +1,42 @@
+<!--Namespace declaration-->
+<mml:cmsDocument xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:schema="http://schema.org/" xmlns:epub="http://www.idpf.org/2007/ops" xmlns:mml="http://macmillanlearning.com/" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!--Elements specific to metadata markup-->	
+  <mml:metadata>
+    <!--Common elements across projects and content-->
+    <mml:cmsCore>
+      <mml:administrative>
+        <mml:systemID>d41d8cd98f00b204e9800998ecf8427e</mml:systemID>
+        <mml:uri>www.macmillan.com/workflow/projects/Hockenbury5e</mml:uri>
+        <mml:dataCreated>2015-04-15 13:30</mml:dataCreated>
+        <mml:dateLastModified>2015-04-15 13:30</mml:dateLastModified>
+        <mml:createdBy>bcross</mml:createdBy>
+        <mml:modifiedBy>bcross</mml:modifiedBy>
+        <mml:objectType>Project</mml:objectType>
+      </mml:administrative>
+      <mml:descriptive>
+        <dc:title>Hockenbury 5e</dc:title>
+        <dc:description>Hockenbury 5 edition of Test Bank for Discovering Psychology</dc:description>
+      </mml:descriptive>
+      <mml:semantic>
+        <mml:subjectHeadings>
+          <mml:subjectHeading>Psychology</mml:subjectHeading>
+        </mml:subjectHeadings>
+        <mml:subjectKeywords>
+          <mml:subjectKeyword>EPUB3</mml:subjectKeyword>
+          <mml:subjectKeyword>EDUPUB</mml:subjectKeyword>
+        </mml:subjectKeywords>
+      </mml:semantic>	
+    </mml:cmsCore>
+    <!--Elements specific to projects-->
+    <mml:project>
+      <mml:descriptive>
+        <mml:projectState>Active</mml:projectState>
+      </mml:descriptive>	
+    </mml:project>
+    <!--Elements specific to audit log. No values should exist for Project-->
+  </mml:metadata>
+  <!--Elements specific to content body markup-->	
+  <xhtml:body>
+  </xhtml:body>	
+</mml:cmsDocument>
+

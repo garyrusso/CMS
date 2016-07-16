@@ -61,6 +61,8 @@ declare function project:save($uri as xs:string, $project)
           element {fn:QName($NS,"projectState")} { $project/projectState/text() }
         },
         element {fn:QName($NS,"feed")} {
+          element {fn:QName($NS,"systemId")}      { $project/systemId/text() },
+          element {fn:QName($NS,"projectUri")}    { $project/projectUri/text() },
           element {fn:QName($NS,"title")}         { $project/title/text() },
           element {fn:QName($NS,"description")}   { $project/description/text() }
         }
@@ -131,6 +133,8 @@ declare function project:update($uri as xs:string, $project)
 				  element {fn:QName($NS,"projectState")} { $project/projectState/text() }
 				},
         element {fn:QName($NS,"feed")} {
+          element {fn:QName($NS,"systemId")}      { $project/systemId/text() },
+          element {fn:QName($NS,"projectUri")}    { $project/projectUri/text() },
           element {fn:QName($NS,"title")}         { $project/title/text() },
           element {fn:QName($NS,"description")}   { $project/description/text() }
         }

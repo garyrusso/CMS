@@ -114,6 +114,8 @@ function mml:get(
     else
       ""
 
+  let $log := xdmp:log(".................... searchBinaryFiles 2: "||$retObj/mmlc:status/text())
+
   let $config := json:config("custom")
   let $_ := map:put($config, "whitespace", "ignore" )
   let $_ := map:put($config,"array-element-names", xs:QName("mmlc:uri") )
@@ -281,16 +283,27 @@ function mml:delete(
     (
       map:put($context,"output-types","application/json")
     )
-    
+
   let $errorMessage :=
     if (fn:string-length($uri) eq 0) then "invalid uri"
     else
+    (
       try {
-        xdmp:document-delete($uri)
+        let $fileUri := 
+          if (fn:string-length($uri) gt 0) then 
+            mml:findFileInfoUri($uri)
+          else ()
+          
+        return
+        (
+          xdmp:document-delete($fileUri),
+          xdmp:document-delete($uri)
+        )
       }
       catch ($e) {
         $e/error:message/text()
       }
+    )
       
   let $statusMessage :=
     if (fn:string-length($errorMessage) eq 0) then
@@ -346,25 +359,27 @@ declare function mml:searchBinaryFiles($qtext, $start, $pageLength)
   let $statusMessage := "file(s) found"
 
   let $retObj :=
-      if (fn:count($uris) ge 1) then
-      (
-        element { fn:QName($NS,"mml:results") } {
-        element { fn:QName($NS,"mml:status") }    { $statusMessage },
-        element { fn:QName($NS,"mml:count") }     { fn:count($uris) },
-        element { fn:QName($NS,"mml:uris") }
-        {
-          for $uri in $uris
-            return
-              element { fn:QName($NS,"mml:uri") } { $uri }
-        }
-        }
-      )
-      else
-      (
-        element { fn:QName($NS,"mml:results") } {
-          element { fn:QName($NS,"mml:status") } { "no files found" }
-        }
-      )
+      element { fn:QName($NS,"mml:container") } {
+        if (fn:count($uris) ge 1) then
+        (
+          element { fn:QName($NS,"mml:results") } {
+          element { fn:QName($NS,"mml:status") }    { $statusMessage },
+          element { fn:QName($NS,"mml:count") }     { fn:count($uris) },
+          element { fn:QName($NS,"mml:uris") }
+          {
+            for $uri in $uris
+              return
+                element { fn:QName($NS,"mml:uri") } { $uri }
+          }
+          }
+        )
+        else
+        (
+          element { fn:QName($NS,"mml:results") } {
+            element { fn:QName($NS,"mml:status") } { "no files found" }
+          }
+        )
+      }
 
   return $retObj
 };
@@ -407,6 +422,18 @@ declare function mml:getFileInfo($uri)
         }
 
   return $retObj
+};
+
+declare function mml:findFileInfoUri($fileUri as xs:string)
+{
+  let $query := cts:and-query((
+                   cts:collection-query("file"),
+                   cts:element-value-query(fn:QName($NS, "uri"), $fileUri)
+                 ))
+ 
+  let $uri := cts:uris("/file/", (), $query)[1]
+
+  return $uri
 };
 
 declare function mml:searchBinaryFilesOrig($qtext, $start, $pageLength)

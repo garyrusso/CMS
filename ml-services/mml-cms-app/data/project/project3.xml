@@ -21,6 +21,8 @@
     </mml:subjectKeywords>
   </mml:metadata>
   <mml:feed>
+    <mml:systemId>d41d8cd98f00b204e980099427e333</mml:systemId>
+    <mml:projectUri>www.macmillan.com/workflow/projects/project3</mml:projectUri>
     <mml:uri>/projects/BattleOfBrooklyn</mml:uri>
     <mml:title>1776 Battle of Brooklyn</mml:title>
     <mml:description>The Battle of Brooklyn took place on August 27, 1776. Learn more about what happened on that day in History</mml:description>
