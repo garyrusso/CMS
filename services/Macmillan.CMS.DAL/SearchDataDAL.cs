@@ -33,11 +33,19 @@ namespace Macmillan.CMS.DAL
             pageNumber = ((pageNumber - 1) * pageSize) + 1;
             string facetsParam = string.Empty;
 
+            if (searchText != string.Empty && searchText != null)
+            {
+                searchText= ""+"*"+searchText+"*"+"";
+            }
+
             if (facets != null)
             {
-            
+                if (searchText != string.Empty && searchText != null)
+                {
+                    searchText = searchText + "AND ";
+                }
                 //facetsParam = string.Join("&rs:q=", facets);
-                searchText = string.Join("&rs:q=", facets);
+                searchText = searchText + string.Join(" AND ", facets);
             }
             
 
