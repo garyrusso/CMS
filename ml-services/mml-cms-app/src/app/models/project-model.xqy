@@ -206,23 +206,22 @@ declare function project:get-document($uri as xs:string)
   
   let $associated-contents := cts:search(fn:doc(), $query)
    
-   
   let $resultDocument := 
         element project
         {
           element metadata {
-				element systemId     { $projectDocument/mml:project/mml:metadata/mml:systemId/text() }, 
-				element createdBy { $projectDocument/mml:project/mml:metadata/mml:createdBy/text() },
-				element created { $projectDocument/mml:project/mml:metadata/mml:created/text() },
-				element modifiedBy { $projectDocument/mml:project/mml:metadata/mml:modifiedBy/text() },
-				element modified { $projectDocument/mml:project/mml:metadata/mml:modified/text() },
-				element title { $projectDocument/mml:project/mml:metadata/mml:title/text() }, 
-				element description { $projectDocument/mml:project/mml:metadata/mml:description/text() },
-				element projectState { $projectDocument/mml:project/mml:metadata/mml:projectState/text() },
-				element subjectHeadings {
-				  for $subjectHeading in $projectDocument/mml:project/mml:metadata/mml:subjectHeadings/mml:subjectHeading/text()
-					return
-					  element subjectHeading { $subjectHeading }
+    				element systemId     { $projectDocument/mml:project/mml:metadata/mml:systemId/text() }, 
+    				element createdBy { $projectDocument/mml:project/mml:metadata/mml:createdBy/text() },
+    				element created { $projectDocument/mml:project/mml:metadata/mml:created/text() },
+    				element modifiedBy { $projectDocument/mml:project/mml:metadata/mml:modifiedBy/text() },
+    				element modified { $projectDocument/mml:project/mml:metadata/mml:modified/text() },
+    				element title { $projectDocument/mml:project/mml:metadata/mml:title/text() }, 
+    				element description { $projectDocument/mml:project/mml:metadata/mml:description/text() },
+    				element projectState { $projectDocument/mml:project/mml:metadata/mml:projectState/text() },
+    				element subjectHeadings {
+  				  for $subjectHeading in $projectDocument/mml:project/mml:metadata/mml:subjectHeadings/mml:subjectHeading/text()
+    					return
+    					  element subjectHeading { $subjectHeading }
 				},
 				element subjectKeywords {
 				  for $subjectKeyword in $projectDocument/mml:project/mml:metadata/mml:subjectKeywords/mml:subjectKeyword/text()

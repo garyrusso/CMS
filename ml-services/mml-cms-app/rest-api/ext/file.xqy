@@ -104,7 +104,7 @@ function mml:get(
     if (fn:string-length($uri) gt 0 and $info eq 1) then
       mml:getFileInfo($uri)
     else
-      mml:searchBinaryFiles($qtext, $start, $pageLength)
+      mml:searchBinaryFilesByQString($qtext, $start, $pageLength)
 
   let $auditAction :=
     if ((fn:string-length($uri) gt 0) and ($info eq 0) and (fn:not(fn:empty($retObj)))) then
@@ -114,12 +114,16 @@ function mml:get(
     else
       ""
 
-  let $log := xdmp:log(".................... searchBinaryFiles 2: "||$retObj/mmlc:status/text())
-
   let $config := json:config("custom")
   let $_ := map:put($config, "whitespace", "ignore" )
-  let $_ := map:put($config,"array-element-names", xs:QName("mmlc:uri") )
-  let $_ := map:put($config,"array-element-names", xs:QName("mmlc:auditEntry") )
+  let $_ :=
+    map:put(
+      $config, "array-element-names",
+      (
+        xs:QName("mmlc:result"),
+        xs:QName("mmlc:auditEntry")
+      )
+    )
 
   let $doc :=
     if (($format eq "json" and fn:string-length($uri) eq 0) or ($info eq 1)) then
@@ -436,7 +440,7 @@ declare function mml:findFileInfoUri($fileUri as xs:string)
   return $uri
 };
 
-declare function mml:searchBinaryFilesOrig($qtext, $start, $pageLength)
+declare function mml:searchBinaryFilesByQString($qtext, $start, $pageLength)
 {
   let $options :=
     <options xmlns="http://marklogic.com/appservices/search">
@@ -444,7 +448,33 @@ declare function mml:searchBinaryFilesOrig($qtext, $start, $pageLength)
       <term>
         <term-option>case-insensitive</term-option>
       </term>
-      <additional-query>{cts:collection-query(("file"))}</additional-query>
+      <additional-query>
+        <cts:and-query xmlns:cts="http://marklogic.com/cts">
+          <cts:collection-query>
+            <cts:uri>file</cts:uri>
+          </cts:collection-query>
+          <cts:not-query>
+            <cts:collection-query>
+              <cts:uri>binary</cts:uri>
+            </cts:collection-query>
+          </cts:not-query>
+        </cts:and-query>
+      </additional-query>
+      <constraint name="filename">
+        <word>
+          <element ns="http://macmillanlearning.com" name="fileName"/>
+        </word>
+      </constraint>
+      <transform-results apply="metadata-snippet">
+        <preferred-elements>
+          <element ns="http://macmillanlearning.com" name="fileName"/>
+          <element ns="http://macmillanlearning.com" name="uri"/>
+          <element ns="http://macmillanlearning.com" name="size"/>
+        </preferred-elements>
+        <max-matches>2</max-matches>
+        <max-snippet-chars>150</max-snippet-chars>
+        <per-match-tokens>20</per-match-tokens>
+      </transform-results>
       <return-results>true</return-results>
       <return-query>true</return-query>
     </options>
@@ -454,24 +484,29 @@ declare function mml:searchBinaryFilesOrig($qtext, $start, $pageLength)
   let $results := search:search($qtext, $options, $start, $pageLength)
 
   let $retObj :=
-      if (fn:count($results/search:result) ge 1) then
-      (
-        element { fn:QName($NS,"mml:results") } {
-        element { fn:QName($NS,"mml:status") }    { $statusMessage },
-        element { fn:QName($NS,"mml:count") }     { fn:count($results/search:result) },
-        for $result in $results/search:result
-          return
-            element { fn:QName($NS,"mml:result") } {
-            element { fn:QName($NS,"mml:uri") }       { xs:string($result/@uri) }
+      element { fn:QName($NS,"mml:container") }
+      {
+        if (fn:count($results/search:result) ge 1) then
+        (
+          element { fn:QName($NS,"mml:results") } {
+          element { fn:QName($NS,"mml:status") }    { $statusMessage },
+          element { fn:QName($NS,"mml:count") }     { fn:count($results/search:result) },
+          for $result in $results/search:result
+            return
+              element { fn:QName($NS,"mml:result") } {
+              element { fn:QName($NS,"mml:fileName") }  { $result/search:snippet/mmlc:fileName/text() },
+              element { fn:QName($NS,"mml:uri") }       { $result/search:snippet/mmlc:uri/text() },
+              element { fn:QName($NS,"mml:size") }      { $result/search:snippet/mmlc:size/text() }
+            }
           }
-        }
-      )
-      else
-      (
-        element { fn:QName($NS,"mml:results") } {
-          element { fn:QName($NS,"mml:status") } { "no files found" }
-        }
-      )
+        )
+        else
+        (
+          element { fn:QName($NS,"mml:results") } {
+            element { fn:QName($NS,"mml:status") } { "no files found" }
+          }
+        )
+      }
 
   return $retObj
 };
