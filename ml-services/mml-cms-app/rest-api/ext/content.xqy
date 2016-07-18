@@ -361,7 +361,7 @@ function mml:delete(
     if (fn:string-length($uri) eq 0) then "invalid uri"
     else
       try {
-        xdmp:document-delete($uri)
+        cm:updateContentState($uri, "inactive")
       }
       catch ($e) {
         $e/error:message/text()
@@ -369,13 +369,13 @@ function mml:delete(
       
   let $statusMessage :=
     if (fn:string-length($errorMessage) eq 0) then
-      "Document deleted: "||$uri
+      "Document status was updated to inactive: "||$uri
     else
       $errorMessage||" "||$uri
 
   let $auditAction :=
-    if (fn:string-length($uri) gt 0) then
-      am:save("deleted", $uri, "content")
+    if (fn:string-length($uri) gt 0 and fn:doc($uri)) then
+      am:save("marked inactive", $uri, "content")
     else
       ""
 

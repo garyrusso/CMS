@@ -6,6 +6,7 @@ import module namespace search = "http://marklogic.com/appservices/search" at "/
 import module namespace json  = "http://marklogic.com/xdmp/json" at "/MarkLogic/json/json.xqy";
 
 import module namespace pm    = "http://marklogic.com/roxy/models/project" at "/app/models/project-model.xqy";
+import module namespace am    = "http://marklogic.com/roxy/models/audit" at "/app/models/audit-model.xqy";
 
 declare namespace roxy = "http://marklogic.com/roxy";
 declare namespace rapi = "http://marklogic.com/rest-api";
@@ -312,7 +313,7 @@ function mml:delete(
     if (fn:string-length($uri) eq 0) then "invalid uri"
     else
       try {
-        xdmp:document-delete($uri)
+        pm:updateProjecState($uri, "inactive")
       }
       catch ($e) {
         $e/error:message/text()
@@ -320,9 +321,15 @@ function mml:delete(
       
   let $statusMessage :=
     if (fn:string-length($errorMessage) eq 0) then
-      "Document deleted: "||$uri
+      "Document marked inactive: "||$uri
     else
       $errorMessage||" "||$uri
+
+  let $auditAction :=
+    if (fn:string-length($uri) gt 0 and fn:doc($uri)) then
+      am:save("marked inactive", $uri, "project")
+    else
+      ""
 
   let $config := json:config("custom")
   let $_ := map:put($config, "whitespace", "ignore" )

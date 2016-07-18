@@ -32,39 +32,6 @@ declare function content:getContentUri($hash)
 
 declare function content:save($uri as xs:string, $content)
 {
-(:
-{
-  "meta": {
-    "systemId": "05b8825669ae9dee519349e4a9edafcb",
-    "projectState": "start",
-    "subjectHeadings": ["Geography"],
-    "subjectKeywords": [
-      "Hyderabad",
-      "Dubai"
-    ],
-    "projects": ["Beechers 21e", "Jets 2017"]
-  },
-  "feed": {
-    "title": "Beechers 21e EPUB3",
-    "description": "The EPUB3/EDUPUB of Beechers Cheese 21th Edition Geography textbook.",
-    "source": "Book",
-    "creators": ["Harriot Beechers"],
-    "publisher": "Harper Collins",
-    "datePublished": "2014-06-10",
-    "contentResourceTypes": [
-      {"contentResourceType": "Section"},
-      {"contentResourceType": "Learning Objective"}
-    ],
-    "contentState": "Initial Review",
-    "technical": {
-      "fileFormat": "EPUB",
-      "fileName": "beechers21e.epub",
-      "filePath": "s3://cms/beechers21e.epub",
-      "fileSize": "35400"
-    }
-  }
-}
-:)
   let $loggedInUser    := auth:getFullName(auth:getLoggedInUserFromHeader())
   let $currentDateTime := fn:current-dateTime()
   
@@ -255,33 +222,22 @@ declare function content:_update1($uri as xs:string, $newDoc)
     )
 };
 
+declare function content:updateContentState($uri as xs:string, $status as xs:string)
+{
+  let $doc := fn:doc($uri)
+
+  let $origNode := $doc/mml:content/mml:feed/mml:contentState
+  let $newNode  := element {fn:QName($NS,"mml:contentState")}  { $status }
+  let $_ := xdmp:node-replace($origNode, $newNode)
+
+  return "done"
+};
+
 declare function content:_update($uri as xs:string, $doc)
 {
   if($doc) then
     xdmp:spawn("/app/lib/updateContent.xqy", ((xs:QName("uri"), $uri, xs:QName("doc"), $doc)))
   else ()
-};
-
-declare function content:_update2($uri as xs:string, $doc)
-{
-  let $log := xdmp:log(".................. $uri:    "||$uri)
-  let $log := xdmp:log(".................. title 1: "||$doc/mml:content/mml:feed/mml:title/text())
-  
-  (: spawn :)
-
-  let $cmd :=
-        fn:concat
-        (
-          'declare variable $uri external;
-           declare variable $doc external;
-           xdmp:document-insert($uri, $doc, xdmp:default-permissions(), ("content"))'
-        )
-  return
-    xdmp:eval
-    (
-      $cmd,
-      (xs:QName("uri"), $uri, xs:QName("doc"), $doc)
-    )
 };
 
 declare function content:delete($username)

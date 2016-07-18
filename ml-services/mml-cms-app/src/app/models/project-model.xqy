@@ -163,7 +163,6 @@ declare function project:_update($uri as xs:string, $newDoc)
   return xdmp:node-replace($doc/mml:project, $newDoc/mml:project)
 };
 
-
 declare function project:delete($uri as xs:string)
 {
   let $doc := fn:doc($uri)
@@ -178,6 +177,17 @@ declare function project:delete($uri as xs:string)
   return (xdmp:node-replace($doc/$old-status, $new-status), fn:concat("Project ", $uri ," soft deleted"))
 };
 
+declare function project:updateProjecState($uri as xs:string, $status as xs:string)
+{
+  let $doc := fn:doc($uri)
+
+  let $origNode := $doc/mml:project/mml:metadata/mml:projectState
+  let $newNode  := element {fn:QName($NS,"mml:projectState")}  { $status }
+  
+  let $_ := xdmp:node-replace($origNode, $newNode)
+
+  return "done"
+};
 
 declare function project:get-document($uri as xs:string)
 {
