@@ -15,7 +15,6 @@ declare namespace jn   = "http://marklogic.com/xdmp/json/basic";
 
 declare variable $NS := "http://macmillanlearning.com";
 
-
 (:
 	API to Get Project content by passing URI 
 :)
@@ -74,6 +73,8 @@ function mml:get(
 		if (fn:string-length($uri) gt 0) then
 		(
       let $projectDoc := fn:doc($uri)
+      
+		  let $contentDocs := mml:findContentDocsByProjectTitle($projectDoc/mmlc:project/mmlc:feed/mmlc:title/text())
 		
       let $preDoc :=
         element { fn:QName($NS,"mmlc:container") }
@@ -88,7 +89,10 @@ function mml:get(
           $projectDoc/mmlc:project/mmlc:metadata/mmlc:modifiedBy,
           $projectDoc/mmlc:project/mmlc:metadata/mmlc:projectState,
           $projectDoc/mmlc:project/mmlc:metadata/mmlc:subjectHeadings/mmlc:subjectHeading,
-          $projectDoc/mmlc:project/mmlc:metadata/mmlc:subjectKeywords/mmlc:subjectKeyword
+          $projectDoc/mmlc:project/mmlc:metadata/mmlc:subjectKeywords/mmlc:subjectKeyword,
+          for $content in $contentDocs
+      			return
+      			  element { fn:QName($NS,"mml:content") } { $content/* }
         }
         
       let $doc :=
@@ -185,6 +189,12 @@ function mml:put(
     else
       "invalid uri"
 
+  let $auditAction :=
+    if (fn:string-length($uri) gt 0) then
+      am:save("updated", $uri, "project")
+    else
+      ""
+
   let $retObj :=
     element results {
         element { "status" } { $status }
@@ -245,6 +255,12 @@ function mml:post(
 
   let $uri := "/project/"||xdmp:hash64($projectObj)||".xml"
   let $doc := pm:save($uri, $projectObj)
+
+  let $auditAction :=
+    if (fn:string-length($uri) gt 0) then
+      am:save("created", $uri, "project")
+    else
+      ""
 
 	let $returnObj :=
 		element results {
@@ -457,16 +473,6 @@ declare function mml:searchProjectDocs($qtext as xs:string, $start, $pageLength)
 	let $statusMessage := "Project document found"
 
 	let $results := search:search($qtext, $options, $start, $pageLength)
-
-(:
-  let $content1 :=
-        element { fn:QName($NS,"mml:content") }
-        {
-          element { fn:QName($NS,"mml:createdBy") } { "Brian Cross" },
-          element { fn:QName($NS,"mml:modifiedBy") } { "Brian Cross" },
-          element { fn:QName($NS,"mml:title") } { "Content-1 Title" }
-        }
-:)
 
 	let $retObj :=
 	  if (fn:count($results/search:result) ge 1) then
