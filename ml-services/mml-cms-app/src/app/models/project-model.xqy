@@ -34,6 +34,11 @@ declare function project:save($uri as xs:string, $project)
 {
   let $loggedInUser    := auth:getFullName(auth:getLoggedInUserFromHeader())
   let $currentDateTime := fn:current-dateTime()
+  let $projectState    :=
+    if (fn:string-length($project/projectState/text()) gt 0) then
+      $project/projectState/text()
+    else
+      "start"
   
   return
   (
@@ -58,7 +63,7 @@ declare function project:save($uri as xs:string, $project)
               return
                 element {fn:QName($NS,"subjectKeyword")} { $subjectKeyword }
           },			  
-          element {fn:QName($NS,"projectState")} { $project/projectState/text() }
+          element {fn:QName($NS,"projectState")} { $projectState }
         },
         element {fn:QName($NS,"feed")} {
           element {fn:QName($NS,"systemId")}      { $project/systemId/text() },
@@ -107,6 +112,12 @@ declare function project:update($uri as xs:string, $project)
   let $loggedInUser    := auth:getFullName(auth:getLoggedInUserFromHeader())
   let $currentDateTime := fn:current-dateTime()
   let $origDoc         := fn:doc($uri)
+  
+  let $projectState    :=
+    if (fn:string-length($project/projectState/text()) gt 0) then
+      $project/projectState/text()
+    else
+      $origDoc//mml:project/mml:metadata/mml:projectState/text()
 	
   (: Construct new document from input payload :)
   let $newDoc :=
@@ -130,7 +141,7 @@ declare function project:update($uri as xs:string, $project)
 					  return
 						element {fn:QName($NS,"subjectKeyword")} { $subjectKeyword }
 				  },			  
-				  element {fn:QName($NS,"projectState")} { $project/projectState/text() }
+				  element {fn:QName($NS,"projectState")} { $projectState }
 				},
         element {fn:QName($NS,"feed")} {
           element {fn:QName($NS,"systemId")}      { $project/systemId/text() },
