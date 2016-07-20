@@ -35,7 +35,7 @@ namespace Macmillan.CMS.DAL
 
             if (searchText != string.Empty && searchText != null)
             {
-                searchText= ""+"*"+searchText+"*"+"";
+                searchText= ""+ searchText +"";
             }
 
             if (facets != null)
