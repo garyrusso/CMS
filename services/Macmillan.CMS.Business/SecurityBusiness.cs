@@ -41,9 +41,7 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         public object ValidateUserCredentials(Authentication authentication)
         {
-            Logger.Debug("Entering ValidateUserCredentials"); 
-            ////Build XML
-            //string AuthenticationXML = this.BuildauthenticationXML(Authentication);         
+            Logger.Debug("Entering ValidateUserCredentials");                   
             ////Post it to MarkLogic           
             var results = this.securityDAL.ValidateUser(authentication);
             Logger.Debug("Exiting ValidateUserCredentials");

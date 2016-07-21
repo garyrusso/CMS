@@ -24,19 +24,6 @@ namespace Macmillan.CMS.DAL
         {
             //Call ML and post the project xml
             Logger.Debug("Entering CreateProject");
-//            JsonNetSerialization ser = new JsonNetSerialization();
-//            string content = @"{'Title': 'Hockenbury 5e-1',
-//                                  'uri': '/mydocuments/project1.xml',
-//                                  'path': 'fn:doc(\'/mydocuments/project1.xml\')',
-//                                  'href': '/v1/documents?uri=%2Fmydocuments%2Fproject1.xml',
-//                                  'mimetype': 'application/xml',
-//                                  'format': 'xml',
-//                                  'dateLastModified': '2015-04-15 13:30',
-//                                  'username': 'bcross',
-//                                  'fullName': 'Brian Cross'                                   
-//                                   }";
-         
-//            var results = ser.DeSerialize(content);
 
             //Post it to MarkLogic  
             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "project?name=project&rs:format=json";
@@ -101,15 +88,7 @@ namespace Macmillan.CMS.DAL
             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "project?name=project&rs:uri="+ uri +"&rs:format=json";
             string results = mlReader.GetHttpContent(mlUrl,"application/json");
 
-            Logger.Debug("Exiting GetProjectDetails");
-            
-            ////XmlDocument doc = new XmlDocument();
-
-            ////doc.LoadXml(results);
-            ////XmlNode node = doc.SelectSingleNode("/mml:cmsDocument/mml:metadata/mml:cmsCore/mml:administrative/mml:uri");
-
-            ////string test = node.InnerText;
-
+            Logger.Debug("Exiting GetProjectDetails");       
             return mlReader.ConverttoJson<object>(results); 
         }
 
@@ -152,10 +131,9 @@ namespace Macmillan.CMS.DAL
             //Call ML and SearchProjects
             Logger.Debug("Entering SearchProjects");
             JsonNetSerialization ser = new JsonNetSerialization();
-            MLReader mlReader = new MLReader();            
-            //get Marklogic url for CRUD operations
-        
-            //string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "project?name=project&rs:format=json";
+            MLReader mlReader = new MLReader();       
+     
+            //get Marklogic url for CRUD operations                    
             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "project?name=project&rs:q=" + searchText + "&rs:format=json";
             string results = mlReader.GetHttpContent(mlUrl, "application/json");
 

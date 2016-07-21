@@ -38,12 +38,10 @@ namespace Macmillan.CMS.Business
             Logger.Debug(" Entering CreateProject");
 
             string projectXML = this.BuildCreateProjectXML(project);
-
-            var results = this.dal.CreateProject(projectXML, "/projects/" + project.Title);
-            
-            //var results = new { Title = project.Title, uri = "/projects/" + project.Title };
-
+            var results = this.dal.CreateProject(projectXML, "/projects/" + project.Title);    
+      
             Logger.Debug(" Exiting CreateProject");
+
             return results;
 
         }
@@ -57,7 +55,6 @@ namespace Macmillan.CMS.Business
         {
             Logger.Debug(" Entering BuildProjectXML");
 
-            //StringBuilder text = new StringBuilder(File.ReadAllText(ConfigurationManager.AppSettings["AppDataPath"] + "\\CreateProject.xml"));
             StringBuilder text = new StringBuilder(File.ReadAllText(ConfigurationManager.AppSettings["AppDataPath"] + "\\CreateProject.json"));
             
             text.Replace("##systemId##", Guid.NewGuid().ToString("N").Substring(0, 32));
@@ -173,9 +170,7 @@ namespace Macmillan.CMS.Business
 
             string projectXML = this.BuildEditProjectXML(project);
 
-            var results = this.dal.UpdateProject(projectXML, project.ProjectURL);
-
-             //= new { Title = project.Title, uri = "/projects/" + project.Title };
+            var results = this.dal.UpdateProject(projectXML, project.ProjectURL);             
 
             Logger.Debug(" Exiting UpdateProject");
             return results;
@@ -188,14 +183,9 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         public object DeleteProject(Project project)
         {
-            Logger.Debug(" Entering DeleteProject");
+            Logger.Debug(" Entering DeleteProject");          
 
-            //project.ProjectState = "Inactive";
-            //string projectXML = this.BuildEditProjectXML(project);
-
-            var results = this.dal.DeleteProject(project.ProjectURL);
-
-             //new { Title = project.Title, uri = "/projects/" + project.Title };
+            var results = this.dal.DeleteProject(project.ProjectURL);      
 
             Logger.Debug(" Exiting DeleteProject");
             return results;
@@ -210,9 +200,7 @@ namespace Macmillan.CMS.Business
         {
             Logger.Debug("Entering GetProjectDetails"); 
             var results= this.dal.GetProjectDetails(uri);
-
-           // Project proj = this.GetProjectObject(results.ToString());
-
+            
             Logger.Debug("Exiting GetProjectDetails");
             return results;
         }

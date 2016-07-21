@@ -33,20 +33,13 @@ namespace Macmillan.CMS.DAL
         public object ValidateUser(Authentication authentication)
         {
             //Post it to MarkLogic  
-            //string mlUrl = "http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/login";
-            //string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "login?name=login";
-            string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "login";
-            //string mlUrl = "http://ec2-54-209-174-53.compute-1.amazonaws.com:8060/v1/resources/login?name=login";
-            //string[] mlCredentials = ConfigurationManager.AppSettings["MarkLogicCredentials"].Split(new char[] { '/' });
+            string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "login";                   
             MLReader mlReader = new MLReader();
 
-            //get base64 representaion of user name and password
-            //string authorization = "Basic " + this.ConvertoBase64(mlCredentials[0] + ":" + mlCredentials[1]);
+            //get base64 representaion of user name and password           
             string userInfo = this.ConvertoBase64(authentication.username.Split(new char[] { '@' })[0] + ":" + authentication.password);
             
-            Dictionary<string, string> requestHeader = new Dictionary<string, string>();
-
-            //requestHeader.Add("Authorization", authorization);
+            Dictionary<string, string> requestHeader = new Dictionary<string, string>();            
             requestHeader.Add("UserInfo", userInfo);
 
             object results = null;
@@ -55,13 +48,10 @@ namespace Macmillan.CMS.DAL
                 results = mlReader.GetHttpContent<object>(mlUrl, "application/json", requestHeader);
             }
             catch (Exception ex)
-            {
-                //{"responseCode":"401","message":"User/Pass incorrect"}
-
+            {               
                 if (ex.Message.Contains("401"))
                 { 
-                    var error = new {responseCode ="401", message = "User/Pass incorrect"};
-
+                    var error = new {responseCode ="401", message = "User/Password incorrect"};
                     results = error;
                 }
             }

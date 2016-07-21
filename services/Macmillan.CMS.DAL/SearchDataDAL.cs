@@ -43,8 +43,7 @@ namespace Macmillan.CMS.DAL
                 if (searchText != string.Empty && searchText != null)
                 {
                     searchText = searchText + "AND ";
-                }
-                //facetsParam = string.Join("&rs:q=", facets);
+                }                
                 searchText = searchText + string.Join(" AND ", facets);
             }
             

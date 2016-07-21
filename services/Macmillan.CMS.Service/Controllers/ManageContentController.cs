@@ -8,7 +8,6 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
-//using Macmillan.CMS.Service.FlowJs;
 using System.IO;
 using System.Threading.Tasks;
 using Macmillan.CMS.Common;
@@ -21,7 +20,7 @@ namespace Macmillan.CMS.Service.Controllers
     {
         IManageContentBusiness business;
         IDictionaryBusiness dictionaryBusiness;
-        //private readonly IFileManagerService _fileManager;
+        
         private readonly IFlowJsRepoBusiness _flowJs;      
         private string fileRepository = ConfigurationManager.AppSettings["FileRepository"];
         private string chunkRepository = ConfigurationManager.AppSettings["ChunkFileRepository"];
@@ -96,8 +95,7 @@ namespace Macmillan.CMS.Service.Controllers
 
             var chunkExists = _flowJs.ChunkExists(this.chunkRepository, request);
             if (chunkExists)
-                return Ok();
-            //return NotFound();
+                return Ok();            
 
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -118,12 +116,7 @@ namespace Macmillan.CMS.Service.Controllers
                     if (request.Files.Count == 0)
                         return Ok();
 
-                    var validationRules = new Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules();
-                    //validationRules.AcceptedExtensions.AddRange(new List<string> { "jpeg", "jpg", "png", "bmp", "zip" });
-                    //validationRules.AcceptedExtensions.AddRange(this.GetUploadFileTypes());
-                    //validationRules.MaxFileSize = 5000000;
-
-                    //var status = _flowJs.PostChunk(request, this.fileRepository, validationRules);
+                    var validationRules = new Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules();                   
                     var status = _flowJs.PostChunk(request,this.fileRepository,this.chunkRepository,validationRules);
 
                     string errors = string.Empty;
@@ -137,7 +130,6 @@ namespace Macmillan.CMS.Service.Controllers
                     }
                     else if (status.Status == Macmillan.CMS.Common.Models.FlowModels.PostChunkStatus.Done)
                     {                       
-                        //await Task.Factory.StartNew(() => { this.UploadFile(new FileInfo(Path.Combine(this.fileRepository, status.FileName))); });
                         this.UploadFile(new FileInfo(Path.Combine(this.fileRepository, status.FileName)));
                     }
                 }

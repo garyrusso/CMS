@@ -19,8 +19,7 @@ namespace Macmillan.CMS.DAL
         /// <returns></returns>
         public object GetDictionary(string dictionaryType, string outputFormat)
         {
-            Logger.Debug("Entering GetDictionary");
-            //string mlUrl = ConfigurationManager.AppSettings["MarkLogic_DICTIONARY_URL"] + "?rs:dictionaryType=" + dictionaryType + "&rs:output-format=" + outputFormat;
+            Logger.Debug("Entering GetDictionary");            
             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "dictionary?rs:dictionaryType=" + dictionaryType + "&rs:format=" + outputFormat + "&name=dictionary";
         
             MLReader mlReader = new MLReader();

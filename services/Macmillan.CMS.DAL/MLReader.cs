@@ -76,7 +76,6 @@ namespace Macmillan.CMS.DAL
                 this.ProcessErrors(httpClass);
 
                 string content = httpClass.GetResponseContent();
-              //  return (T)this.serializer.ToString(content);
                 return (T)this.serializer.DeSerialize<T>(content);
             }
         }
@@ -89,14 +88,11 @@ namespace Macmillan.CMS.DAL
                 results = (T)this.serializer.DeSerialize<T>(Data);
             }
             catch (Exception ex)
-            {
-                //{"responseCode":"401","message":"User/Pass incorrect"}
+            {                
                 var error = new { responseCode = "401", message = "Please contact Administrator" };
                 if (ex.Message.Contains("401"))
                 {
-                    error = new { responseCode = "401", message = "401 Unauthorized" };
-
-                    
+                    error = new { responseCode = "401", message = "401 Unauthorized" };                    
                 }
                 
                 results = error;
@@ -131,12 +127,7 @@ namespace Macmillan.CMS.DAL
         {
             using (var httpClass = new HttpClass(url, SupportedHttpMethods.POST, mediaType, file, requestHeaders, contentHeaders))
             {
-              //  httpClass.file = file;
-              //  httpClass.Invoke();
-
-              //  this.ProcessErrors(httpClass);
-
-                return httpClass.GetWebFileResponse(url, file); ;
+              return httpClass.GetWebFileResponse(url, file); ;
             }
         }
 

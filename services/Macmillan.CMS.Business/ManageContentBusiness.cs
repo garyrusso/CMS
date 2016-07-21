@@ -212,24 +212,7 @@ namespace Macmillan.CMS.Business
                  }
 
                  text.Replace("##contentResourceTypes##", ContentResources.ToString());
-             }
-
-             //if (fileInfo != null)
-             //{
-             //    StringBuilder resources = new StringBuilder();
-
-             //    foreach (FileInfo file in fileInfo)
-             //    {
-             //        if (!string.IsNullOrEmpty(resources.ToString()));
-             //            resources.Append(",");
-
-             //        resources.Append(file);
-             //    }
-
-             //    text.Replace("##resources##", resources.ToString());
-             //}
-
-             //text.Replace("##contentResourceTypes##", "\"" + fileInfo.Name + "\"");
+             }            
            
                  text.Replace("##fileFormat##", fileInfo.Extension);
                  text.Replace("##fileName##", fileInfo.Name);
@@ -343,22 +326,6 @@ namespace Macmillan.CMS.Business
 
                  text.Replace("##creators##", creators.ToString());
              }
-
-
-             ////if (fileInfo != null) 
-             ////{
-             ////    StringBuilder resources = new StringBuilder();
-
-             ////    foreach (FileInfo file in fileInfo)
-             ////    {
-             ////        if (!string.IsNullOrEmpty(resources.ToString()))
-             ////            resources.Append(",");
-
-             ////        resources.Append(file);
-             ////    }
-
-             ////    text.Replace("##resources##", resources.ToString());
-             ////}
 
              text.Replace("##fileFormat##", content.FileFormat);
              text.Replace("##fileName##", content.FileName );

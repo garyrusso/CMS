@@ -244,9 +244,7 @@
 
         private void IdentifyErrors(HttpResponseMessage msg)
         {
-            string content = msg.ToString();
-
-            //responseStatusCode = msg.StatusCode.ToString();
+            string content = msg.ToString();                      
 
             if (!content.Contains("StatusCode: 20"))
                 this.errorOccurred = true;
@@ -274,9 +272,7 @@
         private string BuildUserTokenHeader()
         {
             string userToken = this.ExtractHeader("X-Auth-Token");
-            return userToken;
-
-          //  return "Z3J1c3NvOnBhc3N3b3Jk";
+            return userToken;          
         }
 
         private string ConvertoBase64(string text)
@@ -294,8 +290,6 @@
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Timeout = 5000;
 
-            //request.Headers.Add("UserInfo", this.BuildUserTokenHeader());
-            //request.Headers.Add("Authorization", this.BuildAuthHeader());
             request.Headers.Add("Authorization", this.BuildAuthHeader());
             request.Headers.Add("X-Auth-Token", this.BuildUserTokenHeader());
 
@@ -313,9 +307,7 @@
                         fileContent.Content.Headers.ContentDisposition.FileName = fileName;
                         fileContent.Content.Headers.ContentType =
                             new MediaTypeHeaderValue("application/octet-stream");
-                        result = fileContent;
-
-                   // }
+                        result = fileContent;                  
                 }
             }
             catch (WebException)
