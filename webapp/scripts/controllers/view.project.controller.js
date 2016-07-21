@@ -16,8 +16,6 @@
         var project = this;
         project.data = routeResolvedProjectView;
         project.data.uri = $stateParams['uri'];
-        /*project.data.subjects = _.chain(routeResolvedProjectView.SubjectHeadings).indexBy('subjectHeading').keys().value();
-        project.data.keywords = _.chain(routeResolvedProjectView.SubjectKeywords).indexBy('subjectKeyword').keys().value();*/
 
         //TODO: move to Commonservice
         project.editProject = projectsEditProject;

@@ -11,7 +11,7 @@ footer {
     position: fixed;
     bottom: 0px;
     width: 100%;
-    height: 41px;/** box-sizing:border-box */
+    height: 41px;
     background-color: #FFFFFF;
     line-height: 40px;
     border-top: #979797 1px solid;

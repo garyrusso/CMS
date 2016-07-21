@@ -1,7 +1,6 @@
 <h3 ng-if="!items.edit">Create Project</h3>
 <h3 ng-if="items.edit">Edit Project</h3>
 <form name="projectForm" ng-submit="submit()">
-        
     <div class="form-group">
         <label for="InputProjectName">Title *</label>
         <input class="form-control" type="text" id="InputProjectName"
@@ -37,9 +36,7 @@
            
         </div>
     </div>
-
     <label>Keywords</label>
-   
     <div class="form-group">
         <div>
             <div ng-repeat="keyElement in data.subjectKeywords track by $index">             
@@ -65,7 +62,6 @@
             </div>
         </div>
     </div>
-
     <p class="text-center">
         <button type="submit" class="btn btn-default" ng-if="!items.edit" ng-disabled="projectForm.$invalid">
             Create

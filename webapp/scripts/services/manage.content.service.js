@@ -67,16 +67,6 @@
             return $http.get(WS.getContentDetails, {
                 params: params
             }).then(function (response) {
-                /*var returnData = {};
-                if (response.data && response.data.container) {
-                    returnData = _.chain(response.data.container)
-                        .reduce(function (present, start) {
-                            return _.extend(present, start)
-                        }, {})
-                        .value();
-                }
-
-                return returnData;*/
                 return response.data;
             });
         }
@@ -146,14 +136,8 @@
                 }
             });
 
-            modalInstance.result.then(function (updatedData) {                
-                /*self.downloadContent(updatedData).then(function (data) {
-                  //  deffered.resolve(data);
-                  //  $rootScope.setLoading(false);
-                   // $state.go('success', { type: 'Content', status: 'new', name: data.Title, id: data.uri }, { location: false });
-                });*/
+            modalInstance.result.then(function (updatedData) {  
                 window.location.href = APP_CONFIG.API[APP_CONFIG.environment].baseUrl + WS.downloadContent + '?uri=' + updatedData.filePath;
-                
             }, function () {
 
             });

@@ -14,13 +14,11 @@
                         <span ng-repeat="facet in search.facetsSelected">
                             AND <span class="text-capitalize" ng-bind="facet.facetKey"></span>:<span class="text-capitalize" ng-bind="facet.facetValue"></span>
                         </span>
-                            
                     </span>
                 </p>
             </div>
             <div class="col-sm-6 ">
                 <div class="pull-right clearfix cms-sub-main-2">
-
                     <ul class="nav nav-pills">
                         <li class="cms-padding-left-ten">
                             <ul class="nav nav-pills">
@@ -33,7 +31,6 @@
                                     <select class="form-control input-sm" ng-model="search.tableParams.count" ng-model-options="{ getterSetter: true}" ng-options="size for size in search.tableParams.settings().counts"></select>
                                 </li>
                             </ul>
-
                         </li>
                         <li class="cms-padding-left-ten">
                             <ul class="nav nav-pills">
@@ -49,7 +46,6 @@
                                     </select>
                                 </li>
                             </ul>
-
                         </li>
                         <li class="cms-padding-left-ten">
                             <button ng-class="{'active':!search.listView}" ng-click="search.toggleView(false)">
@@ -156,12 +152,10 @@
                                     </div></td>
                                 </tr>
                             </table>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>

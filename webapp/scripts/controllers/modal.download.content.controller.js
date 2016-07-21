@@ -17,9 +17,7 @@
         $scope.data = {};
         $scope.data.noteText = '';
         $scope.data.filePath = $scope.items.data.FileName;
-        /*Download content*/
-        //  $scope.downloadContent=downloadContent;
-
+        
         /*close dialog/modal*/
         $scope.cancel = CloseModalContent;
         

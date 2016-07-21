@@ -17,9 +17,6 @@
         var content = this, dataModelContent = new DataModelContentService(routeResolvedContentView);
         content.data = angular.copy(dataModelContent.getContent());
 
-        /*project.data.subjects = _.chain(routeResolvedProjectView.SubjectHeadings).indexBy('subjectHeading').keys().value();
-        project.data.keywords = _.chain(routeResolvedProjectView.SubjectKeywords).indexBy('subjectKeyword').keys().value();*/
-
         //TODO: move to Commonservice
         content.editContent = contentEditContent;
 

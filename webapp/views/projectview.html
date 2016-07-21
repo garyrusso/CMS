@@ -1,6 +1,5 @@
 <div class="cms-titlepanel cms-main">
     <div class="row">
-
         <div class="col-md-6">
             <h1>Project View</h1>
             <!--<div class="cms-titlepanel"></div>-->
@@ -15,9 +14,7 @@
                     project view
                 </li>
             </ol>
-
         </div>
-
         <div class="col-md-6">
             <div class="pull-right clearfix cms-horizontal-menu cms-sub-main">
                 <span> <a href="#" ng-click="$event.preventDefault(); project.uploadContent();">Upload Content <span class="glyphicon glyphicon-open"></span></a> </span>
@@ -25,16 +22,13 @@
                 <span > <a href="#" ng-click="$event.preventDefault(); project.deleteProject()">Delete <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a> </span>
             </div>
         </div>
-
     </div>
-
     <div class="row">
         <div class="col-xs-12 col-md-8">
             <h2 ng-bind="project.data.Title"></h2>
         </div>
         <div class="col-xs-6 col-md-4"></div>
     </div>
-
     <h3> Adminstrative Metadata</h3>
     <ul class="list-unstyled cms-padding-left-ten">
         <li>
@@ -55,11 +49,8 @@
         <li>
             <strong>Modified By: </strong><span ng-bind="project.data.modifiedBy"></span>
         </li>
-
     </ul>
-
     <h3> Descriptive Metadata </h3>
-
     <ul class="list-unstyled cms-padding-left-ten">
         <li>
             <strong>Project Name: </strong><span ng-bind="project.data.title"></span>
@@ -77,11 +68,8 @@
             <strong>Keywords: </strong><span ng-bind="project.data.subjectKeyword"></span>
         </li>
     </ul>
-
     <hr />
-
     <h3>Associated Content</h3>
-    <!-- em>There is no content in this project</em -->
     <div class="row" ng-if="project.data.content.length>0">
         <div  class="col-xs-12 col-sm-6 col-md-2 cms-content-tile ng-scope" ng-repeat="content in project.data.content">
             <div class="row">
@@ -91,7 +79,6 @@
                         <div class="cms-content-tile-image-dummy"></div>
                         <div class="cms-content-tile-image-color"></div>
                     </div>
-
                     </a>
                 </div>
             </div>
@@ -122,5 +109,4 @@
             <em>There is no content in this project</em>
         </div>
     </div>
-
 </div>

@@ -13,7 +13,6 @@
             <div class="col-xs-2"><span class="glyphicon glyphicon-remove-circle" ng-click="$flow.removeFile(file)"></span></div>
         </div>
     </div>
-
     <div class="form-group">
         <label for="InputContentName">Title*</label>
         <input class="form-control" type="text" id="InputContentName"
@@ -41,7 +40,6 @@
         </div>
     </div>
     <label>Creator</label>
-
     <div class="form-group">
         <div>
             <div ng-repeat="keyElement in data.Creator track by $index">
@@ -63,7 +61,6 @@
             </div>
         </div>
     </div>
-
     <div class="form-group row">
         <div class="col-md-8">
             <label for="InputContentPublisher">Publisher*</label>
@@ -93,9 +90,7 @@
             >
         </div>
     </div>
-
     <label>Projects</label>
-
     <div class="form-group">
         <div>
             <div ng-repeat="keyElement in data.Projects track by $index">
@@ -130,12 +125,9 @@
             <select class="form-control" name="contentSubject" id="InputContentSubjects"
             ng-model="data.SubjectHeadings"
             multiple ng-options="status for status in subjectHeadingsData"></select>
-
         </div>
     </div>
-
     <label>Keywords</label>
-
     <div class="form-group">
         <div>
             <div ng-repeat="keyElement in data.SubjectKeywords track by $index">
@@ -157,11 +149,9 @@
             </div>
         </div>
     </div>
-
     <p class="text-center">
         <button type="submit" class="btn btn-default" ng-disabled="contentForm.$invalid || !($flow && $flow.files.length)">
             Upload
         </button>
-
     </p>
 </form>

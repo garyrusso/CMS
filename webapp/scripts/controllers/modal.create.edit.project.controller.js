@@ -26,13 +26,6 @@
             } else {
                 $scope.data.subjectKeywords = [""];
             }
-            /*$scope.data = {
-                "Title": items.data.title,
-                "Description": items.data.description,
-                "ProjectState": items.data.projectState,
-                "SubjectHeadings": (items.data.subjectHeadings && items.data.subjectHeadings.subjectHeading)?items.data.subjectHeadings.subjectHeading:[],
-                "SubjectKeywords": (items.data.subjectKeywords && items.data.subjectKeywords.subjectKeyword)?items.data.subjectKeywords.subjectKeyword:[]
-            };*/
         } else {
             $scope.data = {
                 "title" : "",
@@ -50,7 +43,7 @@
         }
 
         /*Project state dropdown*/
-        $scope.projectStates = [];//["In Progress", "Active", "Completed","Inactive"];
+        $scope.projectStates = [];
         
         if(getProjectMasterDataProjectState && getProjectMasterDataProjectState.results && getProjectMasterDataProjectState.results.val){
             $scope.projectStates = _.pluck(getProjectMasterDataProjectState.results.val, 'value');
@@ -59,15 +52,11 @@
         
 
         /*Project Subject dropdown */
-        $scope.subjects = [];//["Psychology", "Economics", "History", "Biology"];
+        $scope.subjects = [];
         
         if(getProjectMasterDataSubjects && getProjectMasterDataSubjects.results && getProjectMasterDataSubjects.results.val){
             $scope.subjects = _.pluck(getProjectMasterDataSubjects.results.val, 'value');
         }
-
-        /*$scope.selectedSubjects = _.chain($scope.subjects).indexBy('subjectHeading').mapObject(function(val, key) {
-         return {selected: _.contains(_.pluck($scope.data.subjectHeadings), key)};
-         }).value();*/
 
         $scope.statuses = $scope.subjects;
         $scope.selectedStatuses = $scope.data.SubjectHeadings;
@@ -86,16 +75,11 @@
          */
         function submitProject () {
             if (!items.edit) {
-                /*$scope.data.dateCreated = $filter('date')(_.now(), "yyyy-MM-dd hh:mm");*/
                 $scope.data.createdBy = CommonService.getItems('username');
-                /*returnData.CreatedBy = CommonService.getItems('username');*/
             } else {
                 $scope.data.modifiedBy = CommonService.getItems('username');
             }
-            /*if ($scope.data && $scope.data.uri) {
-                $scope.data.projectURL = $scope.data.uri;
-            }*/
-
+            
             $uibModalInstance.close(angular.copy($scope.data));
         }
 

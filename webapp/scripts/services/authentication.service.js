@@ -130,7 +130,6 @@
                     self.authenticate(response.data);
                     deferred.resolve(response.data);
                 } else {
-                    //{"responseCode":"401","message":"User/Pass incorrect"}
                     deferred.reject(response);
                 }
             }, function(message) {

@@ -155,13 +155,6 @@
                 });
 
                 if (!errorUpload) {
-                    /*_.map($scope.uploader.flow.files, function(eachfile){
-                    $scope.data.FileFormat = eachfile.file.name? eachfile.file.name.split('.').pop():'';
-                    $scope.data.FileName = eachfile.file.name? eachfile.file.name:'';
-                    $scope.data.FileSize = eachfile.file.size? eachfile.file.size:'';
-                    $scope.data.FilePath = eachfile.file.webkitRelativePath? eachfile.file.webkitRelativePath:'';
-
-                    });*/
                     //passing data to parent controller.
                     $uibModalInstance.close(angular.copy($scope.data));
                 } else {

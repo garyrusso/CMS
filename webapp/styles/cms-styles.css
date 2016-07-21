@@ -64,8 +64,6 @@ a, a:focus, a:hover {
 }
 
 .cms-login-container {
-    /*max-width: 350px;
-     display: inline-block;*/
     margin-right: 40px;
 }
 .cms-login-form {
@@ -89,10 +87,7 @@ a, a:focus, a:hover {
  * Header
  ************
  */
-header {
-    /*display: table-row;
-    height: 0;*/
-}
+
 .cms-headerbackground {
     background-color: #363940;
 }
@@ -113,7 +108,6 @@ header {
 }
 
 .cms-menupanel {
-    /*padding: 15px 77px 2px 14px;*/
    padding-top: 15px;
    padding-bottom: 5px;
    padding-left: 0px;
