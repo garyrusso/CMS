@@ -19,12 +19,14 @@ namespace Macmillan.CMS.DAL
         /// <returns></returns>
         public object GetDictionary(string dictionaryType, string outputFormat)
         {
-            Logger.Debug("Entering GetDictionary");            
-            string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "dictionary?rs:dictionaryType=" + dictionaryType + "&rs:format=" + outputFormat + "&name=dictionary";
+            Logger.Info("Entering GetDictionary");
         
+            string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "dictionary?rs:dictionaryType=" + dictionaryType + "&rs:format=" + outputFormat + "&name=dictionary";
+            
             MLReader mlReader = new MLReader();
             var results = mlReader.GetHttpContent<object>(mlUrl);
-            Logger.Debug("Exiting GetDictionary");
+            Logger.Debug("Logging results for GetDictionary with mlUrl");
+            Logger.Info("Exiting GetDictionary");
             return results;
         }
     }

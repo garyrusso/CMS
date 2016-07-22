@@ -31,16 +31,16 @@
         /// </summary>
         /// <param name="request"></param>
         /// <param name="authentication"></param>
-        /// <returns></returns>
+        /// <returns>Returns the object for ValidateUserCredentials</returns>
         [HttpPost]
         public object ValidateUserCredentials(HttpRequestMessage request,   
             [FromBody] Authentication authentication)
         {
-            Logger.Debug("Entering ValidateUserCredentials");
+            Logger.Info("Entering ValidateUserCredentials");
+            Logger.Debug("Logging Results for ValidateUserCredentials");
             var results= this.secureBusiness.ValidateUserCredentials(authentication);
-            Logger.Debug("Exiting ValidateUserCredentials");
+            Logger.Info("Exiting ValidateUserCredentials");
             return results;
         }
-    }
-    
+    }    
 }

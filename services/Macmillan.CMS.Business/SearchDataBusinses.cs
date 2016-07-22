@@ -31,9 +31,10 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         public object GetData(string orderBy, int pageNumber, int pageSize, string searchText, string searchType, string userName, string[] facets)
         {
-            Logger.Debug("Entering GetData");
+            Logger.Info("Entering GetData");
             var results = this.searchDataDAL.GetData(orderBy, pageNumber, pageSize, searchText, searchType, userName,facets);
-            Logger.Debug("Exiting GetData");
+            Logger.Debug("Logging for Results GetData with pageNumber,facets");
+            Logger.Info("Exiting GetData");
             return results;
         }
     }

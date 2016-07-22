@@ -24,12 +24,13 @@ namespace Macmillan.CMS.DAL
          /// <returns></returns>
          public object UploadMetadata(string metadata)
          {
-             Logger.Debug("Entering UploadMetadata");
+             Logger.Info("Entering UploadMetadata");
 
              string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "content?name=content";
              MLReader mlReader = new MLReader();            
-             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.POST, "application/json", metadata);            
-             Logger.Debug("Exiting UploadMetadata");
+             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.POST, "application/json", metadata);
+             Logger.Debug("Logging results for UploadMetadata with mlUrl");
+             Logger.Info("Exiting UploadMetadata");
              return results;
          }
          
@@ -40,13 +41,13 @@ namespace Macmillan.CMS.DAL
          /// <returns></returns>
          public object UpdateContent(string projJson, string projUri)
          {
-             Logger.Debug("Entering UpdateProject");
+             Logger.Info("Entering UpdateProject");
              //Call ML and Put the project xml
              string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "content?name=content&rs:format=json&rs:uri=" + projUri;
              MLReader mlReader = new MLReader();
              string  results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.PUT, "application/json", projJson);
-
-             Logger.Debug("Exitinging UpdateProject");
+             Logger.Debug("Logging results for UpdateContent with mlUrl");
+             Logger.Info("Exitinging UpdateProject");
              return mlReader.ConverttoJson<object>(results);
          }
 
@@ -57,12 +58,13 @@ namespace Macmillan.CMS.DAL
          /// <returns></returns>
          public object DeleteContent(string projUri)
          {
-              Logger.Debug("Entry DeleteProject");
+             Logger.Info("Entering DeleteProject");
               //Call ML and Put the project xml
               string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "content?name=content&rs:uri=" + projUri;
               MLReader mlReader = new MLReader();
               string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.DELETE, "application/json");
-             Logger.Debug("Exiting DeleteProject");
+              Logger.Debug("Logging results for DeleteContent with mlUrl");
+              Logger.Info("Exiting DeleteProject");
              return mlReader.ConverttoJson<object>(results);
          }
 
@@ -73,12 +75,13 @@ namespace Macmillan.CMS.DAL
          /// <returns></returns>
          public object GetContent(string uri)
          {
-             Logger.Debug("Entering GetContent");
+             Logger.Info("Entering GetContent");
              MLReader mlReader = new MLReader();
              string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "content?name=content&rs:format=json&rs:uri=" + uri;
              object results = null;
              try
              {
+                 Logger.Debug("Logging for GetContent with mlUrl");
                  results = mlReader.GetHttpContent<object>(mlUrl, "application/json");
              }
              catch (Exception ex)
@@ -86,12 +89,12 @@ namespace Macmillan.CMS.DAL
                  if (ex.Message.Contains("401"))
                  {
                      var error = new { responseCode = "401", message = "401 Unauthorized" };
-
+                     Logger.Error("Error message for GetContentDal");
                      results = error;
                  }
              }
 
-             Logger.Debug("Exitinging CreateContent");
+             Logger.Info("Exitinging CreateContent");
              return results;         
          }
 
@@ -102,7 +105,7 @@ namespace Macmillan.CMS.DAL
          /// <returns></returns>
          public object GetContentMasterData(List<Macmillan.CMS.Common.Models.Content> ContentDetails)
          {
-             Logger.Debug("Entering GetContentMasterData");
+             Logger.Info("Entering GetContentMasterData");
              JsonNetSerialization ser = new JsonNetSerialization();
              string con = @"{
                           ' Data': 'Book',
@@ -110,7 +113,8 @@ namespace Macmillan.CMS.DAL
                           ' Data': 'Web page'
                         }";
              var results = ser.DeSerialize(con);
-             Logger.Debug("Exitinging GetContentMasterData");
+             Logger.Debug("Logging for GetContentMasterData with JsonNetSerialization");
+             Logger.Info("Exitinging GetContentMasterData");
              return results;
          }
 
@@ -188,13 +192,14 @@ namespace Macmillan.CMS.DAL
          /// <returns></returns>
          public object SearchContents(string searchText, int pageNumber, int pageSize, string orderBy)
          {
-             Logger.Debug("Entering GetContentMasterData");
+             Logger.Info("Entering GetContentMasterData");
              MLReader mlReader = new MLReader();
              string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "content?name=content&rs:format=json" ;
              object results = null;
              try
              {
                  results = mlReader.GetHttpContent<object>(mlUrl, "application/json");
+                 Logger.Debug("Logging results for mlReader with json");
              }
              catch (Exception ex)
              {                
@@ -202,12 +207,12 @@ namespace Macmillan.CMS.DAL
                  if (ex.Message.Contains("401"))
                  {
                      var error = new { responseCode = "401", message = "401 Unauthorized" };
-
+                     Logger.Error("Error Message for SearchContentsDal with mlUrl");
                      results = error;
                  }
              }
 
-             Logger.Debug("Exitinging CreateContent");
+             Logger.Info("Exitinging CreateContent");
              return results;
          }
 
@@ -220,7 +225,7 @@ namespace Macmillan.CMS.DAL
          public HttpResponseMessage DownloadContent(string uri)
          {
 
-             Logger.Debug("Entering GetContent");
+             Logger.Info("Entering GetContent");
              MLReader mlReader = new MLReader();
              string fileName = "Jouve-MyersEPCH1.epub";
              string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "file?name=file&rs:format=json&rs:uri=/file/"+uri;
@@ -228,13 +233,14 @@ namespace Macmillan.CMS.DAL
              try
              {
                  results = mlReader.DownloadFile(mlUrl, "application/json", uri);
+                 Logger.Debug("Logging results for DownloadFile with mlReader uri");
              }
              catch (Exception ex)
              {
                  Logger.Debug("Exception",ex);                 
              }
 
-             Logger.Debug("Exitinging CreateContent");
+             Logger.Info("Exitinging CreateContent");
              return results;                  
        }
 

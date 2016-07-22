@@ -32,13 +32,14 @@ namespace Macmillan.CMS.Business
          /// <returns></returns>
          public object UploadMetadata(Content content, FileInfo file)
         {
-            Logger.Debug(" Entering UploadMetadata");
+            Logger.Info(" Entering UploadMetadata");
 
+            Logger.Debug("Logging for BuildContentMetadataJson with content UploadMetadata");
             string metaData = this.BuildContentMetadataJson(content, file);            
            
             this.dal.UploadMetadata(metaData);
 
-            Logger.Debug(" Exiting UploadMetadata");
+            Logger.Info(" Exiting UploadMetadata");
 
             var results = new { Title = content.Title, uri = "/content/" + content.Title };
 
@@ -52,10 +53,12 @@ namespace Macmillan.CMS.Business
          /// <returns></returns>
          public object UpdateContent(Content content)
         {
-            Logger.Debug(" Entering UpdateContent");
-             string metadata = this.BuildContentMetadataJsonforUpdate(content);
-             var results = this.dal.UpdateContent(metadata, content.ContentUri);
-            Logger.Debug(" Exiting UpdateContent");
+            Logger.Info(" Entering UpdateContent");
+            Logger.Debug("Logging for BuildContentMetadataJsonforUpdate");
+            string metadata = this.BuildContentMetadataJsonforUpdate(content);
+            Logger.Debug("Logging results for UpdateContent"); 
+            var results = this.dal.UpdateContent(metadata, content.ContentUri);
+            Logger.Info(" Exiting UpdateContent");
             return results;
         }
 
@@ -66,9 +69,10 @@ namespace Macmillan.CMS.Business
          /// <returns></returns>
          public object DeleteContent(Content content)
         {
-            Logger.Debug(" Entering UpdateContent");
+            Logger.Info(" Entering DeleteContent");
+            Logger.Debug("Logging Results for DeleteContent");
             var results = this.dal.DeleteContent(content.ContentUri );
-            Logger.Debug(" Exiting UpdateContent");
+            Logger.Info(" Exiting DeleteContent");
             return results;
         }
 
@@ -79,9 +83,10 @@ namespace Macmillan.CMS.Business
          /// <returns></returns>
          public object GetContent(string docUri)
         {
-            Logger.Debug("Entering GetContent");
+            Logger.Info("Entering GetContent");
+            Logger.Debug("Logging Results for GetContent");
             var results = this.dal.GetContent(docUri);
-            Logger.Debug("Exiting GetContent");
+            Logger.Info("Exiting GetContent");
             return results;
         }
 
@@ -92,9 +97,10 @@ namespace Macmillan.CMS.Business
          /// <returns></returns>
          public object GetContentMasterData(List<Content> ContentDetails)
         {
-            Logger.Debug("Entering GetContentMasterData");
+            Logger.Info("Entering GetContentMasterData");
+            Logger.Debug("Logging Results for GetContentMasterData");
             var results = this.dal.GetContentMasterData(ContentDetails);
-            Logger.Debug("Exiting GetContentMasterData");
+            Logger.Info("Exiting GetContentMasterData");
             return results;
         }
 
@@ -108,9 +114,10 @@ namespace Macmillan.CMS.Business
          /// <returns></returns>
          public object SearchContents(string searchText, int pageNumber, int pageSize, string orderBy)
         {
-            Logger.Debug("Entering SearchContents");
+            Logger.Info("Entering SearchContents");
+            Logger.Debug("Logging Results for SearchContents");
             var results = this.dal.SearchContents(searchText, pageNumber, pageSize, orderBy);
-            Logger.Debug("Exiting SearchContents");
+            Logger.Info("Exiting SearchContents");
             return results;
         }
 
@@ -126,8 +133,8 @@ namespace Macmillan.CMS.Business
          /// <returns></returns>
          private string BuildContentMetadataJson(Content content, FileInfo fileInfo)
          {
-             Logger.Debug(" Entering BuildContentMetadataJson");
-
+             Logger.Info(" Entering BuildContentMetadataJson");
+             Logger.Debug("Logging StringBuilder for BuildContentMetadataJson");
              StringBuilder text = new StringBuilder(File.ReadAllText(ConfigurationManager.AppSettings["AppDataPath"] + "\\Content.json"));
 
              text.Replace("##systemId##", Guid.NewGuid().ToString("N").Substring(0, 32));
@@ -218,16 +225,16 @@ namespace Macmillan.CMS.Business
                  text.Replace("##fileName##", fileInfo.Name);
                  text.Replace("##filePath##", "resources/" + fileInfo.Name);
                  text.Replace("##fileSize##", fileInfo.Length.ToString());
-             
 
-             Logger.Debug(" Exiting BuildContentMetadataJson");
+
+                 Logger.Info(" Exiting BuildContentMetadataJson");
              return text.ToString();
          }
 
          private string BuildContentMetadataJsonforUpdate(Content content)
          {
-             Logger.Debug(" Entering BuildContentMetadataJson");
-
+             Logger.Info(" Entering BuildContentMetadataJson");
+             Logger.Debug("Logging StringBuilder for BuildContentMetadataJsonforUpdate");
              StringBuilder text = new StringBuilder(File.ReadAllText(ConfigurationManager.AppSettings["AppDataPath"] + "\\Content.json"));
 
              text.Replace("##systemId##", Guid.NewGuid().ToString("N").Substring(0, 32));
@@ -332,7 +339,7 @@ namespace Macmillan.CMS.Business
              text.Replace("##filePath##", content.FilePath );
              text.Replace("##fileSize##", content.FileSize );
 
-             Logger.Debug(" Exiting BuildContentMetadataJson");
+             Logger.Info(" Exiting BuildContentMetadataJson");
              return text.ToString();
          }
 
@@ -344,9 +351,10 @@ namespace Macmillan.CMS.Business
          /// <returns></returns>
          public HttpResponseMessage DownloadContent(string uri)
          {
-             Logger.Debug(" Entering DownloadContent");
+             Logger.Info(" Entering DownloadContent");
+             Logger.Debug("Logging Results for SearchContents");
              var results = this.dal.DownloadContent(uri);
-             Logger.Debug(" Exiting DownloadContent");
+             Logger.Info(" Exiting DownloadContent");
              return results;
          }
     }

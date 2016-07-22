@@ -27,7 +27,7 @@ namespace Macmillan.CMS.Service.Controllers
         [HttpGet]
         public object GetDictionary(string dictionaryType, string outputFormat)
         {
-            Logger.Debug("Entering GetDictionary");
+            Logger.Info("Entering GetDictionary");
 
             object results = null;
 
@@ -40,11 +40,9 @@ namespace Macmillan.CMS.Service.Controllers
             {
                 results = CustomCache.Get(dictionaryType);
             }
-            
-            Logger.Debug("Exiting GetDictionary");
+            Logger.Debug("Logging CustomCache for dictionaryType");
+            Logger.Info("Exiting GetDictionary");
             return results;
-        }
-
-        
+        }       
     }
 }
