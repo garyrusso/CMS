@@ -45,6 +45,7 @@ namespace Macmillan.CMS.Service.Controllers
         /// <returns></returns>
         public string GetProject()
         {
+            Logger.Info("Entering the GetProject");
             string results = string.Empty;
 
             Project p = new Project();
@@ -55,10 +56,10 @@ namespace Macmillan.CMS.Service.Controllers
             p.SubjectHeadings = new string[] { "test1", "test2", "test3"};
             p.SubjectKeywords = new string[] { "kw1", "kw2", "kw3" };
             p.CreatedBy = "test@admin.com";
-
             JsonNetSerialization ser = new JsonNetSerialization();
+            Logger.Debug(" Logging Results for GetProject");
             results = ser.Serialize<Project>(p);
-
+            Logger.Info("Exiting the GetProject");
             return results;
         }
 
@@ -72,9 +73,10 @@ namespace Macmillan.CMS.Service.Controllers
         public object CreateProject(HttpRequestMessage request,
             [FromBody]Project project)
         {
-            Logger.Debug("Entering CreateProject");
+            Logger.Info("Entering CreateProject");
+            Logger.Debug("Logging Results for CreateProject");
             var results = this.business.CreateProject(project);
-            Logger.Debug("Exiting CreateProject");
+            Logger.Info("Exiting CreateProject");
             return results;
         }
                
@@ -86,9 +88,10 @@ namespace Macmillan.CMS.Service.Controllers
         [HttpPut]
         public object UpdateProject(Project project)
         {
-            Logger.Debug("Entering UpdateProject");
+            Logger.Info("Entering UpdateProject");
+            Logger.Debug("Logging Results for UpdateProject");
             var results = this.business.UpdateProject(project);
-            Logger.Debug("Exiting UpdateProject");
+            Logger.Info("Exiting UpdateProject");
             return results;
         }
        
@@ -102,9 +105,10 @@ namespace Macmillan.CMS.Service.Controllers
         public object DeleteProject(HttpRequestMessage request,
             [FromBody] Project project)
         {
-            Logger.Debug("Entering DeleteProject");
+            Logger.Info("Entering DeleteProject");
+            Logger.Debug("Logging Results for DeleteProject");
             var results = this.business.DeleteProject(project);
-            Logger.Debug("Exiting DeleteProject");
+            Logger.Info("Exiting DeleteProject");
             return results;
         }
 
@@ -116,9 +120,10 @@ namespace Macmillan.CMS.Service.Controllers
         [HttpGet]
         public object GetProjectDetails(string uri)
         {
-            Logger.Debug("Entering GetProjectDetails");          
+            Logger.Info("Entering GetProjectDetails");
+            Logger.Debug("Logging Results for GetProjectDetails");
             var results= this.business.GetProjectDetails(uri);
-            Logger.Debug("Exiting GetProjectDetails");
+            Logger.Info("Exiting GetProjectDetails");
             return results;
   
         }
@@ -130,9 +135,10 @@ namespace Macmillan.CMS.Service.Controllers
         /// <returns></returns>
         public object GetProjectMasterData(List<Project> ProjectDetail)
         {
-            Logger.Debug("Entering GetProjectMasterData");
+            Logger.Info("Entering GetProjectMasterData");
+            Logger.Debug("Logging Results for GetProjectDetails");
             var results= this.business.GetProjectMasterData(ProjectDetail);
-            Logger.Debug("Exiting GetProjectMasterData");
+            Logger.Info("Exiting GetProjectMasterData");
             return results;
         }
         
@@ -147,9 +153,10 @@ namespace Macmillan.CMS.Service.Controllers
         [HttpGet]
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {
-            Logger.Debug("Entering SearchProjects");     
+            Logger.Info("Entering SearchProjects");
+            Logger.Debug("Logging Results for GetProjectDetails");
             var results= this.business.SearchProjects(searchText, pageNumber, pageSize, orderBy);
-            Logger.Debug("Exiting SearchProjects");
+            Logger.Info("Exiting SearchProjects");
             return results;
         }
     }

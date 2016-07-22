@@ -2,6 +2,7 @@
 namespace Macmillan.CMS.DAL
 {
     using Macmillan.CMS.Common;
+    using Macmillan.CMS.Common.Logging;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -92,7 +93,8 @@ namespace Macmillan.CMS.DAL
                 var error = new { responseCode = "401", message = "Please contact Administrator" };
                 if (ex.Message.Contains("401"))
                 {
-                    error = new { responseCode = "401", message = "401 Unauthorized" };                    
+                    error = new { responseCode = "401", message = "401 Unauthorized" };
+                    Logger.Error("Error message for ConverttoJson in MlReader");
                 }
                 
                 results = error;

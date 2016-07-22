@@ -46,12 +46,12 @@ namespace Macmillan.CMS.Service.Controllers
         public object CreateContent(HttpRequestMessage request,
             [FromBody] Content content)
         {
-            Logger.Debug("Entering UploadMetadata");            
-
-            string folderPath = this.fileRepository ;                     
-            
+            Logger.Info("Entering UploadMetadata Controller");
+     
+            string folderPath = this.fileRepository ;                              
             FileInfo[] filesInfo = new DirectoryInfo(folderPath).GetFiles().OrderByDescending(p => p.CreationTime).ToArray();
-            
+
+            Logger.Debug("Logging for UploadMetadata FileInfo from folderpath");
 
             object results = null;            
             foreach (FileInfo file in filesInfo)
@@ -60,10 +60,9 @@ namespace Macmillan.CMS.Service.Controllers
                file.Delete();              
             }
             
-
             //Force clean up
             Directory.Delete(folderPath, true);
-            Logger.Debug("Exiting UploadMetadata");
+            Logger.Info("Exiting UploadMetadata Controller");
             return results;
         }
 
@@ -75,9 +74,10 @@ namespace Macmillan.CMS.Service.Controllers
         [HttpPut]
         public object UpdateContent([FromBody] Content content)
         {
-            Logger.Debug("Entering UpdateContent");
+            Logger.Info("Entering UpdateContent Controller");
+            Logger.Debug("Logging Results for UpdateContent");
             var results = this.business.UpdateContent(content);
-            Logger.Debug("Exiting UpdateContent");
+            Logger.Info("Exiting UpdateContent Controller");
             return results;
         }
 
@@ -91,12 +91,13 @@ namespace Macmillan.CMS.Service.Controllers
             string flowRelativePath,
             string flowTotalChunks)
         {
+         
             var request = HttpContext.Current.Request;
 
             var chunkExists = _flowJs.ChunkExists(this.chunkRepository, request);
             if (chunkExists)
-                return Ok();            
-
+                return Ok();
+            Logger.Info("StatusCode for UploadFile");
             return StatusCode(HttpStatusCode.NoContent);
         }
 
@@ -166,9 +167,10 @@ namespace Macmillan.CMS.Service.Controllers
         [HttpPost]
         public object DeleteContent([FromBody] Content content)
         {
-            Logger.Debug("Entering DeleteContent");
+            Logger.Info("Entering DeleteContent Controller");
+            Logger.Debug("Logging Results for DeleteContent");
             var results = this.business.DeleteContent(content);
-            Logger.Debug("Exiting DeleteContent");
+            Logger.Info("Exiting DeleteContent Controller");
             return results;
         }
 
@@ -180,9 +182,10 @@ namespace Macmillan.CMS.Service.Controllers
         [HttpGet]
         public object GetContentDetails(string uri)
         {
-            Logger.Debug("Entering GetContent");
+            Logger.Info("Entering GetContent Controller");
+            Logger.Debug("Logging Results for GetContentDetails");
             var results = this.business.GetContent(uri);
-            Logger.Debug("Exiting GetContent");
+            Logger.Info("Exiting GetContent Controller");
             return results;
         }
 
@@ -194,9 +197,10 @@ namespace Macmillan.CMS.Service.Controllers
         [HttpGet]
         public object GetContentMasterData(List<Content> ContentDetails)
         {
-            Logger.Debug("Entering GetContentMasterData");
+            Logger.Info("Entering GetContentMasterData Controller");
+            Logger.Debug("Logging Results for GetContentMasterData");
             var results = this.business.GetContentMasterData(ContentDetails);
-            Logger.Debug("Exiting GetContentMasterData");
+            Logger.Info("Exiting GetContentMasterData Controller");
             return results;
         }
 
@@ -211,9 +215,10 @@ namespace Macmillan.CMS.Service.Controllers
         [HttpGet]
         public object SearchContents(string searchText, int pageNumber, int pageSize, string orderBy)
         {
-            Logger.Debug("Entering SearchContents");
+            Logger.Info("Entering SearchContents Controller");
+            Logger.Debug("Logging Results for SearchContents");
             var results = this.business.SearchContents(searchText, pageNumber, pageSize, orderBy);
-            Logger.Debug("Exiting SearchContents");
+            Logger.Info("Exiting SearchContents Controller");
             return results;
         }
 
@@ -233,9 +238,10 @@ namespace Macmillan.CMS.Service.Controllers
         public HttpResponseMessage DownloadContent(string uri)
         {
             HttpResponseMessage result = null;
-            Logger.Debug("Entering SearchContents");
+            Logger.Info("Entering DownloadContent");
+            Logger.Debug("Logging Results for DownloadContent");
             result = this.business.DownloadContent(uri);
-            Logger.Debug("Exiting SearchContents");
+            Logger.Info("Exiting DownloadContent");
             return result;       
         }   
     }

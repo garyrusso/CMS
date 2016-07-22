@@ -22,11 +22,12 @@ namespace Macmillan.CMS.DAL
         /// <returns></returns>
         public object GetUserData()
         {
-            Logger.Debug("Entering GetUserData");
+            Logger.Info("Entering GetUserData");
             JsonNetSerialization ser = new JsonNetSerialization();
             string content = @"{ 'Name': 'Jon Smith', 'Address': { 'City': 'New York', 'State': 'NY' }, 'Age': 42 }";         
             var results= ser.DeSerialize(content);
-            Logger.Debug("Exiting GetUserData");
+            Logger.Debug("Logging Results for GetUserData with JsonNetSerialization in SecurityDAL");
+            Logger.Info("Exiting GetUserData");
             return results;
         }
        
@@ -79,7 +80,7 @@ namespace Macmillan.CMS.DAL
         public object ValidateUserCredentials(Authentication authentication)
         {
             //Call ML and ValidateUserCredentials
-            Logger.Debug("Entering ValidateUserCredentials");
+            Logger.Info("Entering ValidateUserCredentials");
             if (authentication.username == "admin@techm.com" && authentication.password == "password")
             {
                 JsonNetSerialization ser = new JsonNetSerialization();
@@ -102,7 +103,8 @@ namespace Macmillan.CMS.DAL
                         }";
                
                 var results= ser.DeSerialize(content);
-                 Logger.Debug("Exiting ValidateUserCredentials");
+                Logger.Debug("Logging for ValidateUserCredentials with authentication");
+                Logger.Info("Exiting ValidateUserCredentials");
                  return results;
             }
         }

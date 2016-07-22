@@ -23,14 +23,14 @@ namespace Macmillan.CMS.DAL
         public object CreateProject(string projXml, string projUri)
         {
             //Call ML and post the project xml
-            Logger.Debug("Entering CreateProject");
+            Logger.Info("Entering CreateProject");
 
             //Post it to MarkLogic  
             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "project?name=project&rs:format=json";
             MLReader mlReader = new MLReader();
             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.POST, "application/json", projXml);
-
-            Logger.Debug("Exitinging CreateProject");
+            Logger.Debug("Logging Results for CreateProject with mlUrl");
+            Logger.Info("Exitinging CreateProject");
             return mlReader.ConverttoJson<object>(results);
         }
 
@@ -41,15 +41,15 @@ namespace Macmillan.CMS.DAL
         /// <returns></returns>
         public object UpdateProject(string projXml, string projUri)
         {
-            Logger.Debug("Entering UpdateProject");
+            Logger.Info("Entering UpdateProject");
             //Call ML and Put the project xml
 
             //Post it to MarkLogic  
             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "project?name=project&rs:format=json&rs:uri=" + projUri;
             MLReader mlReader = new MLReader();
             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.PUT, "application/json", projXml);
-
-            Logger.Debug("Exitinging UpdateProject");
+            Logger.Debug("Logging Results for UpdateProject with mlUrl");
+            Logger.Info("Exitinging UpdateProject");
             return mlReader.ConverttoJson<object>(results);
             
         }
@@ -61,14 +61,14 @@ namespace Macmillan.CMS.DAL
         /// <returns></returns>
         public object DeleteProject(string projUri)
         {
-            Logger.Debug("Entry DeleteProject");
+            Logger.Info("Entry DeleteProject");
            
             //Post it to MarkLogic  
             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "project?name=project&rs:format=json&rs:uri=" + projUri;
             MLReader mlReader = new MLReader();
             string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.DELETE, "application/json");
-
-            Logger.Debug("Exiting DeleteProject");
+            Logger.Debug("Logging Results for DeleteProject with mlUrl");
+            Logger.Info("Exiting DeleteProject");
             return mlReader.ConverttoJson<object>(results);
          
         }
@@ -80,15 +80,15 @@ namespace Macmillan.CMS.DAL
         /// <returns></returns>
         public object GetProjectDetails(string uri)
         {
-            Logger.Debug("Entering GetProjectDetails");
+            Logger.Info("Entering GetProjectDetails");
 
             MLReader mlReader = new MLReader();
             
             //get Marklogic url for CRUD operations
             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "project?name=project&rs:uri="+ uri +"&rs:format=json";
             string results = mlReader.GetHttpContent(mlUrl,"application/json");
-
-            Logger.Debug("Exiting GetProjectDetails");       
+            Logger.Debug("Logging Results for GetProjectDetails with mlUrl");
+            Logger.Info("Exiting GetProjectDetails");       
             return mlReader.ConverttoJson<object>(results); 
         }
 
@@ -99,7 +99,7 @@ namespace Macmillan.CMS.DAL
         /// <returns></returns>
         public object GetProjectMasterData(List<Project> ProjectDetail)
         {
-            Logger.Debug("Entering GetProjectMasterData");
+            Logger.Info("Entering GetProjectMasterData");
             JsonNetSerialization ser = new JsonNetSerialization();
             string content = @"{'Title': 'Hockenbury 5e-1',
                                   'uri': '/mydocuments/project1.xml',
@@ -114,7 +114,8 @@ namespace Macmillan.CMS.DAL
                                    }";
             
             var results= ser.DeSerialize(content);
-            Logger.Debug("Exiting GetProjectMasterData");
+            Logger.Debug("Logging Results for JsonNetSerialization with GetProjectMasterData ProjectDetail");
+            Logger.Info("Exiting GetProjectMasterData");
             return results;
         }
 
@@ -129,15 +130,15 @@ namespace Macmillan.CMS.DAL
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {
             //Call ML and SearchProjects
-            Logger.Debug("Entering SearchProjects");
+            Logger.Info("Entering SearchProjects");
             JsonNetSerialization ser = new JsonNetSerialization();
             MLReader mlReader = new MLReader();       
      
             //get Marklogic url for CRUD operations                    
             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "project?name=project&rs:q=" + searchText + "&rs:format=json";
             string results = mlReader.GetHttpContent(mlUrl, "application/json");
-
-            Logger.Debug("Exiting SearchProjects");
+            Logger.Debug("Logging Results for SearchProjects with pageNumber, pageSize in mlUrl");
+            Logger.Info("Exiting SearchProjects");
             return mlReader.ConverttoJson<object>(results);
         }
     }

@@ -35,13 +35,12 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         public object CreateProject(Project project)
         {
-            Logger.Debug(" Entering CreateProject");
-
+            Logger.Info(" Entering CreateProject");
+            Logger.Debug("Logging for BuildCreateProjectXML");
             string projectXML = this.BuildCreateProjectXML(project);
-            var results = this.dal.CreateProject(projectXML, "/projects/" + project.Title);    
-      
-            Logger.Debug(" Exiting CreateProject");
-
+            Logger.Debug("Logging for CreateProject with projectXML and project.Title");
+            var results = this.dal.CreateProject(projectXML, "/projects/" + project.Title);
+            Logger.Info(" Exiting CreateProject");
             return results;
 
         }
@@ -53,8 +52,8 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         private string BuildCreateProjectXML(Project project)
         {
-            Logger.Debug(" Entering BuildProjectXML");
-
+            Logger.Info(" Entering BuildProjectXML");
+            Logger.Debug("Logging for StringBuilder in BuildCreateProjectXML");
             StringBuilder text = new StringBuilder(File.ReadAllText(ConfigurationManager.AppSettings["AppDataPath"] + "\\CreateProject.json"));
             
             text.Replace("##systemId##", Guid.NewGuid().ToString("N").Substring(0, 32));
@@ -98,8 +97,8 @@ namespace Macmillan.CMS.Business
                 text.Replace("##subjectKeywords##", keywords.ToString());
             }
 
-            
-            Logger.Debug(" Exiting BuildProjectXML");
+
+            Logger.Info(" Exiting BuildProjectXML");
             return text.ToString();
         }
 
@@ -110,8 +109,8 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         private string BuildEditProjectXML(Project project)
         {
-            Logger.Debug(" Entering BuildProjectXML");
-                       
+            Logger.Info(" Entering BuildProjectXML");
+            Logger.Debug("Logging for StringBuilder in BuildEditProjectXML");   
             StringBuilder text = new StringBuilder(File.ReadAllText(ConfigurationManager.AppSettings["AppDataPath"] + "\\CreateProject.json"));
 
             text.Replace("##systemId##", project.SystemId);
@@ -154,8 +153,8 @@ namespace Macmillan.CMS.Business
 
                 text.Replace("##subjectKeywords##", keywords.ToString());
             }
-            
-            Logger.Debug(" Exiting BuildProjectXML");
+
+            Logger.Info("Exiting BuildProjectXML");
             return text.ToString();
         }
 
@@ -166,13 +165,13 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         public object UpdateProject(Project project)
         {
-            Logger.Debug(" Entering UpdateProject");
+            Logger.Info(" Entering UpdateProject");
 
             string projectXML = this.BuildEditProjectXML(project);
+            Logger.Debug("Logging for BuildEditProjectXML in UpdateProject");
+            var results = this.dal.UpdateProject(projectXML, project.ProjectURL);
 
-            var results = this.dal.UpdateProject(projectXML, project.ProjectURL);             
-
-            Logger.Debug(" Exiting UpdateProject");
+            Logger.Info(" Exiting UpdateProject");
             return results;
         }
   
@@ -183,11 +182,11 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         public object DeleteProject(Project project)
         {
-            Logger.Debug(" Entering DeleteProject");          
+            Logger.Info(" Entering DeleteProject");
+            Logger.Debug("Logging Results for DeleteProject with ProjectURL");
+            var results = this.dal.DeleteProject(project.ProjectURL);
 
-            var results = this.dal.DeleteProject(project.ProjectURL);      
-
-            Logger.Debug(" Exiting DeleteProject");
+            Logger.Info(" Exiting DeleteProject");
             return results;
         }
 
@@ -198,15 +197,16 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         public object GetProjectDetails(string uri)
         {
-            Logger.Debug("Entering GetProjectDetails"); 
+            Logger.Info("Entering GetProjectDetails"); 
             var results= this.dal.GetProjectDetails(uri);
-            
-            Logger.Debug("Exiting GetProjectDetails");
+            Logger.Debug("Logging Results for GetProjectDetails with uri");
+            Logger.Info("Exiting GetProjectDetails");
             return results;
         }
 
         private Project GetProjectObject(string projXml)
         {
+            Logger.Info("Entering GetProjectObject"); 
             XmlDocument doc = new XmlDocument();
 
             doc.LoadXml(projXml);
@@ -257,7 +257,7 @@ namespace Macmillan.CMS.Business
             proj.SubjectKeywords = keywords.ToArray();
 
             proj.ProjectState = doc.SelectSingleNode("/mml:cmsDocument/mml:metadata/mml:project/mml:descriptive/mml:projectState", nsmgr).InnerText;
-
+            Logger.Info("Exiting GetProjectObject"); 
             return proj;
         }
 
@@ -268,9 +268,10 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         public object GetProjectMasterData(List<Project> ProjectDetail)
         {
-            Logger.Debug("Entering GetProjectMasterData");        
+            Logger.Info("Entering GetProjectMasterData"); 
             var results= this.dal.GetProjectMasterData(ProjectDetail);
-            Logger.Debug("Exiting GetProjectMasterData");
+            Logger.Debug("Logging Results for GetProjectMasterData with ProjectDetail"); 
+            Logger.Info("Exiting GetProjectMasterData");
             return results;
         }
         
@@ -284,9 +285,10 @@ namespace Macmillan.CMS.Business
         /// <returns></returns>
         public object SearchProjects(string searchText, int pageNumber, int pageSize, string orderBy)
         {
-            Logger.Debug("Entering SearchProjects");        
+            Logger.Info("Entering SearchProjects");       
             var results = this.dal.SearchProjects(searchText, pageNumber, pageSize, orderBy);
-            Logger.Debug("Exiting SearchProjects");
+            Logger.Debug("Logging Results for SearchProjects with pageNumber,pageSize"); 
+            Logger.Info("Exiting SearchProjects");
             return results;
         }
     }

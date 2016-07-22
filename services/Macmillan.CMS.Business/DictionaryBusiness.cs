@@ -28,9 +28,10 @@ namespace Macmillan.CMS.Business
         /// <returns>Returns object for GetDictionary</returns>
         public object GetDictionary(string dictionaryType, string outputFormat)
         {
-            Logger.Debug("Entering GetDictionary");
+            Logger.Info("Entering GetDictionary");
+            Logger.Debug("Logging Results for GetDictionary");
             var results = this.dal.GetDictionary(dictionaryType, outputFormat);
-            Logger.Debug("Exiting GetDictionary");
+            Logger.Info("Exiting GetDictionary");
             return results;
         }
     }

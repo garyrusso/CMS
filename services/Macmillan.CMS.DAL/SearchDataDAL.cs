@@ -26,7 +26,7 @@ namespace Macmillan.CMS.DAL
       
 
             //Call ML and SearchProjects
-            Logger.Debug("Entering SearchData");
+            Logger.Info("Entering SearchData");
        
             MLReader mlReader = new MLReader();
             //get Marklogic url for CRUD operations
@@ -54,8 +54,8 @@ namespace Macmillan.CMS.DAL
             }
             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + searchType + "?name=" + searchType + "&rs:q=" + searchText + "&rs:format=json&rs:pageLength=" + pageSize + "&rs:start=" + pageNumber;// +"&rs:q=" + facetsParam;
             string results = mlReader.GetHttpContent(mlUrl, "application/json");
-
-            Logger.Debug("Exiting SearchData");
+            Logger.Debug("Logging Results for GetData with mlUrl");
+            Logger.Info("Exiting SearchData");
             return mlReader.ConverttoJson<object>(results);
 
 
