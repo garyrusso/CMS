@@ -135,6 +135,12 @@ declare variable $c:SEARCH-OPTIONS :=
         <facet-option>limit=10</facet-option>
       </range>
     </constraint>
+    <sort-order type="xs:string" collation="http://marklogic.com/collation/" direction="ascending">
+      <element ns="http://macmillanlearning.com" name="subjectKeyword"/>
+    </sort-order>
+    <sort-order direction="ascending">
+      <score/>
+    </sort-order>
     <return-results>true</return-results>
     <return-query>true</return-query>
   </options>;

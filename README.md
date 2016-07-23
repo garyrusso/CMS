@@ -33,8 +33,10 @@ Here we load user document data & data dictionary data
 
 [Dictionary API](../../wiki/Dictionary-API)
 
+[File API](../../wiki/File-API)
+
 [Project API](../../wiki/Project-API)
 
-[File API](../../wiki/File-API)
+[Search All API](../../wiki/Search-All-API)
 
 [User API](../../wiki/User-API)

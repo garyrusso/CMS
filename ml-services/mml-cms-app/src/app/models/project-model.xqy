@@ -117,8 +117,8 @@ declare function project:update($uri as xs:string, $project)
     if (fn:string-length($project/projectState/text()) gt 0) then
       $project/projectState/text()
     else
-      $origDoc//mml:project/mml:metadata/mml:projectState/text()
-	
+      $origDoc/mml:project/mml:metadata/mml:projectState/text()
+
   (: Construct new document from input payload :)
   let $newDoc :=
     document {
