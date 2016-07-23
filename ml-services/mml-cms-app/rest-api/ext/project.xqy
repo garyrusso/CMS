@@ -27,16 +27,18 @@ function mml:get(
 {
   (: Add Auth Token Check here :)
   
-  let $q  := map:get($params, "q")
-  let $st := map:get($params, "start")
-  let $ps := map:get($params, "pageLength")
-  let $ft := map:get($params, "format")
+  let $q    := map:get($params, "q")
+  let $st   := map:get($params, "start")
+  let $ps   := map:get($params, "pageLength")
+  let $ft   := map:get($params, "format")
+  let $sort := map:get($params, "sort")
   let $tempUri := map:get($params, "uri")
 
   let $qtext      := if (fn:string-length($q) eq 0)  then "" else $q
   let $uri        := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
   let $start      := if (fn:string-length($st) eq 0) then  1 else xs:integer($st)
   let $pageLength := if (fn:string-length($ps) eq 0) then 10 else xs:integer($ps)
+  let $sortBy     := if (fn:string-length($sort) eq 0) then "relevance" else $sort
   let $format     := if ($ft eq "xml") then "xml" else "json"
 
   let $config := json:config("custom")
@@ -113,7 +115,7 @@ function mml:get(
 		)
 		else
 		(
-      mml:searchProjectDocs($qtext, $start, $pageLength)
+      mml:searchProjectDocs($qtext, $start, $pageLength, $sortBy)
 		)
 
 	let $_ := map:put($context, "output-status", (200, "fetched"))
@@ -172,12 +174,12 @@ function mml:put(
 			element description     { $projectDoc/jn:description/text() },
 			element projectState    { $projectDoc/jn:projectState/text() },
 			element subjectHeadings {
-			  for $subjectHeading in $projectDoc/jn:subjectHeadings/jn:item/text()
+		  for $subjectHeading in $projectDoc/jn:subjectHeading/jn:item/text()
 				return
 				  element subjectHeading { $subjectHeading }
 			},
 			element subjectKeywords {
-			  for $subjectKeyword in $projectDoc/jn:subjectKeywords/jn:item/text()
+		  for $subjectKeyword in $projectDoc/jn:subjectKeyword/jn:item/text()
 				return
 				  element subjectKeyword { $subjectKeyword }
 			}
@@ -387,7 +389,8 @@ declare function mml:findContentDocsByProjectTitle($projectTitle as xs:string)
       return
    			element { fn:QName($NS,"mml:content") } {
           element { fn:QName($NS,"mml:systemId") }     { $result/mmlc:content/mmlc:metadata/mmlc:systemId/text() },
-          element { fn:QName($NS,"mml:projectUri") }   { $result/mmlc:content/mmlc:feed/mmlc:source/text() },
+          element { fn:QName($NS,"mml:uri") }          { xdmp:node-uri($result) },
+          element { fn:QName($NS,"mml:source") }       { $result/mmlc:content/mmlc:feed/mmlc:source/text() },
           element { fn:QName($NS,"mml:createdBy") }    { $result/mmlc:content/mmlc:metadata/mmlc:createdBy/text() },
           element { fn:QName($NS,"mml:created") }      { $result/mmlc:content/mmlc:metadata/mmlc:created/text() },
           element { fn:QName($NS,"mml:modifiedBy") }   { $result/mmlc:content/mmlc:metadata/mmlc:modifiedBy/text() },
@@ -399,8 +402,79 @@ declare function mml:findContentDocsByProjectTitle($projectTitle as xs:string)
   return $contentDocs
 };
 
-declare function mml:searchProjectDocs($qtext as xs:string, $start, $pageLength)
+declare function mml:searchProjectDocs($qtext as xs:string, $start, $pageLength, $sortBy as xs:string)
 {
+(:
+created (Newest)
+modified (Recently Modified)
+title
+state
+relevance
+:)
+  let $sortOrder :=
+    switch (fn:lower-case($sortBy)) 
+      case "newest"
+        return
+          document {
+            <sort-spec xmlns="http://marklogic.com/appservices/search">
+              <sort-order type="xs:dateTime" direction="descending">
+                <element ns="http://macmillanlearning.com" name="created"/>
+              </sort-order>
+              <sort-order>
+                <score/>
+              </sort-order>
+            </sort-spec>
+          }
+    
+      case "modified"
+        return
+          document {
+            <sort-spec xmlns="http://marklogic.com/appservices/search">
+              <sort-order type="xs:dateTime" direction="descending">
+                <element ns="http://macmillanlearning.com" name="modified"/>
+              </sort-order>
+              <sort-order>
+                <score/>
+              </sort-order>
+            </sort-spec>
+          }
+
+      case "title"
+        return
+          document {
+            <sort-spec xmlns="http://marklogic.com/appservices/search">
+              <sort-order type="xs:string" direction="ascending">
+                <element ns="http://macmillanlearning.com" name="title"/>
+              </sort-order>
+              <sort-order>
+                <score/>
+              </sort-order>
+            </sort-spec>
+          }
+
+      case "state"
+        return
+          document {
+            <sort-spec xmlns="http://marklogic.com/appservices/search">
+              <sort-order type="xs:string" direction="ascending">
+                <element ns="http://macmillanlearning.com" name="projectState"/>
+              </sort-order>
+              <sort-order>
+                <score/>
+              </sort-order>
+            </sort-spec>
+          }
+
+      default
+        return
+          document {
+            <sort-spec xmlns="http://marklogic.com/appservices/search">
+              <sort-order>
+                <score/>
+              </sort-order>
+            </sort-spec>
+          }
+  
 	let $options :=
 	<options xmlns="http://marklogic.com/appservices/search">
 	  <search-option>filtered</search-option>
@@ -465,6 +539,7 @@ declare function mml:searchProjectDocs($qtext as xs:string, $start, $pageLength)
 		<max-snippet-chars>150</max-snippet-chars>
 		<per-match-tokens>20</per-match-tokens>
 	  </transform-results>
+    {$sortOrder/search:sort-spec/search:*}
 	  <return-results>true</return-results>
 	  <return-facets>true</return-facets>
 	  <return-query>true</return-query>
