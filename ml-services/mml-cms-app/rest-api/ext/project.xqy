@@ -36,7 +36,7 @@ function mml:get(
 
   let $qtext      := if (fn:string-length($q) eq 0)  then "" else $q
   let $uri        := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
-  let $start      := if (fn:string-length($st) eq 0) then  1 else xs:integer($st)
+  let $start      := if (fn:string-length($st) eq 0) then 1 else xs:integer($st)
   let $pageLength := if (fn:string-length($ps) eq 0) then 10 else xs:integer($ps)
   let $sortBy     := if (fn:string-length($sort) eq 0) then "relevance" else $sort
   let $format     := if ($ft eq "xml") then "xml" else "json"
@@ -76,7 +76,7 @@ function mml:get(
 		(
       let $projectDoc := fn:doc($uri)
       
-		  let $contentDocs := mml:findContentDocsByProjectTitle($projectDoc/mmlc:project/mmlc:feed/mmlc:title/text())
+		  let $contentDocs := pm:findContentDocsByProjectTitle($projectDoc/mmlc:project/mmlc:feed/mmlc:title/text())
 		
       let $preDoc :=
         element { fn:QName($NS,"mmlc:container") }
@@ -375,42 +375,8 @@ function mml:delete(
     }
 };
 
-declare function mml:findContentDocsByProjectTitle($projectTitle as xs:string)
+declare function mml:searchProjectDocs($qtext as xs:string, $start as xs:integer, $pageLength as xs:integer, $sortBy as xs:string)
 {
-  let $query := cts:and-query((
-                    cts:collection-query("content"),
-                    cts:element-value-query(fn:QName($NS, "project"), $projectTitle)
-                  ))
-
-  let $results := cts:search(fn:doc(), $query)
-
-  let $contentDocs :=
-    for $result in $results
-      return
-   			element { fn:QName($NS,"mml:content") } {
-          element { fn:QName($NS,"mml:systemId") }     { $result/mmlc:content/mmlc:metadata/mmlc:systemId/text() },
-          element { fn:QName($NS,"mml:uri") }          { xdmp:node-uri($result) },
-          element { fn:QName($NS,"mml:source") }       { $result/mmlc:content/mmlc:feed/mmlc:source/text() },
-          element { fn:QName($NS,"mml:createdBy") }    { $result/mmlc:content/mmlc:metadata/mmlc:createdBy/text() },
-          element { fn:QName($NS,"mml:created") }      { $result/mmlc:content/mmlc:metadata/mmlc:created/text() },
-          element { fn:QName($NS,"mml:modifiedBy") }   { $result/mmlc:content/mmlc:metadata/mmlc:modifiedBy/text() },
-          element { fn:QName($NS,"mml:modified") }     { $result/mmlc:content/mmlc:metadata/mmlc:modified/text() },
-          element { fn:QName($NS,"mml:projectState") } { $result/mmlc:content/mmlc:metadata/mmlc:projectState/text() },
-          element { fn:QName($NS,"mml:title") }        { $result/mmlc:content/mmlc:feed/mmlc:title/text() }
-        }
-
-  return $contentDocs
-};
-
-declare function mml:searchProjectDocs($qtext as xs:string, $start, $pageLength, $sortBy as xs:string)
-{
-(:
-created (Newest)
-modified (Recently Modified)
-title
-state
-relevance
-:)
   let $sortOrder :=
     switch (fn:lower-case($sortBy)) 
       case "newest"
@@ -554,11 +520,12 @@ relevance
 	  (
   		element { fn:QName($NS,"mml:results") } {
   		element { fn:QName($NS,"mml:status") }     { $statusMessage },
-  		element { fn:QName($NS,"mml:count") }      { xs:string($results/@total) },
+  		element { fn:QName($NS,"mml:total") }      { xs:string($results/@total) },
   		element { fn:QName($NS,"mml:start") }      { xs:string($results/@start) },
+  		element { fn:QName($NS,"mml:count") }      { fn:count($results/search:result) },
   		element { fn:QName($NS,"mml:pageLength") } { xs:string($results/@page-length) },
   		for $result in $results/search:result
-  		  let $contentDocs := mml:findContentDocsByProjectTitle($result/search:snippet/mmlc:title/text())
+  		  let $contentDocs := pm:findContentDocsByProjectTitle($result/search:snippet/mmlc:title/text())
   		  return
     			element { fn:QName($NS,"mml:result") } {
       			element { fn:QName($NS,"mml:uri") }           { xs:string($result/@uri) },
