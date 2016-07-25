@@ -129,7 +129,7 @@
                                                     <a ui-sref="{{search.viewStateLink(issue.searchType)}}({uri:issue.uri})">
                                                     <div class="cms-content-tile-image">
                                                         <div class="cms-content-tile-image-dummy"></div>
-                                                        <div class="cms-content-tile-image-color" ng-class="{'cms-content-tile-image-project':issue.searchType=='Project','cms-content-tile-image-content':issue.searchType=='Content'}"></div>
+                                                        <div class="cms-content-tile-image-color" ng-class="{'cms-content-tile-image-project':issue.searchType=='Project' || search.searchType == 'project','cms-content-tile-image-content':issue.searchType=='Content' || search.searchType == 'content'}"></div>
                                                     </div></a>
                                                 </div>
                                             </div>
