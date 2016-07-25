@@ -466,25 +466,21 @@ declare function mml:searchProjectDocs($qtext as xs:string, $start as xs:integer
 	  <constraint name="Keywords">
 		  <range collation="http://marklogic.com/collation/" facet="true">
 			 <element ns="http://macmillanlearning.com" name="subjectKeyword" />
-			 <facet-option>limit=5</facet-option>
 		  </range>
 	   </constraint>
 	   <constraint name="Subjects">
 		  <range collation="http://marklogic.com/collation/" facet="true">
 			 <element ns="http://macmillanlearning.com" name="subjectHeading" />
-			 <facet-option>limit=5</facet-option>
 		  </range>          
 	  </constraint>
 	   <constraint name="Title">
 		  <range collation="http://marklogic.com/collation/" facet="true">
 			 <element ns="http://macmillanlearning.com" name="title" />
-			 <facet-option>limit=5</facet-option>
 		  </range>          
 	  </constraint>
 	   <constraint name="Project State">
 		  <range collation="http://marklogic.com/collation/" facet="true">
 			 <element ns="http://macmillanlearning.com" name="projectState" />
-			 <facet-option>limit=5</facet-option>
 		  </range>          
 	  </constraint>      
 	  <transform-results apply="metadata-snippet">
