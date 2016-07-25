@@ -212,7 +212,17 @@ td.cms-main-display-center {
     bottom: 0px;
     top: 0px;
     background-color: #D8D8D8; 
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 50% 50%;
 }
+.cms-content-tile-image-project {
+    background-image: url('../images/ProjectFolder.png');
+}
+.cms-content-tile-image-content {
+    background-image: url('../images/EPUB_Icon.png');
+}
+
 .cms-content-tile-owner, .cms-content-tile-title, .cms-content-tile-date {
     text-overflow: ellipsis;
     overflow: hidden;

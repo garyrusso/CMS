@@ -115,9 +115,9 @@
                 defer.reject(rejection);
 
                 var modalContent = {
-                    title : 'Webservice: HTTP error, please contact administrator',
+                    title: 'Webservice error. Please contact the system administrator',
                     url : (rejection && rejection.config && rejection.config.url)?rejection.config.url:'',
-                    message : (rejection && rejection.data)?rejection.data:'',
+                    message : /*(rejection && rejection.data)?rejection.data:*/'',
                     ok : false,
                     cancel : {
                         text : 'OK',

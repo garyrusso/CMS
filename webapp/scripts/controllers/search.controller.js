@@ -22,8 +22,13 @@
         }, {
             name : 'Relevance'
         }, {
-            name : 'Oldest'
+            name : 'Modified'
+        }, {
+            name : 'Title'
+        }, {
+            name : 'State'
         }];
+
         search.sortBy = 'Relevance';
         search.sortByChnaged = sortByChnaged;
         search.listView = true;
@@ -79,9 +84,9 @@
         }, {
             field : "all",
             data : {
-                field : "type",
+                field : "searchType",
                 title : "Search Type",
-                sortable : "type",
+                sortable: "searchType",
                 sortDirection : "desc"
             }
         }, {
@@ -183,7 +188,7 @@
 
         //TODO desc
         function viewStateLink(type) {
-            type = (type)?type:(search.searchType === 'project')?'project':'content';
+            type = (type)?type.toLowerCase():(search.searchType === 'project')?'project':'content';
             if (type === 'project') {
                 type = 'projectview'
             } else {

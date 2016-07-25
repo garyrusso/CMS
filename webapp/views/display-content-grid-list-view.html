@@ -33,7 +33,7 @@
         <!--loading-container="content.tableParams.settings().$loading" -->
         <div ng-show="content.tableParams.data.length === 0 ">
             <p>
-                <em>Contents not available</em>
+                <em>No content uploaded</em>
             </p>
         </div>
         <div ng-show="content.tableParams.data.length !== 0 ">
@@ -54,7 +54,7 @@
                                         <a ui-sref="contentview({uri:issue.uri})">
                                         <div class="cms-content-tile-image">
                                             <div class="cms-content-tile-image-dummy"></div>
-                                            <div class="cms-content-tile-image-color"></div>
+                                            <div class="cms-content-tile-image-color cms-content-tile-image-content"></div>
                                         </div></a>
                                     </div>
                                 </div>
