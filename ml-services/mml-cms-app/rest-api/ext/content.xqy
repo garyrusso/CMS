@@ -571,7 +571,10 @@ declare function mml:searchContentDocs($qtext as xs:string, $start, $pageLength,
     (
       element { fn:QName($NS,"mml:results") } {
       element { fn:QName($NS,"mml:status") }    { $statusMessage },
-	  element { fn:QName($NS,"mml:count") }     { xs:string($results/@total) },
+   		element { fn:QName($NS,"mml:total") }      { xs:string($results/@total) },
+  		element { fn:QName($NS,"mml:start") }      { xs:string($results/@start) },
+  		element { fn:QName($NS,"mml:count") }      { fn:count($results/search:result) },
+  		element { fn:QName($NS,"mml:pageLength") } { xs:string($results/@page-length) },
       for $result in $results/search:result
         return
           element { fn:QName($NS,"mml:result") } {

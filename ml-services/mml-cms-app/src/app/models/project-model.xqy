@@ -257,3 +257,30 @@ declare function project:get-document($uri as xs:string)
   
   return $resultDocument
 };
+
+declare function project:findContentDocsByProjectTitle($projectTitle as xs:string)
+{
+  let $query := cts:and-query((
+                    cts:collection-query("content"),
+                    cts:element-value-query(fn:QName($NS, "project"), $projectTitle)
+                  ))
+
+  let $results := cts:search(fn:doc(), $query)
+
+  let $contentDocs :=
+    for $result in $results
+      return
+   			element { fn:QName($NS,"mml:content") } {
+          element { fn:QName($NS,"mml:systemId") }     { $result/mml:content/mml:metadata/mml:systemId/text() },
+          element { fn:QName($NS,"mml:uri") }          { xdmp:node-uri($result) },
+          element { fn:QName($NS,"mml:source") }       { $result/mml:content/mml:feed/mml:source/text() },
+          element { fn:QName($NS,"mml:createdBy") }    { $result/mml:content/mml:metadata/mml:createdBy/text() },
+          element { fn:QName($NS,"mml:created") }      { $result/mml:content/mml:metadata/mml:created/text() },
+          element { fn:QName($NS,"mml:modifiedBy") }   { $result/mml:content/mml:metadata/mml:modifiedBy/text() },
+          element { fn:QName($NS,"mml:modified") }     { $result/mml:content/mml:metadata/mml:modified/text() },
+          element { fn:QName($NS,"mml:projectState") } { $result/mml:content/mml:metadata/mml:projectState/text() },
+          element { fn:QName($NS,"mml:title") }        { $result/mml:content/mml:feed/mml:title/text() }
+        }
+
+  return $contentDocs
+};
