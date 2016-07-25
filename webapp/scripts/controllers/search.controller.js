@@ -24,7 +24,7 @@
         }, {
             name : 'Oldest'
         }];
-        search.sortBy = '';
+        search.sortBy = 'Relevance';
         search.sortByChnaged = sortByChnaged;
         search.listView = true;
         /* function to toggle list, grid views */
@@ -101,11 +101,11 @@
                 var defer = $q.defer();
                 $scope.setLoading(true);
                 var pageDetails = params.url(), orderBy = params.orderBy() ? params.orderBy()[0] : '';
-                //TODO: search.sortBy ? yet tobe implemented
-                SearchService.searchData(search.searchType, search.searchText, pageDetails.page, pageDetails.count, orderBy, '', search.facetsSelected).then(function (response) {
+                //TODO:  orderBy? yet tobe implemented
+                SearchService.searchData(search.searchType, search.searchText, pageDetails.page, pageDetails.count, search.sortBy, '', search.facetsSelected).then(function (response) {
                     $scope.setLoading(false);
                     if (response.results) {
-                        params.total(response.results.count);
+                        params.total(response.results.total);
                         search.facets = CommonService.formatFacets(response.results.facets);
                         defer.resolve(response.results.result);
                     } else {

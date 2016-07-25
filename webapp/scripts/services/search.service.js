@@ -53,7 +53,7 @@
                 searchText : searchText ? searchText : '',
                 pageNumber : pageNumber ? parseInt(pageNumber) : 1,
                 pageSize : pageSize ? parseInt(pageSize) : APP_CONFIG.limit,
-                orderBy : orderBy ? orderBy : '',
+                orderBy : orderBy ? orderBy.toLowerCase() : '',
                 username: username ? username : 'all',
                 facets: facetParams
             };
