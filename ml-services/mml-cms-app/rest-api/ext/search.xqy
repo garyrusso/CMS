@@ -167,8 +167,7 @@ declare function mml:searchAllDocs($qtext as xs:string, $start as xs:integer, $p
           <cts:collection-query>
             <cts:uri>content</cts:uri>
             <cts:uri>project</cts:uri>
-            <cts:uri>file</cts:uri>
-            <cts:uri>dictionary</cts:uri>
+
           </cts:collection-query>
           <cts:not-query>
             <cts:collection-query>
@@ -282,6 +281,7 @@ declare function mml:searchAllDocs($qtext as xs:string, $start as xs:integer, $p
       			element { fn:QName($NS,"mml:systemId") }      { $result/search:snippet/mmlc:systemId/text() },
       			element { fn:QName($NS,"mml:projectUri") }    { $result/search:snippet/mmlc:projectUri/text() },
       			element { fn:QName($NS,"mml:title") }         { $result/search:snippet/mmlc:title/text() },
+				element { fn:QName($NS,"mml:searchType") }         { $result/search:snippet/mmlc:objectType/text() },
       			element { fn:QName($NS,"mml:description") }   { $result/search:snippet/mmlc:description/text() },
       			element { fn:QName($NS,"mml:projectState") }  { $result/search:snippet/mmlc:projectState/text() },
       			element { fn:QName($NS,"mml:created") }       { $result/search:snippet/mmlc:created/text() },
