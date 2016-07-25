@@ -77,6 +77,9 @@ a, a:focus, a:hover {
 }
 .cms-login-page-backgroundcolor {
     background-color: #D8D8D8;
+    background-image: url('../images/LoginPageImage.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .cms-login-logo-container {
