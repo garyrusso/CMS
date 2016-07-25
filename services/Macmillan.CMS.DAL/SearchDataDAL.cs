@@ -22,8 +22,7 @@ namespace Macmillan.CMS.DAL
         /// <param name="userName"></param>
         /// <returns></returns>
         public object GetData(string orderBy, int pageNumber, int pageSize, string searchText, string searchType, string userName, string[] facets)
-        {
-      
+        {     
 
             //Call ML and SearchProjects
             Logger.Info("Entering SearchData");
@@ -50,17 +49,19 @@ namespace Macmillan.CMS.DAL
 
             if (searchType == "all")
             {
-                searchType = "project";
+                searchType = "search";
             }
-            string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + searchType + "?name=" + searchType + "&rs:q=" + searchText + "&rs:format=json&rs:pageLength=" + pageSize + "&rs:start=" + pageNumber;// +"&rs:q=" + facetsParam;
+
+            if (orderBy == null) {
+                orderBy = "relevance";
+            }
+
+            string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + searchType + "?name=" + searchType + "&rs:q=" + searchText + "&rs:format=json&rs:pageLength=" + pageSize + "&rs:start=" + pageNumber + "&rs:sort=" + orderBy;
             string results = mlReader.GetHttpContent(mlUrl, "application/json");
             Logger.Debug("Logging Results for GetData with mlUrl");
             Logger.Info("Exiting SearchData");
             return mlReader.ConverttoJson<object>(results);
-
-
-         
-          
+ 
         }
     }
 }
