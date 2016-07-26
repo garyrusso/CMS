@@ -201,6 +201,11 @@ declare function mml:searchAllDocs($qtext as xs:string, $start as xs:integer, $p
           <element ns="http://macmillanlearning.com" name="subjectHeading"/>
         </word>
       </constraint>
+    <constraint name="state">
+      <word>
+        <element ns="http://macmillanlearning.com" name="contentState"/>
+      </word>
+    </constraint>	  
   	  <constraint name="Keywords">
   		  <range collation="http://marklogic.com/collation/" facet="true">
   			 <element ns="http://macmillanlearning.com" name="subjectKeyword" />

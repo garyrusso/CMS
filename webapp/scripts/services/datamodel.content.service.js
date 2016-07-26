@@ -60,7 +60,7 @@
             this.Creator = contentData.creator;
             this.Publisher = contentData.publisher; 
             this.ContentState = contentData.contentState; 
-            this.Projects = contentData.projects; 
+            this.Projects = (contentData.projects) ? contentData.projects : (contentData.project);
             this.SubjectHeadings = contentData.subjectHeading; 
             this.SubjectKeywords = contentData.subjectKeyword; 
             this.SystemId = contentData.systemId; 
@@ -79,9 +79,7 @@
             if((this.Creator && this.Creator.length === 0) || !this.Creator ) {
                 this.Creator = [''];
             }
-            if((this.Projects && this.Projects.length === 0) || !this.Projects ) {
-                this.Projects = [''];
-            }
+            
             if((this.SubjectKeywords && this.SubjectKeywords.length === 0) || !this.SubjectKeywords ) {
                 this.SubjectKeywords = [''];
             }

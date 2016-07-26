@@ -39,9 +39,9 @@
                 } else if (facet.facetKey === 'Title') {
                     facetKey = 'title';
                 } else if (facet.facetKey === 'Project State') {
-                    facetKey = 'projectState';
+                    facetKey = 'state';
                 } else if (facet.facetKey === 'Content State') {
-                    facetKey = 'contentState';
+                    facetKey = 'state';
                 } else {
                     facetKey = facet.facetKey;
                 }

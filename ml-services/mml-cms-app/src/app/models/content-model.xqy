@@ -337,3 +337,27 @@ declare function content:invoke($function, $params)
   )
 };
 
+declare function content:findProjectDocsByProjectTitle($projectTitle as xs:string)
+{
+  let $query := cts:and-query((
+                    cts:collection-query("project"),
+                    cts:element-value-query(fn:QName($NS, "title"), $projectTitle)
+                  ))
+
+  let $results := cts:search(fn:doc(), $query)
+
+  let $contentDocs :=
+    for $result in $results
+      return
+   			element { fn:QName($NS,"mml:project") } {
+          element { fn:QName($NS,"mml:uri") }          { xdmp:node-uri($result) },
+          element { fn:QName($NS,"mml:createdBy") }    { $result/mml:project/mml:metadata/mml:createdBy/text() },
+          element { fn:QName($NS,"mml:created") }      { $result/mml:project/mml:metadata/mml:created/text() },
+          element { fn:QName($NS,"mml:modifiedBy") }   { $result/mml:project/mml:metadata/mml:modifiedBy/text() },
+          element { fn:QName($NS,"mml:modified") }     { $result/mml:project/mml:metadata/mml:modified/text() },
+          element { fn:QName($NS,"mml:title") }        { $result/mml:project/mml:feed/mml:title/text() }
+        }
+
+	return $contentDocs
+};
+

@@ -215,6 +215,7 @@ td.cms-main-display-center {
     background-repeat: no-repeat;
     background-size: contain;
     background-position: 50% 50%;
+    border: 10px solid #D8D8D8;
 }
 .cms-content-tile-image-project {
     background-image: url('../images/ProjectFolder.png');

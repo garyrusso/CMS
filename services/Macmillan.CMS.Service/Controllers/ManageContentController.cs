@@ -21,7 +21,7 @@ namespace Macmillan.CMS.Service.Controllers
         IManageContentBusiness business;
         IDictionaryBusiness dictionaryBusiness;
         
-        private readonly IFlowJsRepoBusiness _flowJs;      
+        private readonly IFlowJsRepoBusiness _flowJs;                
         private string fileRepository = ConfigurationManager.AppSettings["FileRepository"];
         private string chunkRepository = ConfigurationManager.AppSettings["ChunkFileRepository"];
         
@@ -47,8 +47,10 @@ namespace Macmillan.CMS.Service.Controllers
             [FromBody] Content content)
         {
             Logger.Info("Entering UploadMetadata Controller");
-     
-            string folderPath = this.fileRepository ;                              
+            string[] SessionID =  HttpContext.Current.Request.Headers.GetValues("X-userSession");
+            string Path = "\\" + SessionID[0];
+            string folderPath = this.fileRepository + Path;
+            string chunkFolderPath = this.chunkRepository + Path;                          
             FileInfo[] filesInfo = new DirectoryInfo(folderPath).GetFiles().OrderByDescending(p => p.CreationTime).ToArray();
 
             Logger.Debug("Logging for UploadMetadata FileInfo from folderpath");
@@ -61,7 +63,8 @@ namespace Macmillan.CMS.Service.Controllers
             }
             
             //Force clean up
-            Directory.Delete(folderPath, true);
+             Directory.Delete(chunkFolderPath, true);
+             Directory.Delete(folderPath, true);
             Logger.Info("Exiting UploadMetadata Controller");
             return results;
         }
@@ -92,9 +95,10 @@ namespace Macmillan.CMS.Service.Controllers
             string flowTotalChunks)
         {
          
-            var request = HttpContext.Current.Request;
-
-            var chunkExists = _flowJs.ChunkExists(this.chunkRepository, request);
+            var request = HttpContext.Current.Request;            
+            string[] SessionID = HttpContext.Current.Request.Headers.GetValues("X-userSession");
+            string chunkRepo= this.chunkRepository + "\\" + SessionID[0];
+            var chunkExists = _flowJs.ChunkExists(chunkRepo, request);
             if (chunkExists)
                 return Ok();
             Logger.Info("StatusCode for UploadFile");
@@ -113,16 +117,18 @@ namespace Macmillan.CMS.Service.Controllers
             {
               
                     var request = HttpContext.Current.Request;
-
+                    string[] SessionID = HttpContext.Current.Request.Headers.GetValues("X-userSession");
+                    string chunkRepo = this.chunkRepository + "\\" + SessionID[0];
+                    string fileRepo = this.fileRepository + "\\" + SessionID[0];
                     if (request.Files.Count == 0)
                         return Ok();
 
-                    var validationRules = new Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules();                   
-                    var status = _flowJs.PostChunk(request,this.fileRepository,this.chunkRepository,validationRules);
+                    var validationRules = new Macmillan.CMS.Common.Models.FlowModels.FlowValidationRules();
+                    var status = _flowJs.PostChunk(request,fileRepo,chunkRepo, validationRules);
 
                     string errors = string.Empty;
                     status.ErrorMessages.ForEach(x => errors += " " + x);
-
+                
                     if (!string.IsNullOrEmpty(errors))
                     {
                         Logger.Error(errors);
@@ -130,8 +136,8 @@ namespace Macmillan.CMS.Service.Controllers
                         return StatusCode(HttpStatusCode.NotFound);
                     }
                     else if (status.Status == Macmillan.CMS.Common.Models.FlowModels.PostChunkStatus.Done)
-                    {                       
-                        this.UploadFile(new FileInfo(Path.Combine(this.fileRepository, status.FileName)));
+                    {
+                        this.UploadFile(new FileInfo(Path.Combine(fileRepo, status.FileName)));
                     }
                 }
             

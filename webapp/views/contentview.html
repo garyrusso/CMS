@@ -153,10 +153,10 @@
         </div>
     </div>
     <div class="row" ng-if="content.data.Projects.length>0">
-        <div  class="col-xs-12 col-sm-6 col-md-2 cms-content-tile ng-scope" ng-repeat="content in content.data.Projects">
+        <div  class="col-xs-12 col-sm-6 col-md-2 cms-content-tile ng-scope" ng-repeat="project in content.data.Projects">
             <div class="row">
                 <div class="col-xs-12">
-                    <a href="#/">
+                    <a ui-sref="projectview({uri:project.uri})">
                     <div class="cms-content-tile-image">
                         <div class="cms-content-tile-image-dummy"></div>
                         <div class="cms-content-tile-image-color cms-content-tile-image-project"></div>
@@ -165,23 +165,18 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 cms-content-tile-title">
-                    <a href="#/"><span ng-bind="content.Title"></span></a>
+                    <a ui-sref="projectview({uri:project.uri})"><span ng-bind="project.title"></span></a>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-12 cms-content-tile-date">
-                    <span ng-bind="content.dateLastModified"></span>
+                    <span ng-bind="project.modified | date:'yyyy-MM-dd HH:mm'"></span>
                 </div>
             </div>
             <div class="row">
                 <div class="col-xs-12 cms-content-tile-owner">
-                    <span ng-bind="content.username"></span>
+                    <span ng-bind="project.createdBy"></span>
                 </div>
-            </div>
-        </div>
-        <div class="col-xs-12">
-            <div class="pull-right">
-                <a href="#">See all Contents</a>
             </div>
         </div>
     </div>

@@ -78,7 +78,11 @@ function mml:get(
       let $contentDoc := fn:doc($uri)
 
       let $auditDoc := am:getAuditInfo($uri)
-      
+	  
+	  let $prjTitle := $contentDoc/mmlc:content/mmlc:metadata/mmlc:projects/mmlc:project/text()
+	  
+	  let $contentDocs := cm:findProjectDocsByProjectTitle($prjTitle)
+	  
       let $preDoc :=
         element { fn:QName($NS,"mmlc:container") }
         {
@@ -99,10 +103,12 @@ function mml:get(
           $contentDoc/mmlc:content/mmlc:feed/mmlc:technical/mmlc:filePath,
           $contentDoc/mmlc:content/mmlc:feed/mmlc:technical/mmlc:fileSize,
           $contentDoc/mmlc:content/mmlc:feed/mmlc:creators/mmlc:creator,
-          $contentDoc/mmlc:content/mmlc:metadata/mmlc:projects/mmlc:project,
           $contentDoc/mmlc:content/mmlc:metadata/mmlc:subjectHeadings/mmlc:subjectHeading,
           $contentDoc/mmlc:content/mmlc:metadata/mmlc:subjectKeywords/mmlc:subjectKeyword,
-          $auditDoc
+          $auditDoc,
+		  for $content in $contentDocs
+      			return
+      			  element { fn:QName($NS,"mml:project") } { $content/* }
         }
 
       let $doc :=
@@ -505,6 +511,11 @@ declare function mml:searchContentDocs($qtext as xs:string, $start, $pageLength,
           <element ns="http://macmillanlearning.com" name="subjectHeading"/>
         </word>
       </constraint>
+    <constraint name="state">
+      <word>
+        <element ns="http://macmillanlearning.com" name="contentState"/>
+      </word>
+    </constraint>	  
   	  <constraint name="Keywords">
   		  <range collation="http://marklogic.com/collation/" facet="true">
   			 <element ns="http://macmillanlearning.com" name="subjectKeyword" />
