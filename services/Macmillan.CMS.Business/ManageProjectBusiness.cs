@@ -96,7 +96,7 @@ namespace Macmillan.CMS.Business
                     if (!string.IsNullOrEmpty(keywords.ToString()))
                         keywords.Append(",");
 
-                    keywords.Append("\"" + keyword + "\"");
+                    keywords.Append("\"" + replaceText(keyword) + "\"");
                 }
 
                 text.Replace("##subjectKeywords##", keywords.ToString());
@@ -153,7 +153,7 @@ namespace Macmillan.CMS.Business
                     if (!string.IsNullOrEmpty(keywords.ToString()))
                         keywords.Append(",");
 
-                    keywords.Append("\"" + keyword + "\"");
+                    keywords.Append("\"" + replaceText(keyword) + "\"");
                 }
 
                 text.Replace("##subjectKeywords##", keywords.ToString());
