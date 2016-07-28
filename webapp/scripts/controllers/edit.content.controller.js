@@ -30,6 +30,10 @@
         }
         if (!content.data.Projects) {
             content.data.Projects = [''];
+        } else {
+            content.data.Projects = _.map(content.data.Projects, function (project) {
+                return project.title;
+            });
         }
 
         content.sourceData = [];
@@ -137,6 +141,7 @@
          * search project based on text entered by used in form to select project.
          */
         function searchProject(text) {
+            text = '*' + text + '*';
             ManageProjectsService.getProjects(text).then(function (response) {
                 _.map(response.result, function(project) {
                     var existingTitles = _.pluck(content.ProjectsData, 'title');

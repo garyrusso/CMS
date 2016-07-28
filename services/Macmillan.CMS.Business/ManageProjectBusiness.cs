@@ -45,6 +45,11 @@ namespace Macmillan.CMS.Business
 
         }
 
+        private string replaceText(string value)
+        {   
+            return value=value.Replace("\"", "\\\"");           
+        }
+
         /// <summary>
         /// BuildProjectXML with given details
         /// </summary>
@@ -57,9 +62,9 @@ namespace Macmillan.CMS.Business
             StringBuilder text = new StringBuilder(File.ReadAllText(ConfigurationManager.AppSettings["AppDataPath"] + "\\CreateProject.json"));
             
             text.Replace("##systemId##", Guid.NewGuid().ToString("N").Substring(0, 32));
-            text.Replace("##docUri##", "/projects/" + project.Title);            
-            text.Replace("##title##", project.Title);
-            text.Replace("##description##", project.Description);
+            text.Replace("##docUri##", "/projects/" + replaceText(project.Title));            
+            text.Replace("##title##", replaceText(project.Title));
+            text.Replace("##description##", replaceText(project.Description)); //s.Replace("\"", "\\\"");
             text.Replace("##projectState##", project.ProjectState);
 
             text.Replace("##dateCreated##", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -115,8 +120,8 @@ namespace Macmillan.CMS.Business
 
             text.Replace("##systemId##", project.SystemId);
             text.Replace("##docUri##",  project.ProjectURL);
-            text.Replace("##title##", project.Title);
-            text.Replace("##description##",  project.Description);
+            text.Replace("##title##", replaceText(project.Title));
+            text.Replace("##description##",  replaceText(project.Description));
             text.Replace("##projectState##", project.ProjectState);
 
             text.Replace("##dateCreated##", project.DateCreated.ToString());

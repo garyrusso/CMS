@@ -38,6 +38,8 @@
             "FilePath" : ""
         };
 
+        $scope.data.Projects[0] = (items.project && items.project.title) ? items.project.title : '';
+
         $scope.authToken = CommonService.getItems().authToken;
         
         $scope.userSession = CommonService.getItems().userSession;
@@ -199,7 +201,7 @@
          * search project based on text entered by used in form to select project.
          */
         function searchProject(text) {
-
+            text = '*' + text + '*';
             ManageProjectsService.getProjects(text).then(function (response) {
                 _.map(response.result, function(project) {
                     var existingTitles = _.pluck($scope.ProjectsData, 'title');

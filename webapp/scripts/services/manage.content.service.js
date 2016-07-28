@@ -80,7 +80,7 @@
          * @description
          * open modal window with create/Edit Content form
          */
-        function openUploadContentModal() {          
+        function openUploadContentModal(project) {          
             var self = this, deffered = $q.defer(), modalInstance = $uibModal.open({
                 templateUrl: 'views/modal-template.html',
                 controller: 'ModalUploadContentController',
@@ -88,7 +88,8 @@
                 resolve: {
                     items: function () {
                         return {
-                            templateUrl: 'views/modal-upload-content.html'
+                            templateUrl: 'views/modal-upload-content.html',
+                            project: project
                         };
                     },
                     getContentSourceResolve : CommonService.getDictionary('Source'),
@@ -223,7 +224,8 @@
          * @returns {Object} http promise object
          */
         function deleteContent(postData) {
-            return $http.post(WS.deleteContent, postData).then(function (response) {
+
+            return $http.post(WS.deleteContent, { "ContentUri": postData.ContentUri }).then(function (response) {
                 return response.data;
             });
         }

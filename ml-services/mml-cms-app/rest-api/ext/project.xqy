@@ -174,12 +174,12 @@ function mml:put(
 			element description     { $projectDoc/jn:description/text() },
 			element projectState    { $projectDoc/jn:projectState/text() },
 			element subjectHeadings {
-		  for $subjectHeading in $projectDoc/jn:subjectHeading/jn:item/text()
+		  for $subjectHeading in $projectDoc/jn:subjectHeadings/jn:item/text()
 				return
 				  element subjectHeading { $subjectHeading }
 			},
 			element subjectKeywords {
-		  for $subjectKeyword in $projectDoc/jn:subjectKeyword/jn:item/text()
+		  for $subjectKeyword in $projectDoc/jn:subjectKeywords/jn:item/text()
 				return
 				  element subjectKeyword { $subjectKeyword }
 			}

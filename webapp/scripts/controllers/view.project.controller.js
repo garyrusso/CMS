@@ -63,8 +63,8 @@
          * Invoke this method Upload content from project
          * call ManageContentService > openUploadContentModal method to open upload content modal
          */
-        function projectUploadContent() {
-            ManageContentService.openUploadContentModal().then(function () {
+        function projectUploadContent(project) {
+            ManageContentService.openUploadContentModal(project).then(function () {
                 $log.debug('Content Added from Project');
             });
         }

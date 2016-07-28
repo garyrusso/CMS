@@ -60,7 +60,7 @@
             this.Creator = contentData.creator;
             this.Publisher = contentData.publisher; 
             this.ContentState = contentData.contentState; 
-            this.Projects = (contentData.projects) ? contentData.projects : (contentData.project);
+            this.Projects = (contentData.projects) ? contentData.projects : (contentData.project) ? contentData.project : [];
             this.SubjectHeadings = contentData.subjectHeading; 
             this.SubjectKeywords = contentData.subjectKeyword; 
             this.SystemId = contentData.systemId; 
