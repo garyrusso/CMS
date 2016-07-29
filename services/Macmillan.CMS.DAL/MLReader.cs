@@ -89,11 +89,11 @@ namespace Macmillan.CMS.DAL
                 results = (T)this.serializer.DeSerialize<T>(Data);
             }
             catch (Exception ex)
-            {                
-                var error = new { responseCode = "401", message = "Please contact Administrator" };
+            {
+                var error = new { responseCode = "401", message = "Please contact the system administrator" };
                 if (ex.Message.Contains("401"))
                 {
-                    error = new { responseCode = "401", message = "401 Unauthorized" };
+                    error = new { responseCode = "401", message = "Error 401 - Unauthorized: Access is denied" };
                     Logger.Error("Error message for ConverttoJson in MlReader");
                 }
                 

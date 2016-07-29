@@ -88,7 +88,7 @@ namespace Macmillan.CMS.DAL
              {                
                  if (ex.Message.Contains("401"))
                  {
-                     var error = new { responseCode = "401", message = "401 Unauthorized" };
+                     var error = new { responseCode = "401", message = "Error 401 - Unauthorized: Access is denied." };
                      Logger.Error("Error message for GetContentDal");
                      results = error;
                  }
@@ -206,7 +206,7 @@ namespace Macmillan.CMS.DAL
 
                  if (ex.Message.Contains("401"))
                  {
-                     var error = new { responseCode = "401", message = "401 Unauthorized" };
+                     var error = new { responseCode = "401", message = "Error 401 - Unauthorized: Access is denied." };
                      Logger.Error("Error Message for SearchContentsDal with mlUrl");
                      results = error;
                  }

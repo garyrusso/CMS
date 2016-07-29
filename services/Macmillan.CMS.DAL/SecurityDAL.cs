@@ -51,8 +51,8 @@ namespace Macmillan.CMS.DAL
             catch (Exception ex)
             {               
                 if (ex.Message.Contains("401"))
-                { 
-                    var error = new {responseCode ="401", message = "User/Password incorrect"};
+                {
+                    var error = new { responseCode = "401", message = "Username or password is incorrect" };
                     results = error;
                 }
             }
