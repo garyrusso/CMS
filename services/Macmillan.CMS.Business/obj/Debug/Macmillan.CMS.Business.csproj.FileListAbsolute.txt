@@ -24,19 +24,6 @@ E:\MacMillan\Source\Github\services\Macmillan.CMS.Business\bin\Debug\Newtonsoft.
 E:\MacMillan\Source\Github\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.csprojResolveAssemblyReference.cache
 E:\MacMillan\Source\Github\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.dll
 E:\MacMillan\Source\Github\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.pdb
-D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.Business.dll
-D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.Business.pdb
-D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.Common.dll
-D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.DAL.dll
-D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Newtonsoft.Json.dll
-D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\log4net.dll
-D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.Common.pdb
-D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.DAL.pdb
-D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Newtonsoft.Json.xml
-D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\log4net.xml
-D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.csprojResolveAssemblyReference.cache
-D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.dll
-D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.pdb
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.csprojResolveAssemblyReference.cache
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.Business.dll
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.Business.pdb
@@ -51,3 +38,32 @@ D:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\bin\Debug\Newtonsoft.Json.x
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\bin\Debug\log4net.xml
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.dll
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.pdb
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.Business.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.Business.pdb
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.Common.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.DAL.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Newtonsoft.Json.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\log4net.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\MarklogicXcc.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\IKVM.OpenJDK.Core.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\xcccore.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\IKVM.OpenJDK.XML.API.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\IKVM.Runtime.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\IKVM.OpenJDK.Util.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\IKVM.OpenJDK.Security.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\IKVM.OpenJDK.Text.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\IKVM.OpenJDK.Misc.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\IKVM.OpenJDK.Naming.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\IKVM.Runtime.JNI.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\IKVM.OpenJDK.SwingAWT.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\IKVM.OpenJDK.Remoting.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\IKVM.OpenJDK.Media.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\IKVM.AWT.WinForms.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\IKVM.OpenJDK.Beans.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.Common.pdb
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Macmillan.CMS.DAL.pdb
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\Newtonsoft.Json.xml
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\bin\Debug\log4net.xml
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.csprojResolveAssemblyReference.cache
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.Business\obj\Debug\Macmillan.CMS.Business.pdb

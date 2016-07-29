@@ -20,17 +20,6 @@ E:\MacMillan\Source\Github\services\Macmillan.CMS.DAL\bin\Debug\Newtonsoft.Json.
 E:\MacMillan\Source\Github\services\Macmillan.CMS.DAL\obj\Debug\Macmillan.CMS.DAL.csprojResolveAssemblyReference.cache
 E:\MacMillan\Source\Github\services\Macmillan.CMS.DAL\obj\Debug\Macmillan.CMS.DAL.dll
 E:\MacMillan\Source\Github\services\Macmillan.CMS.DAL\obj\Debug\Macmillan.CMS.DAL.pdb
-D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\Macmillan.CMS.DAL.dll
-D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\Macmillan.CMS.DAL.pdb
-D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\Macmillan.CMS.Common.dll
-D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\Newtonsoft.Json.dll
-D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\log4net.dll
-D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\Macmillan.CMS.Common.pdb
-D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\Newtonsoft.Json.xml
-D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\log4net.xml
-D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\obj\Debug\Macmillan.CMS.DAL.csprojResolveAssemblyReference.cache
-D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\obj\Debug\Macmillan.CMS.DAL.dll
-D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\obj\Debug\Macmillan.CMS.DAL.pdb
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\obj\Debug\Macmillan.CMS.DAL.csprojResolveAssemblyReference.cache
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\bin\Debug\Macmillan.CMS.DAL.dll
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\bin\Debug\Macmillan.CMS.DAL.pdb
@@ -42,3 +31,42 @@ D:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\bin\Debug\Newtonsoft.Json.xml
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\bin\Debug\log4net.xml
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\obj\Debug\Macmillan.CMS.DAL.dll
 D:\CMSSourcecode\CMS\services\Macmillan.CMS.DAL\obj\Debug\Macmillan.CMS.DAL.pdb
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\Macmillan.CMS.DAL.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\Macmillan.CMS.DAL.pdb
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.AWT.WinForms.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.Beans.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.Charsets.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.Corba.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.Core.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.Jdbc.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.Management.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.Media.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.Misc.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.Naming.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.Remoting.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.Security.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.SwingAWT.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.Text.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.Tools.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.Util.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.XML.API.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.XML.Bind.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.XML.Crypto.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.XML.Parse.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.XML.Transform.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.XML.WebServices.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.OpenJDK.XML.XPath.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.Reflection.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.Runtime.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\IKVM.Runtime.JNI.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\Macmillan.CMS.Common.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\MarklogicXcc.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\Newtonsoft.Json.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\xcccore.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\log4net.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\Macmillan.CMS.Common.pdb
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\Newtonsoft.Json.xml
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\bin\Debug\log4net.xml
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\obj\Debug\Macmillan.CMS.DAL.csprojResolveAssemblyReference.cache
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\obj\Debug\Macmillan.CMS.DAL.dll
+D:\CMS Workstation\CMS\services\Macmillan.CMS.DAL\obj\Debug\Macmillan.CMS.DAL.pdb
