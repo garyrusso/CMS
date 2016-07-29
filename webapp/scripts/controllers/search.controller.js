@@ -18,7 +18,7 @@
         search.searchType = $stateParams.searchType;
         search.searchText = $stateParams.searchText;
         search.sortValues = [{
-            name : 'Newest'
+            name: 'Created'
         }, {
             name : 'Relevance'
         }, {
@@ -105,9 +105,11 @@
                 $log.debug('SearchController - params', params);
                 var defer = $q.defer();
                 $scope.setLoading(true);
-                var pageDetails = params.url(), orderBy = params.orderBy() ? params.orderBy()[0] : '';
+                var pageDetails = params.url(), orderBy = params.orderBy() ? params.orderBy()[0] : '',
+                    sort = (search.sortBy == 'Created') ? 'Newest' : search.sortBy;
                 //TODO:  orderBy? yet tobe implemented
-                SearchService.searchData(search.searchType, search.searchText, pageDetails.page, pageDetails.count, search.sortBy, '', search.facetsSelected).then(function (response) {
+
+                SearchService.searchData(search.searchType, search.searchText, pageDetails.page, pageDetails.count, sort, '', search.facetsSelected).then(function (response) {
                     $scope.setLoading(false);
                     if (response.results) {
                         params.total(response.results.total);

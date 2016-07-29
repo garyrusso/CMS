@@ -15,6 +15,8 @@
         var header = this;
 
         header.searchType = 'all'; //by default
+
+        header.searchTypeDisplayText = 'All Types'; //by default
         
         header.searchTextBox = '';
         
@@ -78,6 +80,7 @@
          */
         function changeSearchType (searchType) {
             header.searchType = searchType;
+            header.searchTypeDisplayText = (searchType !== 'all') ? searchType : 'All Types';
         }
 
         /**
