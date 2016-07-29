@@ -120,7 +120,8 @@ namespace Macmillan.CMS.DAL
 
          public void UploadFile(FileInfo file)
          {
-           this.HTTPUpload(file);
+           //this.HTTPUpload(file);
+             this.XCCUpload(file);
          }
 
          private void HTTPUpload(FileInfo file)
@@ -177,7 +178,7 @@ namespace Macmillan.CMS.DAL
          {
              String uris = file.FullName.Replace("\\", "/");
 
-             Marklogic.Xcc.Content content = ContentFactory.NewContent("documents/binary/" + file.Name, file , options); 
+             Marklogic.Xcc.Content content = ContentFactory.NewContent("resources/" + file.Name, file, options); 
 
              session.InsertContent(content);
          }

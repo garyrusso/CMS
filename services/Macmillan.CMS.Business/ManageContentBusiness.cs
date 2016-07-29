@@ -126,6 +126,11 @@ namespace Macmillan.CMS.Business
              this.dal.UploadFile(file);
          }
 
+         private string replaceText(string value)
+         {
+             return value = value.Replace("\"", "\\\"");
+         }
+
          /// <summary>
          /// BuildProjectXML with given details
          /// </summary>
@@ -162,7 +167,7 @@ namespace Macmillan.CMS.Business
                      if (!string.IsNullOrEmpty(keywords.ToString()))
                          keywords.Append(",");
 
-                     keywords.Append("\"" + keyword + "\"");
+                     keywords.Append("\"" + replaceText(keyword) + "\"");
                  }
 
                  text.Replace("##subjectKeywords##", keywords.ToString());
@@ -183,11 +188,11 @@ namespace Macmillan.CMS.Business
                  text.Replace("##projects##", projects.ToString());
              }
 
-             text.Replace("##title##", content.Title);
-             text.Replace("##description##", content.Description);
-             text.Replace("##source##", content.Source);
+             text.Replace("##title##", replaceText(content.Title));
+             text.Replace("##description##", replaceText(content.Description));
+             text.Replace("##source##", replaceText(content.Source));
              text.Replace("##publisher##", content.Publisher);
-             text.Replace("##datePublished##", content.DatePublished != null ? Convert.ToString(content.DatePublished) : null);//content.DatePublished.ToString());
+             text.Replace("##datePublished##", content.DatePublished != null ? Convert.ToString(content.DatePublished) : null);
              text.Replace("##contentState##", content.ContentState);
              
              if (content.Creator != null)
@@ -199,7 +204,7 @@ namespace Macmillan.CMS.Business
                      if (!string.IsNullOrEmpty(creators.ToString()))
                          creators.Append(",");
 
-                     creators.Append("\"" + creator + "\"");
+                     creators.Append("\"" + replaceText(creator) + "\"");
                  }
 
                  text.Replace("##creators##", creators.ToString());
@@ -215,7 +220,7 @@ namespace Macmillan.CMS.Business
                      if (!string.IsNullOrEmpty(ContentResources.ToString()))
                          ContentResources.Append(",");
 
-                     ContentResources.Append("\"" + ContentResource + "\"");
+                     ContentResources.Append("\"" + replaceText(ContentResource) + "\"");
                  }
 
                  text.Replace("##contentResourceTypes##", ContentResources.ToString());
@@ -266,7 +271,7 @@ namespace Macmillan.CMS.Business
                      if (!string.IsNullOrEmpty(keywords.ToString()))
                          keywords.Append(",");
 
-                     keywords.Append("\"" + keyword + "\"");
+                     keywords.Append("\"" + replaceText(keyword) + "\"");
                  }
 
                  text.Replace("##subjectKeywords##", keywords.ToString());
@@ -301,7 +306,7 @@ namespace Macmillan.CMS.Business
                      if (!string.IsNullOrEmpty(ContentResources.ToString()))
                          ContentResources.Append(",");
 
-                     ContentResources.Append("\"" + ContentResource + "\"");
+                     ContentResources.Append("\"" + replaceText(ContentResource) + "\"");
                  }
 
                  text.Replace("##contentResourceTypes##", ContentResources.ToString());
@@ -311,9 +316,9 @@ namespace Macmillan.CMS.Business
                  text.Replace("##contentResourceTypes##", " ");
              }
 
-             text.Replace("##title##", content.Title);
-             text.Replace("##description##", content.Description);
-             text.Replace("##source##", content.Source);
+             text.Replace("##title##", replaceText(content.Title));
+             text.Replace("##description##", replaceText(content.Description));
+             text.Replace("##source##", replaceText(content.Source));
              text.Replace("##publisher##", content.Publisher);
              text.Replace("##datePublished##", content.DatePublished.ToString());
              text.Replace("##contentState##", content.ContentState);
@@ -328,7 +333,7 @@ namespace Macmillan.CMS.Business
                      if (!string.IsNullOrEmpty(creators.ToString()))
                          creators.Append(",");
 
-                     creators.Append("\"" + creator + "\"");
+                     creators.Append("\"" + replaceText(creator) + "\"");
                  }
 
                  text.Replace("##creators##", creators.ToString());
