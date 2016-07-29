@@ -120,8 +120,7 @@ namespace Macmillan.CMS.DAL
 
          public void UploadFile(FileInfo file)
          {
-             this.XCCUpload(file);
-             //this.HTTPUpload(file);
+           this.HTTPUpload(file);
          }
 
          private void HTTPUpload(FileInfo file)
