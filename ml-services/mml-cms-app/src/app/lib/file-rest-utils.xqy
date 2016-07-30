@@ -25,7 +25,6 @@ declare function fileRestLib:getAction(
   let $tempUri := map:get($params, "uri")
   
   let $info := if (fn:not(fn:empty(map:get($params, "info")))) then 1 else 0
-  let $log := xdmp:log(".................... info: "||$info)
 
   let $qtext      := if (fn:string-length($q) eq 0)  then "" else $q
   let $uri        := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
@@ -109,7 +108,7 @@ declare function fileRestLib:putAction(
   let $file :=  document { $input }
   let $fileSize := xdmp:binary-size($file/binary())
 
-  let $log := xdmp:log("............... file size: "||$fileSize)
+  (: let $log := xdmp:log("............... file size: "||$fileSize) :)
 
   let $doc :=
     if ($fileSize eq 0) then
@@ -160,12 +159,13 @@ declare function fileRestLib:postAction(
   let $file :=  document { $input }
 
   let $fileSize := xdmp:binary-size($file/binary())
-  
+(:
   let $log :=
     for $header at $n in xdmp:get-request-header-names()
       order by $header
         return
           xdmp:log($n||" ............... header: "||$header||" --- value: "||xdmp:get-request-header($header))
+:)
 
   let $doc :=
     if ($fileSize eq 0) then

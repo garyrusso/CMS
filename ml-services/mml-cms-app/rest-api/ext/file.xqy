@@ -7,7 +7,7 @@ import module namespace utils = "http://marklogic.com/ps/custom/file-rest-utils"
 import module namespace json  = "http://marklogic.com/xdmp/json" at "/MarkLogic/json/json.xqy";
 import module namespace auth  = "http://marklogic.com/roxy/models/authentication" at "/app/models/authentication.xqy";
 import module namespace admin = "http://marklogic.com/xdmp/admin" at "/MarkLogic/admin.xqy";
-      
+
 declare namespace roxy = "http://marklogic.com/roxy";
 declare namespace rapi = "http://marklogic.com/rest-api";
 
