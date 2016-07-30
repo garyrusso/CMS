@@ -18,10 +18,12 @@ declare option xdmp:update "false";
 
 declare variable $NS := "http://macmillanlearning.com";
 
+declare variable $auth:INVALID-USER := "invalid user";
+
 declare variable $auth:SESSION-PREFIX := "session";
 
-(: declare variable $auth:SESSION-TIMEOUT := xs:dayTimeDuration("P1D"); :)
-declare variable $auth:SESSION-TIMEOUT := xs:dayTimeDuration("PT0H05M"); 
+declare variable $auth:SESSION-TIMEOUT := xs:dayTimeDuration("P1D");
+(: declare variable $auth:SESSION-TIMEOUT := xs:dayTimeDuration("PT0H05M"); :)
 
 declare variable $auth:DEFAULT-USER as xs:string := "tester";
 
@@ -58,7 +60,6 @@ declare function auth:getLoggedInUserFromHeader()
   let $authToken := xdmp:get-request-header("X-Auth-Token")
 
   let $userInfo   := if (fn:string-length($authToken) eq 0)  then "" else $authToken
-  (: let $loggedInUser := auth:getUserNamePasswordFromBase64String($userInfo)/userName/text() :)
   
   let $loggedInUser := auth:findSessionByToken($authToken)/username/text()
   
@@ -66,7 +67,7 @@ declare function auth:getLoggedInUserFromHeader()
     if (fn:string-length($loggedInUser) gt 0) then
       $loggedInUser
     else
-      "invalid user"
+      $auth:INVALID-USER
 };
 
 declare function auth:getUserNamePasswordFromBase64String($userInfoBase64 as xs:string)

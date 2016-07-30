@@ -2,6 +2,7 @@ xquery version "1.0-ml";
 
 module namespace project = "http://marklogic.com/roxy/models/project";
 
+import module namespace search  = "http://marklogic.com/appservices/search" at "/MarkLogic/appservices/search/search.xqy";
 import module namespace cfg     = "http://marklogic.com/roxy/config" at "/app/config/config.xqy";
 import module namespace invoke  = "http://marklogic.com/ps/invoke/functions" at "/app/lib/invoke-functions.xqy";
 import module namespace ch      = "http://marklogic.com/roxy/controller-helper" at "/roxy/lib/controller-helper.xqy";
@@ -10,7 +11,6 @@ import module namespace auth    = "http://marklogic.com/roxy/models/authenticati
 import module namespace json    = "http://marklogic.com/json" at "/roxy/lib/json.xqy";
 import module namespace tools   = "http://marklogic.com/ps/custom/common-tools" at "/app/lib/common-tools.xqy";
 
-declare namespace search = "http://marklogic.com/appservices/search";
 declare namespace cts    = "http://marklogic.com/cts";
 declare namespace mml    = "http://macmillanlearning.com";
 
@@ -283,4 +283,205 @@ declare function project:findContentDocsByProjectTitle($projectTitle as xs:strin
         }
 
   return $contentDocs
+};
+
+declare function project:searchProjectDocs($qtext as xs:string, $start as xs:integer, $pageLength as xs:integer, $sortBy as xs:string)
+{
+  let $sortOrder :=
+    switch (fn:lower-case($sortBy)) 
+      case "newest"
+        return
+          document {
+            <sort-spec xmlns="http://marklogic.com/appservices/search">
+              <sort-order type="xs:dateTime" direction="descending">
+                <element ns="http://macmillanlearning.com" name="created"/>
+              </sort-order>
+              <sort-order>
+                <score/>
+              </sort-order>
+            </sort-spec>
+          }
+    
+      case "modified"
+        return
+          document {
+            <sort-spec xmlns="http://marklogic.com/appservices/search">
+              <sort-order type="xs:dateTime" direction="descending">
+                <element ns="http://macmillanlearning.com" name="modified"/>
+              </sort-order>
+              <sort-order>
+                <score/>
+              </sort-order>
+            </sort-spec>
+          }
+
+      case "title"
+        return
+          document {
+            <sort-spec xmlns="http://marklogic.com/appservices/search">
+              <sort-order type="xs:string" direction="ascending">
+                <element ns="http://macmillanlearning.com" name="title"/>
+              </sort-order>
+              <sort-order>
+                <score/>
+              </sort-order>
+            </sort-spec>
+          }
+
+      case "state"
+        return
+          document {
+            <sort-spec xmlns="http://marklogic.com/appservices/search">
+              <sort-order type="xs:string" direction="ascending">
+                <element ns="http://macmillanlearning.com" name="projectState"/>
+              </sort-order>
+              <sort-order>
+                <score/>
+              </sort-order>
+            </sort-spec>
+          }
+
+      default
+        return
+          document {
+            <sort-spec xmlns="http://marklogic.com/appservices/search">
+              <sort-order>
+                <score/>
+              </sort-order>
+            </sort-spec>
+          }
+  
+	let $options :=
+	<options xmlns="http://marklogic.com/appservices/search">
+	  <search-option>filtered</search-option>
+	  <term>
+		<term-option>case-insensitive</term-option>
+	  </term>
+    <additional-query>{cts:collection-query(("project"))}</additional-query>
+    <constraint name="title">
+      <word>
+        <element ns="http://macmillanlearning.com" name="title"/>
+      </word>
+    </constraint>
+    <constraint name="keyword">
+      <word>
+        <element ns="http://macmillanlearning.com" name="subjectKeyword"/>
+      </word>
+    </constraint>
+    <constraint name="heading">
+      <word>
+        <element ns="http://macmillanlearning.com" name="subjectHeading"/>
+      </word>
+    </constraint>
+    <constraint name="state">
+      <word>
+        <element ns="http://macmillanlearning.com" name="projectState"/>
+      </word>
+    </constraint>	
+	  <constraint name="Keywords">
+		  <range collation="http://marklogic.com/collation/" facet="true">
+			 <element ns="http://macmillanlearning.com" name="subjectKeyword" />
+		  </range>
+	   </constraint>
+	   <constraint name="Subjects">
+		  <range collation="http://marklogic.com/collation/" facet="true">
+			 <element ns="http://macmillanlearning.com" name="subjectHeading" />
+		  </range>          
+	  </constraint>
+	   <constraint name="Title">
+		  <range collation="http://marklogic.com/collation/" facet="true">
+			 <element ns="http://macmillanlearning.com" name="title" />
+		  </range>          
+	  </constraint>
+	   <constraint name="Project State">
+		  <range collation="http://marklogic.com/collation/" facet="true">
+			 <element ns="http://macmillanlearning.com" name="projectState" />
+		  </range>          
+	  </constraint>      
+	  <transform-results apply="metadata-snippet">
+		<preferred-elements>
+		  <element ns="http://macmillanlearning.com" name="systemId"/>
+		  <element ns="http://macmillanlearning.com" name="projectUri"/>
+		  <element ns="http://macmillanlearning.com" name="projectState"/>
+		  <element ns="http://macmillanlearning.com" name="title"/>
+		  <element ns="http://macmillanlearning.com" name="description"/>
+		  <element ns="http://macmillanlearning.com" name="subjectHeadings"/>
+		  <element ns="http://macmillanlearning.com" name="subjectKeywords"/>
+		  <element ns="http://macmillanlearning.com" name="createdBy"/>
+		  <element ns="http://macmillanlearning.com" name="modifiedBy"/>
+		  <element ns="http://macmillanlearning.com" name="created"/>
+		  <element ns="http://macmillanlearning.com" name="modified"/>
+		</preferred-elements>
+		<max-matches>2</max-matches>
+		<max-snippet-chars>150</max-snippet-chars>
+		<per-match-tokens>20</per-match-tokens>
+	  </transform-results>
+    {$sortOrder/search:sort-spec/search:*}
+	  <return-results>true</return-results>
+	  <return-facets>true</return-facets>
+	  <return-query>true</return-query>
+	</options>
+
+	let $statusMessage := "Project document found"
+
+	let $results := search:search($qtext, $options, $start, $pageLength)
+
+	let $retObj :=
+	  if (fn:count($results/search:result) ge 1) then
+	  (
+  		element { fn:QName($NS,"mml:results") } {
+  		element { fn:QName($NS,"mml:status") }     { $statusMessage },
+  		element { fn:QName($NS,"mml:total") }      { xs:string($results/@total) },
+  		element { fn:QName($NS,"mml:start") }      { xs:string($results/@start) },
+  		element { fn:QName($NS,"mml:count") }      { fn:count($results/search:result) },
+  		element { fn:QName($NS,"mml:pageLength") } { xs:string($results/@page-length) },
+  		for $result in $results/search:result
+  		  let $contentDocs := project:findContentDocsByProjectTitle($result/search:snippet/mml:title/text())
+  		  return
+    			element { fn:QName($NS,"mml:result") } {
+      			element { fn:QName($NS,"mml:uri") }           { xs:string($result/@uri) },
+      			element { fn:QName($NS,"mml:systemId") }      { $result/search:snippet/mml:systemId/text() },
+      			element { fn:QName($NS,"mml:projectUri") }    { $result/search:snippet/mml:projectUri/text() },
+      			element { fn:QName($NS,"mml:title") }         { $result/search:snippet/mml:title/text() },
+      			element { fn:QName($NS,"mml:description") }   { $result/search:snippet/mml:description/text() },
+      			element { fn:QName($NS,"mml:projectState") }  { $result/search:snippet/mml:projectState/text() },
+      			element { fn:QName($NS,"mml:created") }       { $result/search:snippet/mml:created/text() },
+      			element { fn:QName($NS,"mml:createdBy") }     { $result/search:snippet/mml:createdBy/text() },
+      			element { fn:QName($NS,"mml:modified") }      { $result/search:snippet/mml:modified/text() },
+      			element { fn:QName($NS,"mml:modifiedBy") }    { $result/search:snippet/mml:modifiedBy/text() },
+        	  for $subjectHeading in $result/search:snippet/mml:subjectHeadings/mml:subjectHeading/text()
+      				return
+      				  element { fn:QName($NS,"mml:subjectHeading") } { $subjectHeading },
+            for $subjectKeyword in $result/search:snippet/mml:subjectKeywords/mml:subjectKeyword/text()
+              return
+                element { fn:QName($NS,"mml:subjectKeyword") } { $subjectKeyword },
+        	  for $content in $contentDocs
+      				return
+      				  element { fn:QName($NS,"mml:content") } { $content/* }
+  		  },
+        element { fn:QName($NS,"mml:facets") }
+        {
+          for $facet in $results/search:facet
+            return
+              element { fn:QName($NS, "mml:facet") } {
+                element { fn:QName($NS, "mml:facetName") } { $facet/@name/fn:string() },
+                for $value in $facet/search:facet-value
+                  return 
+                    element { fn:QName($NS, "mml:facetValues") }
+                    {
+                      element { fn:QName($NS,"mml:name") } { $value/text() },
+                      element { fn:QName($NS,"mml:count") } { xs:string($value/@count) }
+                    }
+              }
+        }
+  		}
+	  )
+	  else
+	  (
+      element { fn:QName($NS,"mml:results") } {
+        element { fn:QName($NS,"mml:status") } { "no content docs found" }
+  		}
+	  )
+	  
+	  return $retObj
 };

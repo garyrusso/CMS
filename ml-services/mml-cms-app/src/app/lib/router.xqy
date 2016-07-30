@@ -50,8 +50,6 @@ declare variable $default-layout as xs:string? :=
 
 declare function router:route()
 {
-  let $log := xdmp:log("111...lib\router........... checking login info for non-roxy-extension controller: "||xs:string($controller))
-
   (: add HTTP header information to the request parameter object :)
 	let $_ := (
 	      map:put(

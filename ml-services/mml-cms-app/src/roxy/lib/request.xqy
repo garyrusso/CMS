@@ -298,7 +298,6 @@ declare private function req:cast-as-type(
 
 declare function req:expand-resources($nodes)
 {
-(:   let $log := xdmp:log("111-put-auth-check-here....................... expand-resources node count: "||fn:count($nodes)) :)
   for $n in $nodes
   return
     typeswitch ($n)
