@@ -16,8 +16,6 @@ declare variable $RULE-SERVER-FIELD := "roxy:rewrite-rules";
 declare function rewriter:rewrite-rules(
 ) as map:map
 {
-  let $log := xdmp:log("3333.................................. rewrite-rules")
-
   let $old-rules := eput:get-rest-options()
   return
     if (exists($old-rules))
@@ -83,8 +81,6 @@ declare function rewriter:rewrite(
 ) as xs:string?
 {
   let $rules      := rewriter:rewrite-rules()
-
-  let $log := xdmp:log("4444.................................. rewriter:rewrite")
 
   (: skip the empty step before the initial / :)
   let $raw-steps  := subsequence(tokenize($old-path,"/"), 2)

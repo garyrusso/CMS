@@ -35,22 +35,11 @@ let $final-uri :=
     $config:ROXY-ROUTES)
 return
   if ($final-uri) then
-  (
-    let $log := xdmp:log("1.................. non-roxy extension rewrite $final-url: "||$final-uri)
-    return $final-uri
-  )
+    $final-uri
   else
     try
     {
-      let $log:= xdmp:log("")
-      let $log:= xdmp:log("2a.................. roxy extension before rewrite:rewrite() $method: "||$method||" --- $uri: "||$uri)
-      let $log:= xdmp:log("")
-      
       let $url := (rewriter:rewrite($method, $uri, $path), $uri)[1]
-      
-      let $log:= xdmp:log("")
-      let $log:= xdmp:log("2b.................. roxy extension after rewrite:rewrite() $method: "||$method||" --- $url: "||$url)
-      let $log:= xdmp:log("")
       return $url
     }
     catch($ex) {
