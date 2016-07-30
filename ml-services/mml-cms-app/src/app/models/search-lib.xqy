@@ -19,9 +19,9 @@ module namespace m = "http://marklogic.com/roxy/models/search";
 
 import module namespace c = "http://marklogic.com/roxy/config" at "/app/config/config.xqy";
 
-import module namespace debug = "http://marklogic.com/debug" at "/MarkLogic/appservices/utils/debug.xqy";
-import module namespace search="http://marklogic.com/appservices/search" at "/MarkLogic/appservices/search/search.xqy";
-import module namespace impl = "http://marklogic.com/appservices/search-impl" at "/MarkLogic/appservices/search/search-impl.xqy";
+import module namespace debug  = "http://marklogic.com/debug" at "/MarkLogic/appservices/utils/debug.xqy";
+import module namespace search ="http://marklogic.com/appservices/search" at "/MarkLogic/appservices/search/search.xqy";
+import module namespace impl   = "http://marklogic.com/appservices/search-impl" at "/MarkLogic/appservices/search/search-impl.xqy";
 
 declare option xdmp:mapping "false";
 

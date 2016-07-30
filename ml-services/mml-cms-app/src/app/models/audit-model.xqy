@@ -73,7 +73,7 @@ declare function am:_save($uri as xs:string, $doc)
 {
   (: check if file already exists :)
  
-  let $log := xdmp:log("................................. audit doc: "||$uri)
+  (: let $log := xdmp:log("................................. audit doc: "||$uri) :)
 
   let $cmd :=
         fn:concat

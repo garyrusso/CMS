@@ -61,7 +61,10 @@ declare function auth:getLoggedInUserFromHeader()
 
   let $userInfo   := if (fn:string-length($authToken) eq 0)  then "" else $authToken
   
-  let $loggedInUser := auth:findSessionByToken($authToken)/username/text()
+  let $loggedInUser :=
+    if (fn:string-length($authToken) eq 0)  then ""
+    else
+      auth:findSessionByToken($authToken)/username/text()
   
   return
     if (fn:string-length($loggedInUser) gt 0) then
