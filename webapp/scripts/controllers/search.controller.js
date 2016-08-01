@@ -90,9 +90,9 @@
                 sortDirection : "desc"
             }
         }, {
-            field: "modified",
-            title : "Date Modified",
-            sortable: "modified",
+            field: "created",
+            title : "Date Created",
+            sortable: "created",
             sortDirection : "asc"
         }];
         search.sortables = _.indexBy(search.cols, "field");

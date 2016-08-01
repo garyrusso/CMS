@@ -38,8 +38,8 @@
             sortable: false,//"createdBy"
             sortDirection : "desc"
         }, {
-            field: "modified",
-            title : "Date Modified",
+            field: "created",
+            title : "Date Created",
             sortable: false,//"modified"
             sortDirection : "asc"
         }];
