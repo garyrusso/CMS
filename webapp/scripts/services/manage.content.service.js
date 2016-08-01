@@ -138,7 +138,12 @@
             });
 
             modalInstance.result.then(function (updatedData) {  
-                window.location.href = APP_CONFIG.API[APP_CONFIG.environment].baseUrl + WS.downloadContent + '?uri=' + updatedData.filePath;
+                downloadContent({'uri':updatedData.filePath}).then(function(response){
+                    var file = new Blob([response]);
+                    saveAs(file, updatedData.filePath);
+                    
+                });
+                //window.location.href = APP_CONFIG.API[APP_CONFIG.environment].baseUrl + WS.downloadContent + '?uri=' + updatedData.filePath;
             }, function () {
 
             });
@@ -241,7 +246,7 @@
          */
         function downloadContent(postData) {
             return $http.get(WS.downloadContent, {params:postData}).then(function (response) {
-                return response.data;
+                return response;
             });
 
         }
