@@ -2,11 +2,9 @@ xquery version "1.0-ml";
 
 module namespace mml = "http://marklogic.com/rest-api/resource/user";
 
-import module namespace search = "http://marklogic.com/appservices/search" at "/MarkLogic/appservices/search/search.xqy";
-
-import module namespace json    = "http://marklogic.com/xdmp/json" at "/MarkLogic/json/json.xqy";
-import module namespace usr     = "http://marklogic.com/roxy/models/user" at "/app/models/user-model.xqy";
-import module namespace content = "http://marklogic.com/roxy/models/content" at "/app/models/content-model.xqy";
+import module namespace utils = "http://marklogic.com/ps/custom/user-rest-utils" at "/app/lib/user-rest-utils.xqy";
+import module namespace json  = "http://marklogic.com/xdmp/json" at "/MarkLogic/json/json.xqy";
+import module namespace auth  = "http://marklogic.com/roxy/models/authentication" at "/app/models/authentication.xqy";
 
 import module namespace c     = "http://marklogic.com/roxy/config" at "/app/config/config.xqy";
 
@@ -25,45 +23,22 @@ function mml:get(
   $params  as map:map
 ) as document-node()*
 {
-  (: Check Auth Token here :)
-
-  let $q  := map:get($params, "q")
-  let $st := map:get($params, "start")
-  let $ps := map:get($params, "pageLength")
-  let $ft := map:get($params, "format")
-
-  let $qtext      := if (fn:string-length($q) eq 0)  then "" else $q
-  let $start      := if (fn:string-length($st) eq 0) then  1 else xs:integer($st)
-  let $pageLength := if (fn:string-length($ps) eq 0) then 10 else xs:integer($ps)
-  let $format     := if ($ft eq "json") then "json" else "xml"
-  
-  let $output-types :=
-    if ($format eq "json") then
-    (
-      map:put($context,"output-types","application/json")
-    )
-    else
-    (
-      map:put($context,"output-types","application/xml")
-    )
-
-  let $retObj := mml:searchUsers($qtext, $start, $pageLength)
-
   let $config := json:config("custom")
-  let $_ := map:put($config, "whitespace", "ignore" )
-  let $_ := map:put($config,"array-element-names", xs:QName("mmlc:result") )
-
-  let $doc :=
-    if ($format eq "json") then
+  
+  (: X-Auth-Token Check :)
+  let $retObj :=
+    if (fn:starts-with(auth:getLoggedInUserFromHeader(), $auth:INVALID-USER)) then
     (
-      text { json:transform-to-json($retObj, $config) }
+      map:put($context, "output-status", (403, "forbidden")),
+      json:transform-to-json(
+        element { fn:QName($NS,"mmlc:status") } { $auth:INVALID-USER }, $config
+      )
     )
     else
-    (
-      $retObj
-    )
+      utils:getAction($context, $params)
 
-  return document { $doc }
+  return
+    $retObj
 };
 
 (:
@@ -76,48 +51,22 @@ function mml:put(
     $input   as document-node()*
 ) as document-node()?
 {
-  (: Check Auth Token here :)
+  let $config := json:config("custom")
   
-  let $inputUri := map:get($params, "uri")
-  let $ft := map:get($params, "format")
-
-  let $uri    := if (fn:string-length($inputUri) eq 0)  then "" else $inputUri
-  let $format := if ($ft eq "json") then "json" else "xml"
-  
-  let $output-types :=
-    if ($format eq "json") then
+  (: X-Auth-Token Check :)
+  let $retObj :=
+    if (fn:starts-with(auth:getLoggedInUserFromHeader(), $auth:INVALID-USER)) then
     (
-      map:put($context,"output-types","application/json")
+      map:put($context, "output-status", (403, "forbidden")),
+      json:transform-to-json(
+        element { fn:QName($NS,"mmlc:status") } { $auth:INVALID-USER }, $config
+      )
     )
     else
-    (
-      map:put($context,"output-types","application/xml")
-    )
-
-  let $jUserDataDoc :=  document { $input }
-
-  (: Convert json to xml :)
-  let $userDoc  := json:transform-from-json($jUserDataDoc)
-  
-  let $user :=
-      element user-profile
-      {
-        element firstname { $userDoc/*:firstname/text() }, 
-        element lastname  { $userDoc/*:lastname/text() }, 
-        element username  { $userDoc/*:username/text() }, 
-        element password  { $userDoc/*:password/text() },
-        element email     { $userDoc/*:email/text() }
-      }
-
-  let $_ := map:put($context, "output-types", "application/xml")
-  let $_ := map:put($context, "output-status", (200, "Updated"))
-
-  let $doc := usr:save($user)
+      utils:putAction($context, $params, $input)
 
   return
-    document {
-      $user
-    }
+    $retObj
 };
 
 (:
@@ -131,43 +80,22 @@ function mml:post(
     $input   as document-node()*
 ) as document-node()*
 {
-  (: Check Auth Token here :)
+  let $config := json:config("custom")
   
-  let $output-types := map:put($context,"output-types","application/xml")
-
-  let $userId :=
-    if (fn:not(fn:empty(map:get($params, "userid")))) then
-      map:get($params, "userid")
+  (: X-Auth-Token Check :)
+  let $retObj :=
+    if (fn:starts-with(auth:getLoggedInUserFromHeader(), $auth:INVALID-USER)) then
+    (
+      map:put($context, "output-status", (403, "forbidden")),
+      json:transform-to-json(
+        element { fn:QName($NS,"mmlc:status") } { $auth:INVALID-USER }, $config
+      )
+    )
     else
-      ""
+      utils:postAction($context, $params, $input)
 
-  let $jUserDataDoc :=  document { $input }
-
-  (: Convert json to xml :)
-  let $userDoc  := json:transform-from-json($jUserDataDoc)
-  
-  let $user :=
-      element user-profile
-      {
-        element firstname { $userDoc/*:firstname/text() }, 
-        element lastname  { $userDoc/*:lastname/text() }, 
-        element username  { $userDoc/*:username/text() }, 
-        element password  { $userDoc/*:password/text() },
-        element email     { $userDoc/*:email/text() }
-      }
-
-(:
-  let $doc := tr:createUserDataDoc($client, $user, $templateId, "", $userDataDoc)
-:)
-  let $doc := usr:save($user)
-
-  let $_ := map:put($context, "output-types", "application/xml")
-  let $_ := map:put($context, "output-status", (201, "Created"))
-  
   return
-    document {
-      $user
-    }
+    $retObj
 };
 
 (:
@@ -179,134 +107,21 @@ function mml:delete(
     $params  as map:map
 ) as document-node()?
 {
-  (: Check Auth Token here :)
-
-  let $inputUri := map:get($params, "uri")
-  let $ft := map:get($params, "format")
-
-  let $uri    := if (fn:string-length($inputUri) eq 0)  then "" else $inputUri
-  let $format := if ($ft eq "xml") then "xml" else "json"
-  
-  let $output-types :=
-    if ($format eq "xml") then
-    (
-      map:put($context,"output-types","application/xml")
-    )
-    else
-    (
-      map:put($context,"output-types","application/json")
-    )
-    
-  let $errorMessage :=
-    if (fn:string-length($uri) eq 0) then "invalid uri"
-    else
-      try {
-        xdmp:document-delete($uri)
-      }
-      catch ($e) {
-        $e/error:message/text()
-      }
-      
-  let $statusMessage :=
-    if (fn:string-length($errorMessage) eq 0) then
-      "Document deleted: "||$uri
-    else
-      $errorMessage||" "||$uri
-
   let $config := json:config("custom")
-  let $_ := map:put($config, "whitespace", "ignore" )
-
+  
+  (: X-Auth-Token Check :)
   let $retObj :=
-    element results {
-      element { "status" } { $statusMessage }
-    }
-
-  let $doc :=
-    if ($format eq "xml") then
+    if (fn:starts-with(auth:getLoggedInUserFromHeader(), $auth:INVALID-USER)) then
     (
-      $retObj
+      map:put($context, "output-status", (403, "forbidden")),
+      json:transform-to-json(
+        element { fn:QName($NS,"mmlc:status") } { $auth:INVALID-USER }, $config
+      )
     )
     else
-    (
-      text { json:transform-to-json($retObj, $config) }
-    )
-
-  let $_ := map:put($context, "output-status", (200, "Deleted"))
+      utils:deleteAction($context, $params)
 
   return
-    document {
-      $doc
-    }
+    $retObj
 };
 
-declare function mml:searchUsers($qtext, $start, $pageLength)
-{
-  let $options :=
-        <options xmlns="http://marklogic.com/appservices/search">
-          <search-option>filtered</search-option>
-          <term>
-            <term-option>case-insensitive</term-option>
-          </term>
-          <additional-query>{cts:collection-query(("user"))}</additional-query>
-          <constraint name="username">
-            <word>
-              <element ns="http://macmillanlearning.com" name="username"/>
-            </word>
-          </constraint>
-          <constraint name="firstname">
-            <word>
-              <element ns="http://macmillanlearning.com" name="firstName"/>
-            </word>
-          </constraint>
-          <constraint name="lastname">
-            <word>
-              <element ns="http://macmillanlearning.com" name="lastName"/>
-            </word>
-          </constraint>
-          <transform-results apply="metadata-snippet">
-            <preferred-elements>
-              <element ns="http://macmillanlearning.com" name="username"/>
-              <element ns="http://macmillanlearning.com" name="fullName"/>
-              <element ns="http://macmillanlearning.com" name="firstName"/>
-              <element ns="http://macmillanlearning.com" name="lastName"/>
-              <element ns="http://macmillanlearning.com" name="email"/>
-            </preferred-elements>
-            <max-matches>2</max-matches>
-            <max-snippet-chars>150</max-snippet-chars>
-            <per-match-tokens>20</per-match-tokens>
-          </transform-results>
-          <return-results>true</return-results>
-          <return-query>true</return-query>
-        </options>
-   
-  let $statusMessage := "user document found"
-
-  let $results := search:search($qtext, $options, $start, $pageLength)
-  
-  let $retObj :=
-      if (fn:count($results/search:result) ge 1) then
-      (
-        element { fn:QName($NS,"mml:results") } {
-          element { fn:QName($NS,"mml:status") }    { $statusMessage },
-          element { fn:QName($NS,"mml:count") }     { fn:count($results/search:result) },
-          for $result in $results/search:result
-          return
-            element { fn:QName($NS,"mml:result") } {
-              element { fn:QName($NS,"mml:uri") }       { xs:string($result/@uri) },
-              element { fn:QName($NS,"mml:username") }  { $result/search:snippet/mmlc:username/text() },
-              element { fn:QName($NS,"mml:fullName") }  { $result/search:snippet/mmlc:fullName/text() },
-              element { fn:QName($NS,"mml:firstName") } { $result/search:snippet/mmlc:firstName/text() },
-              element { fn:QName($NS,"mml:lastName") }  { $result/search:snippet/mmlc:lastName/text() },
-              element { fn:QName($NS,"mml:email") }     { $result/search:snippet/mmlc:email/text() }
-            }
-        }
-      )
-      else
-      (
-        element { fn:QName($NS,"mml:results") } {
-          element { fn:QName($NS,"mml:status") } { "no users found" }
-        }
-      )
-   
-  return $retObj
-};
