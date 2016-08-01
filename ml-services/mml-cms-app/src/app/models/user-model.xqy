@@ -2,7 +2,7 @@ xquery version "1.0-ml";
 
 module namespace usr = "http://marklogic.com/roxy/models/user";
 
-import module namespace cfg     = "http://marklogic.com/roxy/config" at "/app/config/config.xqy";
+import module namespace search  = "http://marklogic.com/appservices/search" at "/MarkLogic/appservices/search/search.xqy";
 import module namespace invoke  = "http://marklogic.com/ps/invoke/functions" at "/app/lib/invoke-functions.xqy";
 import module namespace ch      = "http://marklogic.com/roxy/controller-helper" at "/roxy/lib/controller-helper.xqy";
 import module namespace req     = "http://marklogic.com/roxy/request" at "/roxy/lib/request.xqy";
@@ -10,7 +10,6 @@ import module namespace auth    = "http://marklogic.com/roxy/models/authenticati
 import module namespace json    = "http://marklogic.com/json" at "/roxy/lib/json.xqy";
 import module namespace tools   = "http://marklogic.com/ps/custom/common-tools" at "/app/lib/common-tools.xqy";
 
-declare namespace search = "http://marklogic.com/appservices/search";
 declare namespace cts    = "http://marklogic.com/cts";
 declare namespace mml    = "http://macmillanlearning.com";
 
@@ -202,3 +201,74 @@ declare function usr:invoke($function, $params)
   )
 };
 
+declare function usr:searchUsers($qtext, $start, $pageLength)
+{
+  let $options :=
+        <options xmlns="http://marklogic.com/appservices/search">
+          <search-option>filtered</search-option>
+          <term>
+            <term-option>case-insensitive</term-option>
+          </term>
+          <additional-query>{cts:collection-query(("user"))}</additional-query>
+          <constraint name="username">
+            <word>
+              <element ns="http://macmillanlearning.com" name="username"/>
+            </word>
+          </constraint>
+          <constraint name="firstname">
+            <word>
+              <element ns="http://macmillanlearning.com" name="firstName"/>
+            </word>
+          </constraint>
+          <constraint name="lastname">
+            <word>
+              <element ns="http://macmillanlearning.com" name="lastName"/>
+            </word>
+          </constraint>
+          <transform-results apply="metadata-snippet">
+            <preferred-elements>
+              <element ns="http://macmillanlearning.com" name="username"/>
+              <element ns="http://macmillanlearning.com" name="fullName"/>
+              <element ns="http://macmillanlearning.com" name="firstName"/>
+              <element ns="http://macmillanlearning.com" name="lastName"/>
+              <element ns="http://macmillanlearning.com" name="email"/>
+            </preferred-elements>
+            <max-matches>2</max-matches>
+            <max-snippet-chars>150</max-snippet-chars>
+            <per-match-tokens>20</per-match-tokens>
+          </transform-results>
+          <return-results>true</return-results>
+          <return-query>true</return-query>
+        </options>
+   
+  let $statusMessage := "user document found"
+
+  let $results := search:search($qtext, $options, $start, $pageLength)
+  
+  let $retObj :=
+      if (fn:count($results/search:result) ge 1) then
+      (
+        element { fn:QName($NS,"mml:results") } {
+          element { fn:QName($NS,"mml:status") }    { $statusMessage },
+          element { fn:QName($NS,"mml:count") }     { fn:count($results/search:result) },
+          for $result in $results/search:result
+          return
+            element { fn:QName($NS,"mml:result") } {
+              element { fn:QName($NS,"mml:uri") }       { xs:string($result/@uri) },
+              element { fn:QName($NS,"mml:username") }  { $result/search:snippet/mml:username/text() },
+              element { fn:QName($NS,"mml:fullName") }  { $result/search:snippet/mml:fullName/text() },
+              element { fn:QName($NS,"mml:firstName") } { $result/search:snippet/mml:firstName/text() },
+              element { fn:QName($NS,"mml:lastName") }  { $result/search:snippet/mml:lastName/text() },
+              element { fn:QName($NS,"mml:email") }     { $result/search:snippet/mml:email/text() }
+            }
+        }
+      )
+      else
+      (
+        element { fn:QName($NS,"mml:results") } {
+          element { fn:QName($NS,"mml:status") } { "no users found" }
+        }
+      )
+   
+  return $retObj
+};

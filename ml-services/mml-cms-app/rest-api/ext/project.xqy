@@ -3,7 +3,6 @@ xquery version "1.0-ml";
 module namespace mml = "http://marklogic.com/rest-api/resource/project";
 
 import module namespace utils = "http://marklogic.com/ps/custom/project-rest-utils" at "/app/lib/project-rest-utils.xqy";
-
 import module namespace json  = "http://marklogic.com/xdmp/json" at "/MarkLogic/json/json.xqy";
 import module namespace auth  = "http://marklogic.com/roxy/models/authentication" at "/app/models/authentication.xqy";
 
