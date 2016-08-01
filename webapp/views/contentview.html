@@ -114,39 +114,6 @@
     <hr />
 
     <h3>Associated Projects</h3>
-    <div class="row" ng-if="content.data.content.length>0">
-        <div  class="col-xs-12 col-sm-6 col-md-2 cms-content-tile ng-scope" ng-repeat="content in content.data.Content">
-            <div class="row">
-                <div class="col-xs-12">
-                    <a href="#/">
-                    <div class="cms-content-tile-image">
-                        <div class="cms-content-tile-image-dummy"></div>
-                        <div class="cms-content-tile-image-color cms-content-tile-image-content"></div>
-                    </div></a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 cms-content-tile-title">
-                    <a href="#/"><span ng-bind="content.Title"></span></a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 cms-content-tile-date">
-                    <span ng-bind="content.dateLastModified  | date:'yyyy-MM-dd HH:mm'"></span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12 cms-content-tile-owner">
-                    <span ng-bind="content.username"></span>
-                </div>
-            </div>
-        </div>
-        <div class="col-xs-12">
-            <div class="pull-right">
-                <a href="#">See all Contents</a>
-            </div>
-        </div>
-    </div>
     <div class="row" ng-if="!content.data.Projects">
         <div class="col-xs-12">
             <em>There is no project associated with this content</em>

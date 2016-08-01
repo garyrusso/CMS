@@ -118,6 +118,7 @@ namespace Macmillan.CMS.Service.Controllers
               
                     var request = HttpContext.Current.Request;
                     string[] SessionID = HttpContext.Current.Request.Headers.GetValues("X-userSession");
+                    
                     string chunkRepo = this.chunkRepository + "\\" + SessionID[0];
                     string fileRepo = this.fileRepository + "\\" + SessionID[0];
                     if (request.Files.Count == 0)
@@ -241,8 +242,9 @@ namespace Macmillan.CMS.Service.Controllers
        
         [Route("download")]
         [HttpGet]
-        public HttpResponseMessage DownloadContent(string uri)
+        public HttpResponseMessage DownloadContent(string uri, string auth)
         {
+            HttpContext.Current.Request.Headers.Set("X-Auth-Token", auth);
             HttpResponseMessage result = null;
             Logger.Info("Entering DownloadContent");
             Logger.Debug("Logging Results for DownloadContent");

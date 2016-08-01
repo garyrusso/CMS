@@ -34,27 +34,37 @@ namespace Macmillan.CMS.DAL
         public object ValidateUser(Authentication authentication)
         {
             //Post it to MarkLogic  
+            object results = null;
             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "login";                   
             MLReader mlReader = new MLReader();
-
-            //get base64 representaion of user name and password           
-            string userInfo = this.ConvertoBase64(authentication.username.Split(new char[] { '@' })[0] + ":" + authentication.password);
-            
-            Dictionary<string, string> requestHeader = new Dictionary<string, string>();            
-            requestHeader.Add("UserInfo", userInfo);
-
-            object results = null;
-            try
+            string domain = authentication.username.Split(new char[] { '@' })[1];
+            if (domain != "" && domain.ToLower().ToString() == "macmillan.com")
             {
-                results = mlReader.GetHttpContent<object>(mlUrl, "application/json", requestHeader);
-            }
-            catch (Exception ex)
-            {               
-                if (ex.Message.Contains("401"))
+                //get base64 representaion of user name and password         
+
+                string userInfo = this.ConvertoBase64(authentication.username.Split(new char[] { '@' })[0] + ":" + authentication.password);
+
+                Dictionary<string, string> requestHeader = new Dictionary<string, string>();
+                requestHeader.Add("UserInfo", userInfo);
+
+             
+                try
                 {
-                    var error = new { responseCode = "401", message = "Username or password is incorrect" };
-                    results = error;
+                    results = mlReader.GetHttpContent<object>(mlUrl, "application/json", requestHeader);
                 }
+                catch (Exception ex)
+                {
+                    if (ex.Message.Contains("401"))
+                    {
+                        var error = new { responseCode = "401", message = "Username or password is incorrect" };
+                        results = error;
+                    }
+                }
+            }
+            else
+            {
+                var error = new { responseCode = "401", message = "Username or password is incorrect" };
+                results = error;
             }
 
             return results;
