@@ -97,6 +97,8 @@
 
         content.deleteContent = contentdeleteContent;
         
+        content.downloadContent = contentDownloadContent;
+        
         /**
          * @ngdoc method
          * @name clearDate
@@ -188,6 +190,19 @@
             ManageContentService.openDeleteContentModal(content.data).then(function() {
                 $log.debug('Content deleted');
             });
+        }
+        
+        /**
+         * @ngdoc method 
+         * @name contentDownloadContent
+         * @methodOf cmsWebApp.controller:EditContentController 
+         * @description
+         * call ManageContentService > openDownloadContentModal method to open download content modal.
+         */
+        function contentDownloadContent() {  
+            ManageContentService.openDownloadContentModal(content.data).then(function() {
+                $log.debug('Content download');
+            });        
         }
 
     }
