@@ -33,6 +33,12 @@
 
         /* function to open modal window with Upload content form */
         header.onclickUploadContent = onclickUploadContent;
+        
+        $scope.$on('stateChange', function(event, args){
+            if(args.state!=='search'){
+                header.searchTextBox = '';
+            }
+        });
 
         
         /**
@@ -96,10 +102,13 @@
                 searchText: header.searchTextBox
             };
             if(header.searchTextBox && header.searchTextBox.trim()){
-                searchText: header.searchTextBox = '';
                 $state.go('search', params, {inherit:false});
             }
         }
+        
+        
+        
+        
     }
 
 })();

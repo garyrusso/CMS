@@ -42,7 +42,7 @@
                     <tr ng-if="content.listView" ng-repeat="issue in $data">
                         <td class="text-capitalize" data-title="'Title'" sortable="content.sortables.title.sortable">{{issue.title}}</td>
                         <td data-title="'Filename'" sortable="content.sortables.filePath.sortable">{{issue.fileName}}</td>
-                        <td data-title="'Date Modified'" sortable="content.sortables.dateLastModified.sortable">{{issue.modified | date:'yyyy-MM-dd HH:mm'}}</td>
+                        <td data-title="'Date Created'" sortable="content.sortables.created.sortable">{{issue.created | date:'yyyy-MM-dd HH:mm'}}</td>
                         <td data-title="'View'" class="cms-main-display-center"><a ui-sref="contentview({uri:issue.uri})"><span class="glyphicon glyphicon-eye-open"></span></a></td>
                     </tr>
                     <tr ng-if="!content.listView">
@@ -65,7 +65,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-12 cms-content-tile-date">
-                                        {{issue.modified | date:'yyyy-MM-dd HH:mm'}}
+                                        {{issue.created | date:'yyyy-MM-dd HH:mm'}}
                                     </div>
                                 </div>
                                 <div class="row">

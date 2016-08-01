@@ -57,7 +57,7 @@
             $rootScope.setLoading(true);
             $rootScope.toState = toState;
             $rootScope.toStateParams = toStateParams;
-
+            $rootScope.$broadcast('stateChange', {'state': toState.name});
             if (toState && toState.data && toState.data.roles) {
                 AuthorizationService.authorize().then(function() {
 

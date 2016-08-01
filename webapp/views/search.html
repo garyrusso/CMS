@@ -117,7 +117,7 @@
                                 <tr ng-if="search.listView" ng-repeat="issue in $data">
                                     <td class="text-capitalize" data-title="'Title'" sortable="search.sortables.Title.sortable">{{issue.title}}</td>
                                     <td data-title="search.sortables[search.searchType].data.title">{{issue[search.sortables[search.searchType].data.field]}}</td>
-                                    <td data-title="'Date Modified'">{{issue.modified | date:'yyyy-MM-dd HH:mm' }}</td>
+                                    <td data-title="'Date Created'">{{issue.created | date:'yyyy-MM-dd HH:mm' }}</td>
                                     <td data-title="'View'" class="cms-main-display-center"><a ui-sref="{{search.viewStateLink(issue.searchType)}}({uri:issue.uri})"><span class="glyphicon glyphicon-eye-open"></span></a></td>
                                 </tr>
                                 <tr ng-if="!search.listView">
@@ -140,7 +140,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-xs-12 cms-content-tile-date">
-                                                    {{issue.modified | date:'yyyy-MM-dd HH:mm' }}
+                                                    {{issue.created | date:'yyyy-MM-dd HH:mm' }}
                                                 </div>
                                             </div>
                                             <div class="row">
