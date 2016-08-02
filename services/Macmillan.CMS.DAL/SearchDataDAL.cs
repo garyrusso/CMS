@@ -45,7 +45,8 @@ namespace Macmillan.CMS.DAL
                 }                
                 searchText = searchText + string.Join(" AND ", facets);
             }
-            
+
+           searchText= System.Web.HttpContext.Current.Server.UrlEncode(searchText);
 
             if (searchType == "all")
             {

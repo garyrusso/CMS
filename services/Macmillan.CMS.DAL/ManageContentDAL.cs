@@ -120,6 +120,7 @@ namespace Macmillan.CMS.DAL
 
          public void UploadFile(FileInfo file)
          {
+             Logger.Info("Entering UploadFile");
            //this.HTTPUpload(file);
              this.XCCUpload(file);
          }
@@ -133,6 +134,7 @@ namespace Macmillan.CMS.DAL
 
          private void XCCUpload(FileInfo file)
          {
+             Logger.Info("Entering XCCUpload");
              ContentCreateOptions options = null;
              Session session = null;
 
@@ -140,13 +142,14 @@ namespace Macmillan.CMS.DAL
              {                
                  Uri uri = new Uri(ConfigurationManager.AppSettings["XCC_Connection"]);
                  ContentSource cs = ContentSourceFactory.NewContentSource(uri);
-                 session = cs.NewSession();              
-
+                 session = cs.NewSession();
+                 Logger.Debug("Logging results for ContentSource");
                  this.LoadFile(session, file, options);
              }
              catch (Exception ex)
              {
                  CMSException excption = new CMSException(ex.Message, ex);
+                 Logger.Error("Error on XCCUpload" + ex.Message);
                  throw excption;
              }
              finally
@@ -157,6 +160,7 @@ namespace Macmillan.CMS.DAL
 
          private void LoadFiles(Session session, FileInfo[] files, ContentCreateOptions options)
          {
+             Logger.Info("Entering LoadFiles");
              String[] uris = new String[files.Length];
 
              for (int i = 0; i < files.Length; i++)
@@ -168,19 +172,23 @@ namespace Macmillan.CMS.DAL
 
              for (int i = 0; i < files.Length; i++)
              {
-                 contents[i] = ContentFactory.NewContent("documents/binary/" + files[i].Name, files[i], options);
+                 contents[i] = ContentFactory.NewContent("resources/" + files[i].Name, files[i], options);
              }
 
              session.InsertContent(contents);
+             Logger.Info("Content inserted successfully");
          }
 
          private void LoadFile(Session session, FileInfo file, ContentCreateOptions options)
          {
+             Logger.Info("Entering LoadFiles");
              String uris = file.FullName.Replace("\\", "/");
 
-             Marklogic.Xcc.Content content = ContentFactory.NewContent("resources/" + file.Name, file, options); 
+             Marklogic.Xcc.Content content = ContentFactory.NewContent("resources/" + file.Name, file, options);
 
+            
              session.InsertContent(content);
+             Logger.Info("Content inserted successfully");
          }
 
          /// <summary>
@@ -195,6 +203,7 @@ namespace Macmillan.CMS.DAL
          {
              Logger.Info("Entering GetContentMasterData");
              MLReader mlReader = new MLReader();
+             searchText = System.Web.HttpContext.Current.Server.UrlEncode(searchText);
              string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "content?name=content&rs:format=json" ;
              object results = null;
              try
@@ -228,7 +237,7 @@ namespace Macmillan.CMS.DAL
 
              Logger.Info("Entering GetContent");
              MLReader mlReader = new MLReader();
-             string fileName = "Jouve-MyersEPCH1.epub";
+             
              string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "file?name=file&rs:format=json&rs:uri=/file/"+uri;
              HttpResponseMessage results = null;
              try

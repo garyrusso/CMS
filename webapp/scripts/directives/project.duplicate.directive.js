@@ -18,7 +18,7 @@
                 ngModel.$asyncValidators.projectDuplicate = function(project) {
                     var defer = $q.defer();
 
-                    ManageProjectsService.getProjects('*' + project + '*').then(function(response) {
+                    ManageProjectsService.getProjects('*' + project + '*', 1,1000).then(function(response) {
                        var existingTitles = _.map(response.result, function(projectArray) {
                              return projectArray.title.toLowerCase();                           
                         });

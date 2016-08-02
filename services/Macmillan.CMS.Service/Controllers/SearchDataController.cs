@@ -37,12 +37,26 @@ namespace Macmillan.CMS.Service.Controllers
         {
             Logger.Info("Entering Get");
             Logger.Debug("GetValues of facets");
-            string[] facets = System.Web.HttpContext.Current.Request.QueryString.GetValues("facets");
+            //value = searchText.Replace("&", "&amp;");
+            //RemoveSpecialChars(testStr);
+
+          
+            string[] facets = System.Web.HttpContext.Current.Request.QueryString.GetValues("facets");           
             Logger.Debug("Logging Results for GetData");
             var results= this.searchDataBusiness.GetData(orderBy, pageNumber, pageSize, searchText, searchType, userName,facets);
             Logger.Info("Exiting Get");
             return results;
         }
 
+        public static string RemoveSpecialChars(string s)
+        {
+            string[] cleanStr = s.Split(new char[] { '.', '&', '@', ',' }); //extend chars as needed
+            string newStr = string.Empty;
+            for (int i = 0; i < cleanStr.Length; i++)
+            {
+                newStr += cleanStr[i];
+            }
+            return newStr;
+        }
     }
 }

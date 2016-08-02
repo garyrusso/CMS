@@ -132,8 +132,8 @@ namespace Macmillan.CMS.DAL
             //Call ML and SearchProjects
             Logger.Info("Entering SearchProjects");
             JsonNetSerialization ser = new JsonNetSerialization();
-            MLReader mlReader = new MLReader();       
-     
+            MLReader mlReader = new MLReader();
+            searchText = System.Web.HttpContext.Current.Server.UrlEncode(searchText);
             //get Marklogic url for CRUD operations                    
             string mlUrl = ConfigurationManager.AppSettings["MarkLogic_CRUD_URL"] + "project?name=project&rs:q=" + searchText + "&rs:format=json";
             string results = mlReader.GetHttpContent(mlUrl, "application/json");
