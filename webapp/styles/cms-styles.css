@@ -70,6 +70,7 @@ a, a:focus, a:hover {
 }
 .cms-login-form {
     padding: 15px;
+    padding-bottom: 0px;
 }
 .cms-login-block {
     background-color: #FFFFFF;
@@ -240,6 +241,9 @@ td.cms-main-display-center {
     background-color: #FFBABA;
 }
 
+.cms-error-message-parent:after {
+    content: "\00a0";
+}
 .cms-error-wrapper {
     display: inline-block;
     color: red;
