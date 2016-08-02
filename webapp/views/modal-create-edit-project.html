@@ -1,13 +1,19 @@
 <h3 ng-if="!items.edit">Create Project</h3>
 <h3 ng-if="items.edit">Edit Project</h3>
-<form name="projectForm" ng-submit="submit()">
+<form name="projectForm" ng-submit="submit()" novalidate>
     <div class="form-group">
-        <label for="InputProjectName">Title *</label>
+        <label for="InputProjectName">Title *</label> <span class="text-danger" ng-if="projectForm.projectTitle.$dirty && projectForm.projectTitle.$invalid && !projectForm.projectTitle.$error.required">
+    Project with this name already exists
+  </span>
+        <div class="project-field" ng-class="{loading:projectForm.projectTitle.$pending}">
         <input class="form-control" type="text" id="InputProjectName"
                ng-model="data.title"
+               project-duplicate-check
                ng-class="{red: projectForm.projectTitle.$invalid &&  projectForm.projectTitle.$touched && !projectForm.projectDescription.$focused}"
                name="projectTitle"
+               title-copy = "{{titleCopy}}"
                required="">
+         </div>      
     </div>
     <div class="form-group">
         <label for="InputProjectDescription">Description *</label>
@@ -63,10 +69,10 @@
         </div>
     </div>
     <p class="text-center">
-        <button type="submit" class="btn btn-default" ng-if="!items.edit" ng-disabled="projectForm.$invalid">
+        <button type="submit" class="btn btn-default" ng-if="!items.edit" ng-disabled="projectForm.$invalid || projectForm.$pending">
             Create
         </button>
-        <button type="submit" class="btn btn-default" ng-if="items.edit" ng-disabled="projectForm.$invalid">
+        <button type="submit" class="btn btn-default" ng-if="items.edit" ng-disabled="projectForm.$invalid || projectForm.$pending">
             Update
         </button>
     </p>

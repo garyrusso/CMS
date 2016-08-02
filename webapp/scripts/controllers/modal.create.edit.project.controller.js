@@ -13,6 +13,7 @@
     /*Function ModalCreateEditProjectController*/
     function ModalCreateEditProjectController($scope, $rootScope, $uibModalInstance, items, getProjectMasterDataProjectState, getProjectMasterDataSubjects, _, $filter, CommonService) {
         $scope.items = items;
+        $scope.titleCopy = (items && items.data && items.data.title)? items.data.title : '';
         $rootScope.setLoading(false);
         if (items.edit) {
             $scope.data = angular.copy(items.data);

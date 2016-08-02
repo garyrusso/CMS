@@ -16,9 +16,11 @@ a, a:focus, a:hover {
 /**
  * AngularUi Bootstrap fix css
  * */
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.nav, .pagination, .carousel, .panel-title a {
+    cursor: pointer;
+}
 /* End of AngularUi*/
-.cms-body { 
+.cms-body {
     width: 100%;
 }
 .cms-row-fluid {
@@ -94,7 +96,7 @@ a, a:focus, a:hover {
 .cms-headerbackground {
     background-color: #363940;
 }
-.cms-headerfont > a{
+.cms-headerfont > a {
     font-family: sans-serif;
     font-weight: bold;
     color: white;
@@ -111,23 +113,23 @@ a, a:focus, a:hover {
 }
 
 .cms-menupanel {
-   padding-top: 0px;
-   padding-bottom: 5px;
-   padding-left: 0px;
+    padding-top: 0px;
+    padding-bottom: 5px;
+    padding-left: 0px;
 }
 .cms-logo {
     width: 70%;
 }
-.cms-menupanel .nav>li>a {
+.cms-menupanel .nav > li > a {
     padding-top: 0px;
     padding-bottom: 0px;
     border-radius: 0px;
 }
-.cms-menupanel  .nav>li>a:focus, .cms-menupanel  .nav>li>a:hover {
+.cms-menupanel  .nav > li > a:focus, .cms-menupanel  .nav > li > a:hover {
     background-color: transparent;
 }
 
-.cms-horizontal-menu>span {
+.cms-horizontal-menu > span {
     padding-left: 20px;
 }
 
@@ -172,7 +174,7 @@ td.cms-main-display-center {
     text-align: center;
 }
 .cms-main {
-   padding-bottom: 20px; 
+    padding-bottom: 20px;
 }
 
 .cms-sub-main {
@@ -183,10 +185,10 @@ td.cms-main-display-center {
     margin-right: 20px;
     margin-bottom: 20px;
 }
-.cms-content-tile-view-container thead{
+.cms-content-tile-view-container thead {
     display: none;
 }
-.cms-content-tile-view-container table, .cms-content-tile-view-container tbody, .cms-content-tile-view-container .table-bordered>tbody>tr,.cms-content-tile-view-container .table-bordered>tbody>tr>td {
+.cms-content-tile-view-container table, .cms-content-tile-view-container tbody, .cms-content-tile-view-container .table-bordered > tbody > tr, .cms-content-tile-view-container .table-bordered > tbody > tr > td {
     border: none;
     background-color: transparent;
 }
@@ -211,7 +213,7 @@ td.cms-main-display-center {
     right: 0px;
     bottom: 0px;
     top: 0px;
-    background-color: #D8D8D8; 
+    background-color: #D8D8D8;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: 50% 50%;
@@ -229,28 +231,26 @@ td.cms-main-display-center {
     overflow: hidden;
     white-space: nowrap;
 }
-.cms-content-page .ng-table-pager,
-.cms-projects-page .ng-table-pager {
+.cms-content-page .ng-table-pager, .cms-projects-page .ng-table-pager {
     display: none;
 }
 
 .cms-error-message {
-    color: #D8000C;    
-    background-color: #FFBABA;    
+    color: #D8000C;
+    background-color: #FFBABA;
 }
 
 .cms-error-wrapper {
-  display: inline-block;
-  color: red;
+    display: inline-block;
+    color: red;
 }
 
-.cms.form.submitted .ng-invalid
-{
-    border:1px solid #f00;
+.cms.form.submitted .ng-invalid {
+    border: 1px solid #f00;
 }
 
-.red{
-  border: solid 1px red;
+.red {
+    border: solid 1px red;
 }
 
 .cms-successpanel {
@@ -287,14 +287,14 @@ td.cms-main-display-center {
 }
 
 .cms-vcenter {
-    padding-top:5px;
+    padding-top: 5px;
     display: inline-block;
     vertical-align: middle;
     float: none;
 }
 /*************
- * Search Page 
- *************    
+ * Search Page
+ *************
  **/
 .cms-main-container-search-row, .cms-main-container-search {
     height: 100%;
@@ -327,17 +327,15 @@ td.cms-main-display-center {
 .cms-main-container-search-main .cms-main {
     padding-top: 30px;
 }
-.cms-main-container-search-main .ng-table-counts,
-.cms-main-container-search-main .ng-table-pagination li:first-child,
-.cms-main-container-search-main .ng-table-pagination li:last-child{
+.cms-main-container-search-main .ng-table-counts, .cms-main-container-search-main .ng-table-pagination li:first-child, .cms-main-container-search-main .ng-table-pagination li:last-child {
     display: none;
 }
 .cms-main-container-search-main .ng-table-pagination {
     float: right;
 }
 /*************
- * End Search Page 
- *************    
+ * End Search Page
+ *************
  **/
 
 /*************
@@ -348,13 +346,13 @@ td.cms-main-display-center {
     background-color: transparent;
     padding: 0;
     font-size: 12px;
-}  
-.cms-breadcrumb>li+li:before {
+}
+.cms-breadcrumb > li+ li:before {
     padding: 0 2px;
     color: #5c5b5c;
     content: ">";
-}  
-.cms-breadcrumb>.active {
+}
+.cms-breadcrumb > .active {
     color: #5c5b5c;
 }
 /* End of cms-breadcrumb */
@@ -366,3 +364,47 @@ td.cms-main-display-center {
     padding: 0 50px 20px;
 }
 /* End of modal styles*/
+
+.project-field {
+    position: relative;
+}
+
+.loading {
+    position: relative;
+    color: #999;
+}
+
+.loading:after {
+    border: 3px solid white;
+    border-left-color: green;
+    border-right-color: green;
+    content: "";
+    width: 25px;
+    border-radius: 50px;
+    height: 25px;
+    position: absolute;
+    z-index: 1000;
+    animation: rotate 0.5s infinite;
+    -webkit-animation: rotate 0.5s infinite;
+}
+
+@keyframes rotate {
+  from { transform:rotate(0deg); }
+  to { transform:rotate(360deg); }
+}
+
+@-webkit-keyframes rotate {
+  from { -webkit-transform:rotate(0deg); }
+  to { -webkit-transform:rotate(360deg); }
+}
+
+.project-field.loading:after {
+    position: absolute;
+    top: 0;
+    margin-top: 4px;
+    right: 7px;
+}
+
+.project-field.loading .input {
+    border-color: green;
+}
