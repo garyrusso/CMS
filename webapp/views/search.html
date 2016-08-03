@@ -3,7 +3,8 @@
         <div class="row cms-main-container-search-header">
             <div class="col-sm-6 ">
                 <p>
-                    <span ng-bind="(((search.tableParams.page()-1)*search.tableParams.count())+1)"></span>
+                    <span ng-if="search.tableParams.total()!==0" ng-bind="(((search.tableParams.page()-1)*search.tableParams.count())+1)"></span>
+                    <span ng-if="search.tableParams.total()===0">0</span>
                     <span>-</span>
                     <span ng-bind="((((search.tableParams.page()-1)*search.tableParams.count()))+search.tableParams.data.length)"></span>
                     <span>of</span>
