@@ -48,12 +48,14 @@
                         <div class="col-md-8">
                             <input type="text" class="form-control" ng-model="data.Creator[$index]" placeholder="Creator" />
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 cms-add-remove">
                             <div ng-if="$last">
-                                <span> <span class="glyphicon glyphicon-plus" ng-click="addRepeatedField(data.Creator,$event)"></span> </span>
+                                <span ng-click="addRepeatedField(data.Creator,$event)"> <span class="glyphicon glyphicon-plus" ></span> <u>Add</u> </span>
+                                <span ng-if="!$first">/</span>
+                                <span ng-if="!$first" ng-click="data.Creator.splice($index, 1)"> <span class="glyphicon glyphicon-minus" ></span> <u>Remove</u> </span>
                             </div>
                             <div ng-if="!$last">
-                                <span> <span class="glyphicon glyphicon-minus" ng-click="data.Creator.splice($index, 1)"></span> </span>
+                                <span ng-click="data.Creator.splice($index, 1)"> <span class="glyphicon glyphicon-minus" ></span> <u>Remove</u> </span>
                             </div>
                         </div>
                     </div>
@@ -106,12 +108,14 @@
                                 </ui-select-choices>
                             </ui-select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 cms-add-remove">
                             <div ng-if="$last">
-                                <span> <span class="glyphicon glyphicon-plus" ng-click="addRepeatedField(data.Projects,$event)"></span> </span>
+                                <span ng-click="addRepeatedField(data.Projects,$event)"> <span class="glyphicon glyphicon-plus" ></span> <u>Add</u> </span>
+                                <span ng-if="!$first">/</span>
+                                <span ng-if="!$first" ng-click="data.Projects.splice($index, 1)"> <span class="glyphicon glyphicon-minus" ></span> <u>Remove</u> </span>
                             </div>
                             <div ng-if="!$last">
-                                <span> <span class="glyphicon glyphicon-minus" ng-click="data.Projects.splice($index, 1)"></span> </span>
+                                <span ng-click="data.Projects.splice($index, 1)"> <span class="glyphicon glyphicon-minus" ></span> <u>Remove</u> </span>
                             </div>
                         </div>
                     </div>
@@ -136,12 +140,14 @@
                         <div class="col-md-8">
                             <input type="text" class="form-control" ng-model="data.SubjectKeywords[$index]" placeholder="keywords" />
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 cms-add-remove">
                             <div ng-if="$last">
-                                <span> <span class="glyphicon glyphicon-plus" ng-click="addRepeatedField(data.SubjectKeywords,$event)"></span> </span>
+                                <span ng-click="addRepeatedField(data.SubjectKeywords,$event)"> <span class="glyphicon glyphicon-plus" ></span> <u>Add</u> </span>
+                                <span ng-if="!$first">/</span>
+                                <span ng-if="!$first" ng-click="data.SubjectKeywords.splice($index, 1)"> <span class="glyphicon glyphicon-minus" ></span> <u>Remove</u> </span>
                             </div>
                             <div ng-if="!$last">
-                                <span> <span class="glyphicon glyphicon-minus" ng-click="data.SubjectKeywords.splice($index, 1)"></span> </span>
+                                <span ng-click="data.SubjectKeywords.splice($index, 1)"> <span class="glyphicon glyphicon-minus" ></span> <u>Remove</u> </span>
                             </div>
                         </div>
                     </div>

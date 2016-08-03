@@ -51,15 +51,22 @@
                         <div class="col-md-8">
                             <input type="text" class="form-control" ng-model="data.subjectKeywords[$index]" placeholder="keywords" />
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 cms-add-remove">
                             <div ng-if="$last">
-                                <span>
-                                    <span class="glyphicon glyphicon-plus" ng-click="addKeywordField(data.subjectKeywords,$event)"></span>
+                                <span ng-click="addKeywordField(data.subjectKeywords,$event)">
+                                    <span class="glyphicon glyphicon-plus" ></span>
+                                    <u>Add</u>
+                                </span> 
+                                <span ng-if="!$first">/</span>
+                                <span ng-if="!$first" ng-click="data.subjectKeywords.splice($index, 1)">
+                                    <span class="glyphicon glyphicon-minus" ></span>
+                                    <u>Remove</u>
                                 </span>
                             </div>
                             <div ng-if="!$last">
-                                <span>
-                                    <span class="glyphicon glyphicon-minus" ng-click="data.subjectKeywords.splice($index, 1)"></span>
+                                <span ng-click="data.subjectKeywords.splice($index, 1)">
+                                    <span class="glyphicon glyphicon-minus" ></span>
+                                    <u>Remove</u>
                                 </span>
                             </div>
                         </div>

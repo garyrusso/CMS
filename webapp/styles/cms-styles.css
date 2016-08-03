@@ -412,3 +412,7 @@ td.cms-main-display-center {
 .project-field.loading .input {
     border-color: green;
 }
+
+.cms-add-remove {
+    padding-top: 7px;
+}
