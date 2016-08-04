@@ -149,6 +149,7 @@
             /*search.searchType = searchType;
              search.tableParams.reload();*/
             search.stateParams.searchType = searchType;
+            search.stateParams.facet ='';
             $state.go('search', search.stateParams);
         }
 
