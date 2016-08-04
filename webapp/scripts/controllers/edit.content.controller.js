@@ -60,7 +60,12 @@
             content.subjectHeadingsData = _.pluck(getContentSubjectsResolve.results.val, 'value');
         }
 
-        content.ProjectsData = [[]];
+        content.ProjectsData = [];
+        
+        //creating dummy/empty array's for each elemnet in projects to manage selecting duplicate selection of project.
+        content.ProjectsData = _.map(content.data.Projects, function(){
+            return [];
+        });
 
         //add repeated form elements
         content.addRepeatedField = addRepeatedField;
