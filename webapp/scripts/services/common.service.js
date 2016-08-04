@@ -8,10 +8,10 @@
     angular.module('cmsWebApp').service('CommonService', CommonService);
 
     /*Inject angular services*/
-    CommonService.$inject = ['$uibModal', '$http', 'WS'];
+    CommonService.$inject = ['$uibModal', '$http', 'WS', '_'];
 
     /*  All global functionality used in all controllers across the system availaible here.*/
-    function CommonService($uibModal, $http, WS) {
+    function CommonService($uibModal, $http, WS, _) {
         return {
             showAllFacetsItems : showAllFacetsItems,
             setItems : setItems,
@@ -114,7 +114,7 @@
             return _.chain(angular.copy(facetObject)).map(function(value, key) {
                 return (value && value.facetValues)?{
                             facetTitle: value.facetName,
-                            facetArray: value.facetValues
+                            facetArray: _.sortBy(value.facetValues, 'count').reverse()
                         } : '';
                 })
                 .compact()
