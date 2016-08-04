@@ -14,7 +14,7 @@
     function DashboardController($scope, NgTableParams, CommonService, ManageProjectsService, $log, routeResolvedDashboardProjectListView) {
         var dashboard = this;
 
-        dashboard.data = routeResolvedDashboardProjectListView;    
+        dashboard.data = (routeResolvedDashboardProjectListView && routeResolvedDashboardProjectListView.results)?routeResolvedDashboardProjectListView.results:{};    
       
         dashboard.facets = CommonService.formatFacets(dashboard.data.facets);
 

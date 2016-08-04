@@ -53,8 +53,9 @@
                 var defer = $q.defer();
                 $scope.setLoading(true);
                 var pageDetails = params.url(), orderBy = params.orderBy()?params.orderBy()[0]:'';
-                //SearchService.searchData('content', '', pageDetails.page, pageDetails.count, orderBy).then(function(response){
-                ManageContentService.getContents('', pageDetails.page, pageDetails.count, orderBy).then(function (response) {
+                SearchService.searchData('content', '', pageDetails.page, pageDetails.count, 'Newest').then(function(response){
+                //ManageContentService.getContents('', pageDetails.page, pageDetails.count, orderBy).then(function (response) {
+                    response = (response && response.results)?response.results:{};
                     $scope.setLoading(false);
                     params.total(response.count);
                     content.facets = CommonService.formatFacets(response.facets);

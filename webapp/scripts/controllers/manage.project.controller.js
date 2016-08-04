@@ -54,12 +54,13 @@
                 var defer = $q.defer();
                 $scope.setLoading(true);
                 var pageDetails = params.url(), orderBy = params.orderBy()?params.orderBy()[0]:'';
-                //SearchService.searchData('project', '', pageDetails.page, pageDetails.count, orderBy).then(function(response){
-                ManageProjectsService.getProjects().then(function (response) {
+                SearchService.searchData('project', '', pageDetails.page, pageDetails.count, 'Newest').then(function(response){
+                //ManageProjectsService.getProjects().then(function (response) {
+                    response = (response && response.results)?response.results:{};
                     $scope.setLoading(false);
                     params.total(response.count);
                     projects.facets = CommonService.formatFacets(response.facets);
-                    defer.resolve(response.result);
+                    defer.resolve((response.result)?response.result:[]);
                 }, function(){
                     defer.resolve([]);
                 });
