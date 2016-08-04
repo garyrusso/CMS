@@ -17,7 +17,7 @@
         var content = this, dataModelContent = new DataModelContentService(routeResolvedContentEdit);
         content.data = angular.copy(dataModelContent.getContent());
 
-        if (!content.data.Creator) {
+        if (!content.data.Creator || content.data.Creator.length === 0) {
             content.data.Creator = [''];
         }
 
@@ -25,10 +25,10 @@
             content.data.DatePublished = new Date(content.data.DatePublished);
         }
 
-        if (!content.data.SubjectKeywords) {
+        if (!content.data.SubjectKeywords || content.data.SubjectKeywords.length === 0) {
             content.data.SubjectKeywords = [''];
         }
-        if (!content.data.Projects) {
+        if (!content.data.Projects || content.data.Projects.length ===0) {
             content.data.Projects = [''];
         } else {
             content.data.Projects = _.map(content.data.Projects, function (project) {

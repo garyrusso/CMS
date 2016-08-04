@@ -22,7 +22,7 @@
             } else {
                 $scope.data.subjectHeadings = [];
             }
-            if ($scope.data && $scope.data.subjectKeyword) {
+            if ($scope.data && $scope.data.subjectKeyword && $scope.data.subjectKeyword.length !== 0) {
                 $scope.data.subjectKeywords = $scope.data.subjectKeyword;
             } else {
                 $scope.data.subjectKeywords = [""];
