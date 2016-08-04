@@ -41,7 +41,7 @@
         $scope.data.Projects[0] = (items.project && items.project.title) ? items.project.title : '';
 
         $scope.authToken = CommonService.getItems().authToken;
-        
+
         $scope.userSession = CommonService.getItems().userSession;
 
         $scope.sourceData = [];
@@ -51,6 +51,7 @@
         }
 
         $scope.publisherData = [];
+
         //["Publisher", "Worth Publisher"];
         if (getContentPublisherResolve && getContentPublisherResolve.results && getContentPublisherResolve.results.val) {
             $scope.publisherData = _.pluck(getContentPublisherResolve.results.val, 'value');
@@ -67,16 +68,17 @@
         if (getContentSubjectsResolve && getContentSubjectsResolve.results && getContentSubjectsResolve.results.val) {
             $scope.subjectHeadingsData = _.pluck(getContentSubjectsResolve.results.val, 'value');
         }
-        
+
         $scope.fileTypeData = [];
         //["subject1","subject1"];
         if (getContentFileTypeResolve && getContentFileTypeResolve.results && getContentFileTypeResolve.results.val) {
-            $scope.fileTypeData = _.map(_.pluck(getContentFileTypeResolve.results.val, 'value'), function(value){
+            $scope.fileTypeData = _.map(_.pluck(getContentFileTypeResolve.results.val, 'value'), function(value) {
                 return value.toLowerCase();
             });
         }
 
         $scope.ProjectsData = [];
+        $scope.ProjectsData[0] = [];
 
         //Close dialog/modal
         $scope.cancel = closeModalContent;
@@ -95,10 +97,43 @@
 
         //g-flow: flow-files-submitted directive call this function all selected files are ready to upload
         $scope.readytoUpload = readytoUpload;
-        
+
         $scope.failedUpload = failedUpload;
-        
+
         $scope.checkFileType = checkFileType;
+
+        
+        $scope.$watch('data.Projects', function(newVal, oldVal) {
+            //added or modified
+            if(newVal.length >= oldVal.length) {
+                var newChange = _.difference(newVal, oldVal),
+                newChangeIndex = _.indexOf(newVal, newChange[0]); 
+                _.map($scope.ProjectsData, function(value, key){
+                   
+                    if (key !== newChangeIndex) {
+                        $scope.ProjectsData[key] = _.filter($scope.ProjectsData[key], function(ProjectsData) {
+                            return ProjectsData.title !== newChange[0];
+                        });
+
+                    }
+
+                });
+            } else {
+            //removed item
+                
+                var newChange = _.difference(oldVal, newVal), newChangeIndex = _.indexOf(oldVal, newChange[0]);
+                _.map($scope.ProjectsData, function(value, key) {
+
+                    $scope.ProjectsData[key].push({
+                        title : newChange[0]
+                    });
+
+                }); 
+
+            }
+            
+        }, true); 
+
 
         //ng-flow: object to get $files object from flow-name to controller.
         //uploader.flow contains $files object & uploader.flow.upload() can be used to upload files from controller
@@ -127,7 +162,7 @@
          * @description
          * Close dialog/modal
          */
-        function addRepeatedField(dataArray, $event) {
+        function addRepeatedField(dataArray, $event, type) {
             dataArray.push('');
             $event.preventDefault();
         }
@@ -175,20 +210,20 @@
                     closeModalContent();
                 }
 
-            }, function(){
+            }, function() {
                 $rootScope.setLoading(false);
-                    var modalContent = {
-                        title : 'File upload is failed',
-                        ok : false,
-                        cancel : {
-                            text : 'OK',
-                            callback : function() {
-                            }
+                var modalContent = {
+                    title : 'File upload is failed',
+                    ok : false,
+                    cancel : {
+                        text : 'OK',
+                        callback : function() {
                         }
-                    };
+                    }
+                };
 
-                    $rootScope.$broadcast('ShowUserAlert', modalContent);
-                    closeModalContent();
+                $rootScope.$broadcast('ShowUserAlert', modalContent);
+                closeModalContent();
             });
 
         }
@@ -200,18 +235,22 @@
          * @description
          * search project based on text entered by used in form to select project.
          */
-        function searchProject(text) {
+        function searchProject(text, index) {
             text = '*' + text + '*';
-            ManageProjectsService.getProjects(text).then(function (response) {
+            if (!$scope.ProjectsData[index]) {
+                $scope.ProjectsData[index] = [];
+            }
+            ManageProjectsService.getProjects(text).then(function(response) {
                 _.map(response.result, function(project) {
-                    var existingTitles = _.pluck($scope.ProjectsData, 'title');
+
+                    var existingTitles = _.pluck($scope.ProjectsData[index], 'title');
                     //checks whether project title is already added to list.
-                    if (!_.contains(existingTitles, project.title)) {
-                        $scope.ProjectsData.push(project);
+                    if (!_.contains(existingTitles, project.title) && !_.contains($scope.data.Projects, project.title)) {
+                        $scope.ProjectsData[index].push(project);
                     }
                 });
             });
-
+            
         }
 
         /**
@@ -226,7 +265,7 @@
             $log.debug('uploadCompleted');
             uploadCompletedDefer.resolve({});
         }
-        
+
         /**
          * @ngdoc method
          * @name failedUpload
@@ -235,11 +274,11 @@
          * ng-flow: flow-file-error directive from template, call this function once any of the file is failed to upload.
          * reject the uploadCompletedDefer object.
          */
-        function failedUpload(){
+        function failedUpload() {
             $log.debug('uploadFailed');
             uploadCompletedDefer.reject({});
         }
-        
+
         /**
          * @ngdoc method
          * @name uploadCompleted
@@ -253,7 +292,7 @@
                 'asdasd' : 1
             });
         }
-        
+
         /**
          * @ngdoc method
          * @name checkFileType

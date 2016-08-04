@@ -227,7 +227,7 @@
                                                     <ui-select-match placeholder="Select or search a project in the list...">
                                                         {{$select.selected.title}}
                                                     </ui-select-match>
-                                                    <ui-select-choices repeat="item.title as item in content.ProjectsData | filter: $select.search" refresh-delay="0" refresh="content.searchProject($select.search)">
+                                                    <ui-select-choices repeat="item.title as item in content.ProjectsData[$index] | filter: $select.search" refresh-delay="0" refresh="content.searchProject($select.search, $index)">
                                                         <div ng-bind-html="item.title | highlight: $select.search"></div>
                                                     </ui-select-choices>
                                                 </ui-select>
@@ -236,10 +236,10 @@
                                                 <div ng-if="$last">
                                                     <span ng-click="content.addRepeatedField(content.data.Projects,$event)"> <span class="glyphicon glyphicon-plus" ></span> <u>Add</u> </span>
                                                     <span ng-if="!$first">/</span>
-                                                    <span ng-if="!$first" ng-click="content.data.Projects.splice($index, 1)"> <span class="glyphicon glyphicon-minus" ></span> <u>Remove</u> </span>
+                                                    <span ng-if="!$first" ng-click="content.data.Projects.splice($index, 1); content.ProjectsData.splice($index, 1);"> <span class="glyphicon glyphicon-minus" ></span> <u>Remove</u> </span>
                                                 </div>
                                                 <div ng-if="!$last">
-                                                    <span ng-click="content.data.Projects.splice($index, 1)"> <span class="glyphicon glyphicon-minus" ></span> <u>Remove</u> </span>
+                                                    <span ng-click="content.data.Projects.splice($index, 1); content.ProjectsData.splice($index, 1);"> <span class="glyphicon glyphicon-minus" ></span> <u>Remove</u> </span>
                                                 </div>
                                             </div>
                                         </div>

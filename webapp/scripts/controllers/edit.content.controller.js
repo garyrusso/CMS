@@ -60,7 +60,7 @@
             content.subjectHeadingsData = _.pluck(getContentSubjectsResolve.results.val, 'value');
         }
 
-        content.ProjectsData = [];
+        content.ProjectsData = [[]];
 
         //add repeated form elements
         content.addRepeatedField = addRepeatedField;
@@ -70,6 +70,37 @@
 
         //submit functionality
         content.submit = submitContent;
+        
+        $scope.$watch('content.data.Projects', function(newVal, oldVal) {
+            //added or modified
+            if(newVal.length >= oldVal.length) {
+                var newChange = _.difference(newVal, oldVal),
+                newChangeIndex = _.indexOf(newVal, newChange[0]); 
+                _.map(content.ProjectsData, function(value, key){
+                   
+                    if (key !== newChangeIndex) {
+                        content.ProjectsData[key] = _.filter(content.ProjectsData[key], function(ProjectsData) {
+                            return ProjectsData.title !== newChange[0];
+                        });
+
+                    }
+
+                });
+            } else {
+            //removed item
+                
+                var newChange = _.difference(oldVal, newVal), newChangeIndex = _.indexOf(oldVal, newChange[0]);
+                _.map(content.ProjectsData, function(value, key) {
+
+                    content.ProjectsData[key].push({
+                        title : newChange[0]
+                    });
+
+                }); 
+
+            }
+            
+        }, true); 
 
         /*Date start picker */
 
@@ -142,14 +173,17 @@
          * @description
          * search project based on text entered by used in form to select project.
          */
-        function searchProject(text) {
+        function searchProject(text, index) {
             text = '*' + text + '*';
+            //if (!content.ProjectsData[index]) {
+            content.ProjectsData[index] = [];
+            //}
             ManageProjectsService.getProjects(text).then(function (response) {
                 _.map(response.result, function(project) {
-                    var existingTitles = _.pluck(content.ProjectsData, 'title');
+                    var existingTitles = _.pluck(content.ProjectsData[index], 'title');
                     //checks whether project title is already added to list.
-                    if (!_.contains(existingTitles, project.title)) {
-                        content.ProjectsData.push(project);
+                    if (!_.contains(existingTitles, project.title) && !_.contains(content.data.Projects, project.title)) {
+                        content.ProjectsData[index].push(project);
                     }
                 });
             });
