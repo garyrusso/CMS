@@ -10,7 +10,7 @@
     RouteConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
     function RouteConfig($stateProvider, $urlRouterProvider) {
         // For any unmatched url, redirect to /state1
-        $urlRouterProvider.otherwise("/dashboard");
+        $urlRouterProvider.otherwise("/login");
         //
         // Now set up the state
         $stateProvider.state('login', {
@@ -127,11 +127,11 @@
          * Get list of projects created by user
          * @returns {Object} promise with get projects list
          */
-        dashboardProjectList.$inject = ['ManageProjectsService', 'CommonService'];
-        function dashboardProjectList(ManageProjectsService, CommonService) {
+        dashboardProjectList.$inject = ['SearchService', 'CommonService'];
+        function dashboardProjectList(SearchService, CommonService) {
             var username = CommonService.getItems('username');
-            //return SearchService.searchData('project', '', '', '', '', username);
-            return ManageProjectsService.getProjects();
+            return SearchService.searchData('project', '', 1, 10, 'Newest');
+            //return ManageProjectsService.getProjects();
         }
 
         /**

@@ -39,7 +39,8 @@
             return AuthenticationService.identity().then(function() {
                 var isAuthenticated = AuthenticationService.isAuthenticated();
 
-                if ($rootScope.toState.data.roles && $rootScope.toState.data.roles.length > 0 && 
+                if ($rootScope.toState && $rootScope.toState.data && $rootScope.toState.data.roles 
+                    && $rootScope.toState.data.roles.length > 0 && 
                     !AuthenticationService.isInAnyRole($rootScope.toState.data.roles)) {
                     if (isAuthenticated) {
                         
@@ -49,9 +50,17 @@
                     } else {
                         // user is not authenticated.
                         // now, send them to the signin state so they can log in
-                        $state.go('login');
+                        AuthenticationService.authenticate(null);
+                        $state.go('login', {}, {location: 'replace'});
                         $rootScope.setLoading(false);
                     }
+                } else if(isAuthenticated && $rootScope.toState.name === 'login') {
+                    $state.go('dashboard', {}, {location: 'replace'});
+                    $rootScope.setLoading(false);
+                } else if(!(isAuthenticated || $rootScope.toState.name === 'login')){
+                     AuthenticationService.authenticate(null);
+                     $state.go('login', {}, {location: 'replace'});
+                     $rootScope.setLoading(false);
                 }
             });
         }

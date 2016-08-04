@@ -74,7 +74,7 @@
          */
         function userLogOut () {
             AuthenticationService.authenticate(null);
-            $state.go('login');
+            $state.go('login', {}, {location: 'replace'});
         }
         /**
          * @ngdoc method

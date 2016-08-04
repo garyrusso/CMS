@@ -30,7 +30,7 @@
                     username : auth.username.trim(),
                     password : auth.password.trim()
                 }).then(function() {
-                    $state.go('dashboard');
+                    $state.go('dashboard', {}, {location: 'replace'});
                 }, function(failResponse) {
                     auth.message = (failResponse && failResponse.data && failResponse.data.message)? failResponse.data.message : "Invalid username/password!";
                     $rootScope.setLoading(false);

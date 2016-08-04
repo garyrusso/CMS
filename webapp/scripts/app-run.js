@@ -57,14 +57,16 @@
             $rootScope.setLoading(true);
             $rootScope.toState = toState;
             $rootScope.toStateParams = toStateParams;
-            $rootScope.$broadcast('stateChange', {'state': toState.name});
-            if (toState && toState.data && toState.data.roles) {
-                AuthorizationService.authorize().then(function() {
+            //toclear search text.
+            $rootScope.$broadcast('stateChange', {
+                'state' : toState.name
+            });
 
-                }, function() {
-                    $rootScope.setLoading(false);
-                });
-            }
+            AuthorizationService.authorize().then(function() {
+
+            }, function() {
+                $rootScope.setLoading(false);
+            });
 
         }
 
