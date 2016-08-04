@@ -180,9 +180,9 @@
          */
         function searchProject(text, index) {
             text = '*' + text + '*';
-            //if (!content.ProjectsData[index]) {
-            content.ProjectsData[index] = [];
-            //}
+            if (!content.ProjectsData[index]) {
+                content.ProjectsData[index] = [];
+            }
             ManageProjectsService.getProjects(text).then(function (response) {
                 _.map(response.result, function(project) {
                     var existingTitles = _.pluck(content.ProjectsData[index], 'title');
