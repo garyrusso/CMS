@@ -78,7 +78,11 @@
         }
 
         $scope.ProjectsData = [];
-        $scope.ProjectsData[0] = [];
+        //creating dummy/empty array's for each elemnet in projects to manage selecting duplicate selection of project.
+        $scope.ProjectsData = _.map($scope.data.Projects, function(project){
+            return (project!=='')?[{title:project}]:[];
+        });
+
 
         //Close dialog/modal
         $scope.cancel = closeModalContent;

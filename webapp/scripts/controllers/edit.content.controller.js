@@ -63,8 +63,8 @@
         content.ProjectsData = [];
         
         //creating dummy/empty array's for each elemnet in projects to manage selecting duplicate selection of project.
-        content.ProjectsData = _.map(content.data.Projects, function(){
-            return [];
+        content.ProjectsData = _.map(content.data.Projects, function(project){
+            return (project!=='')?[{title:project}]:[];
         });
 
         //add repeated form elements
