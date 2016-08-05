@@ -103,6 +103,7 @@
             modalInstance.result.then(function (updatedData) {                
                 self.uploadContent(updatedData).then(function (data) {
                     deffered.resolve(data);
+                    data.uri = CommonService.extactUriSuccessML(data);
                     $rootScope.setLoading(false);
                     $state.go('success', { type: 'content', status: 'new', name: data.Title, id: data.ContentUri }, { location: false });
                 });

@@ -118,6 +118,7 @@
                 } else {
                     self.createProject(updatedData).then(function(data) {
                         deffered.resolve(data);
+                        data.uri = CommonService.extactUriSuccessML(data);
                         $rootScope.setLoading(false);
                         $state.go('success',{type:'project',status:'new',name:data.Title,id:data.uri}, { location: false });
                     });

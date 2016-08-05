@@ -28,7 +28,7 @@
                         <h2><span ng-bind="ss.data.name "></span> project was deleted. </h2>
                     </div>
                     <p>
-                        Go to <a ui-sref="projects()"><u>Project View</u></a>
+                        Go to <a ui-sref="projectview({uri:ss.data.id})"><u>Project View</u></a>
                     </p>
                 </div>
                 <div class="col-xs-12 text-capitalize" ng-if="ss.data.type ==='content'">
@@ -42,7 +42,7 @@
                         <h2><span ng-bind="ss.data.name "></span> content was deleted. </h2>
                     </div>
                     <p>
-                        Go to <a ui-sref="content()"><u>Content View</u></a>
+                        Go to <a ui-sref="contentview({uri:ss.data.id})"><u>Content View</u></a>
                     </p>
                 </div>
             </div>

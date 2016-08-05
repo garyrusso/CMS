@@ -17,7 +17,8 @@
             setItems : setItems,
             getItems : getItems,
             getDictionary : getDictionary,
-            formatFacets : formatFacets
+            formatFacets : formatFacets,
+            extactUriSuccessML : extactUriSuccessML 
         };
 
         /**
@@ -120,6 +121,26 @@
                 .compact()
                 .value();
         }
+        
+        /**
+         * @ngdoc method
+         * @name extactUriSuccessML
+         * @methodOf cmsWebApp.service:CommonService
+         * @param {Object} successObject success Object returned from Ml service.
+         * @description
+         * extract/return the uri from string having success message & uri
+         * @example
+         * Output from service 
+         * <pre>
+         * {"results":{"status":"Content Successfully Saved: /content/7029685112487176549.xml"}}
+         * </pre>
+         * @return {String} uri
+         */
+        function extactUriSuccessML(successObject) {
+            successObject = (successObject && successObject.results && successObject.results.status)?successObject.results.status:'';
+            return successObject.match(/[\/].*/)[0];
+        }
+        
 
     }
 
