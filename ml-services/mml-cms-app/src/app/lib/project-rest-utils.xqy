@@ -296,7 +296,7 @@ declare function projectRestLib:deleteAction(
     if (fn:string-length($uri) eq 0) then "invalid uri"
     else
       try {
-        pm:updateProjecState($uri, "inactive")
+        pm:updateProjecState($uri, "deleted")
       }
       catch ($e) {
         $e/error:message/text()
@@ -304,13 +304,13 @@ declare function projectRestLib:deleteAction(
       
   let $statusMessage :=
     if (fn:string-length($errorMessage) eq 0) then
-      "Document marked inactive: "||$uri
+      "Document marked deleted: "||$uri
     else
       $errorMessage||" "||$uri
 
   let $auditAction :=
     if (fn:string-length($uri) gt 0 and fn:doc($uri)) then
-      am:save("marked inactive", $uri, "project")
+      am:save("marked deleted", $uri, "project")
     else
       ""
 

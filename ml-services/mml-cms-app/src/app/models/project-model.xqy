@@ -355,9 +355,22 @@ declare function project:searchProjectDocs($qtext as xs:string, $start as xs:int
 	<options xmlns="http://marklogic.com/appservices/search">
 	  <search-option>filtered</search-option>
 	  <term>
-		<term-option>case-insensitive</term-option>
+  		<term-option>case-insensitive</term-option>
 	  </term>
-    <additional-query>{cts:collection-query(("project"))}</additional-query>
+    <additional-query>
+      <cts:and-query xmlns:cts="http://marklogic.com/cts">
+        <cts:collection-query>
+          <cts:uri>project</cts:uri>
+        </cts:collection-query>
+        <cts:not-query>
+          <cts:element-value-query>
+            <cts:element xmlns:mml="http://macmillanlearning.com">mml:projectState</cts:element>
+            <cts:text xml:lang="en">Deleted</cts:text>
+            <cts:option>case-insensitive</cts:option>
+          </cts:element-value-query>
+        </cts:not-query>
+      </cts:and-query>
+    </additional-query>
     <constraint name="title">
       <word>
         <element ns="http://macmillanlearning.com" name="title"/>
@@ -376,6 +389,7 @@ declare function project:searchProjectDocs($qtext as xs:string, $start as xs:int
     <constraint name="state">
       <word>
         <element ns="http://macmillanlearning.com" name="projectState"/>
+        <term-option>case-insensitive</term-option>
       </word>
     </constraint>	
 	  <constraint name="Keywords">
@@ -396,8 +410,8 @@ declare function project:searchProjectDocs($qtext as xs:string, $start as xs:int
 	   <constraint name="Project State">
 		  <range collation="http://marklogic.com/collation/" facet="true">
 			 <element ns="http://macmillanlearning.com" name="projectState" />
-		  </range>          
-	  </constraint>      
+		  </range>
+	  </constraint>
 	  <transform-results apply="metadata-snippet">
 		<preferred-elements>
 		  <element ns="http://macmillanlearning.com" name="systemId"/>
