@@ -31,7 +31,7 @@ namespace Macmillan.CMS.DAL
              string results = mlReader.HttpInvoke(mlUrl, SupportedHttpMethods.POST, "application/json", metadata);
              Logger.Debug("Logging results for UploadMetadata with mlUrl");
              Logger.Info("Exiting UploadMetadata");
-             return results;
+             return mlReader.ConverttoJson<object>(results); 
          }
          
          /// <summary>

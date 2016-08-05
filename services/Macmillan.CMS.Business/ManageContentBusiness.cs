@@ -35,13 +35,11 @@ namespace Macmillan.CMS.Business
             Logger.Info(" Entering UploadMetadata");
 
             Logger.Debug("Logging for BuildContentMetadataJson with content UploadMetadata");
-            string metaData = this.BuildContentMetadataJson(content, file);            
-           
-            this.dal.UploadMetadata(metaData);
+            string metaData = this.BuildContentMetadataJson(content, file);
 
-            Logger.Info(" Exiting UploadMetadata");
+            var results = this.dal.UploadMetadata(metaData);
 
-            var results = new { Title = content.Title, uri = "/content/" + content.Title };
+            Logger.Info(" Exiting UploadMetadata");            
 
             return results;
         }
@@ -115,6 +113,7 @@ namespace Macmillan.CMS.Business
          public object SearchContents(string searchText, int pageNumber, int pageSize, string orderBy)
         {
             Logger.Info("Entering SearchContents");
+            searchText = replaceText(searchText);
             Logger.Debug("Logging Results for SearchContents");
             var results = this.dal.SearchContents(searchText, pageNumber, pageSize, orderBy);
             Logger.Info("Exiting SearchContents");
@@ -182,7 +181,7 @@ namespace Macmillan.CMS.Business
                      if (!string.IsNullOrEmpty(projects.ToString()))
                          projects.Append(",");
 
-                     projects.Append("\"" + project + "\"");
+                     projects.Append("\"" + replaceText(project) + "\"");
                  }
 
                  text.Replace("##projects##", projects.ToString());
@@ -289,10 +288,10 @@ namespace Macmillan.CMS.Business
                  {
                      if (!string.IsNullOrEmpty(projects.ToString()))
                          projects.Append(",");
-
-                     projects.Append("\"" + project + "\"");
+                    
+                     projects.Append("\"" + replaceText(project) + "\"");
                  }
-
+                 
                  text.Replace("##projects##", projects.ToString());
              }
 
