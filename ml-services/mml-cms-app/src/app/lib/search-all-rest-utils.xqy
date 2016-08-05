@@ -158,12 +158,16 @@ declare function searchAllRestLib:searchAllDocs($qtext as xs:string, $start as x
           <cts:collection-query>
             <cts:uri>content</cts:uri>
             <cts:uri>project</cts:uri>
-
           </cts:collection-query>
           <cts:not-query>
             <cts:collection-query>
               <cts:uri>binary</cts:uri>
             </cts:collection-query>
+            <cts:element-value-query>
+              <cts:element xmlns:mml="http://macmillanlearning.com">mml:projectState</cts:element>
+              <cts:text xml:lang="en">Deleted</cts:text>
+              <cts:option>case-insensitive</cts:option>
+            </cts:element-value-query>
           </cts:not-query>
         </cts:and-query>
       </additional-query>
@@ -266,8 +270,10 @@ declare function searchAllRestLib:searchAllDocs($qtext as xs:string, $start as x
   		element { fn:QName($NS,"mml:pageLength") } { xs:string($results/@page-length) },
   		for $result in $results/search:result
   		
+        let $objectType := fn:lower-case($result/search:snippet/mml:objectType[1]/text())
+
   		  let $contentDocs :=
-  		    if (fn:starts-with(fn:lower-case($result/search:snippet/mml:objectType/text()), "project")) then
+  		    if (fn:starts-with($objectType, "project")) then
   		      pm:findContentDocsByProjectTitle($result/search:snippet/mml:title/text())
   		    else ()
   		    
