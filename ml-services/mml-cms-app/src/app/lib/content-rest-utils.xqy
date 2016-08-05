@@ -337,7 +337,7 @@ declare function contentRestLib:deleteAction(
     if (fn:string-length($uri) eq 0) then "invalid uri"
     else
       try {
-        cm:updateContentState($uri, "inactive")
+        cm:updateContentState($uri, "deleted")
       }
       catch ($e) {
         $e/error:message/text()
@@ -345,13 +345,13 @@ declare function contentRestLib:deleteAction(
       
   let $statusMessage :=
     if (fn:string-length($errorMessage) eq 0) then
-      "Document status was updated to inactive: "||$uri
+      "Document status was updated to deleted: "||$uri
     else
       $errorMessage||" "||$uri
 
   let $auditAction :=
     if (fn:string-length($uri) gt 0 and fn:doc($uri)) then
-      am:save("marked inactive", $uri, "content")
+      am:save("marked deleted", $uri, "content")
     else
       ""
 
