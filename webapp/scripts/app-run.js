@@ -173,8 +173,8 @@
 
         //New project service
         $httpBackend.whenPOST(/CreateProject/).respond(function(method, url, data, headers) {
-            projectData.results.unshift(angular.fromJson(data));
-            return [200, data];
+            //projectData.results.unshift(angular.fromJson(data));
+            return [200, {results: {status: "Project Successfully Saved: /project/13241274359459920236.xml"}}];
         });
 
         //Edit project service
@@ -208,8 +208,8 @@
 
         //create content
         $httpBackend.whenPOST(/CreateContent/).respond(function(method, url, data, headers) {
-            contentData.results.unshift(angular.fromJson(data));
-            return [200, data];
+            //contentData.results.unshift(angular.fromJson(data));
+            return [200, {"results":{"status":"Content Successfully Saved: /content/7029685112487176549.xml"}}];
         });
 
         //Delete
