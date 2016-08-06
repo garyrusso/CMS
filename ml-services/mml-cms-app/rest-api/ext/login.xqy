@@ -18,9 +18,10 @@ function mml:get(
 ) as document-node()*
 {
   let $userInfo := auth:getUserNamePasswordFromBase64String(xdmp:get-request-header("UserInfo"))
-
+(:
   let $log := xdmp:log("................. $username: '"||$userInfo/userName/text()||"'")
   let $log := xdmp:log("................. $password: '"||$userInfo/password/text()||"'")
+:)
 
   let $result := auth:login($userInfo/userName/text(), $userInfo/password/text())
 
