@@ -115,7 +115,9 @@
             return _.chain(angular.copy(facetObject)).map(function(value, key) {
                 return (value && value.facetValues)?{
                             facetTitle: value.facetName,
-                            facetArray: _.sortBy(value.facetValues, 'count').reverse()
+                            facetArray: _.sortBy(value.facetValues, function(facet){
+                                return parseInt(facet.count);
+                            }).reverse()
                         } : '';
                 })
                 .compact()
