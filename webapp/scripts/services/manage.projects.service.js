@@ -109,11 +109,12 @@
             $rootScope.setLoading(true);
             modalInstance.result.then(function(updatedData) {
                 $rootScope.setLoading(true);
+                var testData = updatedData;
                 if (editProject) {
-                    self.updateProject(updatedData).then(function(data) {
+                    self.updateProject(updatedData).then(function (data) {
                         deffered.resolve(data);
                         $rootScope.setLoading(false);
-                        $state.go('success',{type:'project',status:'edit',name:data.Title,id:data.uri}, { location: false });
+                        $state.go('success', { type: 'project', status: 'edit', name: data.Title, id: updatedData.uri }, { location: false });
                     });
                 } else {
                     self.createProject(updatedData).then(function(data) {
@@ -158,7 +159,7 @@
                 self.deleteProject(project).then(function(data) {
                         deffered.resolve(data);
                         $rootScope.setLoading(false);
-                        $state.go('success',{type:'project',status:'delete',name:data.Title,id:data.uri}, { location: false });
+                        $state.go('success', { type: 'project', status: 'delete', name: data.Title, id: project.uri }, { location: false });
                     });
             }, function() {
 
