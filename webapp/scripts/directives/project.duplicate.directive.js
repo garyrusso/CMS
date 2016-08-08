@@ -23,7 +23,7 @@
                              return projectArray.title.toLowerCase();                           
                         });
                         var titleCopy = (attrs && attrs.titleCopy)? attrs.titleCopy.toLowerCase() : '';
-                        existingTitles = _.without(existingTitles, attrs.titleCopy); 
+                        existingTitles = _.without(existingTitles, titleCopy); 
                         if (existingTitles && project && _.contains(existingTitles, project.toLowerCase())) {
                             defer.reject('');
                         } else {
