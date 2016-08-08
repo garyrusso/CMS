@@ -17,7 +17,7 @@
         
         content.facets = [];
         
-        content.listView = true;
+        content.listView = $scope.isListView;
         
         content.showAllFacetsItems = CommonService.showAllFacetsItems;
         
@@ -66,6 +66,7 @@
                 return defer.promise;
             }
         });
+        
         /**
          * @ngdoc method
          * @name toggleView
@@ -76,6 +77,7 @@
          */
         function toggleView(viewType) {
             content.listView = viewType;
+            $scope.setToggleListGridView(viewType);
         }
         
         /**

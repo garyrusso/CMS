@@ -16,7 +16,7 @@
 
         projects.facets = {};
 
-        projects.listView = true;
+        projects.listView = $scope.isListView;
 
         /* function to toggle list, grid views */
         projects.toggleView = toggleView;
@@ -78,6 +78,7 @@
          */
         function toggleView(viewType) {
             projects.listView = viewType;
+            $scope.setToggleListGridView(viewType);
         }
 
         /**

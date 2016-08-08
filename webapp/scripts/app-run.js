@@ -22,6 +22,10 @@
         //isLoading is used to show loader on page
         //set loader true by default.
         $rootScope.isLoading = true;
+        
+        $rootScope.isListView = true;
+        
+        $rootScope.setToggleListGridView = setToggleListGridView;
 
         $rootScope.setLoading = setLoading;
 
@@ -43,6 +47,18 @@
          */
         function setLoading(loading) {
             $rootScope.isLoading = loading;
+        }
+        
+        /**
+         * @ngdoc method
+         * @name setToggleListGridView
+         * @methodOf cmsWebApp.run:RunBlock
+         * @param {Boolean} view whether list or grid
+         * @description
+         * Switch view from list to grid.
+         */
+        function setToggleListGridView(view) {
+            $rootScope.isListView = view;
         }
 
         /**

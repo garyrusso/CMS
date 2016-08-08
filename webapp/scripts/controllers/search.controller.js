@@ -31,7 +31,7 @@
 
         search.sortBy = 'Relevance';
         search.sortByChnaged = sortByChnaged;
-        search.listView = true;
+        search.listView = $scope.isListView;;
         /* function to toggle list, grid views */
         search.toggleView = toggleView;
 
@@ -135,6 +135,7 @@
          */
         function toggleView(viewType) {
             search.listView = viewType;
+            $scope.setToggleListGridView(viewType);
         }
 
         /**
