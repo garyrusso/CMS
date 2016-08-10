@@ -143,8 +143,8 @@ namespace Macmillan.CMS.DAL
             {
                 Exception cmsException = new Exception(httpClass.GetResponseContent());
 
-                throw cmsException;
-            }
+                //throw cmsException;
+            }       
         }
     }
 }
