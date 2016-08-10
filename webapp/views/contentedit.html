@@ -52,19 +52,16 @@
                             <strong>Project URI: </strong><span ng-bind="content.data.ContentUri"></span>
                         </li>
                         <li>
-                            <strong>Date Created: </strong><span ng-bind="content.data.DateCreated"></span>
+                            <strong>Date Created: </strong><span ng-bind="content.data.DateCreated | date:'yyyy-MM-dd HH:mm'"></span>
                         </li>
                         <li>
                             <strong>Created By: </strong><span ng-bind="content.data.CreatedBy"></span>
                         </li>
                         <li>
-                            <strong>Date Modified: </strong><span ng-bind="content.data.DateModified"></span>
+                            <strong>Date Modified: </strong><span ng-bind="content.data.DateModified | date:'yyyy-MM-dd HH:mm'"></span>
                         </li>
                         <li>
                             <strong>Modified By: </strong><span ng-bind="content.data.ModifiedBy"></span>
-                        </li>
-                        <li>
-                            <strong>Created By: </strong><span ng-bind="content.data.CreatedBy"></span>
                         </li>
                         <li>
                             <strong>File Format: </strong><span ng-bind="content.data.FileFormat"></span>

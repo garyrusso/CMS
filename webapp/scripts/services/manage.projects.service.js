@@ -209,7 +209,7 @@
          * @returns {Object} http promise object
          */
         function deleteProject(postData) {
-            return $http.post(WS.deleteProject, { "ProjectURL": postData.ProjectURL }).then(function (response) {
+            return $http.post(WS.deleteProject, { "ProjectURL": postData.projectURL }).then(function (response) {
                 return response.data;
             });
         }

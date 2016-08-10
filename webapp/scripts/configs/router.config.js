@@ -51,6 +51,24 @@
                 roles : ['User']
             }
         })
+        .state('projectedit', {
+            url : "/projects/projectedit?uri",
+            templateUrl : "views/projectedit.html",
+            controller : 'EditProjectController',
+            controllerAs : 'project',
+            resolve : {
+                routeResolvedProjectEdit : projectVeiw,
+                getProjectMasterDataProjectState : ['CommonService', function(CommonService){
+                    return CommonService.getDictionary('project-status');
+                }],
+                getProjectMasterDataSubjects : ['CommonService', function(CommonService){
+                    return CommonService.getDictionary('subject-heading');
+                }]
+            },
+            data : {
+                roles : ['User']
+            }
+       }) 
          .state('contentview', {
             url : "/content/contentview?uri",
             templateUrl : "views/contentview.html",
