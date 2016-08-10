@@ -13,7 +13,7 @@
     /*Function EditProjectController*/
     function EditProjectController($scope, $rootScope, $state, $stateParams, routeResolvedProjectEdit, getProjectMasterDataProjectState, getProjectMasterDataSubjects, _, $filter, CommonService, $log, ManageProjectsService, ManageContentService) {
         $log.debug('EditProjectController - $stateParams', $stateParams);
-        routeResolvedProjectEdit.projectUri = $stateParams['uri'];
+        routeResolvedProjectEdit.uri = $stateParams['uri'];
         var project = this;
         project.data = routeResolvedProjectEdit;
         
@@ -71,9 +71,10 @@
          */
         function submitProject () {
             $rootScope.setLoading(true);
+            project.data.projectURL = project.data.uri;
             ManageProjectsService.updateProject(angular.copy(project.data)).then(function (data) {
                         $rootScope.setLoading(false);
-                        $state.go('success', { type: 'project', status: 'edit', name: data.title, id: project.data.projectUri }, { location: false });
+                        $state.go('success', { type: 'project', status: 'edit', name: data.title, id: project.data.uri }, { location: false });
                     });
         }
 
@@ -102,7 +103,7 @@
          * call ManageProjectsService > openDeleteProjectModal method to open delete project modal
          */
         function projectsdeleteProject() {
-            project.data.ProjectURL = project.data.projectUri;
+            project.data.projectURL = project.data.uri;
             ManageProjectsService.openDeleteProjectModal(project.data).then(function() {
                 $log.debug('project deleted');
             });        
