@@ -416,3 +416,7 @@ td.cms-main-display-center {
 .cms-add-remove {
     padding-top: 7px;
 }
+
+.cms-add-remove span[ng-click] {
+    cursor: pointer;
+}
