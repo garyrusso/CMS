@@ -168,6 +168,11 @@ declare function searchAllRestLib:searchAllDocs($qtext as xs:string, $start as x
               <cts:text xml:lang="en">Deleted</cts:text>
               <cts:option>case-insensitive</cts:option>
             </cts:element-value-query>
+            <cts:element-value-query>
+              <cts:element xmlns:mml="http://macmillanlearning.com">mml:contentState</cts:element>
+              <cts:text xml:lang="en">Deleted</cts:text>
+              <cts:option>case-insensitive</cts:option>
+            </cts:element-value-query>
           </cts:not-query>
         </cts:and-query>
       </additional-query>
