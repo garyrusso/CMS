@@ -171,7 +171,7 @@
       </forests>
 
       <!-- See sample/default-docs-config.sample.xml for default settings and indexes of Documents database -->
-      
+
       <enabled>true</enabled>
       <retired-forest-count>0</retired-forest-count>
       <language>en</language>
@@ -206,7 +206,7 @@
       <collection-lexicon>true</collection-lexicon>
       <directory-creation>manual</directory-creation>
       <maintain-last-modified>false</maintain-last-modified>
-      
+
 <!--
       <fragment-roots>
         <fragment-root>
@@ -290,7 +290,16 @@
           <range-value-positions>false</range-value-positions>
           <invalid-values>ignore</invalid-values>
         </range-element-index>
-		
+
+        <range-element-index>
+          <scalar-type>string</scalar-type>
+          <namespace-uri>http://macmillanlearning.com</namespace-uri>
+          <localname>fileName</localname>
+          <collation>http://marklogic.com/collation/</collation>
+          <range-value-positions>false</range-value-positions>
+          <invalid-values>ignore</invalid-values>
+        </range-element-index>
+
         <range-element-index>
           <scalar-type>string</scalar-type>
           <namespace-uri>http://macmillanlearning.com</namespace-uri>
@@ -298,8 +307,8 @@
           <collation>http://marklogic.com/collation/</collation>
           <range-value-positions>false</range-value-positions>
           <invalid-values>ignore</invalid-values>
-        </range-element-index>		
-	
+        </range-element-index>
+
         <range-element-index>
           <scalar-type>string</scalar-type>
           <namespace-uri>http://macmillanlearning.com</namespace-uri>
@@ -308,7 +317,7 @@
           <range-value-positions>false</range-value-positions>
           <invalid-values>ignore</invalid-values>
         </range-element-index>
-		
+
         <range-element-index>
           <scalar-type>string</scalar-type>
           <namespace-uri>http://macmillanlearning.com</namespace-uri>
@@ -317,7 +326,7 @@
           <range-value-positions>false</range-value-positions>
           <invalid-values>ignore</invalid-values>
         </range-element-index>
-		
+
         <range-element-index>
           <scalar-type>string</scalar-type>
           <namespace-uri>http://macmillanlearning.com</namespace-uri>
@@ -325,8 +334,8 @@
           <collation>http://marklogic.com/collation/</collation>
           <range-value-positions>false</range-value-positions>
           <invalid-values>ignore</invalid-values>
-        </range-element-index>		
-		
+        </range-element-index>
+
         <range-element-index>
           <scalar-type>string</scalar-type>
           <namespace-uri>http://macmillanlearning.com</namespace-uri>
@@ -380,7 +389,16 @@
           <range-value-positions>false</range-value-positions>
           <invalid-values>ignore</invalid-values>
         </range-element-index>
-        
+
+        <range-element-index>
+          <scalar-type>dateTime</scalar-type>
+          <namespace-uri>http://macmillanlearning.com</namespace-uri>
+          <localname>dateCreated</localname>
+          <collation/>
+          <range-value-positions>false</range-value-positions>
+          <invalid-values>ignore</invalid-values>
+        </range-element-index>
+
       </range-element-indexes>
       <range-element-attribute-indexes>
 <!--

@@ -25,24 +25,32 @@ declare variable $SEARCH-OPTIONS :=
 
 declare function am:getAuditInfo($uri as xs:string)
 {
-  let $query := cts:element-value-query(fn:QName($NS, "auditTargetUri"), $uri)
+  let $query := cts:and-query((
+                    cts:collection-query(("audit")),
+                    cts:element-value-query(
+                      fn:QName($NS, "auditTargetUri"), $uri)
+                  ))
 
-  let $results := cts:search(fn:doc(), $query)
+  let $results := cts:search(
+                    fn:doc(), $query,
+                    cts:index-order(cts:element-reference(fn:QName($NS,"dateCreated")), "descending")
+                  )
 
   let $doc :=
     element { fn:QName($NS,"mml:auditInfo") } {
       element { fn:QName($NS,"mml:count") } { fn:count($results) },
       for $result in $results
-        order by $result/mml:auditRecord/mml:dateCreated/text() descending
-          return
-          (
-            element { fn:QName($NS,"mml:auditEntry") } {
-              element { fn:QName($NS,"mml:action") } { $result/mml:auditRecord/mml:action/text() },
-              element { fn:QName($NS,"mml:dateCreated") } { $result/mml:auditRecord/mml:dateCreated/text() },
-              element { fn:QName($NS,"mml:createdBy") } { $result/mml:auditRecord/mml:createdBy/text() }
-            }
-          )
-      }
+        (: order by $result/mml:auditRecord/mml:dateCreated/text() descending :)
+        return
+        (
+          element { fn:QName($NS,"mml:auditEntry") } {
+            element { fn:QName($NS,"mml:action") }         { $result/mml:auditRecord/mml:action/text() },
+            element { fn:QName($NS,"mml:auditTargetUri") } { $result/mml:auditRecord/mml:auditTargetUri/text() },
+            element { fn:QName($NS,"mml:dateCreated") }    { $result/mml:auditRecord/mml:dateCreated/text() },
+            element { fn:QName($NS,"mml:createdBy") }      { $result/mml:auditRecord/mml:createdBy/text() }
+          }
+        )
+    }
 
   return $doc
 };
@@ -59,9 +67,9 @@ declare function am:save($action as xs:string, $targetUri as xs:string, $targetT
       element { fn:QName($NS,"mml:dateCreated") } { fn:current-dateTime() },
       element { fn:QName($NS,"mml:createdBy") } { auth:getFullName(auth:getLoggedInUserFromHeader()) }
     }
-  
+
   let $uri := "/audit/"||xdmp:hash64($doc)||".xml"
-  
+
   return
   (
     am:_save($uri, $doc),
@@ -72,7 +80,7 @@ declare function am:save($action as xs:string, $targetUri as xs:string, $targetT
 declare function am:_save($uri as xs:string, $doc)
 {
   (: check if file already exists :)
- 
+
   (: let $log := xdmp:log("................................. audit doc: "||$uri) :)
 
   let $cmd :=
@@ -126,11 +134,10 @@ declare function am:invoke($function, $params)
 {
   invoke:invoke(
     $function,
-    "http://marklogic.com/roxy/lib/profile/user", 
-    "/app/lib/profile-user.xqy", 
+    "http://marklogic.com/roxy/lib/profile/user",
+    "/app/lib/profile-user.xqy",
     $params,
     fn:true(),
     xdmp:database-name(xdmp:database())
   )
 };
-

@@ -26,7 +26,7 @@ declare variable $SEARCH-OPTIONS :=
 declare function fm:getContentUri($hash)
 {
   let $uri := fn:concat("/content/", $hash, "/")
-  
+
   return $uri
 };
 
@@ -45,7 +45,7 @@ declare function fm:_save($fileName as xs:string, $fileSize as xs:unsignedLong, 
   let $log := xdmp:log("......... hash: "||$hashedDir)
 :)
   let $uri := "/file/"||$fileName
-  
+
   let $loggedInUser := auth:getFullName(auth:getLoggedInUserFromHeader())
   let $currentDateTime := fn:current-dateTime()
 
@@ -146,8 +146,8 @@ declare function fm:invoke($function, $params)
 {
   invoke:invoke(
     $function,
-    "http://marklogic.com/roxy/lib/profile/user", 
-    "/app/lib/profile-user.xqy", 
+    "http://marklogic.com/roxy/lib/profile/user",
+    "/app/lib/profile-user.xqy",
     $params,
     fn:true(),
     xdmp:database-name(xdmp:database())
@@ -201,7 +201,7 @@ declare function fm:getFileInfo($uri)
                     cts:collection-query("file"),
                     cts:element-value-query(fn:QName($NS, "uri"), $uri)
                   ))
-  
+
   let $result := cts:search(fn:doc(), $query)[1]
 
   let $fileInfo :=
@@ -222,7 +222,7 @@ declare function fm:getFileInfo($uri)
         }
       )
 
-  let $auditDoc := 
+  let $auditDoc :=
     if (fn:not(fn:empty($result))) then am:getAuditInfo($uri) else ()
 
   let $retObj :=
@@ -241,7 +241,7 @@ declare function fm:findFileInfoUri($fileUri as xs:string)
                    cts:collection-query("file"),
                    cts:element-value-query(fn:QName($NS, "uri"), $fileUri)
                  ))
- 
+
   let $uri := cts:uris("/file/", (), $query)[1]
 
   return $uri
@@ -282,10 +282,16 @@ declare function fm:searchBinaryFilesByQString($qtext, $start, $pageLength)
         <max-snippet-chars>150</max-snippet-chars>
         <per-match-tokens>20</per-match-tokens>
       </transform-results>
+      <sort-order type="xs:string" direction="ascending">
+        <element ns="http://macmillanlearning.com" name="fileName"/>
+      </sort-order>
+      <sort-order>
+        <score/>
+      </sort-order>
       <return-results>true</return-results>
       <return-query>true</return-query>
     </options>
-   
+
   let $statusMessage := "file found"
 
   let $results := search:search($qtext, $options, $start, $pageLength)

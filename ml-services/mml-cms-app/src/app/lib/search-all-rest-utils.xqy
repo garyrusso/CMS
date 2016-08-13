@@ -60,7 +60,7 @@ declare function searchAllRestLib:getAction(
     (
       map:put($context,"output-types","application/xml")
     )
-  
+
   let $retObj := searchAllRestLib:searchAllDocs($qtext, $start, $pageLength, $sortBy)
 
 	let $_ := map:put($context, "output-status", (200, "fetched"))
@@ -84,7 +84,7 @@ declare function searchAllRestLib:getAction(
 declare function searchAllRestLib:searchAllDocs($qtext as xs:string, $start as xs:integer, $pageLength as xs:integer, $sortBy as xs:string)
 {
   let $sortOrder :=
-    switch (fn:lower-case($sortBy)) 
+    switch (fn:lower-case($sortBy))
       case "newest"
         return
           document {
@@ -97,7 +97,7 @@ declare function searchAllRestLib:searchAllDocs($qtext as xs:string, $start as x
               </sort-order>
             </sort-spec>
           }
-    
+
       case "modified"
         return
           document {
@@ -146,7 +146,7 @@ declare function searchAllRestLib:searchAllDocs($qtext as xs:string, $start as x
               </sort-order>
             </sort-spec>
           }
-  
+
   let $options :=
     <options xmlns="http://marklogic.com/appservices/search">
       <search-option>filtered</search-option>
@@ -160,17 +160,16 @@ declare function searchAllRestLib:searchAllDocs($qtext as xs:string, $start as x
             <cts:uri>project</cts:uri>
           </cts:collection-query>
           <cts:not-query>
-            <cts:collection-query>
-              <cts:uri>binary</cts:uri>
-            </cts:collection-query>
             <cts:element-value-query>
               <cts:element xmlns:mml="http://macmillanlearning.com">mml:projectState</cts:element>
-              <cts:text xml:lang="en">Deleted</cts:text>
+              <cts:text xml:lang="en">deleted</cts:text>
               <cts:option>case-insensitive</cts:option>
             </cts:element-value-query>
+          </cts:not-query>
+          <cts:not-query>
             <cts:element-value-query>
               <cts:element xmlns:mml="http://macmillanlearning.com">mml:contentState</cts:element>
-              <cts:text xml:lang="en">Deleted</cts:text>
+              <cts:text xml:lang="en">deleted</cts:text>
               <cts:option>case-insensitive</cts:option>
             </cts:element-value-query>
           </cts:not-query>
@@ -205,7 +204,7 @@ declare function searchAllRestLib:searchAllDocs($qtext as xs:string, $start as x
       <word>
         <element ns="http://macmillanlearning.com" name="contentState"/>
       </word>
-    </constraint>	  
+    </constraint>
   	  <constraint name="Keywords">
   		  <range collation="http://marklogic.com/collation/" facet="true">
   			 <element ns="http://macmillanlearning.com" name="subjectKeyword" />
@@ -214,23 +213,23 @@ declare function searchAllRestLib:searchAllDocs($qtext as xs:string, $start as x
   	   <constraint name="Subjects">
   		  <range collation="http://marklogic.com/collation/" facet="true">
   			 <element ns="http://macmillanlearning.com" name="subjectHeading" />
-  		  </range>          
+  		  </range>
   	  </constraint>
       <constraint name="Title">
   		  <range collation="http://marklogic.com/collation/" facet="true">
   			 <element ns="http://macmillanlearning.com" name="title" />
-  		  </range>          
+  		  </range>
   	  </constraint>
   	  <constraint name="Content State">
   		  <range collation="http://marklogic.com/collation/" facet="true">
   			 <element ns="http://macmillanlearning.com" name="contentState" />
   		  </range>
-  	  </constraint>  	  
+  	  </constraint>
       <transform-results apply="metadata-snippet">
         <preferred-elements>
           <element ns="http://macmillanlearning.com" name="systemId"/>
           <element ns="http://macmillanlearning.com" name="created"/>
-          <element ns="http://macmillanlearning.com" name="modified"/>		  
+          <element ns="http://macmillanlearning.com" name="modified"/>
           <element ns="http://macmillanlearning.com" name="createdBy"/>
           <element ns="http://macmillanlearning.com" name="modifiedBy"/>
           <element ns="http://macmillanlearning.com" name="objectType"/>
@@ -274,14 +273,14 @@ declare function searchAllRestLib:searchAllDocs($qtext as xs:string, $start as x
   		element { fn:QName($NS,"mml:count") }      { fn:count($results/search:result) },
   		element { fn:QName($NS,"mml:pageLength") } { xs:string($results/@page-length) },
   		for $result in $results/search:result
-  		
+
         let $objectType := fn:lower-case($result/search:snippet/mml:objectType[1]/text())
 
   		  let $contentDocs :=
   		    if (fn:starts-with($objectType, "project")) then
   		      pm:findContentDocsByProjectTitle($result/search:snippet/mml:title/text())
   		    else ()
-  		    
+
   		  return
     			element { fn:QName($NS,"mml:result") } {
       			element { fn:QName($NS,"mml:uri") }           { xs:string($result/@uri) },
@@ -312,7 +311,7 @@ declare function searchAllRestLib:searchAllDocs($qtext as xs:string, $start as x
               element { fn:QName($NS, "mml:facet") } {
                 element { fn:QName($NS, "mml:facetName") } { $facet/@name/fn:string() },
                 for $value in $facet/search:facet-value
-                  return 
+                  return
                     element { fn:QName($NS, "mml:facetValues") }
                     {
                       element { fn:QName($NS,"mml:name") } { $value/text() },
@@ -328,7 +327,6 @@ declare function searchAllRestLib:searchAllDocs($qtext as xs:string, $start as x
         element { fn:QName($NS,"mml:status") } { "no content docs found" }
   		}
 	  )
-	  
+
 	  return $retObj
 };
-
