@@ -11,6 +11,39 @@ declare namespace jn  = "http://marklogic.com/xdmp/json/basic";
 
 declare variable $NS := "http://macmillanlearning.com";
 
+declare function contentRestLib:getAuditInfo($uri as xs:string, $fileUri as xs:string)
+{
+  let $contentAuditDoc := am:getAuditInfo($uri)
+  let $fileAuditDoc    := am:getAuditInfo($fileUri)
+
+  let $auditDoc :=
+      element { fn:QName($NS,"mml:auditInfo") } {
+        element { fn:QName($NS,"mml:count") } { $contentAuditDoc/mml:count/node() + $fileAuditDoc/mml:count/node() },
+        for $item in $contentAuditDoc/mml:auditEntry
+          return
+          (
+            element { fn:QName($NS,"mml:auditEntry") } {
+              element { fn:QName($NS,"mml:action") }         { $item/mml:action/text() },
+              element { fn:QName($NS,"mml:auditTargetUri") } { $item/mml:auditTargetUri/text() },
+              element { fn:QName($NS,"mml:dateCreated") }    { $item/mml:dateCreated/text() },
+              element { fn:QName($NS,"mml:createdBy") }      { $item/mml:createdBy/text() }
+            }
+          ),
+        for $item in $fileAuditDoc/mml:auditEntry
+          return
+          (
+            element { fn:QName($NS,"mml:auditEntry") } {
+              element { fn:QName($NS,"mml:action") }         { $item/mml:action/text() },
+              element { fn:QName($NS,"mml:auditTargetUri") } { $item/mml:auditTargetUri/text() },
+              element { fn:QName($NS,"mml:dateCreated") }    { $item/mml:dateCreated/text() },
+              element { fn:QName($NS,"mml:createdBy") }      { $item/mml:createdBy/text() }
+            }
+          )
+      }
+
+  return $auditDoc
+};
+
 declare function contentRestLib:getAction(
   $context as map:map,
   $params  as map:map
@@ -58,18 +91,20 @@ declare function contentRestLib:getAction(
     (
       map:put($context,"output-types","application/xml")
     )
-    
+
   let $retObj :=
     if (fn:string-length($uri) gt 0) then
     (
       let $contentDoc := fn:doc($uri)
 
-      let $auditDoc := am:getAuditInfo($uri)
-	  
+      let $fileUri := "/file/"||$contentDoc/mml:content/mml:feed/mml:technical/mml:fileName[1]/text()
+
+      let $auditDoc := contentRestLib:getAuditInfo($uri, $fileUri)
+
   	  let $prjTitle := $contentDoc/mml:content/mml:metadata/mml:projects/mml:project/text()
-  	  
+
   	  let $contentDocs := cm:findProjectDocsByProjectTitle($prjTitle)
-	  
+
       let $preDoc :=
         element { fn:QName($NS,"mml:container") }
         {
@@ -139,19 +174,19 @@ declare function contentRestLib:putAction(
 
   let $uri        := if (fn:string-length($tempUri) eq 0) then "" else $tempUri
   let $format     := if ($ft eq "json") then "json" else "xml"
-  
+
   let $output-types := map:put($context,"output-types","application/json")
 
   let $jContentDoc :=  document { $input }
 
   (: Convert json to xml :)
   let $contentDoc  := json:transform-from-json($jContentDoc)
-  
+
   let $contentObj :=
         element content
         {
           element meta {
-            element systemId     { $contentDoc/jn:meta/jn:systemId/text() }, 
+            element systemId     { $contentDoc/jn:meta/jn:systemId/text() },
             element projectState { $contentDoc/jn:meta/jn:projectState/text() },
             element subjectHeadings {
               for $subjectHeading in $contentDoc/jn:meta/jn:subjectHeadings/jn:item/text()
@@ -170,7 +205,7 @@ declare function contentRestLib:putAction(
             }
           },
           element feed {
-            element title { $contentDoc/jn:feed/jn:title/text() }, 
+            element title { $contentDoc/jn:feed/jn:title/text() },
             element description { $contentDoc/jn:feed/jn:description/text() },
             element source { $contentDoc/jn:feed/jn:source/text() },
             element publisher { $contentDoc/jn:feed/jn:publisher/text() },
@@ -185,7 +220,7 @@ declare function contentRestLib:putAction(
               for $resource in $contentDoc/jn:feed/jn:contentResourceTypes/jn:item/text()
                 return
                   element contentResourceType { $resource }
-            },			
+            },
             element technical {
               element fileFormat { $contentDoc/jn:feed/jn:technical/jn:fileFormat/text() },
               element fileName   { $contentDoc/jn:feed/jn:technical/jn:fileName/text() },
@@ -211,7 +246,7 @@ declare function contentRestLib:putAction(
     element results {
         element { "status" } { $status }
       }
-  
+
   let $config := json:config("custom")
   let $_ := map:put($config, "whitespace", "ignore" )
 
@@ -220,7 +255,7 @@ declare function contentRestLib:putAction(
 
   return
     document {
-      text { json:transform-to-json($retObj, $config) }    
+      text { json:transform-to-json($retObj, $config) }
     }
 };
 
@@ -236,12 +271,12 @@ declare function contentRestLib:postAction(
 
   (: Convert json to xml :)
   let $contentDoc  := json:transform-from-json($jContentDoc)
-  
+
   let $contentObj :=
         element content
         {
           element meta {
-            element systemId     { $contentDoc/jn:meta/jn:systemId/text() }, 
+            element systemId     { $contentDoc/jn:meta/jn:systemId/text() },
             element projectState { $contentDoc/jn:meta/jn:projectState/text() },
             element subjectHeadings {
               for $subjectHeading in $contentDoc/jn:meta/jn:subjectHeadings/jn:item/text()
@@ -260,7 +295,7 @@ declare function contentRestLib:postAction(
             }
           },
           element feed {
-            element title { $contentDoc/jn:feed/jn:title/text() }, 
+            element title { $contentDoc/jn:feed/jn:title/text() },
             element description { $contentDoc/jn:feed/jn:description/text() },
             element source { $contentDoc/jn:feed/jn:source/text() },
             element publisher { $contentDoc/jn:feed/jn:publisher/text() },
@@ -302,13 +337,13 @@ declare function contentRestLib:postAction(
     element results {
         element { "status" } { $doc }
       }
-  
+
   let $config := json:config("custom")
   let $_ := map:put($config, "whitespace", "ignore" )
-  
+
   return
     document {
-      text { json:transform-to-json($retObj, $config) }    
+      text { json:transform-to-json($retObj, $config) }
     }
 };
 
@@ -322,7 +357,7 @@ declare function contentRestLib:deleteAction(
 
   let $uri    := if (fn:string-length($inputUri) eq 0)  then "" else $inputUri
   let $format := if ($ft eq "xml") then "xml" else "json"
-  
+
   let $output-types :=
     if ($format eq "xml") then
     (
@@ -332,7 +367,7 @@ declare function contentRestLib:deleteAction(
     (
       map:put($context,"output-types","application/json")
     )
-    
+
   let $errorMessage :=
     if (fn:string-length($uri) eq 0) then "invalid uri"
     else
@@ -342,7 +377,7 @@ declare function contentRestLib:deleteAction(
       catch ($e) {
         $e/error:message/text()
       }
-      
+
   let $statusMessage :=
     if (fn:string-length($errorMessage) eq 0) then
       "Document status was updated to deleted: "||$uri
@@ -380,4 +415,3 @@ declare function contentRestLib:deleteAction(
       $doc
     }
 };
-

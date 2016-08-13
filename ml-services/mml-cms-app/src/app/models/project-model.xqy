@@ -26,7 +26,7 @@ declare variable $SEARCH-OPTIONS :=
 declare function project:getContentUri($hash)
 {
   let $uri := fn:concat("/project/", $hash, "/")
-  
+
   return $uri
 };
 
@@ -39,7 +39,7 @@ declare function project:save($uri as xs:string, $project)
       $project/projectState/text()
     else
       "start"
-  
+
   return
   (
     project:_save(
@@ -62,7 +62,7 @@ declare function project:save($uri as xs:string, $project)
             for $subjectKeyword in $project/subjectKeywords/subjectKeyword/text()
               return
                 element {fn:QName($NS,"subjectKeyword")} { $subjectKeyword }
-          },			  
+          },
           element {fn:QName($NS,"projectState")} { $projectState }
         },
         element {fn:QName($NS,"feed")} {
@@ -72,7 +72,7 @@ declare function project:save($uri as xs:string, $project)
           element {fn:QName($NS,"description")}   { $project/description/text() }
         }
       }
-	   
+
     ),
     fn:concat("Project Successfully Saved: ", $uri)
   )
@@ -112,7 +112,7 @@ declare function project:update($uri as xs:string, $project)
   let $loggedInUser    := auth:getFullName(auth:getLoggedInUserFromHeader())
   let $currentDateTime := fn:current-dateTime()
   let $origDoc         := fn:doc($uri)
-  
+
   let $projectState    :=
     if (fn:string-length($project/projectState/text()) gt 0) then
       $project/projectState/text()
@@ -140,7 +140,7 @@ declare function project:update($uri as xs:string, $project)
 					for $subjectKeyword in $project/subjectKeywords/subjectKeyword/text()
 					  return
 						element {fn:QName($NS,"subjectKeyword")} { $subjectKeyword }
-				  },			  
+				  },
 				  element {fn:QName($NS,"projectState")} { $projectState }
 				},
         element {fn:QName($NS,"feed")} {
@@ -159,7 +159,7 @@ declare function project:update($uri as xs:string, $project)
       project:_update($uri, $newDoc),
       fn:concat("Project Successfully Updated: '", $newDoc/mml:project/mml:feed/mml:title/text(), "'")
     )
-    
+
   return $status
 };
 
@@ -170,7 +170,7 @@ declare function project:_update($uri as xs:string, $newDoc)
   let $log := xdmp:log(".................. $uri:    "||$uri)
   let $log := xdmp:log(".................. $title old doc....:    "||$doc/mml:project/mml:metadata/mml:title/text())
   let $log := xdmp:log(".................. $title new doc....:    "||$newDoc/mml:project/mml:metadata/mml:title/text())
-  
+
   return xdmp:node-replace($doc/mml:project, $newDoc/mml:project)
 };
 
@@ -178,13 +178,13 @@ declare function project:delete($uri as xs:string)
 {
   let $doc := fn:doc($uri)
   let $old-status := $doc/mml:project/mml:metadata/mml:projectState
-  
+
   let $log := xdmp:log(".................. $uri:    "||$uri)
   let $log := xdmp:log(".................. $status old doc....:    "|| $old-status/text())
-  
+
   let $inactive := "Inactive"
   let $new-status :=  element {fn:QName($NS,"mml:projectState")} { $inactive }
-  
+
   return (xdmp:node-replace($doc/$old-status, $new-status), fn:concat("Project ", $uri ," soft deleted"))
 };
 
@@ -194,7 +194,7 @@ declare function project:updateProjecState($uri as xs:string, $status as xs:stri
 
   let $origNode := $doc/mml:project/mml:metadata/mml:projectState
   let $newNode  := element {fn:QName($NS,"mml:projectState")}  { $status }
-  
+
   let $_ := xdmp:node-replace($origNode, $newNode)
 
   return "done"
@@ -207,26 +207,26 @@ declare function project:get-document($uri as xs:string)
   let $project-title := $projectDocument/mml:project/mml:metadata/mml:title/text()
 
   (: Query to get associated content :)
-  let $query := 
+  let $query :=
 		cts:and-query((
 			cts:directory-query("/content/", "infinity"),
 			cts:element-value-query(
 				fn:QName($NS, "project"), $project-title, ("exact")
 			)
 		))
-  
+
   let $associated-contents := cts:search(fn:doc(), $query)
-   
-  let $resultDocument := 
+
+  let $resultDocument :=
         element project
         {
           element metadata {
-    				element systemId     { $projectDocument/mml:project/mml:metadata/mml:systemId/text() }, 
+    				element systemId     { $projectDocument/mml:project/mml:metadata/mml:systemId/text() },
     				element createdBy { $projectDocument/mml:project/mml:metadata/mml:createdBy/text() },
     				element created { $projectDocument/mml:project/mml:metadata/mml:created/text() },
     				element modifiedBy { $projectDocument/mml:project/mml:metadata/mml:modifiedBy/text() },
     				element modified { $projectDocument/mml:project/mml:metadata/mml:modified/text() },
-    				element title { $projectDocument/mml:project/mml:metadata/mml:title/text() }, 
+    				element title { $projectDocument/mml:project/mml:metadata/mml:title/text() },
     				element description { $projectDocument/mml:project/mml:metadata/mml:description/text() },
     				element projectState { $projectDocument/mml:project/mml:metadata/mml:projectState/text() },
     				element subjectHeadings {
@@ -239,10 +239,10 @@ declare function project:get-document($uri as xs:string)
 					return
 					  element subjectKeyword { $subjectKeyword }
 				}
-			},				
+			},
 			element contents {
-				 for $content in $associated-contents 
-				 return 
+				 for $content in $associated-contents
+				 return
 				   element content {
 					   element title { $content//mml:title/text() },
 					   element uri { fn:base-uri($content) },
@@ -251,10 +251,10 @@ declare function project:get-document($uri as xs:string)
 					   element createdBy { $content//mml:createdBy/text() },
 					   element modifiedBy { $content//mml:modifiedBy/text() }
 				   }
-		    
+
 		    }
          }
-  
+
   return $resultDocument
 };
 
@@ -285,10 +285,37 @@ declare function project:findContentDocsByProjectTitle($projectTitle as xs:strin
   return $contentDocs
 };
 
+declare function project:findContentDocsByProjectUri($projectUri as xs:string)
+{
+  let $query := cts:and-query((
+                    cts:collection-query("content"),
+                    cts:element-value-query(fn:QName($NS, "projectUri"), $projectUri)
+                  ))
+
+  let $results := cts:search(fn:doc(), $query)
+
+  let $contentDocs :=
+    for $result in $results
+      return
+   			element { fn:QName($NS,"mml:content") } {
+          element { fn:QName($NS,"mml:systemId") }     { $result/mml:content/mml:metadata/mml:systemId/text() },
+          element { fn:QName($NS,"mml:uri") }          { xdmp:node-uri($result) },
+          element { fn:QName($NS,"mml:source") }       { $result/mml:content/mml:feed/mml:source/text() },
+          element { fn:QName($NS,"mml:createdBy") }    { $result/mml:content/mml:metadata/mml:createdBy/text() },
+          element { fn:QName($NS,"mml:created") }      { $result/mml:content/mml:metadata/mml:created/text() },
+          element { fn:QName($NS,"mml:modifiedBy") }   { $result/mml:content/mml:metadata/mml:modifiedBy/text() },
+          element { fn:QName($NS,"mml:modified") }     { $result/mml:content/mml:metadata/mml:modified/text() },
+          element { fn:QName($NS,"mml:projectState") } { $result/mml:content/mml:metadata/mml:projectState/text() },
+          element { fn:QName($NS,"mml:title") }        { $result/mml:content/mml:feed/mml:title/text() }
+        }
+
+  return $contentDocs
+};
+
 declare function project:searchProjectDocs($qtext as xs:string, $start as xs:integer, $pageLength as xs:integer, $sortBy as xs:string)
 {
   let $sortOrder :=
-    switch (fn:lower-case($sortBy)) 
+    switch (fn:lower-case($sortBy))
       case "newest"
         return
           document {
@@ -301,7 +328,7 @@ declare function project:searchProjectDocs($qtext as xs:string, $start as xs:int
               </sort-order>
             </sort-spec>
           }
-    
+
       case "modified"
         return
           document {
@@ -350,7 +377,7 @@ declare function project:searchProjectDocs($qtext as xs:string, $start as xs:int
               </sort-order>
             </sort-spec>
           }
-  
+
 	let $options :=
 	<options xmlns="http://marklogic.com/appservices/search">
 	  <search-option>filtered</search-option>
@@ -391,7 +418,7 @@ declare function project:searchProjectDocs($qtext as xs:string, $start as xs:int
         <element ns="http://macmillanlearning.com" name="projectState"/>
         <term-option>case-insensitive</term-option>
       </word>
-    </constraint>	
+    </constraint>
 	  <constraint name="Keywords">
 		  <range collation="http://marklogic.com/collation/" facet="true">
 			 <element ns="http://macmillanlearning.com" name="subjectKeyword" />
@@ -400,12 +427,12 @@ declare function project:searchProjectDocs($qtext as xs:string, $start as xs:int
 	   <constraint name="Subjects">
 		  <range collation="http://marklogic.com/collation/" facet="true">
 			 <element ns="http://macmillanlearning.com" name="subjectHeading" />
-		  </range>          
+		  </range>
 	  </constraint>
 	   <constraint name="Title">
 		  <range collation="http://marklogic.com/collation/" facet="true">
 			 <element ns="http://macmillanlearning.com" name="title" />
-		  </range>          
+		  </range>
 	  </constraint>
 	   <constraint name="Project State">
 		  <range collation="http://marklogic.com/collation/" facet="true">
@@ -480,7 +507,7 @@ declare function project:searchProjectDocs($qtext as xs:string, $start as xs:int
               element { fn:QName($NS, "mml:facet") } {
                 element { fn:QName($NS, "mml:facetName") } { $facet/@name/fn:string() },
                 for $value in $facet/search:facet-value
-                  return 
+                  return
                     element { fn:QName($NS, "mml:facetValues") }
                     {
                       element { fn:QName($NS,"mml:name") } { $value/text() },
@@ -496,6 +523,6 @@ declare function project:searchProjectDocs($qtext as xs:string, $start as xs:int
         element { fn:QName($NS,"mml:status") } { "no content docs found" }
   		}
 	  )
-	  
+
 	  return $retObj
 };

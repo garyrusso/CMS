@@ -27,7 +27,7 @@ declare variable $SEARCH-OPTIONS :=
 declare function content:getContentUri($hash)
 {
   let $uri := fn:concat("/content/", $hash, "/")
-  
+
   return $uri
 };
 
@@ -35,7 +35,7 @@ declare function content:save($uri as xs:string, $content)
 {
   let $loggedInUser    := auth:getFullName(auth:getLoggedInUserFromHeader())
   let $currentDateTime := fn:current-dateTime()
-  
+
   return
   (
     content:_save(
@@ -118,7 +118,7 @@ declare function content:_save($uri as xs:string, $content)
 declare function content:update($uri as xs:string, $content)
 {
   let $invalidUriMessage := "invalid uri"
-  
+
   let $process :=
     if (fn:string-length($uri) eq 0) then $invalidUriMessage
     else
@@ -130,7 +130,7 @@ declare function content:update($uri as xs:string, $content)
   let $loggedInUser    := auth:getFullName(auth:getLoggedInUserFromHeader())
   let $currentDateTime := fn:current-dateTime()
   let $origDoc         := fn:doc($uri)
-  
+
   let $newDoc :=
     document {
       element {fn:QName($NS,"mml:content")}
@@ -177,7 +177,7 @@ declare function content:update($uri as xs:string, $content)
             for $resourceType in $content/feed/contentResourceTypes/contentResourceType/text()
               return
                 element {fn:QName($NS,"contentResourceType")} { $resourceType }
-          },		  
+          },
           element {fn:QName($NS,"technical")} {
             element {fn:QName($NS,"fileFormat")}   { $content/feed/technical/fileFormat/text() },
             element {fn:QName($NS,"fileName")}   { $content/feed/technical/fileName/text() },
@@ -187,7 +187,7 @@ declare function content:update($uri as xs:string, $content)
         }
       }
     }
-  
+
   let $status :=
     if (fn:starts-with($process, $invalidUriMessage)) then $invalidUriMessage
     else
@@ -195,7 +195,7 @@ declare function content:update($uri as xs:string, $content)
       content:_update($uri, $newDoc),
       fn:concat("Content Successfully Updated: '", $newDoc/mml:content/mml:feed/mml:title/text(), "'")
     )
-    
+
     return $status
 };
 
@@ -205,7 +205,7 @@ declare function content:_update1($uri as xs:string, $newDoc)
   let $log := xdmp:log(".................. $uri:    "||$uri)
   let $log := xdmp:log(".................. title 1: "||$doc/mml:content/mml:feed/mml:title/text())
   let $log := xdmp:log(".................. title 2: "||$newDoc/mml:content/mml:feed/mml:title/text())
-  
+
   let $cmd :=
         fn:concat
         (
@@ -286,14 +286,14 @@ declare function content:getContentDoc($title)
         )[1]
     )
     else ()
-  
+
   let $content :=
     if ($doc) then
       element content-wrapper
       {
-        element firstname { $doc/mml:user/mml:feed/mml:firstName/text() }, 
-        element lastname  { $doc/mml:user/mml:feed/mml:lastName/text() }, 
-        element username  { $doc/mml:user/mml:feed/mml:username/text() }, 
+        element firstname { $doc/mml:user/mml:feed/mml:firstName/text() },
+        element lastname  { $doc/mml:user/mml:feed/mml:lastName/text() },
+        element username  { $doc/mml:user/mml:feed/mml:username/text() },
         element password  { $doc/mml:user/mml:feed/mml:password/text() },
         element created   { $doc/mml:user/mml:metadata/mml:created/text() }
       }
@@ -308,7 +308,7 @@ declare function content:getContentDocs()
     for $n in //mml:title
       order by $n/mml:feed/mml:title/text()
         return $n
-  
+
   return
     $docs
 };
@@ -330,8 +330,8 @@ declare function content:invoke($function, $params)
 {
   invoke:invoke(
     $function,
-    "http://marklogic.com/roxy/lib/profile/user", 
-    "/app/lib/profile-user.xqy", 
+    "http://marklogic.com/roxy/lib/profile/user",
+    "/app/lib/profile-user.xqy",
     $params,
     fn:true(),
     xdmp:database-name(xdmp:database())
@@ -365,7 +365,7 @@ declare function content:findProjectDocsByProjectTitle($projectTitle as xs:strin
 declare function content:searchContentDocs($qtext as xs:string, $start, $pageLength, $sortBy as xs:string)
 {
   let $sortOrder :=
-    switch (fn:lower-case($sortBy)) 
+    switch (fn:lower-case($sortBy))
       case "newest"
         return
           document {
@@ -378,7 +378,7 @@ declare function content:searchContentDocs($qtext as xs:string, $start, $pageLen
               </sort-order>
             </sort-spec>
           }
-    
+
       case "modified"
         return
           document {
@@ -441,8 +441,8 @@ declare function content:searchContentDocs($qtext as xs:string, $start, $pageLen
           </cts:collection-query>
           <cts:not-query>
             <cts:element-value-query>
-              <cts:element xmlns:mml="http://macmillanlearning.com">mml:projectState</cts:element>
-              <cts:text xml:lang="en">Deleted</cts:text>
+              <cts:element xmlns:mml="http://macmillanlearning.com">mml:contentState</cts:element>
+              <cts:text xml:lang="en">deleted</cts:text>
               <cts:option>case-insensitive</cts:option>
             </cts:element-value-query>
           </cts:not-query>
@@ -477,7 +477,7 @@ declare function content:searchContentDocs($qtext as xs:string, $start, $pageLen
       <word>
         <element ns="http://macmillanlearning.com" name="contentState"/>
       </word>
-    </constraint>	  
+    </constraint>
   	  <constraint name="Keywords">
   		  <range collation="http://marklogic.com/collation/" facet="true">
   			 <element ns="http://macmillanlearning.com" name="subjectKeyword" />
@@ -486,23 +486,23 @@ declare function content:searchContentDocs($qtext as xs:string, $start, $pageLen
   	   <constraint name="Subjects">
   		  <range collation="http://marklogic.com/collation/" facet="true">
   			 <element ns="http://macmillanlearning.com" name="subjectHeading" />
-  		  </range>          
+  		  </range>
   	  </constraint>
       <constraint name="Title">
   		  <range collation="http://marklogic.com/collation/" facet="true">
   			 <element ns="http://macmillanlearning.com" name="title" />
-  		  </range>          
+  		  </range>
   	  </constraint>
   	  <constraint name="Content State">
   		  <range collation="http://marklogic.com/collation/" facet="true">
   			 <element ns="http://macmillanlearning.com" name="contentState" />
   		  </range>
-  	  </constraint>  	  
+  	  </constraint>
       <transform-results apply="metadata-snippet">
         <preferred-elements>
           <element ns="http://macmillanlearning.com" name="systemId"/>
           <element ns="http://macmillanlearning.com" name="created"/>
-          <element ns="http://macmillanlearning.com" name="modified"/>		  
+          <element ns="http://macmillanlearning.com" name="modified"/>
           <element ns="http://macmillanlearning.com" name="createdBy"/>
           <element ns="http://macmillanlearning.com" name="modifiedBy"/>
           <element ns="http://macmillanlearning.com" name="title"/>
@@ -587,7 +587,7 @@ declare function content:searchContentDocs($qtext as xs:string, $start, $pageLen
               element { fn:QName($NS, "mml:facet") } {
                 element { fn:QName($NS, "mml:facetName") } { $facet/@name/fn:string() },
                 for $value in $facet/search:facet-value
-                  return 
+                  return
                     element { fn:QName($NS, "mml:facetValues") }
                     {
                       element { fn:QName($NS,"mml:name") } { $value/text() },
