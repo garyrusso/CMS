@@ -17,6 +17,8 @@ namespace Macmillan.CMS.DAL
 {
      public class ManageContentDAL : IManageContentDAL
     {
+         string uploadFileLocation = ConfigurationManager.AppSettings["uploadFileLocation"].ToString();
+
          /// <summary>
         /// CreateContent with given details
          /// </summary>
@@ -121,7 +123,7 @@ namespace Macmillan.CMS.DAL
          public void UploadFile(FileInfo file)
          {
              Logger.Info("Entering UploadFile");
-           //this.HTTPUpload(file);
+            // this.HTTPUpload(file);
              this.XCCUpload(file);
          }
 
@@ -162,6 +164,7 @@ namespace Macmillan.CMS.DAL
          {
              Logger.Info("Entering LoadFiles");
              String[] uris = new String[files.Length];
+            
 
              for (int i = 0; i < files.Length; i++)
              {
@@ -172,7 +175,7 @@ namespace Macmillan.CMS.DAL
 
              for (int i = 0; i < files.Length; i++)
              {
-                 contents[i] = ContentFactory.NewContent("resources/" + files[i].Name, files[i], options);
+                 contents[i] = ContentFactory.NewContent(uploadFileLocation + files[i].Name, files[i], options);
              }
 
              session.InsertContent(contents);
@@ -184,7 +187,7 @@ namespace Macmillan.CMS.DAL
              Logger.Info("Entering LoadFiles");
              String uris = file.FullName.Replace("\\", "/");
 
-             Marklogic.Xcc.Content content = ContentFactory.NewContent("resources/" + file.Name, file, options);
+             Marklogic.Xcc.Content content = ContentFactory.NewContent(uploadFileLocation + file.Name, file, options);
 
             
              session.InsertContent(content);
@@ -237,8 +240,8 @@ namespace Macmillan.CMS.DAL
 
              Logger.Info("Entering GetContent");
              MLReader mlReader = new MLReader();
-             
-             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "file?name=file&rs:format=json&rs:uri=/file/"+uri;
+
+             string mlUrl = ConfigurationManager.AppSettings["MarkLogicResourceURL"] + "file?name=file&rs:format=json&rs:uri=" + uploadFileLocation + uri;
              HttpResponseMessage results = null;
              try
              {
